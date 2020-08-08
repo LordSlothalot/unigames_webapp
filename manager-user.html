@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <script type="text/javascript" src="http://code.jquery.com/jquery-1.7.1.min.js"></script>
+    <link rel="stylesheet" href="manager-styles.css">
+    <script src="myscripts.js"></script>
+    <title>Unigames gaming club</title>
+</head>
+
+<body>
+
+    <div class="manager-header">
+        <div class="logo-header">
+            <img src="img/logo-manager.png" alt="uwa_logo">
+        </div>
+        <div class="title-header">
+            <h3>Unigames Gaming Club Management System </h3>
+        </div>
+        <br style="clear:both;" />
+    </div>
+    <div class="nav-scroller bg-light shadow-sm">
+        <nav class="nav nav-underline justify-content-center">
+            <a class="nav-link" href="#">Home</a>
+            <a class="nav-link active" href="#"><b>Users</b></a>
+            <a class="nav-link" href="#">Library</a>
+            <a class="nav-link" href="#">Webcam</a>
+            <a class="nav-link" href="#">Events</a>
+            <a class="nav-link" href="#">Logout</a>
+
+        </nav>
+    </div>
+
+
+
+    <main class="container pt-5">
+        <div class="row">
+            <div class="col-md-3"></div>
+            <div class="col-md-6">
+                <div class="pb-3 text-center">
+                    <br>
+                    <h3>User Management</h3>
+                </div>
+                <form action="#" method="get">
+                    <div class="input-group mb-4">
+                        <!-- USE TWITTER TYPEAHEAD JSON WITH API TO SEARCH -->
+                        <input class="form-control" id="system-search" name="q" placeholder="Search for" required>
+                        <div class="input-group-append">
+                            <button type="submit" class="btn btn-outline-secondary">search</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="col-md-3"></div>
+        </div>
+        <div class="card mb-5">
+            <div class="card-header">Users</div>
+            <div class="card-block p-0">
+                <table class="table table-list-search table-bordered table-sm m-0">
+                    <thead class="">
+                        <tr>
+
+                            <th>Name</th>
+                            <th>Member type</th>
+                            <th>Registration Date</th>
+                            <th>E-mail address</th>
+                            <th>Student ID</th>
+                            <th>Member</th>
+                            <th>Activated</th>
+                            <th>Profile</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+
+                            <td>Mingchuan Tian</td>
+                            <td>Paid member</td>
+                            <td>September 14, 2020</td>
+                            <td>jhlilk22@yahoo.com</td>
+                            <td>22636589</td>
+                            <td>No</td>
+                            <td>
+                                <label class="custom-control custom-checkbox">
+                                    <input type="checkbox" class="custom-control-input">
+                                    <span class="custom-control-indicator"></span>
+                                </label>
+                            </td>
+                            <td><a href="#">Edit</a></td>
+                        </tr>
+                        <tr>
+
+                            <td>Sirui Wang</td>
+                            <td>Librarian</td>
+                            <td>September 14, 2020</td>
+                            <td>jhlilk22@yahoo.com</td>
+                            <td>22636589</td>
+                            <td>No</td>
+                            <td>
+                                <label class="custom-control custom-checkbox">
+                                    <input type="checkbox" class="custom-control-input">
+                                    <span class="custom-control-indicator"></span>
+                                </label>
+                            </td>
+                            <td><a href="#">Edit</a></td>
+                        </tr>
+                        <tr>
+
+                            <td>JMingming Tian</td>
+                            <td>Administrator</td>
+                            <td>September 14, 2020</td>
+                            <td>jhlilk22@yahoo.com</td>
+                            <td>22636589</td>
+                            <td>No</td>
+                            <td>
+                                <label class="custom-control custom-checkbox">
+                                    <input type="checkbox" class="custom-control-input">
+                                    <span class="custom-control-indicator"></span>
+                                </label>
+                            </td>
+                            <td><a href="#">Edit</a></td>
+                        </tr>
+                        <tr>
+                            <td>Ming Tian</td>
+                            <td>User</td>
+                            <td>September 14, 2020</td>
+                            <td>jhlilk22@yahoo.com</td>
+                            <td>22636589</td>
+                            <td>No</td>
+                            <td>
+                                <label class="custom-control custom-checkbox">
+                                    <input type="checkbox" class="custom-control-input">
+                                    <span class="custom-control-indicator"></span>
+                                </label>
+                            </td>
+                            <td><a href="#">Edit</a></td>
+                        </tr>
+                        <tr>
+                            <td>Ming</td>
+                            <td>User</td>
+                            <td>September 14, 2020</td>
+                            <td>jhlilk22@yahoo.com</td>
+                            <td>22636589</td>
+                            <td>No</td>
+                            <td>
+                                <label class="custom-control custom-checkbox">
+                                    <input type="checkbox" class="custom-control-input">
+                                    <span class="custom-control-indicator"></span>
+                                </label>
+                            </td>
+                            <td><a href="#">Edit</a></td>
+                        </tr>
+
+
+                    </tbody>
+                </table>
+            </div>
+            <div class="card-footer p-0">
+                <nav aria-label="...">
+                    <ul class="pagination justify-content-end mt-3 mr-3">
+                        <li class="page-item disabled">
+                            <span class="page-link">Previous</span>
+                        </li>
+                        <li class="page-item active">
+                            <span class="page-link">1<span class="sr-only">(current)</span>
+                            </span>
+                        </li>
+                        <li class="page-item"><a class="page-link" href="#">2</a></li>
+                        <li class="page-item"><a class="page-link" href="#">3</a></li>
+                        <li class="page-item">
+                            <a class="page-link" href="#">Next</a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+
+    </main>
+    <footer class="footer font-small mt-auto bg-light">
+        <div class="footer-copyright text-center py-3">© Unigames Gaming Club
+        </div>
+    </footer>
+</body>
+
+</html>
