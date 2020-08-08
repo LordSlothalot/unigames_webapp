@@ -1,0 +1,11 @@
+{
+    "id": 2, // Use auto id?
+    "name": "Web Keeper",
+    "priority": 1,
+    "permissions": {
+        // Will override those of a lesser priority, with an everyone base (0 is highest priority)
+        // Set of options define in program
+        "can_edit_items": true,
+        "can_edit_users": false
+    }
+}

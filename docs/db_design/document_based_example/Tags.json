@@ -1,0 +1,99 @@
+// Some example tags
+{
+    "name": "Book",
+    "id": 1234 // Note sure if should add manual ID or use automatic one
+}
+{
+    "name": "Players: {0}",
+    "id": 6915,
+    "parameters": [
+        {
+            "index": 0,
+            "type": "IntegerRange", // Again, not sure if using ints is better
+            "lowest_valid": 1,
+        }
+    ],
+    "implies": [
+        {
+            "id": 519
+        } // Implications must gives values to a parameter if there is ony
+    ]
+}
+{
+    "name": "Learning Difficulty: {0}",
+    "id": 412,
+    "parameters": [
+        {
+            "index": 0,
+            "type": "Enum",
+            "enum": ["Very Easy", "Easy", "Medium", "Hard", "Very Hard"]
+        }
+    ]
+}
+{
+    "name": "Physical Size(cm): {0}x{1}x{2}",
+    "id": 415,
+    "parameters": [
+        {
+            "index": 0,
+            "type": "Real",
+            "lowest_valid": 0.0
+        },
+        {
+            "index": 1,
+            "type": "Real",
+            "lowest_valid": 0.0
+        },
+        {
+            "index": 2,
+            "type": "Real",
+            "lowest_valid": 0.0
+        }
+    ],
+    "implies": [
+        {
+            "id": 41
+        }
+    ]
+}
+{
+    "name": "Damaged",
+    "id": 511
+}
+{
+    "name": "Multiplayer",
+    "id": 519
+}
+{
+    "name": "Physical",
+    "id": 41
+}
+{
+    "name": "Added By: {0}",
+    "id": 9581,
+    "parameters": [
+        {
+            "index": 0,
+            "type": "String"
+        }
+    ]
+}
+{
+    "name": "Borrowed",
+    "id": 3141
+}
+{
+    "name": "Borrowed By: {0}",
+    "id": 581,
+    "parameters": [
+        {
+            "index": 0,
+            "type": "String"
+        }
+    ],
+    "implies": [
+        {
+            "id": 3141
+        }
+    ]
+}

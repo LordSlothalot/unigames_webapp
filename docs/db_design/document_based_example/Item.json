@@ -1,0 +1,88 @@
+// An Item
+{
+    "id": 1,
+    // The Paramaters, of form [name]: [value], where name and value's type, come from the set of Item Parameter Options
+    // Some examples:
+    "parameters": {
+        "name": "Bob's Grand Adventure",
+        "year": 2015,
+        "ISBN": "4909510928",
+        "picture": "path/to/the/picture.format"
+    },
+    "tags": [
+        {
+            // 'Book' tag
+            "id": 1234
+        },
+        {
+            // Players: {0} tag, with lower and uper on param 0
+            "id": 6915,
+            "parameters": [
+                {
+                    "index": 0,
+                    "lower_bound": 3,
+                    "upper_bound": 5
+                }
+            ]
+        },
+        {
+            // Learning Difficulty: {0} tag, with value from enum
+            "id": 412,
+            "parameters": [
+                {
+                    "index": 0,
+                    "enum": 3
+                }
+            ]
+            // 3: "Hard", as defined along side the tag definition
+        },
+        {
+            // Physical size of the book in cm
+            "id": 415,
+            "parameters": [
+                {
+                    "index": 0,
+                    "value": 15.1
+                },
+                {
+                    "index": 1,
+                    "value": 7.0
+                },
+                {
+                    "index": 2,
+                    "value": 0.35
+                }
+            ]
+        }
+    ],
+    // Computed from tags, and updated when needed
+    "implied_tags": [
+        {
+            // 'Multiplayer' tag, from player containing > 1
+            "id": 519
+        },
+        {
+            // 'Phyical' tag, from physical size tag
+            "id": 41
+        }
+    ],
+    // An item can have instances, such as a book having a instance per physical copy, or it could have none, in the case of a digital resource
+    "instances": [
+        {
+            "id": 1114,
+            // Instances have parameters too, of the same form, but comming from the set of Instance Parameter Options
+            "parameters": {
+                "damage_report": "(4/5/2017): Page 57 has a small section of the top right corner torn off, no text missing, still serviceable",
+                "uuid": "109358180" // Used for say, as a code on a sticker on the book to distinguish different books
+            },
+            // Instances also can have tags, and if every instance on an item has a tag, it is implied on the item
+            "tags": [
+                { // Damaged
+                    "id": 511
+                }
+            ],
+            // Can then have implied tags too, and equally if all instances have something implied, then the item will have it implied too
+            "implied_tags": []
+        }
+    ]
+}

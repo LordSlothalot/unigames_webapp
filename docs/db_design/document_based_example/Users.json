@@ -1,0 +1,41 @@
+{
+    "name": "Matthew",
+    // Other needed info
+    "roles": [
+        2 // The id?
+    ],
+    "item_relations": [
+        {
+            "relation_id": 58151, // Added by
+            "item_id": 1,
+            "implied_params": [
+                {
+                    "tag_id": 9581, // Added by {}
+                    "parameters": [
+                        {
+                            "index": 0,
+                            "value": "Matthew"
+                        }
+                    ]
+                }
+            ]
+        }
+    ],
+    "instance_relations": [
+        {
+            "relation_id": 58152, // Is Borrowing
+            "instance_id": 1114,
+            "implied_params": [
+                {
+                    "tag_id": 581, // Borrowed by {}
+                    "parameters": [
+                        {
+                            "index": 0,
+                            "value": "Matthew"
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}
