@@ -66,11 +66,11 @@
             "id": 41
         }
     ],
-    // An item can have instances, such as a book having a instance per phusical copy, or it could have none, in the case of a digital resource
+    // An item can have instances, such as a book having a instance per physical copy, or it could have none, in the case of a digital resource
     "instances": [
         {
             "id": 1114,
-            // Instances have parameters too, of the same form, but comming from the set og Instance Parameter Options
+            // Instances have parameters too, of the same form, but comming from the set of Instance Parameter Options
             "parameters": {
                 "damage_report": "(4/5/2017): Page 57 has a small section of the top right corner torn off, no text missing, still serviceable",
                 "uuid": "109358180" // Used for say, as a code on a sticker on the book to distinguish different books
