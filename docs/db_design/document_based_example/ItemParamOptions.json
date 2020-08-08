@@ -1,0 +1,17 @@
+// Some Item Param Options
+{
+    "parameter_name": "name",
+    "type": "Str" // String //TODO: Possibly use int's instead?
+}
+{
+    "parameter_name":  "year",
+    "type": "Int" // Integer
+}
+{
+    "parameter_name":  "ISBN",
+    "type": "Str" // String
+}
+{
+    "parameter_name":  "picture",
+    "type": "Img" // Path to an image resource
+}

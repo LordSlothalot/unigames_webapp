@@ -1,0 +1,10 @@
+{
+    "id": 58151,
+    "name": "Added By",
+    "implies": [
+        {
+            "id": 9581 // Added by
+            // The params can either be specified here, or overrided by when the relation is actually added, it needs to be somewhere though
+        }
+    ]
+}

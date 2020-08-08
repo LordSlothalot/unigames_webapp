@@ -1,0 +1,92 @@
+/// Some explanation of the search syntax
+
+> tagA, tagB, tagC
+A comma separated list of tags is logical equivalent to:
+has_tag(tagA) && has_tag(tagB) && has_tag(tagC)
+
+> A really long tag, short, another tag
+Tags can freely have spaces in them, but are always trimmed, that is no preceding or leading tags
+
+> ThIs Is A LogIcAL tAG
+Tags are all converted to lower case, so casing doesn't matter
+
+> {tagA,B}, tagB
+If a tag's name contains a comma, to correctly search it you must surround the tag in {}
+There for: NO TAGS CAN CONTAINS '{' or '}'
+I believe this restriction to be reasonable, and allows for greater control
+
+> tagA ::and tagB
+Explict && (and) operator instead of the implicit and of commas
+'::' will be the start of numerous operators, therefore:
+'::' SHOULD BE AVOIDED IN TAGS
+However if needed see:
+
+> {tagA::B} ::and tagB
+If your tag contains '::', then you need to wrap it in {}, note
+if you tag contains ':::', that is 3 or more ':' in a row, then this doesn't matter
+
+> tagA ::or tagB
+::or is A logical || (or) operator
+
+> tagA ::and ::not tagB
+::not is the unitary ! (not) operator
+
+> tagA ::& (tagB ::| ::! tagC)
+Alternate forms of operators
+
+/// Dealing with parameterised tags:
+
+> tag: {1}
+This searches the "tag: {0}" tag for an instance where the value of index 0 is 1, or if {0} is range, then 1 is inside the range
+
+> tag: {>=1}
+OR
+> tag: {1+}
+This searches for the "tag: {0}" tag for an instance where the value of index 0 is >= 1, or if {0} is a range, then intersection of that range and >=1 is non empty
+Similarly:
+> tag: {>0}
+> tag: {<3}
+> tag: {<=3}
+
+> tag: {[3,4]} // close range
+OR
+> tag: {(2,5)} // open range
+OR
+> tag: {3-4}
+This searches for the "tag: {0}" where if {0} is a value, then it lies in the closed range [3,4], or if {0} is a range, then the intersection of that range and [3,4] is non empty
+
+> tag: Yes
+This searches for the "tag: {0}" where the {0} is the value "Yes"
+
+> tag: {Yes, No}
+This searches for the "tag: {0}" tag, where {0} is EITHER "Yes" or "No"
+
+/// Some special operators
+
+> ::has::name
+Searches for items that have an attached the "name" parameter
+Another for "book author" showing how spaces are handled, just like normal tags
+> ::has::book author
+
+> ::name::equals::Bob's Great Adventures: The mount' of doom
+Searches for an item, which has attached the "name" parameter and equals: [Bob's Great Adventures: The mount' of doom]
+
+> ::name::contains::{1 Fish, 2 Fish}
+Searches for an item, which has attached the "name" parameter and it contains: [1 Fish, 2 Fish]
+Here {} was used to escape the ','
+
+These have some implications, for all attached parameters:
+'::' SHOULD BE AVOIDED, but can be escaped using {}
+NEVER CONTAINS '{' or '}'
+
+> ::instance::tag1
+Searches for items, that have an instance, and have an instance that has the "tag1" tag
+
+> ::instance::has::uuid
+Searches for an item, which has an instance, which has an attached param, "uuid"
+
+> ::instance::uuid::equals::85781903019
+Searches for an item, which has an instance, which has an attached param, "uuid" and that equals "85781903019"
+
+
+From this hopefully all further rules should be clear

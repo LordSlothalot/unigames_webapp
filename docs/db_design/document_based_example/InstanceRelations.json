@@ -1,0 +1,9 @@
+{
+    "id": 58152,
+    "name": "Is Borrowing",
+    "implies": [
+        {
+            "id": 581 // Borrowed by
+        }
+    ]
+}
