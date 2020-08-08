@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <script type="text/javascript" src="http://code.jquery.com/jquery-1.7.1.min.js"></script>
+    <link rel="stylesheet" href="manager-styles.css">
+    <script src="myscripts.js"></script>
+    <title>Unigames gaming club</title>
+</head>
+
+<body>
+
+    <div class="manager-header">
+        <div class="logo-header">
+            <img src="img/logo-manager.png" alt="uwa_logo">
+        </div>
+        <div class="title-header">
+            <h3>Unigames Gaming Club Management System </h3>
+        </div>
+        <br style="clear:both;" />
+    </div>
+    <div class="nav-scroller bg-light shadow-sm">
+        <nav class="nav nav-underline justify-content-center">
+            <a class="nav-link" href="#">Home</a>
+            <a class="nav-link " href="#">Users</a>
+            <a class="nav-link active" href="#"><b>Library</b></a>
+            <a class="nav-link" href="#">Webcam</a>
+            <a class="nav-link" href="#">Events</a>
+            <a class="nav-link" href="#">Logout</a>
+
+        </nav>
+    </div>
+
+    <div class="row">
+        <div class="col-sm-4 mt-4">
+            <img class="img-thumbnail mx-auto d-block" src="games-img/dungeons.jpg" alt="Generic placeholder image"
+                style="width: 300px;">
+            <div class="text-center">
+                <form>
+                    <div class="form-group">
+                        <label for="exampleFormControlFile1">Upload picture</label>
+                        <input type="file" class="form-control-file ml-5" id="exampleFormControlFile1">
+                    </div>
+                </form>
+            </div>
+
+
+        </div>
+        <div class="col-sm-8">
+            <div class="lib-edit-right">
+                <div class="row">
+                    <div class="col-sm-6">
+                        <span class="mr-5">
+                            <h5>Title: </h5>
+                            <p>Dungeons & Dragons IV Player's Handbook</p>
+                        </span>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <div class="input-group">
+                                <input type="password" class="form-control" id="inputPassword2" placeholder="New title">
+                                <div class="input-group-append"><button type="submit"
+                                        class="btn btn-outline-secondary">Change Title</button></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+
+                <div class="row">
+                    <div class="col-sm-6">
+                        <span class="mr-5">
+                            <h5>Collection type: </h5>
+                            <p>Book</p>
+                        </span>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <select id="inputState" class="form-control">
+                                <option selected>Choose...</option>
+                                <option>...</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="row">
+                    <div class="col-sm-6">
+                        <span class="mr-5">
+                            <h5>Author: </h5>
+                            <p>Rob Heinsoo, Andy Collins, James Wyatt</p>
+                        </span>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <div class="input-group">
+                                <input type="password" class="form-control" id="inputPassword2"
+                                    placeholder="New author">
+                                <div class="input-group-append"><button type="submit"
+                                        class="btn btn-outline-secondary">Change Author</button></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-sm-6">
+                        <span class="mr-5">
+                            <h5>Genre: </h5>
+                            <p>RPG</p>
+                        </span>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <div class="input-group">
+                                <input type="password" class="form-control" id="inputPassword2" placeholder="New genre">
+                                <div class="input-group-append"><button type="submit"
+                                        class="btn btn-outline-secondary">Change Genre</button></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-sm-6">
+                        <span class="mr-5">
+                            <h5>Tags: </h5>
+                            <p>RPG, Dungeons & Dragons, Dungeons & Dragons IV</p>
+                        </span>
+
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <div class="input-group">
+                                <input type="password" class="form-control" id="inputPassword2" placeholder="New tag">
+                                <div class="input-group-append"><button type="submit"
+                                        class="btn btn-outline-secondary">Add tag</button>
+                                </div>
+                            </div>
+                            <button class="btn btn-success">Tag Management</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-sm-6">
+                        <span class="mr-5">
+                            <h5>Copies: </h5>
+                            <p>3</p>
+                        </span>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <div class="input-group">
+                                <input type="password" class="form-control" id="inputPassword2"
+                                    placeholder="# of copies">
+                                <div class="input-group-append"><button type="submit"
+                                        class="btn btn-outline-secondary">Update</button></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" value="" id="defaultCheck1">
+                    <label class="form-check-label" for="defaultCheck1">
+                        Archived
+                    </label>
+                </div>
+
+                <hr>
+
+                <div class="row">
+                    <div class="col-sm-6">
+                        <span class="mr-5">
+                            <h5>Description: </h5>
+                            <p>"The Player's handbook features the 4th edition game rules, including character creation,
+                                combat and adventuring, classes and races, equipment and magic items, skills, feats,
+                                powers, and more"--Cover p. [4].</p>
+                        </span>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <div class="form-group">
+                                <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+                            </div>
+                            <button class="btn btn-outline-secondary">Update description</button>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+
+    <footer class="footer font-small bg-light">
+        <div class="footer-copyright text-center py-3">© Unigames Gaming Club
+        </div>
+      </footer>
+
+</body>
+
+</html>
