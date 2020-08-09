@@ -1,9 +1,0 @@
-// Some Instance Param Options
-{
-    "parameter_name": "damage_report",
-    "type": "S" // String
-}
-{
-    "parameter_name":  "uuid",
-    "type": "S" // String
-}

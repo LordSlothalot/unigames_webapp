@@ -1,17 +1,17 @@
-// Some Item Param Options
+// Some Item Attrib Options
 {
-    "parameter_name": "name",
+    "attribute_name": "name",
     "type": "Str" // String //TODO: Possibly use int's instead?
 }
 {
-    "parameter_name":  "year",
+    "attribute_name":  "year",
     "type": "Int" // Integer
 }
 {
-    "parameter_name":  "ISBN",
+    "attribute_name":  "ISBN",
     "type": "Str" // String
 }
 {
-    "parameter_name":  "picture",
+    "attribute_name":  "picture",
     "type": "Img" // Path to an image resource
 }
