@@ -9,8 +9,8 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
         integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <!---CSS file (stored in static folder)-->
-    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css', _external=True) }}">
-    <title>{% block title%} {% endblock %}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <title>{% block title%} {% endblock %} - Unigames Gaming Club</title>
     {% endblock %}
 </head>
 
@@ -19,13 +19,13 @@
     <div class="d-flex flex-column bg-warning border-bottom shadow-sm">
         <nav class="navbar navbar-expand-md navbar-light">
             <div class="logo-left">
-                <a class="navbar-brand" href="#">
-                    <img src="{{ url_for('static', filename='img/logo.png', _external=True) }}" height="70" alt="Unigames gaming club">
+                <a class="navbar-brand" href= {{ url_for('index') }}>
+                    <img src="{{ url_for('static', filename='img/logo.png') }}" height="70" alt="Unigames gaming club">
                 </a>
             </div>
             <div class="logo-right">
-                <a class="navbar-brand" href="#">
-                    <img src="{{ url_for('static', filename='img/logo-uwa.png', _external=True) }}" height="50" alt="Unigames gaming club">
+                <a class="navbar-brand" href={{ url_for('index') }}>
+                    <img src="{{ url_for('static', filename='img/logo-uwa.png') }}" height="50" alt="Unigames gaming club">
                 </a>
             </div>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
@@ -35,10 +35,7 @@
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav ml-auto">
                     <li class="nav-item p2">
-                        <a class="nav-link" href="#"><b>Account</b></a>
-                    </li>
-                    <li class="nav-item p2">
-                        <a class="nav-link" href="#"><b>Logout</b></a>
+                        <a class="nav-link" href= {{ url_for('login') }}><b>Login</b></a>
                     </li>
                 </ul>
             </div>
@@ -47,15 +44,15 @@
 
     <div class="nav-scroller bg-light shadow-sm">
         <nav class="nav nav-underline justify-content-center">
-            <a class="nav-link active" href="#"><b>Home</b></a>
-            <a class="nav-link" href="#">Library</a>
-            <a class="nav-link" href="#">Events</a>
-            <a class="nav-link" href="#">Roleplaying</a>
-            <a class="nav-link" href="#">Committee</a>
-            <a class="nav-link" href="#">Life Members</a>
-            <a class="nav-link" href="#">Constitution</a>
-            <a class="nav-link" href="#">Operations</a>
-            <a class="nav-link" href="#">Webcam</a>
+            <a class="nav-link active" href={{ url_for('index') }}><b>Home</b></a>
+            <a class="nav-link" href={{ url_for('library') }}>Library</a>
+            <a class="nav-link" href={{ url_for('events') }}>Events</a>
+            <a class="nav-link" href={{ url_for('join') }}>Become a member</a>
+            <a class="nav-link" href={{ url_for('committee') }}>Committee</a>
+            <a class="nav-link" href={{ url_for('lifeMembers') }}>Life Members</a>
+            <a class="nav-link" href={{ url_for('constitution') }}>Constitution</a>
+            <a class="nav-link" href={{ url_for('operations') }}>Operations</a>
+            <a class="nav-link" href="https://webcam.ucc.asn.au/">Webcam</a>
         </nav>
     </div>
 
