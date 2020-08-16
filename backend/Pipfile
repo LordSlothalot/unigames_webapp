@@ -19,6 +19,8 @@ flask-bootstrap = "*"
 flask-user = "*"
 flask-mongoengine = "*"
 email-validator = "*"
+flask-login = "*"
+flask-security = "*"
 
 [requires]
 python_version = "3.6"
