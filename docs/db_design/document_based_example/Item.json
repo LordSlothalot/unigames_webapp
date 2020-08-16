@@ -1,9 +1,9 @@
 // An Item
 {
     "id": 1,
-    // The Paramaters, of form [name]: [value], where name and value's type, come from the set of Item Parameter Options
+    // The Attributes, of form [name]: [value], where name and value's type, come from the set of Item Attribute Options
     // Some examples:
-    "parameters": {
+    "attributes": {
         "name": "Bob's Grand Adventure",
         "year": 2015,
         "ISBN": "4909510928",
@@ -64,25 +64,6 @@
         {
             // 'Phyical' tag, from physical size tag
             "id": 41
-        }
-    ],
-    // An item can have instances, such as a book having a instance per physical copy, or it could have none, in the case of a digital resource
-    "instances": [
-        {
-            "id": 1114,
-            // Instances have parameters too, of the same form, but comming from the set of Instance Parameter Options
-            "parameters": {
-                "damage_report": "(4/5/2017): Page 57 has a small section of the top right corner torn off, no text missing, still serviceable",
-                "uuid": "109358180" // Used for say, as a code on a sticker on the book to distinguish different books
-            },
-            // Instances also can have tags, and if every instance on an item has a tag, it is implied on the item
-            "tags": [
-                { // Damaged
-                    "id": 511
-                }
-            ],
-            // Can then have implied tags too, and equally if all instances have something implied, then the item will have it implied too
-            "implied_tags": []
         }
     ]
 }

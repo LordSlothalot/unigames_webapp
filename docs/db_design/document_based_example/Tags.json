@@ -14,7 +14,7 @@
         }
     ],
     "implies": [
-        {
+        { // Multiplayer
             "id": 519
         } // Implications must gives values to a parameter if there is ony
     ]

@@ -55,6 +55,9 @@ OR
 > tag: {3-4}
 This searches for the "tag: {0}" where if {0} is a value, then it lies in the closed range [3,4], or if {0} is a range, then the intersection of that range and [3,4] is non empty
 
+> tag: {Any}
+This searches for the "tag: {0}" where {0} is any value, so the value is ignored
+
 > tag: Yes
 This searches for the "tag: {0}" where the {0} is the value "Yes"
 
@@ -64,18 +67,18 @@ This searches for the "tag: {0}" tag, where {0} is EITHER "Yes" or "No"
 /// Some special operators
 
 > ::has::name
-Searches for items that have an attached the "name" parameter
+Searches for items that have an attached the "name" attribute
 Another for "book author" showing how spaces are handled, just like normal tags
 > ::has::book author
 
 > ::name::equals::Bob's Great Adventures: The mount' of doom
-Searches for an item, which has attached the "name" parameter and equals: [Bob's Great Adventures: The mount' of doom]
+Searches for an item, which has attached the "name" attribute and equals: [Bob's Great Adventures: The mount' of doom]
 
 > ::name::contains::{1 Fish, 2 Fish}
-Searches for an item, which has attached the "name" parameter and it contains: [1 Fish, 2 Fish]
+Searches for an item, which has attached the "name" attribute and it contains: [1 Fish, 2 Fish]
 Here {} was used to escape the ','
 
-These have some implications, for all attached parameters:
+These have some implications, for all attached attributes:
 '::' SHOULD BE AVOIDED, but can be escaped using {}
 NEVER CONTAINS '{' or '}'
 
@@ -83,10 +86,9 @@ NEVER CONTAINS '{' or '}'
 Searches for items, that have an instance, and have an instance that has the "tag1" tag
 
 > ::instance::has::uuid
-Searches for an item, which has an instance, which has an attached param, "uuid"
+Searches for an item, which has an instance, which has an attached attrib, "uuid"
 
 > ::instance::uuid::equals::85781903019
-Searches for an item, which has an instance, which has an attached param, "uuid" and that equals "85781903019"
-
+Searches for an item, which has an instance, which has an attached attrib, "uuid" and that equals "85781903019"
 
 From this hopefully all further rules should be clear

@@ -1,0 +1,9 @@
+// Some Instance Attrib Options
+{
+    "attribute_name": "damage_report",
+    "type": "S" // String
+}
+{
+    "attribute_name":  "uuid",
+    "type": "S" // String
+}
