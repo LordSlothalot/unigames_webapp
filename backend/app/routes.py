@@ -62,7 +62,9 @@ def operations():
 #-------------------------------------------
 @app.route('/admin')
 def admin():
-    return render_template('admin-pages/home.html')
+    name = "Michale"
+
+    return render_template('admin-pages/home.html', name=name)
 
 @app.route('/admin/lib')
 def lib():
