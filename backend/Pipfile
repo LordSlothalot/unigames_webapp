@@ -16,6 +16,7 @@ Werkzeug = "==1.0.1"
 flask-pymongo = "*"
 flask-wtf = "*"
 flask-bootstrap = "*"
+email_validator = "*"
 
 [requires]
 python_version = "3.6"
