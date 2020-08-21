@@ -10,6 +10,7 @@ class User:
         self._id = uuid4().hex if _id is None else _id
         self.first_name = first_name
         self.last_name = last_name
+        # user level field
     
     @staticmethod
     def is_authenticated():
@@ -72,9 +73,13 @@ class User:
     def save_to_mongo(self):
         mongo.db.Users.insert(self.json())
 
+# @login.user_loader
+# def load_user(id):
+#     u = mongo.db.Users.find_one({'_id': id})
+#     if not u:
+#         return None
+#     return User(id=u['_id'])
+
 @login.user_loader
 def load_user(id):
-    u = mongo.db.Users.find_one({'_id': id})
-    if not u:
-        return None
-    return User(id=u['_id'])
+    return User.get_by_id(id)

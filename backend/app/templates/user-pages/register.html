@@ -13,7 +13,14 @@
                 {{ form.hidden_tag() }}
                 <fieldset class="form-group">
                     <legend class="border-bottom mb-4">Register</legend>
-                    <div class="form-group">
+                        <div class="form-group">
+                            {{ form.first_name.label }}
+                            {{ form.first_name(class='form-control') }}
+                        </div>
+                        <div class="form-group">
+                            {{ form.last_name.label }}
+                            {{ form.last_name(class='form-control') }}
+                        <div class="form-group">
                             {{ form.email.label }}
                             {{ form.email(class='form-control') }}
                         </div>

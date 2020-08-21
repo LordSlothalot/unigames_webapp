@@ -3,7 +3,7 @@ from flask import Flask, render_template, url_for, redirect, request, flash
 from app.forms import LoginForm, RegistrationForm
 from app.user_models import User
 from flask_pymongo import PyMongo
-from flask_login import LoginManager, current_user, login_user, logout_user
+from flask_login import LoginManager, current_user, login_user, logout_user, login_required
 from werkzeug.security import generate_password_hash
 
 
@@ -27,14 +27,15 @@ def login():
         find_user = mongo.db.Users.find_one({"email": email})
         print("find_user: ", find_user)
         if User.login_valid(email, password):
-            loguser = User(find_user['_id'], find_user['email'], find_user['password'], find_user['first_name'], find_user['last_name'])
-            login_user(loguser)
+            loguser = User(find_user['email'], find_user['password'], find_user['first_name'], find_user['last_name'], find_user['_id'])
+            login_user(loguser, remember=form.remember_me.data)
+            # login_user(find_user, remember=form.remember_me.data)
             flash('You have been logged in!', 'success')
             return redirect(url_for('index'))
         else:
             flash('Login Unsuccessful. Please check email and password', 'danger')
             return "Login Unsuccessful"
-    return render_template('login.html', form = form)
+    return render_template('user-pages/login.html', form = form)
 
 @app.route('/logout')
 def logout():
@@ -46,8 +47,8 @@ def register():
     form = RegistrationForm()
     if form.validate_on_submit():
         email = form.email.data
-        first_name = "testname"
-        last_name = "testname2"
+        first_name = form.first_name.data
+        last_name = form.last_name.data
         password = generate_password_hash(form.password.data)
         find_user =  User.get_by_email(email)
         if find_user is None:
@@ -56,7 +57,7 @@ def register():
             return redirect(url_for('index'))
         else:
             flash(f'Account already exists for {form.email.data}!', 'success')
-    return render_template('register.html', title='Register', form=form)
+    return render_template('user-pages/register.html', title='Register', form=form)
 
 
 @app.route('/library')
@@ -96,8 +97,9 @@ def operations():
 #     Admin pages
 #-------------------------------------------
 @app.route('/admin')
+@login_required
 def admin():
-    name = "Michale"
+    name = current_user.first_name
 
     return render_template('admin-pages/home.html', name=name)
 
