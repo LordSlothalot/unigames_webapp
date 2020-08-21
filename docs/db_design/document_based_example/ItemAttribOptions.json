@@ -1,0 +1,17 @@
+// Some Item Attrib Options
+{
+    "attribute_name": "name",
+    "type": "Str" // String //TODO: Possibly use int's instead?
+}
+{
+    "attribute_name":  "year",
+    "type": "Int" // Integer
+}
+{
+    "attribute_name":  "ISBN",
+    "type": "Str" // String
+}
+{
+    "attribute_name":  "picture",
+    "type": "Img" // Path to an image resource
+}
