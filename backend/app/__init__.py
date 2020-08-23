@@ -9,6 +9,8 @@ app = Flask(__name__)
 #The SECRET_KEY is needed for loading flask-wtf forms.
 app.config['SECRET_KEY'] = 'this should be a password but whatever'
 
-from app import routes
 db_manager = DatabaseManager(app)
 db_manager.test()
+
+
+from app import routes

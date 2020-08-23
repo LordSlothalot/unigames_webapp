@@ -1,7 +1,15 @@
-from app import app
+from app import app, db_manager
 from flask import render_template, url_for
 from app.forms import LoginForm
 
+from app.database_impl.attrib_options import AttributeOption, AttributeTypes
+from app.database_impl.items_instances import Item, TagReference, Instance
+from app.database_impl.relations import RelationOption, Relation
+from app.database_impl.roles import Role, Permissions
+from app.database_impl.tags import Tag, TagParameter, TagImplication, TagParameterImpl
+from app.database_impl.users import User
+
+from bson.objectid import ObjectId
 
 #-------------------------------------------
 #     User pages
@@ -66,7 +74,67 @@ def admin():
 
 @app.route('/admin/lib')
 def lib():
-    return render_template('admin-pages/lib.html')
+
+    items = db_manager.mongo.db.items.find().limit(10)
+    tags_collection = db_manager.mongo.db.tags
+
+    return render_template('admin-pages/lib.html', items=items, tags_collection=tags_collection, ObjectId=ObjectId, list=list)
+
+    '''
+    for looking up tags based on items
+    for item in items:
+        for tags in item['tags']:
+            find_tags = tags_collection.find( { "_id" : tags['tag_id'] }) 
+            for find_tag in find_tags:
+                print(find_tag['name'])
+    '''
+
+@app.route('/admin/lib-edit/<id>')
+def lib_edit(id):
+    print(id)
+    item = db_manager.mongo.db.items.find({"_id" : ObjectId(id)})[0]
+    '''
+    item_name_attrib = AttributeOption("name", AttributeTypes.SingleLineString)
+    items = Item.search_for_by_attribute(db_manager.mongo, item_name_attrib, "Bob's Grand Adventure")
+    '''
+    #get attribute name 
+    title = item['attributes']['name']
+    #get attribute author
+    author = item['attributes']['author']
+
+    #get attribute tags
+    item_tags = item['tags']
+    #get attribute implied tags
+    implied_tags = item['implied_tags']
+    #get attribute implied tags
+    item_implied_tags = item['implied_tags']
+
+    
+    #get instances
+    instances = Instance.search_for_by_item(db_manager.mongo, ObjectId(id))
+    if not instances:
+        print('there is no current instance')   #to be further implemented
+
+    
+
+
+    tags_collection = db_manager.mongo.db.tags
+
+    book = "abc"
+    
+    genre = "gene"
+    tags = "tags"
+    description = "description"
+    return render_template('admin-pages/lib-edit.html', tags_collection=tags_collection, title=title, implied_tags=implied_tags, book=book, author=author, item_tags=item_tags, item_implied_tags=item_implied_tags, instances=instances,description=description)
+
+@app.route('/admin/instance-edit/<id>')
+def instance_edit(id):
+    instance = db_manager.mongo.db.instances.find({"_id" : ObjectId(id)})[0]
+    if not instance:
+        print('there is no current instace')    #to be further implemented
+    tags_collection = db_manager.mongo.db.tags
+    return render_template('admin-pages/instance-edit.html', instance=instance, tags_collection=tags_collection)
+
 
 
 #-------------------------------------------
