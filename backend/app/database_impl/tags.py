@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 from enum import IntEnum
 from typing import List, Dict, Optional
 
@@ -25,10 +27,6 @@ class TagParameterTypes(IntEnum):
     String = 6
     # TODO Consider a range option that support conditions like: i % 2 == 0 (is even)
     #      or possibly where it supports either ranges or sets, so [1,5] and {1,2,4,5} can both fit
-
-
-class TagParameter:
-    pass
 
 
 class TagParameter:
@@ -159,10 +157,6 @@ class TagParameter:
             raise ValueError("can not construct with unknown type")
 
         return result
-
-
-class TagParameterImpl:
-    pass
 
 
 class TagParameterImpl:
@@ -337,8 +331,6 @@ class TagImplication:
     implied_id: ObjectId = None
     parameters: List[TagParameterImpl] = []
 
-
-class TagImplication:
     def __init__(self, implied_id: ObjectId, parameters: List[TagParameterImpl]):
         self.implied_id = implied_id
 
@@ -375,8 +367,6 @@ class Tag:
     parameters: List[TagParameter] = []
     implies: List[TagImplication] = []
 
-
-class Tag:
     @staticmethod
     def init_indices(mongo: PyMongo):
         mongo.db.tags.create_index([("name", pymongo.ASCENDING)], unique=True)

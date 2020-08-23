@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 from enum import Enum
 from typing import List, Dict, Optional
 
@@ -14,8 +16,6 @@ class RelationOption:
     # Contains base parameters (if any), will be overridden/supplemented by an instance of the relation
     implies: List[TagImplication] = []
 
-
-class RelationOption:
     @staticmethod
     def init_indices(mongo: PyMongo):
         mongo.db.relation_options.create_index([("name", pymongo.ASCENDING)], unique=True, sparse=False)
@@ -104,8 +104,6 @@ class Relation:
     # Contains the overriding/supplementing values for the impl
     implies: List[TagImplication] = []
 
-
-class Relation:
     @staticmethod
     def init_indices(mongo: PyMongo):
         mongo.db.relations.create_index([("user_id", pymongo.ASCENDING)], unique=False, sparse=False)

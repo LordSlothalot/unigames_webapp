@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 from typing import Dict, List
 
 import pymongo
@@ -7,10 +9,6 @@ from flask_pymongo import PyMongo
 from app.database_impl.attrib_options import AttributeOption
 from app.database_impl.relations import Relation, RelationOption
 from app.database_impl.tags import TagParameterImpl, Tag
-
-
-class TagReference:
-    pass
 
 
 class TagReference:
@@ -51,8 +49,6 @@ class Item:
     tags: List[TagReference] = []
     implied_tags: List[TagReference] = []
 
-
-class Item:
     @staticmethod
     def init_indices(mongo: PyMongo):
         mongo.db.items.create_index([("tags.tag_id", pymongo.ASCENDING)], unique=False, sparse=True)
@@ -249,8 +245,6 @@ class Instance:
     tags: List[TagReference] = []
     implied_tags: List[TagReference] = []
 
-
-class Instance:
     @staticmethod
     def init_indices(mongo: PyMongo):
         mongo.db.instances.create_index([("item_id", pymongo.ASCENDING)], unique=False, sparse=False)
