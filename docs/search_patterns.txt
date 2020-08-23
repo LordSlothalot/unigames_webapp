@@ -55,14 +55,21 @@ OR
 > tag: {3-4}
 This searches for the "tag: {0}" where if {0} is a value, then it lies in the closed range [3,4], or if {0} is a range, then the intersection of that range and [3,4] is non empty
 
-> tag: {Any}
+> tag: {::any}
 This searches for the "tag: {0}" where {0} is any value, so the value is ignored
 
-> tag: Yes
+> tag: {Yes}
 This searches for the "tag: {0}" where the {0} is the value "Yes"
 
-> tag: {Yes, No}
+> tag: {Yes ::or No}
 This searches for the "tag: {0}" tag, where {0} is EITHER "Yes" or "No"
+NOTE: This is a ~slightly~ more advanced addition, so will be left for later, and if it is support it will just expand to, so that it shouldn't require extra work.
+> tag: {Yes} ::or tag: {No}
+NOTE: because of this: A tag parameter SHOULD not contain a ::, :::...etc is fine though
+        if it does contain a :: then you need to escape it like:
+> tag: {{::Yes} ::or {N::o}}
+Which could then just expand to:
+> tag: {{::Yes}} ::or tag: {{N::o}}
 
 /// Some special operators
 
