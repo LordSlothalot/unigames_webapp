@@ -91,4 +91,27 @@ Searches for an item, which has an instance, which has an attached attrib, "uuid
 > ::instance::uuid::equals::85781903019
 Searches for an item, which has an instance, which has an attached attrib, "uuid" and that equals "85781903019"
 
+/// Order of operations & Parentheses
+
+> tagA, (tagB ::or tabC)
+Parentheses can be used to control the order/scope of operators
+Eqv statement w/0:
+> tagA, ::not tagB ::and ::not tabC
+
+> tagA ::and tagB ::or tagC, tagD
+The order of operators in left to right
+so with explicit parentheses:
+> (((tagA ::and tagB) ::or tagC) ::and tabD)
+
+> {players: ({1})}
+As as result of parentheses taking president,
+tags and attributes should try avoid parentheses, but the can
+be used by using {} to escape, just like you can escape ,
+
+/// Other
+
+No tag param or attribute value is allowed to contain '{' or '}'
+
+///
+
 From this hopefully all further rules should be clear
