@@ -4,12 +4,13 @@ from werkzeug.security import check_password_hash
 from app import mongo, login
 
 class User:
-    def __init__(self, email, password, first_name, last_name, _id=None):
+    def __init__(self, email, password, first_name, last_name, role, _id=None):
         self.email = email
         self.password = password
         self._id = uuid4().hex if _id is None else _id
         self.first_name = first_name
         self.last_name = last_name
+        self.role = role
         # user level field
     
     @staticmethod
@@ -51,10 +52,10 @@ class User:
         return False
 
     @classmethod
-    def register(cls, email, password, first_name, last_name):
+    def register(cls, email, password, first_name, last_name, role):
         user = cls.get_by_email(email)
         if user is None:
-            new_user = cls(email, password, first_name, last_name)
+            new_user = cls(email, password, first_name, last_name, role)
             new_user.save_to_mongo()
             session['email'] = email
             return True
@@ -67,7 +68,8 @@ class User:
             "email": self.email,
             "password": self.password,
             "first_name": self.first_name,
-            "last_name": self.last_name
+            "last_name": self.last_name,
+			"role": self.role
         }
 
     def save_to_mongo(self):

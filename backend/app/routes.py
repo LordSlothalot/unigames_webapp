@@ -5,6 +5,7 @@ from app.user_models import User
 from flask_pymongo import PyMongo
 from flask_login import LoginManager, current_user, login_user, logout_user, login_required
 from werkzeug.security import generate_password_hash
+from functools import wraps
 
 
 #-------------------------------------------
@@ -27,7 +28,7 @@ def login():
         find_user = mongo.db.Users.find_one({"email": email})
         print("find_user: ", find_user)
         if User.login_valid(email, password):
-            loguser = User(find_user['email'], find_user['password'], find_user['first_name'], find_user['last_name'], find_user['_id'])
+            loguser = User(find_user['email'], find_user['password'], find_user['first_name'], find_user['last_name'], find_user['role'], find_user['_id'])
             login_user(loguser, remember=form.remember_me.data)
             # login_user(find_user, remember=form.remember_me.data)
             flash('You have been logged in!', 'success')
@@ -52,7 +53,7 @@ def register():
         password = generate_password_hash(form.password.data)
         find_user =  User.get_by_email(email)
         if find_user is None:
-            User.register(email, password, first_name, last_name)
+            User.register(email, password, first_name, last_name, "Admin")
             flash(f'Account created for {form.email.data}!', 'success')
             return redirect(url_for('index'))
         else:
@@ -92,12 +93,24 @@ def constitution():
 @app.route('/operations')
 def operations():
     return render_template('user-pages/operations.html')
+	
+def login_required(role="ANY"):
+	def wrapper(fn):
+		@wraps(fn)
+		def decorated_view(*args, **kwargs):
+			if not current_user.is_authenticated():
+				return login.unauthorized()
+			if ((current_user.role != role) and (role != "ANY")):
+				return login.unauthorized()
+			return fn(*args, **kwargs)
+		return decorated_view
+	return wrapper
 
 #-------------------------------------------
 #     Admin pages
 #-------------------------------------------
 @app.route('/admin')
-@login_required
+@login_required(role="Admin")
 def admin():
     name = current_user.first_name
 
