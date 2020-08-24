@@ -31,45 +31,69 @@ class DatabaseManager:
         Relation.init_indices(self.mongo)
 
     def test(self):
+        #create a book tag
         book_tag = Tag.search_for_by_name(self.mongo, "Book")
         if book_tag is None:
             book_tag = Tag("Book", [], [])
             book_tag.write_to_db(self.mongo)
 
+        #create a multiplayer tag
         multiplayer_tag = Tag.search_for_by_name(self.mongo, "Multiplayer")
         if multiplayer_tag is None:
             multiplayer_tag = Tag("Multiplayer", [], [])
             multiplayer_tag.write_to_db(self.mongo)
 
+        #create a player number tag
         players_tag = Tag.search_for_by_name(self.mongo, "Players: {}")
         if players_tag is None:
             players_tag = Tag("Players: {}", [TagParameter.new_integer_range(0, 2, None)],
                               [TagImplication(multiplayer_tag.id, [])])
             players_tag.write_to_db(self.mongo)
 
+        #create a damaged tag
         damaged_tag = Tag.search_for_by_name(self.mongo, "Damaged")
         if damaged_tag is None:
             damaged_tag = Tag("Damaged", [], [])
             damaged_tag.write_to_db(self.mongo)
 
+        #create an added by tag
         added_by_tag = Tag.search_for_by_name(self.mongo, "Added By: {}")
         if added_by_tag is None:
             added_by_tag = Tag("Added By: {}", [TagParameter.new_string(0)], [])
             added_by_tag.write_to_db(self.mongo)
 
+        #create a borrowed by tag
         borrowed_by_tag = Tag.search_for_by_name(self.mongo, "Borrowed By: {}")
         if borrowed_by_tag is None:
             borrowed_by_tag = Tag("Borrowed By: {}", [TagParameter.new_string(0)], [])
             borrowed_by_tag.write_to_db(self.mongo)
 
+        #create an attribute for name
         item_name_attrib = AttributeOption.search_for_by_name(self.mongo, "name")
         if item_name_attrib is None:
             item_name_attrib = AttributeOption("name", AttributeTypes.SingleLineString)
             item_name_attrib.write_to_db(self.mongo)
 
+        #create an attribute for author
+        item_author_attrib = AttributeOption.search_for_by_name(self.mongo, "author")
+        if item_author_attrib is None:
+            item_author_attrib = AttributeOption("author", AttributeTypes.SingleLineString)
+            item_author_attrib.write_to_db(self.mongo)
+
+        #create an attribute for description
+        item_description_attrib = AttributeOption.search_for_by_name(self.mongo, "description")
+        if item_description_attrib is None:
+            item_description_attrib = AttributeOption("description", AttributeTypes.MultiLineString)
+            item_description_attrib.write_to_db(self.mongo)
+
+
+
+
+        #search for item by its name attribute
         bob_book_item = Item.search_for_by_attribute(self.mongo, item_name_attrib, "Bob's Grand Adventure")
+        #create a new item if no search result returned
         if not bob_book_item:
-            bob_book_item = Item({"name": "Bob's Grand Adventure"}, [TagReference(book_tag.id, []),
+            bob_book_item = Item({"name": "Bob's Grand Adventure", "author" : "Mingchuan Tian"}, [TagReference(book_tag.id, []),
                                                                      TagReference(players_tag.id, [
                                                                          TagParameterImpl.new_integer_range(
                                                                              players_tag.parameters[0], 3, 5)])])
@@ -77,21 +101,28 @@ class DatabaseManager:
         else:
             bob_book_item = bob_book_item[0]
 
+        #recalculates all implied tags for the item
         bob_book_item.recalculate_implied_tags(self.mongo)
 
         print("Multiplayer items: " + str(Item.search_for_by_tag_id(self.mongo, multiplayer_tag.id)))
 
+        #search for the uuid attribute
         instance_uuid_attrib = AttributeOption.search_for_by_name(self.mongo, "uuid")
+        #if none returned, create a new uuid attribute
         if instance_uuid_attrib is None:
             instance_uuid_attrib = AttributeOption("uuid", AttributeTypes.SingleLineString)
             instance_uuid_attrib.write_to_db(self.mongo)
 
+        #search for the Damage Report attribute
         instance_damage_report_attrib = AttributeOption.search_for_by_name(self.mongo, "Damage Report")
+        #if none returned, create a Damage Report attribute
         if instance_damage_report_attrib is None:
             instance_damage_report_attrib = AttributeOption("Damage Report", AttributeTypes.MultiLineString)
             instance_damage_report_attrib.write_to_db(self.mongo)
 
+        #search for an instance with uuid 1093..
         bob_book_instance_1 = Instance.search_for_by_attribute(self.mongo, instance_uuid_attrib, "109358180")
+        #if none returned, create a new instance with further info
         if not bob_book_instance_1:
             bob_book_instance_1 = Instance(bob_book_item.id, {"uuid": "109358180",
                                                               "Damage Report": "(4/5/2017): Page 57 has a small section of the top right corner torn off, no text missing, still serviceable"},
@@ -100,8 +131,10 @@ class DatabaseManager:
         else:
             bob_book_instance_1 = bob_book_instance_1[0]
 
+        #recalculate implied tags for instance
         bob_book_instance_1.recalculate_implied_tags(self.mongo)
 
+        #search for a damaged item
         print("Damaged items /w Instance: " + str(Item.search_for_by_tag_id_with_instance(self.mongo, damaged_tag.id)))
         print("Damaged items /w Common Instance: " + str(
             Item.search_for_by_tag_id_with_common_instance(self.mongo, damaged_tag.id)))
@@ -172,3 +205,5 @@ class DatabaseManager:
         bob_book_instance_1.recalculate_implied_tags(self.mongo)
         bob_book_instance_2.recalculate_implied_tags(self.mongo)
         bob_book_item.recalculate_implied_tags(self.mongo)
+    
+
