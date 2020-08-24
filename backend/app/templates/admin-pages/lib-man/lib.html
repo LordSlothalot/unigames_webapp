@@ -48,7 +48,7 @@
                             {% for item in items %}
                             <tr>
                                 <td><a href= "{{ url_for('lib_edit', id = item['_id']) }}" >{{ item['attributes']['name'] }}</a></td>
-                                <td>Micheal Babala</td>
+                                <td>{{ item['attributes']['author'] }}</td>
                                 <td> 
                                     {% for tags in item['tags'] %}
                                         {% for found_tag in tags_collection.find( {"_id": tags['tag_id']} ) %}
@@ -59,54 +59,9 @@
 
                                 
                                 <td>Yes</td>
-                                <td><a href="#">Edit</a></td>
+                                <td><a href="{{ url_for('lib_edit', id = item['_id']) }}">Edit</a></td>
                             </tr>
                             {% endfor %}
-
-                            <!---
-                            <tr>
-                                <td><a href="#">Stars without war</a></td>
-                                <td>Micheal Babala</td>
-                                <td>4.5/5</td>
-                                <td>Yes</td>
-                                <td><a href="#">Edit</a></td>
-                            </tr>
-                            <tr>
-                                <td><a href="#">Stars without war</a></td>
-                                <td>Micheal Babala</td>
-                                <td>4.5/5</td>
-                                <td>Yes</td>
-                                <td><a href="#">Edit</a></td>
-                            </tr>
-                            <tr>
-                                <td><a href="#">Stars without war</a></td>
-                                <td>Micheal Babala</td>
-                                <td>4.5/5</td>
-                                <td>Yes</td>
-                                <td><a href="#">Edit</a></td>
-                            </tr>
-                            <tr>
-                                <td><a href="#">Stars without war</a></td>
-                                <td>Micheal Babala</td>
-                                <td>4.5/5</td>
-                                <td>Yes</td>
-                                <td><a href="#">Edit</a></td>
-                            </tr>
-                            <tr>
-                                <td><a href="#">Stars without war</a></td>
-                                <td>Micheal Babala</td>
-                                <td>4.5/5</td>
-                                <td>Yes</td>
-                                <td><a href="#">Edit</a></td>
-                            </tr>
-                            <tr>
-                                <td><a href="#">Stars without war</a></td>
-                                <td>Micheal Babala</td>
-                                <td>4.5/5</td>
-                                <td>Yes</td>
-                                <td><a href="#">Edit</a></td>
-                            </tr>
-                            -->
 
                         </tbody>
                     </table>

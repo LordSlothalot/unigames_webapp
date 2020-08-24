@@ -80,6 +80,12 @@ class DatabaseManager:
             item_author_attrib = AttributeOption("author", AttributeTypes.SingleLineString)
             item_author_attrib.write_to_db(self.mongo)
 
+        #create an attribute for description
+        item_description_attrib = AttributeOption.search_for_by_name(self.mongo, "description")
+        if item_description_attrib is None:
+            item_description_attrib = AttributeOption("description", AttributeTypes.MultiLineString)
+            item_description_attrib.write_to_db(self.mongo)
+
 
 
 

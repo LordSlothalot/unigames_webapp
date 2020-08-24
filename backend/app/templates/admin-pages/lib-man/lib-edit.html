@@ -93,6 +93,9 @@
                         {% endfor %}
                     </p>
                     {% endfor %}
+                    <form action="{{ url_for('tag_add', item_id=item['_id']) }}">
+                        <button type="button m-2" class="btn btn-primary" >add a tag</button>
+                    </form>
                 </div>
             </div>
             <hr>
@@ -165,7 +168,12 @@
                 </div>
 
             </div>
+            <form action="{{ url_for('lib') }}">
+                <button type="button m-2" class="btn btn-primary" >Back to library page</button>
+            </form>
+            <br>
         </div>
+
     </div>
 
 
