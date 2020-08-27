@@ -13,8 +13,8 @@ app.config['SECRET_KEY'] = 'this should be a password but whatever'
 app.config["MONGO_URI"] = "mongodb://localhost:27017/unigames_webapp_db"
 
 mongo = PyMongo(app)
-login = LoginManager(app)
-login.login_view = 'login'
+login_manager = LoginManager(app)
+login_manager.login_view = 'login'
 
 from app import routes
 db_manager = DatabaseManager(app)

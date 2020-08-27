@@ -1,4 +1,4 @@
-from app import app, mongo, login
+from app import app, mongo, login_manager
 from flask import Flask, render_template, url_for, redirect, request, flash
 from app.forms import LoginForm, RegistrationForm
 from app.user_models import User
@@ -94,17 +94,30 @@ def constitution():
 def operations():
     return render_template('user-pages/operations.html')
 	
+@app.route('/forbidden')
+def forbidden():
+	return render_template('user-pages/forbidden.html')
+		
+@login_manager.unauthorized_handler
+def unauthorized():
+	if not current_user.is_authenticated:
+		return redirect(url_for('login'))
+	if ((current_user.role != "Admin")):
+		return redirect(url_for('forbidden'))
+	return 'Page not found 404.'
+
 def login_required(role="ANY"):
 	def wrapper(fn):
 		@wraps(fn)
 		def decorated_view(*args, **kwargs):
-			if not current_user.is_authenticated():
-				return login.unauthorized()
+			if not current_user.is_authenticated:
+				return login_manager.unauthorized()
 			if ((current_user.role != role) and (role != "ANY")):
-				return login.unauthorized()
+				return login_manager.unauthorized()
 			return fn(*args, **kwargs)
 		return decorated_view
 	return wrapper
+
 
 #-------------------------------------------
 #     Admin pages
