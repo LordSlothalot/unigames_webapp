@@ -67,6 +67,13 @@ class DatabaseManager:
         if borrowed_by_tag is None:
             borrowed_by_tag = Tag("Borrowed By: {}", [TagParameter.new_string(0)], [])
             borrowed_by_tag.write_to_db(self.mongo)
+        
+        #create a None tag (all root tags point to this tag for easier management)
+        root_tag = Tag.search_for_by_name(self.mongo, "None")
+        if root_tag is None:
+            root_tag = Tag("None", [], [])
+            root_tag.write_to_db(self.mongo)
+
 
         #create an attribute for name
         item_name_attrib = AttributeOption.search_for_by_name(self.mongo, "name")

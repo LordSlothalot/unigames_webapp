@@ -19,7 +19,12 @@
                     </div>
                 </div>
             </form>
+
+            <form action="{{ url_for('lib_add') }}">
+                <button type="button m-2" class="btn btn-primary" >add an item</button>
+            </form>
         </div>
+
         <div class="col-md-3"></div>
     </div>
     <div class="row">
@@ -47,7 +52,7 @@
                         <tbody>
                             {% for item in items %}
                             <tr>
-                                <td><a href= "{{ url_for('lib_edit', id = item['_id']) }}" >{{ item['attributes']['name'] }}</a></td>
+                                <td><a href= "{{ url_for('lib_edit', item_id = item['_id']) }}" >{{ item['attributes']['name'] }}</a></td>
                                 <td>{{ item['attributes']['author'] }}</td>
                                 <td> 
                                     {% for tags in item['tags'] %}
@@ -59,7 +64,7 @@
 
                                 
                                 <td>Yes</td>
-                                <td><a href="{{ url_for('lib_edit', id = item['_id']) }}">Edit</a></td>
+                                <td><a href="{{ url_for('lib_edit', item_id = item['_id']) }}">Edit</a></td>
                             </tr>
                             {% endfor %}
 

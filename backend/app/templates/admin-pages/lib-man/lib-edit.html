@@ -1,5 +1,5 @@
 {% extends "admin-layout.html" %}
-
+{% import "bootstrap/wtf.html" as wtf %}
 {% block body %}
 
 
@@ -20,83 +20,54 @@
     </div>
     <div class="col-sm-8">
         <div class="lib-edit-right">
+
+            {% for key in attributes %}
             <div class="row">
                 <div class="col-sm-6">
                     <span class="mr-5">
-                        <h5>Title: </h5>
-                        <p>{{ title }}</p>
+                        <h5> {{ key }}</h5>
+                        <p> {{ attributes[key] }}</p>
                     </span>
                 </div>
                 <div class="col-sm-6">
-                    <div class="form-group">
-                        <div class="input-group">
-                            <input type="password" class="form-control" id="inputPassword2" placeholder="New title">
-                            <div class="input-group-append"><button type="submit"
-                                    class="btn btn-outline-secondary">Change Title</button></div>
-                        </div>
-                    </div>
+                    <form action="{{ url_for('item_update_attrib', item_id=item.id, attrib_name=key) }}">
+                        <button type="button m-2" class="btn btn-primary">change attribute value</button>
+                    </form>
                 </div>
-            </div>
-
-            <hr>
-
-            <div class="row">
-                <div class="col-sm-6">
-                    <span class="mr-5">
-                        <h5>Collection type: </h5>
-                        <p> {{ book }}</p>
-                    </span>
-                </div>
-                <div class="col-sm-6">
-                    <div class="form-group">
-                        <select id="inputState" class="form-control">
-                            <option selected>Choose...</option>
-                            <option>...</option>
-                        </select>
-                    </div>
-                </div>
+                <form action="{{ url_for('item_remove_attrib', item_id = item.id, attrib_name=key) }}">
+                    <button type="button m-2" class="btn btn-outline-dark shadow-sm">
+                        Remove
+                    </button>
+                </form>
             </div>
             <hr>
+            {% endfor %}
 
-            <div class="row">
-                <div class="col-sm-6">
-                    <span class="mr-5">
-                        <h5>Author: </h5>
-                        <p> {{ author }}</p>
-                    </span>
-                </div>
-                <div class="col-sm-6">
-                    <div class="form-group">
-                        <div class="input-group">
-                            <input type="password" class="form-control" id="inputPassword2" placeholder="New author">
-                            <div class="input-group-append"><button type="submit"
-                                    class="btn btn-outline-secondary">Change Author</button></div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <hr>
             <div class="row">
                 <div class="col-sm-6">
                     <span class="mr-5">
                         <h5>Tags: </h5>
-
-
                     </span>
-
                 </div>
                 <div class="col-sm-6">
-                    {% for tag in item_tags %}
+                    {% for tag in item['tags'] %}
                     <p>
                         {% for found_tag in tags_collection.find( {"_id": tag['tag_id']} ) %}
-                        {{ found_tag['name']}}
-                        {% endfor %}
+                        {{ found_tag['name'] }}
+
                     </p>
+                    <form action="{{ url_for('tag_delete', item_id = item.id, tag_name=found_tag['name']) }}">
+                        <button type="button m-2" class="btn btn-outline-dark shadow-sm">
+                            Delete
+                        </button>
+                    </form>
                     {% endfor %}
-                    <form action="{{ url_for('tag_add', item_id=item['_id']) }}">
-                        <button type="button m-2" class="btn btn-primary" >add a tag</button>
+                    {% endfor %}
+                    <form action="{{ url_for('tag_add', item_id=item.id) }}">
+                        <button type="button m-2" class="btn btn-primary">add a tag</button>
                     </form>
                 </div>
+
             </div>
             <hr>
             <div class="row">
@@ -109,7 +80,7 @@
 
                 </div>
                 <div class="col-sm-6">
-                    {% for tag in implied_tags %}
+                    {% for tag in item['implied_tags'] %}
                     <p>
                         {% for found_tag in tags_collection.find( {"_id": tag['tag_id']} ) %}
                         {{ found_tag['name']}}
@@ -127,55 +98,49 @@
                 </div>
                 <div class="col-sm-6">
                     <div class="col-sm-6 text-center">
-                            {% for instance in instances %}
-                            <form action="{{ url_for('instance_edit', id = instance['id'] ) }}">
-                                <button type="button m-2" class="btn btn-outline-dark shadow-sm" >
-                                    uuid : 
-                                    {{ instance['attributes']['uuid'] }}
-                                
-                                </button>
-                            </form>
-                            {% endfor %}
+                        {% for instance in instances %}
+                        <form action="{{ url_for('instance_edit', instance_id = instance.id ) }}">
+                            <button type="button m-2" class="btn btn-outline-dark shadow-sm">
+                                uuid :
+                                {{ instance['attributes']['uuid'] }}
 
-                    
+                            </button>
+                        </form>
+                        <form action="{{ url_for('instance_delete', item_id =item.id, instance_id = instance.id ) }}">
+                            <button type="button m-2" class="btn btn-outline-dark shadow-sm">
+                                delete
+                            </button>
+                        </form>
+                        {% endfor %}
+                        <form action="{{ url_for('instance_add', item_id=item.id) }}">
+                            <button type="button m-2" class="btn btn-primary">add an instance</button>
+                        </form>
+
                     </div>
                 </div>
             </div>
 
-                <div class="form-check">
-                    <input class="form-check-input" type="checkbox" value="" id="defaultCheck1">
-                    <label class="form-check-label" for="defaultCheck1">
-                        Archived
-                    </label>
-                </div>
-
-                <hr>
-                <div class="row">
-                    <div class="col-sm-6">
-                        <span class="mr-5">
-                            <h5>Description: </h5>
-                            <p> {{ description }}</p>
-                        </span>
-                    </div>
-                    <div class="col-sm-6">
-                        <div class="form-group">
-                            <div class="form-group">
-                                <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
-                            </div>
-                            <button class="btn btn-outline-secondary">Update description</button>
-                        </div>
-                    </div>
-                </div>
-
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" value="" id="defaultCheck1">
+                <label class="form-check-label" for="defaultCheck1">
+                    Archived
+                </label>
             </div>
-            <form action="{{ url_for('lib') }}">
-                <button type="button m-2" class="btn btn-primary" >Back to library page</button>
-            </form>
-            <br>
+
         </div>
+        <form action="{{ url_for('item_add_attrib', item_id=item.id ) }}">
+            <button type="button m-2" class="btn btn-primary">Add an attribute</button>
+        </form>
+        <br>
+        <form action="{{ url_for('lib') }}">
+            <button type="button m-2" class="btn btn-primary">Back to library page</button>
+        </form>
+        <br>
 
     </div>
 
+</div>
 
 
-    {% endblock %}
+
+{% endblock %}
