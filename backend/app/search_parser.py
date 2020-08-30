@@ -59,11 +59,204 @@ class UnexpectedTag(SearchStringParseError):
 class Value:
     string: str
 
-    def __init__(self, value: str):
-        self.string = value
+    @staticmethod
+    def parse(value: str, overall_offset: int) -> Union[Value, SearchStringParseError]:
+        if value.lstrip().startswith("::"):
+
+            if value.lstrip().startswith("::has::"):
+                cls = HasItemAttributeValue()
+                cls.string = value
+                cls.attribute_name = value.lstrip()[len("::has::"):].rstrip()
+
+                return cls
+            elif value.lstrip().startswith("::instance::has::"):
+                cls = HasInstanceAttributeValue()
+                cls.string = value
+                cls.attribute_name = value.lstrip()[len("::instance::has::"):].rstrip()
+
+                return cls
+            elif value.lstrip().startswith("::instance::"):
+                remain = value.lstrip()[len("::instance::"):].rstrip()
+
+                if "::equals::" in remain:
+                    s = remain.find("::equals::")
+
+                    cls = CheckInstanceAttributeValue()
+                    cls.string = value
+                    cls.attribute_name = remain[:s]
+                    cls.value = remain[s+len("::equals::"):]
+                    cls.check_mode = CheckMode.Equals
+
+                    return cls
+                elif "::contains::" in remain:
+                    s = remain.find("::contains::")
+
+                    cls = CheckInstanceAttributeValue()
+                    cls.string = value
+                    cls.attribute_name = remain[:s]
+                    cls.value = remain[s+len("::contains::"):]
+                    cls.check_mode = CheckMode.Contains
+
+                    return cls
+                else:
+                    cls = InstanceTagValue()
+                    cls.string = value
+                    cls.stripped_name = ""
+                    cls.parameters = []
+
+                    escape_depth = 0
+
+                    skip = len(value) - len(value.lstrip())
+                    value = value.lstrip()
+
+                    param_start = 0
+
+                    for i, c in enumerate(value):
+                        if c == '{':
+                            escape_depth += 1
+
+                            if escape_depth == 1:
+                                param_start = i + 1
+
+                            cls.stripped_name += str(c)
+                        elif c == '}':
+                            escape_depth -= 1
+
+                            if escape_depth == 0:
+                                cls.parameters.append(value[param_start:i])
+                            elif escape_depth < 0:
+                                return UnexpectedCloseBracket(i + overall_offset + skip, Brackets.Curly)
+
+                            cls.stripped_name += str(c)
+                        elif escape_depth == 0:
+                            cls.stripped_name += str(c)
+
+                    return cls
+
+            else:
+                remain = value.lstrip()[len("::"):].rstrip()
+
+                if "::equals::" in remain:
+                    s = remain.find("::equals::")
+
+                    cls = CheckItemAttributeValue()
+                    cls.string = value
+                    cls.attribute_name = remain[:s]
+                    cls.value = remain[s + len("::equals::"):]
+                    cls.check_mode = CheckMode.Equals
+
+                    return cls
+                elif "::contains::" in remain:
+                    s = remain.find("::contains::")
+
+                    cls = CheckItemAttributeValue()
+                    cls.string = value
+                    cls.attribute_name = remain[:s]
+                    cls.value = remain[s + len("::contains::"):]
+                    cls.check_mode = CheckMode.Contains
+
+                    return cls
+
+
+        else:
+            cls = TagValue()
+            cls.string = value
+            cls.stripped_name = ""
+            cls.parameters = []
+
+            escape_depth = 0
+
+            skip = len(value) - len(value.lstrip())
+            value = value.lstrip()
+
+            param_start = 0
+
+            for i, c in enumerate(value):
+                if c == '{':
+                    escape_depth += 1
+
+                    if escape_depth == 1:
+                        param_start = i + 1
+
+                    cls.stripped_name += str(c)
+                elif c == '}':
+                    escape_depth -= 1
+
+                    if escape_depth == 0:
+                        cls.parameters.append(value[param_start:i])
+                    elif escape_depth < 0:
+                        return UnexpectedCloseBracket(i + overall_offset + skip, Brackets.Curly)
+
+                    cls.stripped_name += str(c)
+                elif escape_depth == 0:
+                    cls.stripped_name += str(c)
+
+            return cls
 
     def __str__(self) -> str:
         return self.string
+
+
+class TagValue(Value):
+    stripped_name: str
+    parameters: List[str]
+
+    def __str__(self) -> str:
+        param_part = ""
+        if self.parameters:
+            param_part = " | [" + ", ".join(self.parameters) + "]"
+
+        return "Tag: '" + self.stripped_name + "'" + param_part
+
+
+class InstanceTagValue(Value):
+    stripped_name: str
+    parameters: List[str]
+
+    def __str__(self) -> str:
+        param_part = ""
+        if self.parameters:
+            param_part = " | [" + ", ".join(self.parameters) + "]"
+
+        return "InstanceTag: '" + self.stripped_name + "'" + param_part
+
+
+class HasItemAttributeValue(Value):
+    attribute_name: str
+
+    def __str__(self) -> str:
+        return "HasItemAttribute: '" + self.attribute_name + "'"
+
+
+class HasInstanceAttributeValue(Value):
+    attribute_name: str
+
+    def __str__(self) -> str:
+        return "HasInstanceAttribute: '" + self.attribute_name + "'"
+
+
+class CheckMode(Enum):
+    Equals = 0,
+    Contains = 1
+    # TODO add more options? such as starts with/ends with, or case sensitive/case insensitive
+
+
+class CheckItemAttributeValue(Value):
+    attribute_name: str
+    check_mode: CheckMode
+    value: str
+
+    def __str__(self) -> str:
+        return "CheckItemAttribute: '" + self.attribute_name + "'" + " | " + str(self.check_mode) + " | '" + self.value + "'"
+
+
+class CheckInstanceAttributeValue(Value):
+    attribute_name: str
+    check_mode: CheckMode
+    value: str
+
+    def __str__(self) -> str:
+        return "CheckInstanceAttribute: '" + self.attribute_name + "'" + " | " + str(self.check_mode) + " | '" + self.value + "'"
 
 
 class OperatorTypes(Enum):
@@ -367,7 +560,7 @@ def search_string_parser(search_string: str) -> Union[Operator, SearchStringPars
             operator_stack[-1].set_right_most(new_operator)
             operator_stack.append(new_operator)
         else:
-            operator_stack[-1].set_right_most(Value(search_string[symbol.start_index:symbol.end_index + 1]))
+            operator_stack[-1].set_right_most(Value.parse(search_string[symbol.start_index:symbol.end_index + 1], symbol.start_index))
             if len(operator_stack) > 1:
                 operator_stack.pop()
 
