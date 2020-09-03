@@ -18,7 +18,7 @@
     {% block navbar%}
     <div class="manager-header">
         <div class="logo-header">
-            <img src="{{ url_for('static', filename='img/logo-manager.png') }}"" alt="uwa_logo">
+            <img src="{{ url_for('static', filename='img/logo.png') }}" height="80" alt="uwa_logo">
         </div>
         <div class="title-header">
             <h3>Unigames Gaming Club Management System </h3>
@@ -31,8 +31,8 @@
             <a class="nav-link " href="{{ url_for('admin') }}">Users</a>
             <a class="nav-link" href="{{ url_for('lib') }}">Library</a>
             <a class="nav-link" href="{{ url_for('tag_all') }}">Tags</a>
-            <a class="nav-link" href="{{ url_for('all_attributes') }}">Attributes</a>
-            <a class="nav-link" href="{{ url_for('events') }}">Events</a>
+            <!--<a class="nav-link" href="{{ url_for('all_attributes') }}">Attributes</a>-->
+            <!--<a class="nav-link" href="{{ url_for('events') }}">Events</a>-->
             <a class="nav-link" href="{{ url_for('admin') }}">Logout</a>
 
         </nav>
