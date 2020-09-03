@@ -36,40 +36,7 @@ Alternate forms of operators
 
 /// Dealing with parameterised tags:
 
-> tag: {1}
-This searches the "tag: {0}" tag for an instance where the value of index 0 is 1, or if {0} is range, then 1 is inside the range
-
-> tag: {>=1}
-OR
-> tag: {1+}
-This searches for the "tag: {0}" tag for an instance where the value of index 0 is >= 1, or if {0} is a range, then intersection of that range and >=1 is non empty
-Similarly:
-> tag: {>0}
-> tag: {<3}
-> tag: {<=3}
-
-> tag: {[3,4]} // close range
-OR
-> tag: {(2,5)} // open range
-OR
-> tag: {3-4}
-This searches for the "tag: {0}" where if {0} is a value, then it lies in the closed range [3,4], or if {0} is a range, then the intersection of that range and [3,4] is non empty
-
-> tag: {::any}
-This searches for the "tag: {0}" where {0} is any value, so the value is ignored
-
-> tag: {Yes}
-This searches for the "tag: {0}" where the {0} is the value "Yes"
-
-> tag: {Yes ::or No}
-This searches for the "tag: {0}" tag, where {0} is EITHER "Yes" or "No"
-NOTE: This is a ~slightly~ more advanced addition, so will be left for later, and if it is support it will just expand to, so that it shouldn't require extra work.
-> tag: {Yes} ::or tag: {No}
-NOTE: because of this: A tag parameter SHOULD not contain a ::, :::...etc is fine though
-        if it does contain a :: then you need to escape it like:
-> tag: {{::Yes} ::or {N::o}}
-Which could then just expand to:
-> tag: {{::Yes}} ::or tag: {{N::o}}
+Parameterised tags are no longer a thing :(
 
 /// Some special operators
 
@@ -110,7 +77,7 @@ The order of operators in left to right
 so with explicit parentheses:
 > (((tagA ::and tagB) ::or tagC) ::and tabD)
 
-> {players: ({1})}
+> {players: (1)}
 As as result of parentheses taking president,
 tags and attributes should try avoid parentheses, but the can
 be used by using {} to escape, just like you can escape ,
@@ -122,3 +89,5 @@ No tag param or attribute value is allowed to contain '{' or '}'
 ///
 
 From this hopefully all further rules should be clear
+
+TODO: Possibly improvements include being able to use "" to escape, and '-' for not

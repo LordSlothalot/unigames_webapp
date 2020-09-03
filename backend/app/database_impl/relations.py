@@ -7,21 +7,20 @@ import pymongo
 from bson import ObjectId
 from flask_pymongo import PyMongo
 
-from app.database_impl.tags import TagImplication
+from app.database_impl.tags import TagReference
 
 
 class RelationOption:
     id: ObjectId = None
     name: str = None
-    # Contains base parameters (if any), will be overridden/supplemented by an instance of the relation
-    implies: List[TagImplication] = []
+    implies: List[TagReference] = []
 
     @staticmethod
     def init_indices(mongo: PyMongo):
         mongo.db.relation_options.create_index([("name", pymongo.ASCENDING)], unique=True, sparse=False)
         pass
 
-    def __init__(self, name: str, implies: List[TagImplication]):
+    def __init__(self, name: str, implies: List[TagReference]):
         self.id = None
         self.name = name
         self.implies = implies
@@ -29,7 +28,7 @@ class RelationOption:
     def to_dict(self) -> Dict:
         result = {
             "name": self.name,
-            "implies": [i.to_dict() for i in self.implies]
+            "implies": [i.tag_id for i in self.implies]
         }
 
         if self.id is not None:
@@ -50,7 +49,7 @@ class RelationOption:
         cls.name = value_dict["name"]
 
         if "implies" in value_dict and value_dict["implies"] is not None:
-            cls.implies = [TagImplication.from_dict(i) for i in value_dict["implies"]]
+            cls.implies = [TagReference(i) for i in value_dict["implies"]]
 
         return cls
 
@@ -101,8 +100,6 @@ class Relation:
     user_id: ObjectId = None
     option_id: ObjectId = None
     relation_type: RelationType = RelationType.Invalid
-    # Contains the overriding/supplementing values for the impl
-    implies: List[TagImplication] = []
 
     @staticmethod
     def init_indices(mongo: PyMongo):
@@ -116,10 +113,9 @@ class Relation:
         self.user_id = None
         self.option_id = None
         self.relation_type = RelationType.Invalid
-        self.implies = []
 
     @staticmethod
-    def new_item(user_id: ObjectId, option_id: ObjectId, item_id: ObjectId, implies: List[TagImplication]) -> Relation:
+    def new_item(user_id: ObjectId, option_id: ObjectId, item_id: ObjectId) -> Relation:
         cls = Relation()
 
         cls.id = None
@@ -127,13 +123,11 @@ class Relation:
         cls.option_id = option_id
         cls.relation_type = RelationType.Item
         cls.item_id = item_id
-        cls.implies = implies
 
         return cls
 
     @staticmethod
-    def new_instance(user_id: ObjectId, option_id: ObjectId, instance_id: ObjectId,
-                     implies: List[TagImplication]) -> Relation:
+    def new_instance(user_id: ObjectId, option_id: ObjectId, instance_id: ObjectId) -> Relation:
         cls = Relation()
 
         cls.id = None
@@ -141,7 +135,6 @@ class Relation:
         cls.option_id = option_id
         cls.relation_type = RelationType.Instance
         cls.instance_id = instance_id
-        cls.implies = implies
 
         return cls
 
@@ -149,7 +142,6 @@ class Relation:
         result = {
             "user_id": self.user_id,
             "option_id": self.option_id,
-            "implies": [i.to_dict() for i in self.implies]
         }
 
         if self.id is not None:
@@ -180,9 +172,6 @@ class Relation:
             raise ValueError("Relation needs a 'option_id'")
 
         cls.option_id = value_dict["option_id"]
-
-        if "implies" in value_dict and value_dict["implies"] is not None:
-            cls.implies = [TagImplication.from_dict(i) for i in value_dict["implies"]]
 
         if "item_id" in value_dict:
             if value_dict["item_id"] is None:
@@ -219,7 +208,6 @@ class Relation:
 
         self.user_id = new_relation.user_id
         self.option_id = new_relation.option_id
-        self.implies = new_relation.implies
         self.relation_type = new_relation.relation_type
         if new_relation.relation_type == RelationType.Item:
             self.item_id = new_relation.item_id

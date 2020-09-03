@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from typing import Dict, List
+from typing import Dict, List, Union
 
 import pymongo
 from bson import ObjectId
@@ -8,39 +8,7 @@ from flask_pymongo import PyMongo
 
 from app.database_impl.attrib_options import AttributeOption
 from app.database_impl.relations import Relation, RelationOption
-from app.database_impl.tags import TagParameterImpl, Tag
-
-
-class TagReference:
-    tag_id: ObjectId = None
-    parameters: List[TagParameterImpl] = []
-
-    def __init__(self, tag_id: ObjectId, parameters: List[TagParameterImpl]):
-        self.tag_id = tag_id
-
-        if parameters is not None:
-            self.parameters = parameters
-
-    @staticmethod
-    def from_dict(value_dict: Dict) -> TagReference:
-        cls = TagReference(None, None)
-
-        if "tag_id" not in value_dict:
-            raise ValueError("the dict must contain 'tag_id'")
-
-        if "tag_id" in value_dict and value_dict["tag_id"] is not None:
-            cls.tag_id = value_dict["tag_id"]
-
-        if "parameters" not in value_dict or "parameters" not in value_dict:
-            cls.parameters = [TagParameterImpl.from_dict(d) for d in value_dict["parameters"]]
-
-        return cls
-
-    def to_dict(self) -> Dict:
-        return {
-            "tag_id": self.tag_id,
-            "parameters": [p.to_dict() for p in self.parameters]
-        }
+from app.database_impl.tags import Tag, TagReference
 
 
 class Item:
@@ -64,21 +32,20 @@ class Item:
     def to_dict(self) -> Dict:
         result = {
             "attributes": self.attributes,
-            "tags": [t.to_dict() for t in self.tags],
-            "implied_tags": [t.to_dict() for t in self.implied_tags]
+            "tags": [t.tag_id for t in self.tags],
+            "implied_tags": [i.tag_id for i in self.implied_tags]
         }
         if self.id is not None:
             result["_id"] = self.id
 
         return result
-    
-    def remove_tag(tag: TagReference):
+
+    def remove_tag(self, tag: TagReference):
         if tag in self.tags:
             self.tags.remove(tag)
             return True
         else:
             return False
-
 
     @staticmethod
     def from_dict(value_dict: Dict) -> Item:
@@ -91,10 +58,10 @@ class Item:
             cls.attributes = value_dict["attributes"]
 
         if "tags" in value_dict and value_dict["tags"] is not None:
-            cls.tags = [TagReference.from_dict(t) for t in value_dict["tags"]]
+            cls.tags = [TagReference(t) for t in value_dict["tags"]]
 
         if "implied_tags" in value_dict and value_dict["implied_tags"] is not None:
-            cls.implied_tags = [TagReference.from_dict(t) for t in value_dict["implied_tags"]]
+            cls.implied_tags = [TagReference(t) for t in value_dict["implied_tags"]]
 
         return cls
 
@@ -131,26 +98,7 @@ class Item:
         relation_options = mongo.db.relation_options.find({"_id": {"$in": [r.option_id for r in relations]}})
         relation_options = [RelationOption.from_dict(r) for r in relation_options]
 
-        relation_implied: Dict[ObjectId, Dict[int, TagParameterImpl]] = {}
-
-        for ro in relation_options:
-            for implied in ro.implies:
-                if implied.implied_id not in relation_implied:
-                    relation_implied[implied.implied_id] = {}
-
-                for para in implied.parameters:
-                    relation_implied[implied.implied_id][para.index] = para
-
-        for r in relations:
-            for implied in r.implies:
-                if implied.implied_id not in relation_implied:
-                    relation_implied[implied.implied_id] = {}
-
-                for para in implied.parameters:
-                    relation_implied[implied.implied_id][para.index] = para
-
-        self.implied_tags = [TagReference(implied_id, [p for p in parameters.values()]) for implied_id, parameters in
-                             relation_implied.items()]
+        self.implied_tags = [implied for option in relation_options for implied in option.implies]
 
         # traverse implication DAG
         to_search = set(t.tag_id for t in self.tags).union(t.tag_id for t in self.implied_tags)
@@ -166,10 +114,10 @@ class Item:
 
             for tag in tags:
                 for implied in tag.implies:
-                    if implied.implied_id not in searched:
-                        searched.add(implied.implied_id)
-                        to_search.add(implied.implied_id)
-                        self.implied_tags.append(TagReference(implied.implied_id, implied.parameters))
+                    if implied.tag_id not in searched:
+                        searched.add(implied.tag_id)
+                        to_search.add(implied.tag_id)
+                        self.implied_tags.append(implied)
 
         self.write_to_db(mongo)
 
@@ -180,20 +128,27 @@ class Item:
         return mongo.db.items.delete_one({"_id": self.id}).deleted_count == 1
 
     @staticmethod
-    def search_for_by_tag_id(mongo: PyMongo, tag_id: ObjectId) -> List[Item]:
-        result = mongo.db.items.find({"$or": [{"tags": {"$elemMatch": {"tag_id": tag_id}}},
-                                              {"implied_tags": {"$elemMatch": {"tag_id": tag_id}}}]})
+    def search_for_by_tag(mongo: PyMongo, tag_ref: Union[Tag, TagReference]) -> List[Item]:
+        if isinstance(tag_ref, Tag):
+            tag_ref = TagReference(tag_ref)
+
+        result = mongo.db.items.find({"$or": [{"tags": {"$elemMatch": {"$eq": tag_ref.tag_id}}},
+                                              {"implied_tags": {"$elemMatch": {"$eq": tag_ref.tag_id}}}]})
         if result is None:
             return []
 
         return [Item.from_dict(i) for i in result]
 
     @staticmethod
-    def search_for_by_tag_id_with_instance(mongo: PyMongo, tag_id: ObjectId) -> List[Item]:
-        result = Item.search_for_by_tag_id(mongo, tag_id)
+    def search_for_by_tag_with_instance(mongo: PyMongo, tag_ref: Union[Tag, TagReference]) -> List[Item]:
+        if isinstance(tag_ref, Tag):
+            tag_ref = TagReference(tag_ref)
 
-        instances = mongo.db.instances.find({"$or": [{"tags": {"$elemMatch": {"tag_id": tag_id}}},
-                                                     {"implied_tags": {"$elemMatch": {"tag_id": tag_id}}}]})
+        result = Item.search_for_by_tag(mongo, tag_ref)
+
+        instances = mongo.db.instances.find({"$or": [{"tags": {"$elemMatch": {"$eq": tag_ref.tag_id}}},
+                                                     {"implied_tags": {"$elemMatch": {"$eq": tag_ref.tag_id}}}]})
+
         instances = [Instance.from_dict(i) for i in instances]
         instance_item_ids = [i.item_id for i in instances]
 
@@ -210,11 +165,14 @@ class Item:
         return result
 
     @staticmethod
-    def search_for_by_tag_id_with_common_instance(mongo: PyMongo, tag_id: ObjectId) -> List[Item]:
-        result = Item.search_for_by_tag_id(mongo, tag_id)
+    def search_for_by_tag_with_common_instance(mongo: PyMongo, tag_ref: Union[Tag, TagReference]) -> List[Item]:
+        if isinstance(tag_ref, Tag):
+            tag_ref = TagReference(tag_ref)
 
-        instances = mongo.db.instances.find({"$or": [{"tags": {"$elemMatch": {"tag_id": tag_id}}},
-                                                     {"implied_tags": {"$elemMatch": {"tag_id": tag_id}}}]})
+        result = Item.search_for_by_tag(mongo, tag_ref)
+
+        instances = mongo.db.instances.find({"$or": [{"tags": {"$elemMatch": {"$eq": tag_ref.tag_id}}},
+                                                     {"implied_tags": {"$elemMatch": {"$eq": tag_ref.tag_id}}}]})
         instances = [Instance.from_dict(i) for i in instances]
         instance_item_ids = [i.item_id for i in instances]
 
@@ -244,8 +202,6 @@ class Item:
             return []
 
         return [Item.from_dict(i) for i in result]
-        
-
 
 
 class Instance:
@@ -272,8 +228,8 @@ class Instance:
         result = {
             "item_id": self.item_id,
             "attributes": self.attributes,
-            "tags": [t.to_dict() for t in self.tags],
-            "implied_tags": [t.to_dict() for t in self.implied_tags]
+            "tags": [t.tag_id for t in self.tags],
+            "implied_tags": [t.tag_id for t in self.implied_tags]
         }
         if self.id is not None:
             result["_id"] = self.id
@@ -296,10 +252,10 @@ class Instance:
             cls.attributes = value_dict["attributes"]
 
         if "tags" in value_dict and value_dict["tags"] is not None:
-            cls.tags = [TagReference.from_dict(t) for t in value_dict["tags"]]
+            cls.tags = [TagReference(t) for t in value_dict["tags"]]
 
         if "implied_tags" in value_dict and value_dict["implied_tags"] is not None:
-            cls.implied_tags = [TagReference.from_dict(t) for t in value_dict["implied_tags"]]
+            cls.implied_tags = [TagReference(t) for t in value_dict["implied_tags"]]
 
         return cls
 
@@ -337,26 +293,7 @@ class Instance:
         relation_options = mongo.db.relation_options.find({"_id": {"$in": [r.option_id for r in relations]}})
         relation_options = [RelationOption.from_dict(r) for r in relation_options]
 
-        relation_implied: Dict[ObjectId, Dict[int, TagParameterImpl]] = {}
-
-        for ro in relation_options:
-            for implied in ro.implies:
-                if implied.implied_id not in relation_implied:
-                    relation_implied[implied.implied_id] = {}
-
-                for para in implied.parameters:
-                    relation_implied[implied.implied_id][para.index] = para
-
-        for r in relations:
-            for implied in r.implies:
-                if implied.implied_id not in relation_implied:
-                    relation_implied[implied.implied_id] = {}
-
-                for para in implied.parameters:
-                    relation_implied[implied.implied_id][para.index] = para
-
-        self.implied_tags = [TagReference(implied_id, [p for p in parameters.values()]) for implied_id, parameters in
-                             relation_implied.items()]
+        self.implied_tags = [implied for option in relation_options for implied in option.implies]
 
         # traverse implication DAG
         to_search = set(t.tag_id for t in self.tags).union(t.tag_id for t in self.implied_tags)
@@ -372,10 +309,10 @@ class Instance:
 
             for tag in tags:
                 for implied in tag.implies:
-                    if implied.implied_id not in searched:
-                        searched.add(implied.implied_id)
-                        to_search.add(implied.implied_id)
-                        self.implied_tags.append(TagReference(implied.implied_id, implied.parameters))
+                    if implied.tag_id not in searched:
+                        searched.add(implied.tag_id)
+                        to_search.add(implied.tag_id)
+                        self.implied_tags.append(implied)
 
         self.write_to_db(mongo)
 
@@ -394,9 +331,12 @@ class Instance:
         return [Instance.from_dict(i) for i in result]
 
     @staticmethod
-    def search_for_by_tag_id(mongo: PyMongo, tag_id: ObjectId) -> List[Instance]:
-        result = mongo.db.instances.find({"$or": [{"tags": {"$elemMatch": {"tag_id": tag_id}}},
-                                                  {"implied_tags": {"$elemMatch": {"tag_id": tag_id}}}]})
+    def search_for_by_tag(mongo: PyMongo, tag_ref: Union[Tag, TagReference]) -> List[Instance]:
+        if isinstance(tag_ref, Tag):
+            tag_ref = TagReference(tag_ref)
+
+        result = mongo.db.instances.find({"$or": [{"tags": {"$elemMatch": {"$eq": tag_ref.tag_id}}},
+                                                  {"implied_tags": {"$elemMatch": {"$eq": tag_ref.tag_id}}}]})
         if result is None:
             return []
 
