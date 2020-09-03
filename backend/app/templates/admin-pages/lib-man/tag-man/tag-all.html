@@ -1,0 +1,52 @@
+{% extends "admin-layout.html" %}
+
+{% import "bootstrap/wtf.html" as wtf %}
+{% block body %}
+
+{% for tag in tags_collection.find() %}
+{{ tag['name'] }}
+<p> Accepted parameters: </p>
+{% for parameter in tag['parameters'] %}
+{{ parameter['type'] }}
+
+{% if parameter['min_value'] %}
+<p>Min value: </p>
+{{ parameter['min_value']}}
+{% endif %}
+
+{% if parameter['max_value'] %}
+<p>Max value: </p>
+{{ parameter['max_value']}}
+{% endif %}
+
+<p>Implied tags:</p>
+{% for tag in tag['implies']%}
+{{ tag }}
+{% endfor %}
+{% endfor %}
+
+<form action="{{ url_for('tag_edit_param', tag_name = tag['name']) }}">
+    <button type="button m-2" class="btn btn-outline-dark shadow-sm" >
+        Add parameter                  
+    </button>
+</form>
+<form action="{{ url_for('tag_edit_impl', tag_name = tag['name']) }}">
+    <button type="button m-2" class="btn btn-outline-dark shadow-sm" >
+        Edit implications               
+    </button>
+</form>
+
+<form action="{{ url_for('tag_delete', tag_name = tag['name']) }}">
+    <button type="button m-2" class="btn btn-outline-dark shadow-sm" >
+        Delete                        
+    </button>
+</form>
+<hr>
+<br>
+{% endfor %}
+<form action="{{ url_for('tag_create') }}">
+    <button type="button m-2" class="btn btn-outline-dark shadow-sm" >
+        Add a new tag                        
+    </button>
+</form>
+{% endblock %}

@@ -71,6 +71,14 @@ class Item:
             result["_id"] = self.id
 
         return result
+    
+    def remove_tag(tag: TagReference):
+        if tag in self.tags:
+            self.tags.remove(tag)
+            return True
+        else:
+            return False
+
 
     @staticmethod
     def from_dict(value_dict: Dict) -> Item:
@@ -236,6 +244,8 @@ class Item:
             return []
 
         return [Item.from_dict(i) for i in result]
+        
+
 
 
 class Instance:

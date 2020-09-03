@@ -9,7 +9,7 @@
         integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <script type="text/javascript" src="http://code.jquery.com/jquery-1.7.1.min.js"></script>
     <link rel="stylesheet" href="{{ url_for('static', filename='admin-styles.css') }}">
-    <script src="myscripts.js"></script>
+    <script src="{{ url_for('static', filename='myscripts.js') }}"></script>
     {% endblock %}
     <title>{%block title%}{%endblock%}</title>
 </head>
@@ -27,12 +27,13 @@
     </div>
     <div class="nav-scroller bg-light shadow-sm">
         <nav class="nav nav-underline justify-content-center">
-            <a class="nav-link" href="#">Home</a>
-            <a class="nav-link " href="#">Users</a>
-            <a class="nav-link" href="#">Library</a>
-            <a class="nav-link" href="#">Webcam</a>
-            <a class="nav-link" href="#">Events</a>
-            <a class="nav-link" href="#">Logout</a>
+            <a class="nav-link" href="{{ url_for('admin') }}">Home</a>
+            <a class="nav-link " href="{{ url_for('admin') }}">Users</a>
+            <a class="nav-link" href="{{ url_for('lib') }}">Library</a>
+            <a class="nav-link" href="{{ url_for('tag_all') }}">Tags</a>
+            <a class="nav-link" href="{{ url_for('all_attributes') }}">Attributes</a>
+            <a class="nav-link" href="{{ url_for('events') }}">Events</a>
+            <a class="nav-link" href="{{ url_for('admin') }}">Logout</a>
 
         </nav>
     </div>
@@ -41,10 +42,13 @@
     {% block body %}
     {% endblock%}
 
+    <!--    Buggy footer
     <footer class="footer font-small mt-auto bg-light">
         <div class="footer-copyright text-center py-3">© Unigames Gaming Club
         </div>
     </footer>
+    -->
+
 </body>
 
 </html>
