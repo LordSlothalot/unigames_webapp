@@ -34,7 +34,7 @@ class Tag:
 
     def to_dict(self) -> Dict:
         result = {
-            "name": self.name,
+            "name": self.name.lower(),
             "implies": [i.tag_id for i in self.implies]
         }
         if self.id is not None:
@@ -87,7 +87,7 @@ class Tag:
 
     @staticmethod
     def search_for_by_name(mongo: PyMongo, name: str) -> Optional[Tag]:
-        result = mongo.db.tags.find_one({"name": name})
+        result = mongo.db.tags.find_one({"name": name.lower()})
         if result is None:
             return None
         return Tag.from_dict(result)

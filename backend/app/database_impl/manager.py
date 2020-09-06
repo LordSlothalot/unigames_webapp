@@ -13,6 +13,7 @@ from app.database_impl.relations import RelationOption, Relation
 from app.database_impl.roles import Role, Permissions
 from app.database_impl.tags import Tag, TagReference
 from app.database_impl.users import User
+from app.search_parser import search_string_to_mongodb_query
 
 
 class DatabaseManager:
@@ -115,22 +116,6 @@ class DatabaseManager:
             item_description_attrib = AttributeOption("description", AttributeTypes.MultiLineString)
             item_description_attrib.write_to_db(self.mongo)
 
-        # search for item by its name attribute
-        bob_book_item = Item.search_for_by_attribute(self.mongo, item_name_attrib, "Bob's Grand Adventure")
-        # create a new item if no search result returned
-        if not bob_book_item:
-            bob_book_item = Item({"name": "Bob's Grand Adventure", "author": "Mingchuan Tian"},
-                                 [TagReference(book_tag), TagReference(players_tag_3), TagReference(players_tag_4),
-                                  TagReference(players_tag_5)])
-            bob_book_item.write_to_db(self.mongo)
-        else:
-            bob_book_item = bob_book_item[0]
-
-        # recalculates all implied tags for the item
-        bob_book_item.recalculate_implied_tags(self.mongo)
-
-        print("Multiplayer items: " + str(Item.search_for_by_tag(self.mongo, multiplayer_tag)))
-
         # search for the uuid attribute
         instance_uuid_attrib = AttributeOption.search_for_by_name(self.mongo, "uuid")
         # if none returned, create a new uuid attribute
@@ -145,37 +130,27 @@ class DatabaseManager:
             instance_damage_report_attrib = AttributeOption("Damage Report", AttributeTypes.MultiLineString)
             instance_damage_report_attrib.write_to_db(self.mongo)
 
-        # search for an instance with uuid 1093..
-        bob_book_instance_1 = Instance.search_for_by_attribute(self.mongo, instance_uuid_attrib, "109358180")
-        # if none returned, create a new instance with further info
-        if not bob_book_instance_1:
-            bob_book_instance_1 = Instance(bob_book_item.id, {"uuid": "109358180",
-                                                              "Damage Report": "(4/5/2017): Page 57 has a small section of the top right corner torn off, no text missing, still serviceable"},
-                                           [TagReference(damaged_tag)])
-            bob_book_instance_1.write_to_db(self.mongo)
+        # search for item by its name attribute
+        bob_book_item = Item.search_for_by_attribute(self.mongo, item_name_attrib, "Bob's Grand Adventure")
+        # create a new item if no search result returned
+        if not bob_book_item:
+            bob_book_item = Item({"name": "Bob's Grand Adventure", "author": "Mingchuan Tian"},
+                                 [
+                                     TagReference(book_tag), TagReference(players_tag_3), TagReference(players_tag_4),
+                                     TagReference(players_tag_5)
+                                 ], [])
+
+            bob_book_item.instances.append(Instance({"uuid": "109358180",
+                                                     "Damage Report": "(4/5/2017): Page 57 has a small section of the top right corner torn off, no text missing, still serviceable"},
+                                                    [TagReference(damaged_tag)]))
+            bob_book_item.instances.append(Instance({"uuid": "109358181"}, []))
+
+            bob_book_item.write_to_db(self.mongo)
         else:
-            bob_book_instance_1 = bob_book_instance_1[0]
+            bob_book_item = bob_book_item[0]
 
-        # recalculate implied tags for instance
-        bob_book_instance_1.recalculate_implied_tags(self.mongo)
-
-        # search for a damaged item
-        print("Damaged items /w Instance: " + str(Item.search_for_by_tag_with_instance(self.mongo, damaged_tag)))
-        print("Damaged items /w Common Instance: " + str(
-            Item.search_for_by_tag_with_common_instance(self.mongo, damaged_tag)))
-
-        bob_book_instance_2 = Instance.search_for_by_attribute(self.mongo, instance_uuid_attrib, "109358181")
-        if not bob_book_instance_2:
-            bob_book_instance_2 = Instance(bob_book_item.id, {"uuid": "109358181"}, [])
-            bob_book_instance_2.write_to_db(self.mongo)
-        else:
-            bob_book_instance_2 = bob_book_instance_2[0]
-
-        bob_book_instance_2.recalculate_implied_tags(self.mongo)
-
-        print("Damaged items /w Instance: " + str(Item.search_for_by_tag_with_instance(self.mongo, damaged_tag)))
-        print("Damaged items /w Common Instance: " + str(
-            Item.search_for_by_tag_with_common_instance(self.mongo, damaged_tag)))
+        # recalculates all implied tags for the item and instances
+        bob_book_item.recalculate_implied_tags(self.mongo, True)
 
         everyone_role = Role.search_for_by_name(self.mongo, "everyone")
         if everyone_role is None:  # -1 is overridden by everything, an 'everyone' is required for sake of a default
@@ -197,14 +172,38 @@ class DatabaseManager:
             matthew_user = User("Matthew", [admin_role.id])
             matthew_user.write_to_db(self.mongo)
 
-        matthew_bob_borrow_relation = Relation.search_for_by_instance_id(self.mongo, bob_book_instance_2.id)
+        inst_0_id = [inst for inst in bob_book_item.instances if inst.attributes["uuid"] == "109358180"][0].id
+        inst_1_id = [inst for inst in bob_book_item.instances if inst.attributes["uuid"] == "109358181"][0].id
+
+        matthew_bob_borrow_relation = Relation.search_for_by_instance_id(self.mongo, inst_1_id)
         if not matthew_bob_borrow_relation:
-            matthew_bob_borrow_relation = Relation.new_instance(matthew_user.id, borrowing_item_relation.id,
-                                                                bob_book_instance_2.id)
+            matthew_bob_borrow_relation = Relation.new_instance(matthew_user.id, borrowing_item_relation.id, inst_1_id)
             matthew_bob_borrow_relation.write_to_db(self.mongo)
         else:
             matthew_bob_borrow_relation = matthew_bob_borrow_relation[0]
 
-        bob_book_instance_1.recalculate_implied_tags(self.mongo)
-        bob_book_instance_2.recalculate_implied_tags(self.mongo)
-        bob_book_item.recalculate_implied_tags(self.mongo)
+        bob_book_item.recalculate_implied_tags(self.mongo, True)
+
+        # print("Search 'book, players: 4': " + str(search_string_to_mongodb_query(self.mongo, "book, players: 4")))
+        # print("Search 'book, players: (4)': " + str(search_string_to_mongodb_query(self.mongo, "book, players: (4)")))
+        # print("Search 'book, players: (4), test': " + str(search_string_to_mongodb_query(self.mongo, "book, players: (4), test")))
+        # print("Search '(interesting), book, players: (4), test': " + str(search_string_to_mongodb_query(self.mongo, "(interesting), book, players: (4), test")))
+        # print("Search '(help)': " + str(search_string_to_mongodb_query(self.mongo, "(help)")))
+        # print("Search 'book, players - 4': " + str(search_string_to_mongodb_query(self.mongo, "book, players - 4")))
+        # print("Search 'book, {players: (4)}': " + str(search_string_to_mongodb_query(self.mongo, "book, {players: (4)}")))
+        # print("Search 'book, players: 4, -borrowed out': " + str(search_string_to_mongodb_query(self.mongo, "book, players: 4, -borrowed out")))
+        # print("Search 'book, players: 4 ::or -borrowed out': " + str(search_string_to_mongodb_query(self.mongo, "book, players: 4 ::or -borrowed out")))
+        # print("Search 'book, (players: 4 ::or -borrowed out)': " + str(search_string_to_mongodb_query(self.mongo, "book, (players: 4 ::or -borrowed out)")))
+        # print("Search 'book, players: 4, -borrowed out, ::name::contains::Bob': " + str(search_string_to_mongodb_query(self.mongo, "book, players: 4, -borrowed out, ::name::contains::Bob")))
+        # print("Search 'book, players: 4, -borrowed out, ::has::author': " + str(search_string_to_mongodb_query(self.mongo, "book, players: 4, -borrowed out, ::has::author")))
+        # print("Search 'book, players: 4, -borrowed out, -::has::author': " + str(search_string_to_mongodb_query(self.mongo, "book, players: 4, -borrowed out, -::has::author")))
+        #
+        # print("Search 'book, players: 4, -borrowed out, -::instance::damaged, ::has::author, ::name::contains::Bob': " + str(search_string_to_mongodb_query(self.mongo, "book, players: 4, -borrowed out, -::instance::damaged, ::has::author, ::name::contains::Bob")))
+        # print("Search 'book, players: 4, -borrowed out, ::instance::damaged, ::has::author, ::name::contains::Bob': " + str(search_string_to_mongodb_query(self.mongo, "book, players: 4, -borrowed out, ::instance::damaged, ::has::author, ::name::contains::Bob")))
+        # print("Search 'book, players: 4, -borrowed out, ::instance::uuid::equals::109358181, ::has::author, ::name::contains::Bob': " + str(search_string_to_mongodb_query(self.mongo, "book, players: 4, -borrowed out, ::instance::uuid::equals::109358181, ::has::author, ::name::contains::Bob")))
+        # print("Search 'book, players: 4, -borrowed out, ::instance::uuid::equals::109358182, ::has::author, ::name::contains::Bob': " + str(search_string_to_mongodb_query(self.mongo, "book, players: 4, -borrowed out, ::instance::uuid::equals::109358182, ::has::author, ::name::contains::Bob")))
+        # print("Search 'book, players: 4, -borrowed out, -::instance::uuid::equals::109358181, ::has::author, ::name::contains::Bob': " + str(search_string_to_mongodb_query(self.mongo, "book, players: 4, -borrowed out, -::instance::uuid::equals::109358181, ::has::author, ::name::contains::Bob")))
+        #
+        # print("Search 'book, players: 4, borrowed out, players: 3, players: 5': " + str(search_string_to_mongodb_query(self.mongo, "book, players: 4, borrowed out, players: 3, players: 5")))
+        # print("Search 'book, players: 4, -borrowed out, players: 3, players: 5': " + str(search_string_to_mongodb_query(self.mongo, "book, players: 4, -borrowed out, players: 3, players: 5")))
+        # print("Search 'players: 3, -book, players: 4': " + str(search_string_to_mongodb_query(self.mongo, "players: 3, -book, players: 4")))
