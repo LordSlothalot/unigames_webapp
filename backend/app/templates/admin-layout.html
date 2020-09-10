@@ -27,12 +27,12 @@
     </div>
     <div class="nav-scroller bg-light shadow-sm">
         <nav class="nav nav-underline justify-content-center">
-            <a class="nav-link" href="#">Home</a>
-            <a class="nav-link " href="#">Users</a>
+            <a class="nav-link" href={{ url_for('admin') }}>Home</a>
+            <a class="nav-link" href={{ url_for('adminusers') }}>Users</a>
             <a class="nav-link" href="#">Library</a>
             <a class="nav-link" href="#">Webcam</a>
             <a class="nav-link" href="#">Events</a>
-            <a class="nav-link" href="#">Logout</a>
+            <a class="nav-link" href={{ url_for('logout') }}>Logout</a>
 
         </nav>
     </div>

@@ -1,11 +1,14 @@
 from app import app, mongo, login_manager
 from flask import Flask, render_template, url_for, redirect, request, flash
-from app.forms import LoginForm, RegistrationForm
+from app.forms import LoginForm, RegistrationForm, UpdateForm
 from app.user_models import User
 from flask_pymongo import PyMongo
 from flask_login import LoginManager, current_user, login_user, logout_user, login_required
 from werkzeug.security import generate_password_hash
 from functools import wraps
+from app.tables import UserTable
+from bson.objectid import ObjectId
+
 
 
 #-------------------------------------------
@@ -125,9 +128,38 @@ def login_required(role="ANY"):
 @app.route('/admin')
 @login_required(role="Admin")
 def admin():
-    name = current_user.first_name
+	
+	return render_template('admin-pages/home.html')
+	
+@app.route('/admin/users', methods=['GET', 'POST'])
+@login_required(role="Admin")
+def adminusers():
+	items = mongo.db.Users.find()
+	table = UserTable(items)
+	table.border = True
+	return render_template('admin-pages/users.html', table=table)
+	
+@app.route('/admin/users/<string:id>', methods=['GET', 'POST'])
+def edit(id):
+    searcheduser = mongo.db.Users.find_one({'_id': id})
 
-    return render_template('admin-pages/home.html', name=name)
+    if searcheduser:
+        form = UpdateForm(**searcheduser)
+        name = searcheduser['first_name']
+        if request.method == 'POST' and form.validate():
+            mongo.db.Users.update_one({"_id": id},
+                  { "$set": {
+                             "first_name": form.first_name.data,
+                              "last_name": form.last_name.data,
+                              "email": form.email.data,
+                              "role": form.role.data,
+                             }
+                 })
+            flash('User updated successfully!')
+            return redirect('/admin/users')
+        return render_template('admin-pages/edit.html', form=form, name=name)
+    else:
+        return 'Error loading #{id}'.format(id=id)
 
 @app.route('/admin/lib')
 def lib():

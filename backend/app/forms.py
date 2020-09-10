@@ -23,3 +23,10 @@ class RegistrationForm(FlaskForm):
 
     # def validate_username(self, username):
     #     User.objects()
+	
+class UpdateForm(FlaskForm):
+    first_name = TextField('First Name', validators = [DataRequired()])
+    last_name = TextField('Last Name', validators = [DataRequired()])
+    email = EmailField('Email', validators = [DataRequired(), Email()])
+    role = TextField('Role', validators = [DataRequired()])
+    submit = SubmitField('Update')
