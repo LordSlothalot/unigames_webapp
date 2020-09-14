@@ -45,9 +45,7 @@ class addInstanceForm(FlaskForm):
 
 #create a tag form
 class createTagForm(FlaskForm):
-    name = StringField('Tag name', [validators.DataRequired()])
-    #select_parent = SelectField('Select its parent tag', choices=[(tag['name'], tag['name']) for tag in all_tags4 ] )
-    select_child = SelectField('Select its child tag', choices=[(tag['name'], tag['name']) for tag in all_tags5])
+    name = StringField('New tag', [validators.DataRequired()])
     #paramValue = StringField('Tag paramter value (corresponds with the parameter type above)')
     submit = SubmitField('Add')
 
@@ -65,8 +63,8 @@ class addTagParamForm(FlaskForm):
 
 #add tag's implications form
 class addTagImplForm(FlaskForm):
-    select_child = SelectField('Select its child tag', choices=[(tag['name'], tag['name']) for tag in all_tags6])
-    submit = SubmitField('Add implication rule')
+    select_child = SelectField('Select its child tag')
+    submit = SubmitField('Add implied tag')
 
 #add attribute to an item form
 class addAttribForm(FlaskForm):

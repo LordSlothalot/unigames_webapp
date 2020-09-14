@@ -3,50 +3,99 @@
 {% import "bootstrap/wtf.html" as wtf %}
 {% block body %}
 
-{% for tag in tags_collection.find() %}
-{{ tag['name'] }}
-<p> Accepted parameters: </p>
-{% for parameter in tag['parameters'] %}
-{{ parameter['type'] }}
-
-{% if parameter['min_value'] %}
-<p>Min value: </p>
-{{ parameter['min_value']}}
-{% endif %}
-
-{% if parameter['max_value'] %}
-<p>Max value: </p>
-{{ parameter['max_value']}}
-{% endif %}
-
-<p>Implied tags:</p>
-{% for tag in tag['implies']%}
-{{ tag }}
-{% endfor %}
-{% endfor %}
-
-<form action="{{ url_for('tag_edit_param', tag_name = tag['name']) }}">
-    <button type="button m-2" class="btn btn-outline-dark shadow-sm" >
-        Add acceptable param type               
-    </button>
-</form>
-<form action="{{ url_for('tag_edit_impl', tag_name = tag['name']) }}">
-    <button type="button m-2" class="btn btn-outline-dark shadow-sm" >
-        Edit implications               
-    </button>
-</form>
-
-<form action="{{ url_for('tag_delete', tag_name = tag['name']) }}">
-    <button type="button m-2" class="btn btn-outline-dark shadow-sm" >
-        Delete                        
-    </button>
-</form>
+<div class="pb-3 text-center">
+    <br>
+    <h3>Tag Management</h3>
+</div>
+<h4>All Tags</h4>
 <hr>
-<br>
+<div class="container">
+    <div class="row">
+        <div class="col-sm text-center">
+
+
+            <div class="row">
+                <div class="col-sm text-center">
+                    <button type="button" style="margin-bottom: 7px; margin-right: 5px;"
+                        class="btn btn-outline-dark shadow-sm">Condition: As New <span
+                            aria-hidden="true">×</span></button>
+                    {% for tag in tags_collection.find() %}
+                    <form action="{{ url_for('tag_delete', tag_name = tag['name']) }}" style="display:inline">
+                        <button type="button m-2" style="margin-bottom: 7px; margin-right: 5px;"
+                        class="btn btn-outline-dark shadow-sm"> {{ tag['name'] }} <span aria-hidden="true">×</span></button>
+                    </form>
+
+                    {% endfor %}
+
+                </div>
+            </div>
+            <div class="row mb-2">
+                <div class="col-sm-4"></div>
+                <div class="col-sm-4 text-center">
+                    <form action="{{ url_for('tag_create') }}" method="post">
+                        {{ create_tag_form.hidden_tag() }}
+                        {{ create_tag_form.name }}
+                        {{ create_tag_form.submit }}
+                    </form>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="pb-5"></div>
+<h4>Rules</h4>
+<hr>
+
+{% for tag in tags_collection.find() %}
+{% if tag['implies'] %}
+<div class="container">
+    <div class="row mb-3">
+        <div class="col-sm text-center">
+            <button type="button" class="btn btn-outline-dark shadow-sm">{{ tag['name'] }}</button>
+        </div>
+    </div>
+    <div class="row mb-3">
+        <div class="col-sm text-center">
+            {% for implied_id in tag['implies'] %}
+            <button type="button" class="btn btn-outline-dark shadow-sm">
+                {% for tag in tags_collection.find( {"_id": implied_id}) %}
+                    {{ tag['name'] }}
+                {% endfor %}
+            </button>
+
+            {% endfor %}
+
+            <form action="{{ url_for('implication_add', tag_name=tag['name'], cur_child=tag['implies']) }}" method="post">
+                {{ add_implication_form.hidden_tag() }}
+                {{ add_implication_form.select_child }}
+                {{ add_implication_form.submit }}
+            </form>
+        </div>
+    </div>
+    <div class="row mb-3">
+        <div class="col-sm text-center">
+            <form action="{{ url_for('implication_delete', tag_name=tag['name']) }}" >
+                <button type="button m-2" class="btn btn-danger shadow-sm">Delete implication<span aria-hidden="true">×</span></button>
+            </form>
+        </div>
+    </div>
+</div>
+<hr>
+{% endif %}
 {% endfor %}
-<form action="{{ url_for('tag_create') }}">
-    <button type="button m-2" class="btn btn-outline-dark shadow-sm" >
-        Add a new tag                        
-    </button>
-</form>
+
+    <hr>
+    <div class="container">
+
+        <div class="row mb-5">
+            <div class="col-sm text-center">
+                <button type="button" class="btn btn-primary shadow-sm">Add new rule </button>
+            </div>
+        </div>
+    </div>
+
+
+</div>
+
 {% endblock %}
