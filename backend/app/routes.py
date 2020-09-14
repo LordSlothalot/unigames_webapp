@@ -6,7 +6,7 @@ from app.database_impl.attrib_options import AttributeOption, AttributeTypes
 from app.database_impl.items_instances import Item, Instance
 from app.database_impl.tags import Tag, TagReference
 from app.forms import LoginForm, newEntryForm, addTagForm, addInstanceForm, createTagForm, addTagImplForm, \
-    addAttribForm, updateAttribForm, createAttribForm
+    addAttribForm, updateAttribForm, createAttribForm, addRuleForm
 
 # -------------------------------------------
 #     User pages
@@ -97,9 +97,18 @@ def lib():
 def lib_edit(item_id):
     item = Item.from_dict(db_manager.mongo.db.items.find({"_id": ObjectId(item_id)})[0])
     attributes = item.attributes
-    instances = Instance.search_for_by_item(db_manager.mongo, ObjectId(item_id))
 
-    return render_template('admin-pages/lib-man/lib-edit.html', attributes=attributes, instances=instances, item=item,
+    form = addTagForm()
+    form.selection.choices=[(tag['name'], tag['name']) for tag in db_manager.mongo.db.tags.find()]
+    if form.validate_on_submit():
+        tag_to_attach = Tag.search_for_by_name(db_manager.mongo, form.selection.data)
+        for tag_ref in item.tags:
+            if str(tag_ref.tag_id) == str(tag_to_attach.id):
+                return 'this tag already attached to the item!'
+        item.tags.append(TagReference(tag_to_attach))
+        item.write_to_db(db_manager.mongo)
+
+    return render_template('admin-pages/lib-man/lib-edit.html', attributes=attributes, form=form, item=item,
                            Tag=Tag, tags_collection=tags_collection)
 
 
@@ -203,17 +212,22 @@ def lib_delete(item_id):
 @app.route('/admin/lib-man/tag-man/tag-all', methods=['GET', 'POST'])
 def tag_all():
     #all_relations = db_manager.mongo.db.relation_options
-    all_tags = db_manager.mongo.db.tags.find()
     create_tag_form = createTagForm()
     add_implication_form = addTagImplForm()
-    add_implication_form.select_child.choices=[(tag['name'], tag['name']) for tag in all_tags]
-    return render_template('admin-pages/lib-man/tag-man/tag-all.html', create_tag_form=create_tag_form, add_implication_form=add_implication_form, tags_collection=tags_collection)
+    add_implication_form.select_child.choices=[(tag['name'], tag['name']) for tag in db_manager.mongo.db.tags.find()]
+    add_rule_form = addRuleForm()
+    add_rule_form.parent.choices=[(tag['name'], tag['name']) for tag in db_manager.mongo.db.tags.find()]
+    add_rule_form.child.choices=[(tag['name'], tag['name']) for tag in db_manager.mongo.db.tags.find()]
+    return render_template('admin-pages/lib-man/tag-man/tag-all.html', create_tag_form=create_tag_form, add_rule_form=add_rule_form, add_implication_form=add_implication_form, tags_collection=tags_collection)
 
 @app.route('/admin/lib-man/tag-man/tag-create', methods=['GET', 'POST'])
 def tag_create():
-    print("create tag")
     create_tag_form = createTagForm()
     add_implication_form = addTagImplForm()
+    add_implication_form.select_child.choices=[(tag['name'], tag['name']) for tag in db_manager.mongo.db.tags.find()]
+    add_rule_form = addRuleForm()
+    add_rule_form.parent.choices=[(tag['name'], tag['name']) for tag in db_manager.mongo.db.tags.find()]
+    add_rule_form.child.choices=[(tag['name'], tag['name']) for tag in db_manager.mongo.db.tags.find()]
     if create_tag_form.validate_on_submit():
         tag_exists = Tag.search_for_by_name(db_manager.mongo, create_tag_form.name.data)
         if tag_exists is None:
@@ -222,7 +236,7 @@ def tag_create():
             return redirect(url_for('tag_all'))
         else:
             return 'the tag already exists'
-    return render_template('admin-pages/lib-man/tag-man/tag-all.html', create_tag_form=create_tag_form, add_implication_form=add_implication_form, tags_collection=tags_collection)
+    return render_template('admin-pages/lib-man/tag-man/tag-all.html', create_tag_form=create_tag_form, add_rule_form=add_rule_form, add_implication_form=add_implication_form, tags_collection=tags_collection)
 
 # Function for deleting the tag (not removing it from the item)
 @app.route('/admin/lib-man/tag-man/tag-delete/<tag_name>')
@@ -239,13 +253,15 @@ def tag_delete(tag_name):
                 implication_dropped += 1        # need to add user notification
     return redirect(url_for('tag_all'))
 
-#Function for adding an implicaiton rule
+#Function for adding an implicaiton to a tag
 @app.route('/admin/lib-man/tag-man/implication-add/<tag_name>/<cur_child>', methods=['GET', 'POST'])
 def implication_add(tag_name, cur_child):
-    all_tags = db_manager.mongo.db.tags.find()
     create_tag_form = createTagForm()
     add_implication_form = addTagImplForm()
-    add_implication_form.select_child.choices=[(tag['name'], tag['name']) for tag in all_tags]
+    add_implication_form.select_child.choices=[(tag['name'], tag['name']) for tag in db_manager.mongo.db.tags.find()]
+    add_rule_form = addRuleForm()
+    add_rule_form.parent.choices=[(tag['name'], tag['name']) for tag in db_manager.mongo.db.tags.find()]
+    add_rule_form.child.choices=[(tag['name'], tag['name']) for tag in db_manager.mongo.db.tags.find()]
     parent_tag = Tag.search_for_by_name(db_manager.mongo, tag_name)
     child_tag = Tag.search_for_by_name(db_manager.mongo, add_implication_form.select_child.data)
 
@@ -259,14 +275,37 @@ def implication_add(tag_name, cur_child):
             parent_tag.implies.append(tag_ref)
             parent_tag.write_to_db(db_manager.mongo)
             return redirect(url_for('tag_all'))
-    return render_template('admin-pages/lib-man/tag-man/tag-all.html', create_tag_form=create_tag_form, add_implication_form=add_implication_form, tags_collection=tags_collection)
+    return render_template('admin-pages/lib-man/tag-man/tag-all.html', create_tag_form=create_tag_form, add_rule_form=add_rule_form, add_implication_form=add_implication_form, tags_collection=tags_collection)
 
-@app.route('/admin/lib-man/tag-man/implication-delete/<tag_name>')
-def implication_delete(tag_name):
+#Funciton for adding an implication rule
+@app.route('/admin/lib-man/tag-man/rule-add', methods=['GET', 'POST'])
+def rule_add():
+    create_tag_form = createTagForm()
+    add_implication_form = addTagImplForm()
+    add_implication_form.select_child.choices=[(tag['name'], tag['name']) for tag in db_manager.mongo.db.tags.find()]
+    add_rule_form = addRuleForm()
+    add_rule_form.parent.choices=[(tag['name'], tag['name']) for tag in db_manager.mongo.db.tags.find()]
+    add_rule_form.child.choices=[(tag['name'], tag['name']) for tag in db_manager.mongo.db.tags.find()]
+    if add_rule_form.validate_on_submit():
+        parent_tag = Tag.search_for_by_name(db_manager.mongo, add_rule_form.parent.data)
+        child_tag  = Tag.search_for_by_name(db_manager.mongo, add_rule_form.child.data)
+        if add_rule_form.parent.data == add_rule_form.child.data:
+            return 'A tag cannot refer to itself'
+        if parent_tag.implies:
+            return 'This parent tag already exists'
+        parent_tag.implies.append(TagReference(child_tag))
+        parent_tag.write_to_db(db_manager.mongo)
+        return redirect(url_for('tag_all'))
+    return render_template('admin-pages/lib-man/tag-man/tag-all.html', create_tag_form=create_tag_form, add_rule_form=add_rule_form, add_implication_form=add_implication_form, tags_collection=tags_collection)
+
+#Funciton for deleting an implication rule
+@app.route('/admin/lib-man/tag-man/rule-delete/<tag_name>')
+def rule_delete(tag_name):
     tag = Tag.search_for_by_name(db_manager.mongo, tag_name)
     tag.implies = []
     tag.write_to_db(db_manager.mongo)
     return redirect(url_for('tag_all'))
+
 
 
 @app.route('/admin/lib-man/tag-add/<item_id>', methods=['GET', 'POST'])

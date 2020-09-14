@@ -33,7 +33,7 @@ class newEntryForm(FlaskForm):
 
 #add a tag form
 class addTagForm(FlaskForm):
-    selection = SelectField('Add a tag', choices=[(tag['name'], tag['name']) for tag in all_tags2])
+    selection = SelectField('Add a tag')
     submit = SubmitField('Save')
 
 #add an instance form
@@ -82,3 +82,9 @@ class createAttribForm(FlaskForm):
     attrib_name = StringField('New attribute name')
     attrib_type = SelectField('Select attribute type', choices=[('Single-line string', 'Single-line string'), ('Multi-line string', 'Multi-line string'), ('Integer', 'Integer')])
     submit = SubmitField('Create')
+
+#add an implication rul
+class addRuleForm(FlaskForm):
+    parent = SelectField('Parent tag')
+    child = SelectField('Child tag')
+    submit = SubmitField('Add new rule')
