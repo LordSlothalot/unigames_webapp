@@ -190,6 +190,12 @@ def lib_add():
             return 'the item already exists'
     return render_template('admin-pages/lib-man/lib-add.html', form=form)
 
+@app.route('/admin/lib-man/lib-delete/<item_id>')
+def lib_delete(item_id):
+    item = Item.from_dict(db_manager.mongo.db.items.find({"_id" : ObjectId(item_id)})[0])
+    item.delete_from_db(db_manager.mongo)
+    return redirect(url_for('lib'))
+
 
 @app.route('/admin/lib-man/tag-man/tag-all', methods=['GET', 'POST'])
 def tag_all():
