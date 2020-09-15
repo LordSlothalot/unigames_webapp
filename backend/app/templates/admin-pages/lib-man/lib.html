@@ -56,7 +56,7 @@
                                 <td>{{ item['attributes']['author'] }}</td>
                                 <td> 
                                     {% for tags in item['tags'] %}
-                                        {% for found_tag in tags_collection.find( {"_id": tags['tag_id']} ) %}
+                                        {% for found_tag in tags_collection.find( {"_id": tags} ) %}
                                                 {{ found_tag['name']}}
                                         {% endfor %}
                                     {% endfor %}

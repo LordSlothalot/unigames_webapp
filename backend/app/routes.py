@@ -202,7 +202,7 @@ def tag_create():
     if form.validate_on_submit():
         tag_exists = Tag.search_for_by_name(db_manager.mongo, form.name.data)
         if tag_exists is None:
-            new_tag = Tag(form.name.data, [], [])
+            new_tag = Tag(form.name.data, [])
             new_tag.write_to_db(db_manager.mongo)
             return 'tag created'
         else:
