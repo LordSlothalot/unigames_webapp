@@ -146,20 +146,24 @@ def edit(id):
     if searcheduser:
         form = UpdateForm(**searcheduser)
         name = searcheduser['first_name']
-        if request.method == 'POST' and form.validate():
-            mongo.db.Users.update_one({"_id": id},
+        if form.validate_on_submit():
+            mongo.db.Users.update_one({'_id': id},
                   { "$set": {
-                             "first_name": form.first_name.data,
-                              "last_name": form.last_name.data,
-                              "email": form.email.data,
-                              "role": form.role.data,
+                             'first_name': request.form['first_name'],
+                              'last_name': request.form['last_name'],
+                              'email': request.form['email'],
+                              'role': request.form['role']
                              }
                  })
             flash('User updated successfully!')
-            return redirect('/admin/users')
-        return render_template('admin-pages/edit.html', form=form, name=name)
+            return redirect(url_for('adminusers'))
+        return render_template('admin-pages/edit.html', form=form)
     else:
         return 'Error loading #{id}'.format(id=id)
+		
+@app.route('/admin/test')
+def testing():
+	return render_template('admin-pages/test.html')
 
 @app.route('/admin/lib')
 def lib():

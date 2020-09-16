@@ -1,0 +1,36 @@
+{% extends "admin-layout.html" %}
+
+<!DOCTYPE html>
+<html>
+<head>
+<title>Demo</title>
+<style>
+#div1 {margin:10px;font-size:1.25em;}
+table {border-collapse:collapse;border:1px solid #7f7f7f;}
+td {border:1px solid #7f7f7f;width:50px;height:50px;text-align:center;}
+</style>
+</head>
+
+{% block body %}
+<main class="container pt-5">
+    <h3>Testing {{ name }} !</h3> 
+    <div class="row">
+        <div class="col-md-3"></div>
+        <div class="col-md-6">
+            
+        </div>
+
+
+</main>
+
+<div id="div1"></div>
+
+
+{{ table }}
+
+
+
+
+
+{% endblock %}
+</html>
