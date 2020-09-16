@@ -44,7 +44,7 @@ class UpdateForm(FlaskForm):
     role = TextField('Role', validators = [DataRequired()])
     submit = SubmitField('Update')
     
-=======
+
 #new entry form
 class newEntryForm(FlaskForm):
     title = StringField('Title',[validators.DataRequired()])

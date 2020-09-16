@@ -1,5 +1,6 @@
 
-from app import app, db_manager, mongo, login_manager
+from app import app, db_manager,  login_manager
+from flask import Flask, render_template, url_for, redirect, request, flash
 from app.database_impl.attrib_options import AttributeOption, AttributeTypes
 from app.database_impl.items_instances import Item, Instance
 from app.database_impl.tags import Tag, TagReference
@@ -20,7 +21,7 @@ from bson.objectid import ObjectId
 
 tags_collection = db_manager.mongo.db.tags
 attrib_collection = db_manager.mongo.db.attrib_options
-
+mongo = db_manager.mongo
 
 @app.route('/')
 @app.route('/index')

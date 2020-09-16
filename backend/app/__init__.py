@@ -20,7 +20,6 @@ app.config['SECRET_KEY'] = 'this should be a password but whatever'
 #from app import routes
 
 
-mongo = PyMongo(app)
 login_manager = LoginManager(app)
 login_manager.login_view = 'login'
 

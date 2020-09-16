@@ -1,7 +1,9 @@
 from flask import session
 from uuid import uuid4
 from werkzeug.security import check_password_hash
-from app import mongo, login_manager
+from app import login_manager, db_manager
+
+mongo = db_manager.mongo
 
 class User:
     def __init__(self, email, password, first_name, last_name, role, _id=None):
