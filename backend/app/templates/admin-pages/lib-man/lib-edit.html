@@ -56,7 +56,7 @@
                         {{ found_tag['name'] }}
 
                     </p>
-                    <form action="{{ url_for('tag_delete', item_id = item.id, tag_name=found_tag['name']) }}">
+                    <form action="{{ url_for('item_remove_tag', item_id=item_id, tag_name =found_tag['name']) }}">
                         <button type="button m-2" class="btn btn-outline-dark shadow-sm">
                             Delete
                         </button>

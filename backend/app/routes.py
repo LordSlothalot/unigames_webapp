@@ -96,8 +96,8 @@ def lib():
 @app.route('/admin/lib-man/lib-edit/<item_id>', methods=['GET', 'POST'])
 def lib_edit(item_id):
     item = Item.from_dict(db_manager.mongo.db.items.find({"_id": ObjectId(item_id)})[0])
+    item.recalculate_implied_tags(db_manager.mongo)
     attributes = item.attributes
-
     form = addTagForm()
     form.selection.choices=[(tag['name'], tag['name']) for tag in db_manager.mongo.db.tags.find()]
     if form.validate_on_submit():
@@ -108,7 +108,7 @@ def lib_edit(item_id):
         item.tags.append(TagReference(tag_to_attach))
         item.write_to_db(db_manager.mongo)
 
-    return render_template('admin-pages/lib-man/lib-edit.html', attributes=attributes, form=form, item=item,
+    return render_template('admin-pages/lib-man/lib-edit.html', attributes=attributes, form=form, item=item, item_id=item_id,
                            Tag=Tag, tags_collection=tags_collection)
 
 
@@ -177,6 +177,21 @@ def item_remove_attrib(item_id, attrib_name):
     del item['attributes'][attrib_name]
     Item.from_dict(item).write_to_db(db_manager.mongo)
     return redirect(url_for('lib_edit', item_id=item_id))
+
+
+#function for removing a tag from an item
+@app.route('/admin/lib-man/item-remove-tag/<item_id>/<tag_name>',methods=['GET', 'POST'])
+def item_remove_tag(item_id, tag_name):
+    tag = Tag.search_for_by_name(db_manager.mongo, tag_name)
+    item = Item.from_dict(db_manager.mongo.db.items.find({"_id": ObjectId(item_id)})[0])
+    for tag_ref in item.implied_tags:
+        if str(tag_ref.tag_id) == str(tag.id):
+            item.implies.remove(tag_ref)
+            item.write_to_db(db_manager.mongo)
+            print("delete successful")
+    return redirect(url_for('lib_edit', item_id=item_id))
+
+
 
 #Library add item page
 @app.route('/admin/lib-man/lib-add', methods=['GET', 'POST'])
