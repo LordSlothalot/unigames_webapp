@@ -12,13 +12,7 @@ app = Flask(__name__)
 #The SECRET_KEY is needed for loading flask-wtf forms.
 app.config['SECRET_KEY'] = 'this should be a password but whatever'
 
-# paris-test
-#app.config["MONGO_URI"] = "mongodb://localhost:27017/unigames_webapp_db"
-#mongo = PyMongo(app)
-#login_manager = LoginManager(app)
-#login_manager.login_view = 'login'
-#from app import routes
-
+app.config["MONGO_URI"] = "mongodb://localhost:27017/unigames_webapp_db"
 
 login_manager = LoginManager(app)
 login_manager.login_view = 'login'
