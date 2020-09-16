@@ -20,113 +20,67 @@
                 </div>
             </form>
 
-            <form action="{{ url_for('lib_add') }}">
-                <button type="button m-2" class="btn btn-primary" >add an item</button>
-            </form>
-        </div>
 
+        </div>
         <div class="col-md-3"></div>
     </div>
+    
     <div class="row">
         <div class="col-md-12">
-            <nav>
-                <div class="nav nav-tabs nav-fill" id="nav-tab" role="tablist">
-                    <a class="nav-item nav-link active" id="nav-home-tab" data-toggle="tab" href="#nav-home"
-                        role="tab" aria-controls="nav-home" aria-selected="true">Current collection</a>
-                    <a class="nav-item nav-link" id="nav-profile-tab" data-toggle="tab" href="#nav-profile"
-                        role="tab" aria-controls="nav-profile" aria-selected="false">Archived</a>
-                </div>
-            </nav>
             <div class="tab-content" id="nav-tabContent">
-                <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
-                    <table class="table table-list-search" cellspacing="0">
-                        <thead>
-                            <tr>
-                                <th>Game</th>
-                                <th>Author</th>
-                                <th>Tags</th>
-                                <th>Instances</th>
-                                <th>Details</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {% for item in items %}
-                            <tr>
-                                <td><a href= "{{ url_for('lib_edit', item_id = item['_id']) }}" >{{ item['attributes']['name'] }}</a></td>
-                                <td>{{ item['attributes']['author'] }}</td>
-                                <td> 
-                                    {% for tags in item['tags'] %}
-                                        {% for found_tag in tags_collection.find( {"_id": tags['tag_id']} ) %}
-                                                {{ found_tag['name']}}
+
+
+                <div class="card mb-5">
+                    <div class="card-header">Unigames library</div>
+                    <div class="card-block p-0">
+                        <table class="table table-bordered m-0 table-list-search">
+                            <thead class="">
+                                <tr>
+                                    <th>Title</th>
+                                    <th>Attributes</th>
+                                    <th>Tags</th>
+                                    <th>Instances</th>
+                                    <th>Details</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for item in items %}
+                                <tr>
+                                    <td>
+                                        <a href= "{{ url_for('lib_edit', item_id = item['_id']) }}" >{{ item['attributes']['name'] }}</a>
+                                    </td>
+                                    <td style="width: 30%;">{% for attrib in item['attributes'] %}
+                                        <span class="badge badge-pill badge-info ">{{ item['attributes'][attrib] }}</span> 
                                         {% endfor %}
-                                    {% endfor %}
-                                </td>
+                                    </td>
+                                    <td> 
+                                        {% for tags in item['tags'] %}
+                                            {% for found_tag in tags_collection.find( {"_id": tags['tag_id']} ) %}
+                                                    {{ found_tag['name']}}
+                                            {% endfor %}
+                                        {% endfor %}
+                                    </td>
+                                    <td>1</td>
+                                    <td><a href="{{ url_for('lib_edit', item_id = item['_id']) }}">Edit</a>
+                                        <a>/</a>
+                                        <a href="{{ url_for('lib_delete', item_id = item['_id']) }}">Delete</a>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="card-footer p-0">
+                        <nav aria-label="...">
+                            <ul class="pagination justify-content-end mt-3 mr-3">
+                                <form action="{{ url_for('lib_add') }}">
+                                    <button type="button m-2" class="btn btn-primary" >add an item</button>
+                                </form>
+                            </ul>
+                        </nav>
+                    </div>
+                </div>
 
-                                
-                                <td>Yes</td>
-                                <td><a href="{{ url_for('lib_edit', item_id = item['_id']) }}">Edit</a></td>
-                            </tr>
-                            {% endfor %}
-
-                        </tbody>
-                    </table>
-                </div>
-                <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
-                    <table class="table" cellspacing="0">
-                        <thead>
-                            <tr>
-                                <th>Project Name</th>
-                                <th>Employer</th>
-                                <th>Time</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td><a href="#">Work 1</a></td>
-                                <td>Doe</td>
-                                <td>john@example.com</td>
-                            </tr>
-                            <tr>
-                                <td><a href="#">Work 2</a></td>
-                                <td>Moe</td>
-                                <td>mary@example.com</td>
-                            </tr>
-                            <tr>
-                                <td><a href="#">Work 3</a></td>
-                                <td>Dooley</td>
-                                <td>july@example.com</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-                <div class="tab-pane fade" id="nav-contact" role="tabpanel" aria-labelledby="nav-contact-tab">
-                    <table class="table" cellspacing="0">
-                        <thead>
-                            <tr>
-                                <th>Contest Name</th>
-                                <th>Date</th>
-                                <th>Award Position</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td><a href="#">Work 1</a></td>
-                                <td>Doe</td>
-                                <td>john@example.com</td>
-                            </tr>
-                            <tr>
-                                <td><a href="#">Work 2</a></td>
-                                <td>Moe</td>
-                                <td>mary@example.com</td>
-                            </tr>
-                            <tr>
-                                <td><a href="#">Work 3</a></td>
-                                <td>Dooley</td>
-                                <td>july@example.com</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
             </div>
         </div>
     </div>
