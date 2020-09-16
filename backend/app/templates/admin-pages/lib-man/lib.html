@@ -55,9 +55,7 @@
                                     </td>
                                     <td> 
                                         {% for tags in item['tags'] %}
-                                            {% for found_tag in tags_collection.find( {"_id": tags['tag_id']} ) %}
-                                                    {{ found_tag['name']}}
-                                            {% endfor %}
+                                        <!--Need to fill in tags-->
                                         {% endfor %}
                                     </td>
                                     <td>1</td>
