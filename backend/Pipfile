@@ -22,6 +22,7 @@ flask-mongoengine = "*"
 email-validator = "*"
 flask-login = "*"
 flask-security = "*"
+flask-table = "*"
 
 [requires]
 python_version = "3.7"
