@@ -90,4 +90,16 @@ No tag param or attribute value is allowed to contain '{' or '}'
 
 From this hopefully all further rules should be clear
 
-TODO: Possibly improvements include being able to use "" to escape, and '-' for not
+TODO: Possibly improvements include being able to use "" to escape
+
+Collected rules:
+NO TAG NAMES CAN CONTAINS '{' or '}'
+'::' SHOULD BE AVOIDED IN TAG NAMES (though can be escaped, and 3 or more : in a row is always fine?)
+',' SHOULD BE AVOIDED IN TAG NAMES (though can be escaped)
+'(' SHOULD BE AVOIDED AT THE START OF TAG NAMES (though can be escaped)
+')' SHOULD BE AVOIDED AT THE END OF TAG NAMES (though can be escaped)
+'-' SHOULD BE AVOIDED AT THE START OF TAG NAMES (though can be escaped)
+
+TODO: Fix:
+'(' & ')' SHOULD BE AVOIDED IN TAG NAMES (though can be escaped)
+also fix the - issue
