@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 from enum import Enum
 from typing import Dict, Optional
 
@@ -20,8 +22,6 @@ class Role:
     priority: int
     permissions: Dict[Permissions, bool]
 
-
-class Role:
     @staticmethod
     def init_indices(mongo: PyMongo):
         mongo.db.roles.create_index([("name", pymongo.ASCENDING)], unique=True, sparse=False)

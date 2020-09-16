@@ -36,33 +36,7 @@ Alternate forms of operators
 
 /// Dealing with parameterised tags:
 
-> tag: {1}
-This searches the "tag: {0}" tag for an instance where the value of index 0 is 1, or if {0} is range, then 1 is inside the range
-
-> tag: {>=1}
-OR
-> tag: {1+}
-This searches for the "tag: {0}" tag for an instance where the value of index 0 is >= 1, or if {0} is a range, then intersection of that range and >=1 is non empty
-Similarly:
-> tag: {>0}
-> tag: {<3}
-> tag: {<=3}
-
-> tag: {[3,4]} // close range
-OR
-> tag: {(2,5)} // open range
-OR
-> tag: {3-4}
-This searches for the "tag: {0}" where if {0} is a value, then it lies in the closed range [3,4], or if {0} is a range, then the intersection of that range and [3,4] is non empty
-
-> tag: {Any}
-This searches for the "tag: {0}" where {0} is any value, so the value is ignored
-
-> tag: Yes
-This searches for the "tag: {0}" where the {0} is the value "Yes"
-
-> tag: {Yes, No}
-This searches for the "tag: {0}" tag, where {0} is EITHER "Yes" or "No"
+Parameterised tags are no longer a thing :(
 
 /// Some special operators
 
@@ -91,4 +65,29 @@ Searches for an item, which has an instance, which has an attached attrib, "uuid
 > ::instance::uuid::equals::85781903019
 Searches for an item, which has an instance, which has an attached attrib, "uuid" and that equals "85781903019"
 
+/// Order of operations & Parentheses
+
+> tagA, (tagB ::or tabC)
+Parentheses can be used to control the order/scope of operators
+Eqv statement w/0:
+> tagA, ::not tagB ::and ::not tabC
+
+> tagA ::and tagB ::or tagC, tagD
+The order of operators in left to right
+so with explicit parentheses:
+> (((tagA ::and tagB) ::or tagC) ::and tabD)
+
+> {players: (1)}
+As as result of parentheses taking president,
+tags and attributes should try avoid parentheses, but the can
+be used by using {} to escape, just like you can escape ,
+
+/// Other
+
+No tag param or attribute value is allowed to contain '{' or '}'
+
+///
+
 From this hopefully all further rules should be clear
+
+TODO: Possibly improvements include being able to use "" to escape, and '-' for not

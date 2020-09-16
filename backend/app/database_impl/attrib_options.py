@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 from enum import IntEnum
 from typing import Dict, Optional
 
@@ -19,8 +21,6 @@ class AttributeOption:
     attribute_name: str = None
     attribute_type: AttributeTypes = AttributeTypes.Invalid
 
-
-class AttributeOption:
     @staticmethod
     def init_indices(mongo: PyMongo):
         mongo.db.attrib_options.create_index([("attribute_name", pymongo.ASCENDING)], unique=True)

@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 from typing import List, Dict, Optional
 
 import pymongo
@@ -10,8 +12,6 @@ class User:
     display_name: str
     role_ids: List[ObjectId]
 
-
-class User:
     @staticmethod
     def init_indices(mongo: PyMongo):
         mongo.db.users.create_index([("display_name", pymongo.ASCENDING)], unique=False, sparse=False)
