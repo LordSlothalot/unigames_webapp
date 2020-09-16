@@ -17,7 +17,12 @@ pymongo= "==3.11.0"
 flask-pymongo = "*"
 flask-wtf = "*"
 flask-bootstrap = "*"
-email_validator = "*"
+flask-user = "*"
+flask-mongoengine = "*"
+email-validator = "*"
+flask-login = "*"
+flask-security = "*"
+flask-table = "*"
 
 [requires]
 python_version = "3.7"

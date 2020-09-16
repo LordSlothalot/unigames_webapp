@@ -1,12 +1,21 @@
-from bson.objectid import ObjectId
-from flask import render_template, url_for, redirect
 
-from app import app, db_manager
+from app import app, db_manager,  login_manager
+from flask import Flask, render_template, url_for, redirect, request, flash
 from app.database_impl.attrib_options import AttributeOption, AttributeTypes
 from app.database_impl.items_instances import Item, Instance
 from app.database_impl.tags import Tag, TagReference
-from app.forms import LoginForm, newEntryForm, addTagForm, addInstanceForm, createTagForm, addTagImplForm, \
-    addAttribForm, updateAttribForm, createAttribForm, addRuleForm
+
+from bson.objectid import ObjectId
+from app.forms import newEntryForm, addTagForm, addInstanceForm, createTagForm, addTagImplForm, \
+    addAttribForm, updateAttribForm, createAttribForm, LoginForm, RegistrationForm, UpdateForm, addRuleForm
+from app.user_models import User
+from flask_pymongo import PyMongo
+from flask_login import LoginManager, current_user, login_user, logout_user, login_required
+from werkzeug.security import generate_password_hash
+from functools import wraps
+from app.tables import UserTable
+from bson.objectid import ObjectId
+
 
 # -------------------------------------------
 #     User pages
@@ -14,7 +23,7 @@ from app.forms import LoginForm, newEntryForm, addTagForm, addInstanceForm, crea
 
 tags_collection = db_manager.mongo.db.tags
 attrib_collection = db_manager.mongo.db.attrib_options
-
+mongo = db_manager.mongo
 
 @app.route('/')
 @app.route('/index')
@@ -24,14 +33,47 @@ def index():
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
+    if current_user.is_authenticated:
+        return redirect(url_for('index'))
     form = LoginForm()
     if form.validate_on_submit():
-        # you can make use of the submitted form data now
-        print(form.email.data)
-        print(form.password.data)
-        return 'Need to connect to a database here'
-    # pass the form as a parameter as frontend renders
-    return render_template('user-pages/login.html', form=form)
+        email = form.email.data
+        password = form.password.data
+        find_user = mongo.db.Users.find_one({"email": email})
+        print("find_user: ", find_user)
+        if User.login_valid(email, password):
+            loguser = User(find_user['email'], find_user['password'], find_user['first_name'], find_user['last_name'], find_user['role'], find_user['_id'])
+            login_user(loguser, remember=form.remember_me.data)
+            # login_user(find_user, remember=form.remember_me.data)
+            flash('You have been logged in!', 'success')
+            return redirect(url_for('index'))
+        else:
+            flash('Login Unsuccessful. Please check email and password', 'danger')
+            return "Login Unsuccessful"
+    return render_template('user-pages/login.html', form = form)
+
+
+@app.route('/logout')
+def logout():
+    logout_user()
+    return redirect(url_for('login'))
+
+@app.route("/register", methods=['GET', 'POST'])
+def register():
+    form = RegistrationForm()
+    if form.validate_on_submit():
+        email = form.email.data
+        first_name = form.first_name.data
+        last_name = form.last_name.data
+        password = generate_password_hash(form.password.data)
+        find_user =  User.get_by_email(email)
+        if find_user is None:
+            User.register(email, password, first_name, last_name, "Admin")
+            flash(f'Account created for {form.email.data}!', 'success')
+            return redirect(url_for('index'))
+        else:
+            flash(f'Account already exists for {form.email.data}!', 'success')
+    return render_template('user-pages/register.html', title='Register', form=form)
 
 
 @app.route('/library')
@@ -72,16 +114,75 @@ def constitution():
 @app.route('/operations')
 def operations():
     return render_template('user-pages/operations.html')
+	
+@app.route('/forbidden')
+def forbidden():
+	return render_template('user-pages/forbidden.html')
+		
+@login_manager.unauthorized_handler
+def unauthorized():
+	if not current_user.is_authenticated:
+		return redirect(url_for('login'))
+	if ((current_user.role != "Admin")):
+		return redirect(url_for('forbidden'))
+	return 'Page not found 404.'
+
+def login_required(role="ANY"):
+	def wrapper(fn):
+		@wraps(fn)
+		def decorated_view(*args, **kwargs):
+			if not current_user.is_authenticated:
+				return login_manager.unauthorized()
+			if ((current_user.role != role) and (role != "ANY")):
+				return login_manager.unauthorized()
+			return fn(*args, **kwargs)
+		return decorated_view
+	return wrapper
+
 
 
 # -------------------------------------------
 #     Admin pages
 # -------------------------------------------
 @app.route('/admin')
+@login_required(role="Admin")
 def admin():
-    name = "Michale"
+	
+	return render_template('admin-pages/home.html')
+	
+@app.route('/admin/users', methods=['GET', 'POST'])
+@login_required(role="Admin")
+def adminusers():
+	items = mongo.db.Users.find()
+	table = UserTable(items)
+	table.border = True
+	return render_template('admin-pages/users.html', table=table)
+	
+@app.route('/admin/users/<string:id>', methods=['GET', 'POST'])
+def edit(id):
+    searcheduser = mongo.db.Users.find_one({'_id': id})
 
-    return render_template('admin-pages/home.html', name=name)
+    if searcheduser:
+        form = UpdateForm(**searcheduser)
+        name = searcheduser['first_name']
+        if form.validate_on_submit():
+            mongo.db.Users.update_one({'_id': id},
+                  { "$set": {
+                             'first_name': request.form['first_name'],
+                              'last_name': request.form['last_name'],
+                              'email': request.form['email'],
+                              'role': request.form['role']
+                             }
+                 })
+            flash('User updated successfully!')
+            return redirect(url_for('adminusers'))
+        return render_template('admin-pages/edit.html', form=form)
+    else:
+        return 'Error loading #{id}'.format(id=id)
+		
+@app.route('/admin/test')
+def testing():
+	return render_template('admin-pages/test.html')
 
 #Library management page
 @app.route('/admin/lib')
@@ -396,3 +497,8 @@ def page_not_found(e):
 @app.errorhandler(500)
 def page_not_found(e):
     return 'Page not found 500.'
+
+
+#if __name__=='__main__':
+#    app.run(debug=True)
+
