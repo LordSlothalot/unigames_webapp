@@ -106,8 +106,7 @@ class createAttribForm(FlaskForm):
 
 
 #add an implication rul
-class 
-(FlaskForm):
+class addRuleForm(FlaskForm):
     parent = SelectField('Parent tag')
     child = SelectField('Child tag')
     submit = SubmitField('Add new rule')
