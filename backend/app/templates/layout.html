@@ -18,16 +18,16 @@
     {% block navbar %}
     <div class="d-flex flex-column bg-warning border-bottom shadow-sm">
         <nav class="navbar navbar-expand-md navbar-light">
-            <div class="logo-left">
+            <div>
                 <a class="navbar-brand" href= {{ url_for('index') }}>
                     <img src="{{ url_for('static', filename='img/logo.png') }}" height="70" alt="Unigames gaming club">
                 </a>
             </div>
-            <div class="logo-right">
+            <!--<div class="logo-right">
                 <a class="navbar-brand" href={{ url_for('index') }}>
                     <img src="{{ url_for('static', filename='img/logo-uwa.png') }}" height="50" alt="Unigames gaming club">
                 </a>
-            </div>
+            </div>-->
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
                 aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
@@ -56,13 +56,13 @@
         <nav class="nav nav-underline justify-content-center">
             <a class="nav-link active" href={{ url_for('index') }}><b>Home</b></a>
             <a class="nav-link" href={{ url_for('library') }}>Library</a>
-            <a class="nav-link" href={{ url_for('events') }}>Events</a>
+            <!--<a class="nav-link" href={{ url_for('events') }}>Events</a>-->
             <a class="nav-link" href={{ url_for('join') }}>Become a member</a>
             <a class="nav-link" href={{ url_for('committee') }}>Committee</a>
             <a class="nav-link" href={{ url_for('lifeMembers') }}>Life Members</a>
             <a class="nav-link" href={{ url_for('constitution') }}>Constitution</a>
             <a class="nav-link" href={{ url_for('operations') }}>Operations</a>
-            <a class="nav-link" href="https://webcam.ucc.asn.au/">Webcam</a>
+            <!--<a class="nav-link" href="https://webcam.ucc.asn.au/">Webcam</a>-->
         </nav>
     </div>
 
