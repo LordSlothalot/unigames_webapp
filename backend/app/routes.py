@@ -394,9 +394,15 @@ def implication_add(tag_name, cur_child):
             return redirect(url_for('tag_all'))
     return render_template('admin-pages/lib-man/tag-man/tag-all.html', create_tag_form=create_tag_form, add_rule_form=add_rule_form, add_implication_form=add_implication_form, tags_collection=tags_collection)
 
-# @app.route('/admin/lib-man/implication-remove/<tag_name>/<implied_id>', methods=['GET', 'POST'])
-# def implication_remove():
-#     return render_template('user-pages/index.html')
+@app.route('/admin/lib-man/implication-remove/<tag_name>/<implied_id>', methods=['GET', 'POST'])
+def implication_remove(tag_name, implied_id):
+    tag = Tag.from_dict(db_manager.mongo.db.tags.find({"name": tag_name})[0])
+    implied_tag = Tag.from_dict(db_manager.mongo.db.tags.find({"_id": ObjectId(implied_id)})[0])
+    for tag_ref in tag.implies:
+        if tag_ref.tag_id == implied_tag.id:
+            tag.remove_implied_tag(tag_ref)
+            tag.write_to_db(db_manager.mongo)
+    return redirect(url_for('tag_all'))
 
 #Funciton for adding an implication rule
 @app.route('/admin/lib-man/tag-man/rule-add', methods=['GET', 'POST'])
