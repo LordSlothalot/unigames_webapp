@@ -308,7 +308,8 @@ def lib_add():
             tag_name = form.selection.data
             found_tag = Tag.search_for_by_name(db_manager.mongo, tag_name)
             add_tag = TagReference(found_tag.id)
-            new_item = Item({"name": form.title.data, "author": form.author.data}, [add_tag])
+            new_instance = Instance([],[])
+            new_item = Item({"name": form.title.data, "author": form.author.data}, [add_tag], [new_instance])
             new_item.write_to_db(db_manager.mongo)
             new_item.recalculate_implied_tags(db_manager.mongo)
 
@@ -336,6 +337,7 @@ def tag_all():
     add_rule_form.child.choices=[(tag['name'], tag['name']) for tag in db_manager.mongo.db.tags.find()]
     return render_template('admin-pages/lib-man/tag-man/tag-all.html', create_tag_form=create_tag_form, add_rule_form=add_rule_form, add_implication_form=add_implication_form, tags_collection=tags_collection)
 
+# Function for creating a new tag
 @app.route('/admin/lib-man/tag-man/tag-create', methods=['GET', 'POST'])
 def tag_create():
     create_tag_form = createTagForm()
@@ -424,66 +426,6 @@ def rule_delete(tag_name):
 
 
 
-@app.route('/admin/lib-man/tag-add/<item_id>', methods=['GET', 'POST'])
-def tag_add(item_id):
-    form = addTagForm()
-    item = db_manager.mongo.db.items.find({"_id": ObjectId(item_id)})[0]
-
-    if form.validate_on_submit():
-        tag_name = form.selection.data
-        found_tag = Tag.search_for_by_name(db_manager.mongo, tag_name)
-        add_tag = {'tag_id': found_tag.id, 'parameters': []}
-        item['tags'].append(add_tag)
-
-        Item.from_dict(item).write_to_db(db_manager.mongo)
-        Item.from_dict(item).recalculate_implied_tags(db_manager.mongo)
-
-        return redirect(url_for('lib_edit', item_id=item_id))
-
-    return render_template('admin-pages/lib-man/tag-add.html', form=form, tags_collection=tags_collection, item=item)
-
-
-# This will completely delete the tag (not removing it from the item)
-@app.route('/admin/lib-man/tag-remove/<item_id>/<tag_name>')
-def tag_remove(item_id, tag_name):
-    item = db_manager.mongo.db.items.find({"_id": ObjectId(item_id)})[0]
-    item.remove_tag()
-    return redirect(url_for('lib_edit', item_id=item_id))
-
-
-#-------------------
-#Probable garbage
-
-@app.route('/admin/lib-man/instance-add/<item_id>', methods=['GET', 'POST'])
-def instance_add(item_id):
-    form = addInstanceForm()
-    item = db_manager.mongo.db.items.find({"_id": ObjectId(item_id)})[0]
-    if form.validate_on_submit():
-        tag_name = form.selection.data
-        found_tag = Tag.search_for_by_name(db_manager.mongo, tag_name)
-        new_instance = Instance(ObjectId(item_id), {"uuid": form.uuid.data, "damage report": form.damage_report.data},
-                                [TagReference(found_tag.id, [])])
-        new_instance.write_to_db(db_manager.mongo)
-        new_instance.recalculate_implied_tags(db_manager.mongo)
-        return redirect(url_for('lib_edit', item_id=item_id))
-    return render_template('admin-pages/lib-man/instance-add.html', form=form, item=item,
-                           tags_collection=tags_collection)
-
-
-@app.route('/admin/lib-man/instance-edit/<instance_id>')
-def instance_edit(instance_id):
-    instance = db_manager.mongo.db.instances.find({"_id": ObjectId(instance_id)})[0]
-    if not instance:
-        print('there is no current instace')  # to be further implemented
-    tags_collection = db_manager.mongo.db.tags
-    return render_template('admin-pages/lib-man/instance-edit.html', instance=instance, tags_collection=tags_collection)
-
-
-@app.route('/admin/lib-man/instance-delete/<item_id>/<instance_id>')
-def instance_delete(item_id, instance_id):
-    instance = db_manager.mongo.db.instances.find({"_id": ObjectId(instance_id)})[0]
-    Instance.from_dict(instance).delete_from_db(db_manager.mongo)
-    return redirect(url_for('lib_edit', item_id=item_id))
 
 
 # -------------------------------------------

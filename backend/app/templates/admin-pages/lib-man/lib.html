@@ -24,7 +24,7 @@
         </div>
         <div class="col-md-3"></div>
     </div>
-    
+
     <div class="row">
         <div class="col-md-12">
             <div class="tab-content" id="nav-tabContent">
@@ -37,9 +37,8 @@
                             <thead class="">
                                 <tr>
                                     <th>Title</th>
-                                    <th>Attributes</th>
                                     <th>Tags</th>
-                                    <th>Instances</th>
+                                    <th>Implied tags</th>
                                     <th>Details</th>
                                 </tr>
                             </thead>
@@ -47,18 +46,26 @@
                                 {% for item in items %}
                                 <tr>
                                     <td>
-                                        <a href= "{{ url_for('lib_edit', item_id = item['_id']) }}" >{{ item['attributes']['name'] }}</a>
+                                        <a
+                                            href="{{ url_for('lib_edit', item_id = item['_id']) }}">{{ item['attributes']['name'] }}</a>
                                     </td>
-                                    <td style="width: 30%;">{% for attrib in item['attributes'] %}
-                                        <span class="badge badge-pill badge-info ">{{ item['attributes'][attrib] }}</span> 
+
+                                    <td>
+                                        {% for tag in item['tags'] %}
+                                            {% for found_tag in tags_collection.find( {"_id": tag} ) %}
+                                            <span class="badge badge-pill badge-info ">{{ found_tag['name'] }}</span>
+                                            {% endfor %}
                                         {% endfor %}
                                     </td>
-                                    <td> 
-                                        {% for tags in item['tags'] %}
-                                        <!--Need to fill in tags-->
+
+                                    <td>
+                                        {% for tag in item['implied_tags'] %}
+                                            {% for found_tag in tags_collection.find( {"_id": tag} ) %}
+                                            <span class="badge badge-pill badge-info ">{{ found_tag['name'] }}</span>
+                                            {% endfor %}
                                         {% endfor %}
                                     </td>
-                                    <td>1</td>
+
                                     <td><a href="{{ url_for('lib_edit', item_id = item['_id']) }}">Edit</a>
                                         <a>/</a>
                                         <a href="{{ url_for('lib_delete', item_id = item['_id']) }}">Delete</a>
@@ -72,7 +79,7 @@
                         <nav aria-label="...">
                             <ul class="pagination justify-content-end mt-3 mr-3">
                                 <form action="{{ url_for('lib_add') }}">
-                                    <button type="button m-2" class="btn btn-primary" >add an item</button>
+                                    <button type="button m-2" class="btn btn-primary">add an item</button>
                                 </form>
                             </ul>
                         </nav>

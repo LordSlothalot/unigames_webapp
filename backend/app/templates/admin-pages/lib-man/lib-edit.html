@@ -64,9 +64,6 @@
                     {% endfor %}
                     {% endfor %}
                     {{ wtf.quick_form(form)}}
-                    <form action="{{ url_for('tag_add', item_id=item.id) }}">
-                        <button type="button m-2" class="btn btn-primary">add a tag</button>
-                    </form>
                 </div>
 
             </div>
@@ -91,42 +88,7 @@
                 </div>
             </div>
             <hr>
-            <div class="row">
-                <div class="col-sm-6">
-                    <span class="mr-5">
-                        <h5>Copies: </h5>
-                    </span>
-                </div>
-                <div class="col-sm-6">
-                    <div class="col-sm-6 text-center">
-                        {% for instance in instances %}
-                        <form action="{{ url_for('instance_edit', instance_id = instance.id ) }}">
-                            <button type="button m-2" class="btn btn-outline-dark shadow-sm">
-                                uuid :
-                                {{ instance['attributes']['uuid'] }}
 
-                            </button>
-                        </form>
-                        <form action="{{ url_for('instance_delete', item_id =item.id, instance_id = instance.id ) }}">
-                            <button type="button m-2" class="btn btn-outline-dark shadow-sm">
-                                delete
-                            </button>
-                        </form>
-                        {% endfor %}
-                        <form action="{{ url_for('instance_add', item_id=item.id) }}">
-                            <button type="button m-2" class="btn btn-primary">add an instance</button>
-                        </form>
-
-                    </div>
-                </div>
-            </div>
-
-            <div class="form-check">
-                <input class="form-check-input" type="checkbox" value="" id="defaultCheck1">
-                <label class="form-check-label" for="defaultCheck1">
-                    Archived
-                </label>
-            </div>
 
         </div>
         <form action="{{ url_for('item_add_attrib', item_id=item.id ) }}">
