@@ -41,6 +41,13 @@ class Tag:
             result["_id"] = self.id
         return result
 
+    def remove_implied_tag(self, tag: TagReference):
+        if tag in self.implies:
+            self.implies.remove(tag)
+            return True
+        else:
+            return False
+
     @staticmethod
     def from_dict(value_dict: Dict) -> Tag:
         cls = Tag(None, None)
