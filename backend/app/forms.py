@@ -2,8 +2,9 @@
 from app import db_manager
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, SubmitField, BooleanField, SelectField, TextField, validators
-from wtforms.validators import DataRequired, Length
+from wtforms.validators import DataRequired, Length, EqualTo, Email
 from wtforms.fields.html5 import EmailField
+# from app.routes import User
 
 #get all tags from the db
 all_tags1 = db_manager.mongo.db.tags.find()
@@ -19,10 +20,30 @@ all_attirb = db_manager.mongo.db.attrib_options.find()
 
 #login form
 class LoginForm(FlaskForm):
-    email = EmailField('Email', [validators.DataRequired(), validators.Email()])
+    email = EmailField('Email', validators = [DataRequired(), Email()])
     password = PasswordField("Password", validators = [DataRequired()])
     remember_me = BooleanField("Remember Me")
     submit = SubmitField("Login")
+
+
+class RegistrationForm(FlaskForm):
+    first_name = TextField('First Name', validators = [DataRequired()])
+    last_name = TextField('Last Name', validators = [DataRequired()])
+    email = EmailField('Email', validators = [DataRequired(), Email()])
+    password = PasswordField("Password", validators = [DataRequired()])
+    password2 = PasswordField("Repeat Password", validators=[DataRequired(), EqualTo("password")])
+    submit = SubmitField('Register')
+
+    # def validate_username(self, username):
+    #     User.objects()
+	
+class UpdateForm(FlaskForm):
+    first_name = TextField('First Name', validators = [DataRequired()])
+    last_name = TextField('Last Name', validators = [DataRequired()])
+    email = EmailField('Email', validators = [DataRequired(), Email()])
+    role = TextField('Role', validators = [DataRequired()])
+    submit = SubmitField('Update')
+    
 
 #new entry form
 class newEntryForm(FlaskForm):
@@ -33,7 +54,7 @@ class newEntryForm(FlaskForm):
 
 #add a tag form
 class addTagForm(FlaskForm):
-    selection = SelectField('Add a tag', choices=[(tag['name'], tag['name']) for tag in all_tags2])
+    selection = SelectField('Add a tag')
     submit = SubmitField('Save')
 
 #add an instance form
@@ -45,9 +66,7 @@ class addInstanceForm(FlaskForm):
 
 #create a tag form
 class createTagForm(FlaskForm):
-    name = StringField('Tag name', [validators.DataRequired()])
-    #select_parent = SelectField('Select its parent tag', choices=[(tag['name'], tag['name']) for tag in all_tags4 ] )
-    select_child = SelectField('Select its child tag', choices=[(tag['name'], tag['name']) for tag in all_tags5])
+    name = StringField('New tag', [validators.DataRequired()])
     #paramValue = StringField('Tag paramter value (corresponds with the parameter type above)')
     submit = SubmitField('Add')
 
@@ -65,8 +84,8 @@ class addTagParamForm(FlaskForm):
 
 #add tag's implications form
 class addTagImplForm(FlaskForm):
-    select_child = SelectField('Select its child tag', choices=[(tag['name'], tag['name']) for tag in all_tags6])
-    submit = SubmitField('Add implication rule')
+    select_child = SelectField('Select its child tag')
+    submit = SubmitField('Add implied tag')
 
 #add attribute to an item form
 class addAttribForm(FlaskForm):
@@ -84,3 +103,11 @@ class createAttribForm(FlaskForm):
     attrib_name = StringField('New attribute name')
     attrib_type = SelectField('Select attribute type', choices=[('Single-line string', 'Single-line string'), ('Multi-line string', 'Multi-line string'), ('Integer', 'Integer')])
     submit = SubmitField('Create')
+
+
+#add an implication rul
+class addRuleForm(FlaskForm):
+    parent = SelectField('Parent tag')
+    child = SelectField('Child tag')
+    submit = SubmitField('Add new rule')
+

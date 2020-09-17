@@ -48,7 +48,7 @@ class AttributeOption:
 
     def to_dict(self) -> Dict:
         result = {
-            "attribute_name": self.attribute_name,
+            "attribute_name": self.attribute_name.lower(),
             "attribute_type": int(self.attribute_type)
         }
         if self.id is not None:
@@ -85,7 +85,7 @@ class AttributeOption:
 
     @staticmethod
     def search_for_by_name(mongo: PyMongo, attribute_name: str) -> Optional[AttributeOption]:
-        result = mongo.db.attrib_options.find_one({"attribute_name": attribute_name})
+        result = mongo.db.attrib_options.find_one({"attribute_name": attribute_name.lower()})
         if result is None:
             return None
         return AttributeOption.from_dict(result)

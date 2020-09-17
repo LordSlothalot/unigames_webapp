@@ -27,20 +27,33 @@
     </div>
     <div class="nav-scroller bg-light shadow-sm">
         <nav class="nav nav-underline justify-content-center">
+
             <a class="nav-link" href="{{ url_for('admin') }}">Home</a>
-            <a class="nav-link " href="{{ url_for('admin') }}">Users</a>
+            <a class="nav-link " href="{{ url_for('adminusers') }}">Users</a>
             <a class="nav-link" href="{{ url_for('lib') }}">Library</a>
             <a class="nav-link" href="{{ url_for('tag_all') }}">Tags</a>
+
             <!--<a class="nav-link" href="{{ url_for('all_attributes') }}">Attributes</a>-->
             <!--<a class="nav-link" href="{{ url_for('events') }}">Events</a>-->
             <a class="nav-link" href="{{ url_for('admin') }}">Logout</a>
+
 
         </nav>
     </div>
     {% endblock %}
 
-    {% block body %}
-    {% endblock%}
+
+	{% with messages = get_flashed_messages() %}
+		{% if messages %}
+			<ul class=flashes>
+			{% for message in messages %}
+				<li>{{ message }}</li>
+			{% endfor %}
+			</ul>
+		{% endif %}
+	{% endwith %}
+	{% block body %}{% endblock %}
+
 
     <!--    Buggy footer
     <footer class="footer font-small mt-auto bg-light">
