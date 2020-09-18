@@ -111,3 +111,7 @@ class addRuleForm(FlaskForm):
     child = SelectField('Child tag')
     submit = SubmitField('Add new rule')
 
+#search bar
+class serachForm(FlaskForm):
+    searchInput = StringField('Look for: ')
+    submit = SubmitField('Search')

@@ -24,3 +24,4 @@ db_manager.test()
 bootstrap = Bootstrap(app)
 
 from app import routes
+
