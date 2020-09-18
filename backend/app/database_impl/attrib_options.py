@@ -1,5 +1,3 @@
-from __future__ import annotations
-
 from enum import IntEnum
 from typing import Dict, Optional
 
@@ -31,7 +29,7 @@ class AttributeOption:
         self.attribute_type = attribute_type
 
     @staticmethod
-    def from_dict(value_dict: Dict) -> AttributeOption:
+    def from_dict(value_dict: Dict) -> 'AttributeOption':
         cls = AttributeOption(None, None)
 
         if "attribute_name" not in value_dict or value_dict["attribute_name"] is None:
@@ -84,7 +82,7 @@ class AttributeOption:
         return mongo.db.attrib_options.delete_one({"_id": self.id}).deleted_count == 1
 
     @staticmethod
-    def search_for_by_name(mongo: PyMongo, attribute_name: str) -> Optional[AttributeOption]:
+    def search_for_by_name(mongo: PyMongo, attribute_name: str) -> Optional['AttributeOption']:
         result = mongo.db.attrib_options.find_one({"attribute_name": attribute_name.lower()})
         if result is None:
             return None

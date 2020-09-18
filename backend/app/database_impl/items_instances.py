@@ -1,5 +1,3 @@
-from __future__ import annotations
-
 from typing import Dict, List, Union, Optional
 
 import pymongo
@@ -16,7 +14,7 @@ class Item:
     attributes: Dict = {}
     tags: List[TagReference] = []
     implied_tags: List[TagReference] = []
-    instances: List[Instance] = []
+    instances: List['Instance'] = []
 
     @staticmethod
     def init_indices(mongo: PyMongo):
@@ -24,7 +22,7 @@ class Item:
         mongo.db.items.create_index([("implied_tags.tag_id", pymongo.ASCENDING)], unique=False, sparse=True)
 
     # NOTE: attributes must conform an ItemAttributeOption, however that is not checked here
-    def __init__(self, attributes: Dict, tags: List[TagReference], instances: List[Instance]):
+    def __init__(self, attributes: Dict, tags: List[TagReference], instances: List['Instance']):
         self.id = None
         self.attributes = attributes
         self.tags = tags
@@ -51,7 +49,7 @@ class Item:
             return False
 
     @staticmethod
-    def from_dict(value_dict: Dict) -> Item:
+    def from_dict(value_dict: Dict) -> 'Item':
         cls = Item(None, None, None)
 
         if "_id" in value_dict:
@@ -190,7 +188,7 @@ class Item:
         return mongo.db.items.delete_one({"_id": self.id}).deleted_count == 1
 
     @staticmethod
-    def search_for_by_tag(mongo: PyMongo, tag_ref: Union[Tag, TagReference]) -> List[Item]:
+    def search_for_by_tag(mongo: PyMongo, tag_ref: Union[Tag, TagReference]) -> List['Item']:
         if isinstance(tag_ref, Tag):
             tag_ref = TagReference(tag_ref)
 
@@ -202,7 +200,7 @@ class Item:
         return [Item.from_dict(i) for i in result]
 
     @staticmethod
-    def search_for_by_attribute(mongo: PyMongo, attrib_option: AttributeOption, value) -> List[Item]:
+    def search_for_by_attribute(mongo: PyMongo, attrib_option: AttributeOption, value) -> List['Item']:
         result = mongo.db.items.find({"attributes." + str(attrib_option.attribute_name): value})
 
         if result is None:
@@ -243,7 +241,7 @@ class Instance:
         return result
 
     @staticmethod
-    def from_dict(value_dict: Dict) -> Instance:
+    def from_dict(value_dict: Dict) -> 'Instance':
         cls = Instance(None, None)
 
         if "_id" in value_dict:

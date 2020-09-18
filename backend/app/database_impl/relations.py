@@ -1,5 +1,3 @@
-from __future__ import annotations
-
 from enum import Enum
 from typing import List, Dict, Optional
 
@@ -37,7 +35,7 @@ class RelationOption:
         return result
 
     @staticmethod
-    def from_dict(value_dict: Dict) -> RelationOption:
+    def from_dict(value_dict: Dict) -> 'RelationOption':
         cls = RelationOption(None, None)
 
         if "_id" in value_dict:
@@ -81,7 +79,7 @@ class RelationOption:
         return mongo.db.relation_options.delete_one({"_id": self.id}).deleted_count == 1
 
     @staticmethod
-    def search_for_by_name(mongo: PyMongo, name: str) -> Optional[RelationOption]:
+    def search_for_by_name(mongo: PyMongo, name: str) -> Optional['RelationOption']:
         result = mongo.db.relation_options.find_one({"name": name})
         if result is None:
             return None
@@ -115,7 +113,7 @@ class Relation:
         self.relation_type = RelationType.Invalid
 
     @staticmethod
-    def new_item(user_id: ObjectId, option_id: ObjectId, item_id: ObjectId) -> Relation:
+    def new_item(user_id: ObjectId, option_id: ObjectId, item_id: ObjectId) -> 'Relation':
         cls = Relation()
 
         cls.id = None
@@ -127,7 +125,7 @@ class Relation:
         return cls
 
     @staticmethod
-    def new_instance(user_id: ObjectId, option_id: ObjectId, instance_id: ObjectId) -> Relation:
+    def new_instance(user_id: ObjectId, option_id: ObjectId, instance_id: ObjectId) -> 'Relation':
         cls = Relation()
 
         cls.id = None
@@ -157,7 +155,7 @@ class Relation:
         return result
 
     @staticmethod
-    def from_dict(value_dict: Dict) -> Relation:
+    def from_dict(value_dict: Dict) -> 'Relation':
         cls = Relation()
 
         if "_id" in value_dict:
@@ -223,7 +221,7 @@ class Relation:
         return mongo.db.relations.delete_one({"_id": self.id}).deleted_count == 1
 
     @staticmethod
-    def search_for_by_user_id(mongo: PyMongo, user_id: ObjectId) -> List[Relation]:
+    def search_for_by_user_id(mongo: PyMongo, user_id: ObjectId) -> List['Relation']:
         result = mongo.db.relations.find({"user_id": user_id})
         if result is None or not result:
             return []
@@ -231,7 +229,7 @@ class Relation:
         return [Relation.from_dict(r) for r in result]
 
     @staticmethod
-    def search_for_by_item_id(mongo: PyMongo, item_id: ObjectId) -> List[Relation]:
+    def search_for_by_item_id(mongo: PyMongo, item_id: ObjectId) -> List['Relation']:
         result = mongo.db.relations.find({"item_id": item_id})
         if result is None or not result:
             return []
@@ -239,7 +237,7 @@ class Relation:
         return [Relation.from_dict(r) for r in result]
 
     @staticmethod
-    def search_for_by_instance_id(mongo: PyMongo, instance_id: ObjectId) -> List[Relation]:
+    def search_for_by_instance_id(mongo: PyMongo, instance_id: ObjectId) -> List['Relation']:
         result = mongo.db.relations.find({"instance_id": instance_id})
         if result is None or not result:
             return []

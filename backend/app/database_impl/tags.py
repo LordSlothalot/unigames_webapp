@@ -1,5 +1,3 @@
-from __future__ import annotations
-
 from enum import IntEnum
 from typing import List, Dict, Optional, Union
 
@@ -11,7 +9,7 @@ from flask_pymongo import PyMongo
 class TagReference:
     tag_id: ObjectId = None
 
-    def __init__(self, tag: Union[ObjectId, Tag]):
+    def __init__(self, tag: Union[ObjectId, 'Tag']):
         if isinstance(tag, Tag):
             self.tag_id = tag.id
         else:
@@ -49,7 +47,7 @@ class Tag:
             return False
 
     @staticmethod
-    def from_dict(value_dict: Dict) -> Tag:
+    def from_dict(value_dict: Dict) -> 'Tag':
         cls = Tag(None, None)
 
         if "name" not in value_dict:
@@ -93,7 +91,7 @@ class Tag:
         return mongo.db.tags.delete_one({"_id": self.id}).deleted_count == 1
 
     @staticmethod
-    def search_for_by_name(mongo: PyMongo, name: str) -> Optional[Tag]:
+    def search_for_by_name(mongo: PyMongo, name: str) -> Optional['Tag']:
         result = mongo.db.tags.find_one({"name": name.lower()})
         if result is None:
             return None

@@ -1,5 +1,3 @@
-from __future__ import annotations
-
 from enum import Enum
 from typing import Dict, Optional
 
@@ -45,7 +43,7 @@ class Role:
         return result
 
     @staticmethod
-    def from_dict(value_dict: Dict) -> Role:
+    def from_dict(value_dict: Dict) -> 'Role':
         cls = Role(None, None, None)
 
         if "_id" in value_dict:
@@ -93,7 +91,7 @@ class Role:
         return mongo.db.roles.delete_one({"_id": self.id}).deleted_count == 1
 
     @staticmethod
-    def search_for_by_name(mongo: PyMongo, name: str) -> Optional[Role]:
+    def search_for_by_name(mongo: PyMongo, name: str) -> Optional['Role']:
         result = mongo.db.roles.find_one({"name": name})
         if result is None:
             return None

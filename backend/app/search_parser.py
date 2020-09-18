@@ -1,5 +1,3 @@
-from __future__ import annotations
-
 import abc
 from enum import Enum
 from typing import List, Union, Optional, Dict
@@ -44,7 +42,7 @@ class MissingCloseBracket(SearchStringParseError):
 
 class UnexpectedOperator(SearchStringParseError):
 
-    def __init__(self, index: int, operator: OperatorTypes, alias=None):
+    def __init__(self, index: int, operator: 'OperatorTypes', alias=None):
         self.index = index
         if alias is None or not alias:
             self.operator_str = "::" + str(operator.value)
@@ -88,7 +86,7 @@ class Value:
     not_value: bool = False
 
     @staticmethod
-    def parse(value: str) -> Union[Value, SearchStringParseError]:
+    def parse(value: str) -> Union['Value', SearchStringParseError]:
         if value.lstrip().startswith("::"):
 
             if value.lstrip().startswith("::has::"):
@@ -295,19 +293,19 @@ class Operator(metaclass=abc.ABCMeta):
         self.op_type = op_type
 
     @abc.abstractmethod
-    def get_left_most(self) -> Union[Operator, Value]:
+    def get_left_most(self) -> Union['Operator', Value]:
         pass
 
     @abc.abstractmethod
-    def get_right_most(self) -> Union[Operator, Value]:
+    def get_right_most(self) -> Union['Operator', Value]:
         pass
 
     @abc.abstractmethod
-    def set_left_most(self, value: Union[Operator, Value]):
+    def set_left_most(self, value: Union['Operator', Value]):
         pass
 
     @abc.abstractmethod
-    def set_right_most(self, value: Union[Operator, Value]):
+    def set_right_most(self, value: Union['Operator', Value]):
         pass
 
     @abc.abstractmethod
@@ -390,9 +388,9 @@ class BinaryOperator(Operator):
 class Parentheses:
     start: int = -1
     end: int = -1
-    inner: List[Parentheses] = []
+    inner: List['Parentheses'] = []
 
-    def __init__(self, start: int, end: int, inner: List[Parentheses]):
+    def __init__(self, start: int, end: int, inner: List['Parentheses']):
         self.start = start
         self.end = end
         self.inner = inner
@@ -426,7 +424,7 @@ class LexerSymbolTypes(Enum):
     IGNORE = ""
 
     @staticmethod
-    def from_str(value: str) -> LexerSymbolTypes:
+    def from_str(value: str) -> 'LexerSymbolTypes':
         for option in LexerSymbolTypes:
             if isinstance(option.value, list):
                 for o in option.value:

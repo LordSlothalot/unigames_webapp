@@ -1,5 +1,3 @@
-from __future__ import annotations
-
 from typing import List, Dict, Optional
 
 import pymongo
@@ -33,7 +31,7 @@ class User:
         return result
 
     @staticmethod
-    def from_dict(value_dict: Dict) -> User:
+    def from_dict(value_dict: Dict) -> 'User':
         cls = User(None, None)
 
         if "_id" in value_dict:
@@ -76,7 +74,7 @@ class User:
         return mongo.db.users.delete_one({"_id": self.id}).deleted_count == 1
 
     @staticmethod
-    def search_for_by_display_name(mongo: PyMongo, display_name: str) -> Optional[User]:
+    def search_for_by_display_name(mongo: PyMongo, display_name: str) -> Optional['User']:
         result = mongo.db.users.find_one({"display_name": display_name})
         if result is None:
             return None
