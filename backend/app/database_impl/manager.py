@@ -134,7 +134,7 @@ class DatabaseManager:
         bob_book_item = Item.search_for_by_attribute(self.mongo, item_name_attrib, "Bob's Grand Adventure")
         # create a new item if no search result returned
         if not bob_book_item:
-            bob_book_item = Item({"name": "Bob's Grand Adventure", "author": "Mingchuan Tian"},
+            bob_book_item = Item({"name": "Bob's Grand Adventure", "description": "No description"},
                                  [
                                      TagReference(book_tag), TagReference(players_tag_3), TagReference(players_tag_4),
                                      TagReference(players_tag_5)
