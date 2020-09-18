@@ -212,3 +212,15 @@ a{
     color: #EEE;
     text-shadow: 1px 1px 0px rgba(0, 0, 0, 0.98), 2px 2px 0px rgba(0, 0, 0, 0.96), 3px 3px 0px rgba(0, 0, 0, 0.94), 4px 4px 0px rgba(0, 0, 0, 0.92), 5px 5px 0px rgba(0, 0, 0, 0.9), 6px 6px 0px rgba(0, 0, 0, 0.88), 7px 7px 0px rgba(0, 0, 0, 0.86), 8px 8px 0px rgba(0, 0, 0, 0.84), 9px 9px 0px rgba(0, 0, 0, 0.82), 10px 10px 0px rgba(0, 0, 0, 0.8), 11px 11px 0px rgba(0, 0, 0, 0.78), 12px 12px 0px rgba(0, 0, 0, 0.76), 13px 13px 0px rgba(0, 0, 0, 0.74), 14px 14px 0px rgba(0, 0, 0, 0.72), 15px 15px 0px rgba(0, 0, 0, 0.7), 16px 16px 0px rgba(0, 0, 0, 0.68), 17px 17px 0px rgba(0, 0, 0, 0.66), 18px 18px 0px rgba(0, 0, 0, 0.64), 19px 19px 0px rgba(0, 0, 0, 0.62), 20px 20px 0px rgba(0, 0, 0, 0.6), 21px 21px 0px rgba(0, 0, 0, 0.58), 22px 22px 0px rgba(0, 0, 0, 0.56), 23px 23px 0px rgba(0, 0, 0, 0.54), 24px 24px 0px rgba(0, 0, 0, 0.52), 25px 25px 0px rgba(0, 0, 0, 0.5), 26px 26px 0px rgba(0, 0, 0, 0.48), 27px 27px 0px rgba(0, 0, 0, 0.46), 28px 28px 0px rgba(0, 0, 0, 0.44), 29px 29px 0px rgba(0, 0, 0, 0.42), 30px 30px 0px rgba(0, 0, 0, 0.4), 31px 31px 0px rgba(0, 0, 0, 0.38), 32px 32px 0px rgba(0, 0, 0, 0.36), 33px 33px 0px rgba(0, 0, 0, 0.34), 34px 34px 0px rgba(0, 0, 0, 0.32), 35px 35px 0px rgba(0, 0, 0, 0.3), 36px 36px 0px rgba(0, 0, 0, 0.28), 37px 37px 0px rgba(0, 0, 0, 0.26), 38px 38px 0px rgba(0, 0, 0, 0.24), 39px 39px 0px rgba(0, 0, 0, 0.22), 40px 40px 0px rgba(0, 0, 0, 0.2), 41px 41px 0px rgba(0, 0, 0, 0.18), 42px 42px 0px rgba(0, 0, 0, 0.16), 43px 43px 0px rgba(0, 0, 0, 0.14), 44px 44px 0px rgba(0, 0, 0, 0.12), 45px 45px 0px rgba(0, 0, 0, 0.1), 46px 46px 0px rgba(0, 0, 0, 0.08), 47px 47px 0px rgba(0, 0, 0, 0.06), 48px 48px 0px rgba(0, 0, 0, 0.04), 50px 50px 0px transparent;
   }
+  
+  /* Saul*/
+  .committee_body{
+    margin: auto;
+    width: 50%;
+    border: 3px solid green;
+    padding: 10px;
+    /* Safari, Opera, and Chrome */
+    display:-webkit-box;
+    -webkit-box-pack:center;
+    -webkit-box-align:center;
+  }

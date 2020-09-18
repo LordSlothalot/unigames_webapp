@@ -58,13 +58,15 @@
     <div class="row mb-3">
         <div class="col-sm text-center">
             {% for implied_id in tag['implies'] %}
-            <button type="button" class="btn btn-outline-dark shadow-sm">
-                {% for tag in tags_collection.find( {"_id": implied_id}) %}
-                    {{ tag['name'] }}
-                {% endfor %}
-            </button>
-
+                <form action="{{ url_for('implication_remove', tag_name = tag['name'], implied_id = implied_id) }}" style="display:inline">
+                    <button type="button m-2" class="btn btn-outline-dark shadow-sm">
+                        {% for impl in tags_collection.find( {"_id": implied_id}) %}
+                            {{ impl['name'] }} 
+                        {% endfor %}
+                    <span aria-hidden="true">×</span></button>
+                </form>
             {% endfor %}
+
 
             <form action="{{ url_for('implication_add', tag_name=tag['name'], cur_child=tag['implies']) }}" method="post">
                 {{ add_implication_form.hidden_tag() }}
