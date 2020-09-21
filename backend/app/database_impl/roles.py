@@ -44,7 +44,7 @@ class Role:
 
     @staticmethod
     def from_dict(value_dict: Dict) -> 'Role':
-        cls = Role(None, None, None)
+        cls = Role("", 0, {})
 
         if "_id" in value_dict:
             cls.id = value_dict["_id"]
