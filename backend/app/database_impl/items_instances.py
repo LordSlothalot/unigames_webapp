@@ -90,6 +90,7 @@ class Item:
         self.attributes = new_item.attributes
         self.tags = new_item.tags
         self.implied_tags = new_item.implied_tags
+        self.instances = new_item.instances
 
     # if 'instances' is true, then also recalculate the implied of all the instances
     # if 'inherit' is true, then if a tag is on all instance of an object it will be implied on the item
