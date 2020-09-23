@@ -32,7 +32,7 @@ class User:
 
     @staticmethod
     def from_dict(value_dict: Dict) -> 'User':
-        cls = User("", [])
+        cls = User(None, None)
 
         if "_id" in value_dict:
             cls.id = value_dict["_id"]

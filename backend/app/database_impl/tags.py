@@ -48,7 +48,7 @@ class Tag:
 
     @staticmethod
     def from_dict(value_dict: Dict) -> 'Tag':
-        cls = Tag("", [])
+        cls = Tag(None, None)
 
         if "name" not in value_dict:
             raise ValueError("the dict must contain 'name'")

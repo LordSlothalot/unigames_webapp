@@ -50,7 +50,7 @@ class Item:
 
     @staticmethod
     def from_dict(value_dict: Dict) -> 'Item':
-        cls = Item({}, [], [])
+        cls = Item(None, None, None)
 
         if "_id" in value_dict:
             cls.id = value_dict["_id"]
@@ -94,13 +94,11 @@ class Item:
 
     # if 'instances' is true, then also recalculate the implied of all the instances
     # if 'inherit' is true, then if a tag is on all instance of an object it will be implied on the item
-    # returns true if successful, false otherwise
     def recalculate_implied_tags(self, mongo: PyMongo, instances: bool = False, inherit: bool = True):
         if instances:
             self.recalculate_instance_implied_tags(mongo, None)
         else:
-            if not self.update_from_db(mongo):
-                return False
+            self.update_from_db(mongo)
         self.implied_tags = []
 
         # get implied from relations
@@ -141,10 +139,8 @@ class Item:
 
         self.write_to_db(mongo)
 
-    # returns true if successful, false otherwise
     def recalculate_instance_implied_tags(self, mongo: PyMongo, index: Optional[Union[int, List[int]]] = None):
-        if not self.update_from_db(mongo):
-            return False
+        self.update_from_db(mongo)
 
         if index is None:
             to_visit = range(0, len(self.instances))
@@ -247,7 +243,7 @@ class Instance:
 
     @staticmethod
     def from_dict(value_dict: Dict) -> 'Instance':
-        cls = Instance({}, [])
+        cls = Instance(None, None)
 
         if "_id" in value_dict:
             cls.id = value_dict["_id"]

@@ -30,7 +30,7 @@ class AttributeOption:
 
     @staticmethod
     def from_dict(value_dict: Dict) -> 'AttributeOption':
-        cls = AttributeOption("", AttributeTypes.Invalid)
+        cls = AttributeOption(None, None)
 
         if "attribute_name" not in value_dict or value_dict["attribute_name"] is None:
             raise ValueError("the dict must contain a non null 'attribute_name'")
