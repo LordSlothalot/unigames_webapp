@@ -43,6 +43,7 @@ class UpdateForm(FlaskForm):
     email = EmailField('Email', validators = [DataRequired(), Email()])
     role = TextField('Role', validators = [DataRequired()])
     submit = SubmitField('Update')
+    delete = SubmitField('Delete')
     
 
 #new entry form
