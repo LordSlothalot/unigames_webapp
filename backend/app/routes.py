@@ -17,6 +17,7 @@ from functools import wraps
 from app.tables import UserTable
 from bson.objectid import ObjectId
 
+from flask_paginate import Pagination, get_page_parameter, get_page_args
 
 # -------------------------------------------
 #     User pages
@@ -203,14 +204,22 @@ def deleteuser(id):
 def testing():
 	return render_template('admin-pages/test.html')
 
+
+def get_items(items, offset=0, per_page=10):
+    return items[offset: offset + per_page]
+
 #Library management page
 @app.route('/admin/lib')
 @login_required(role="Admin")
-def lib():
+def lib():    
     items = db_manager.mongo.db.items.find()
+    page, per_page, offset = get_page_args(page_parameter='page', per_page_parameter='per_page')
+    total = items.count()
+    pagination_items = get_items(items, offset=offset, per_page=per_page)
+    pagination = Pagination(page=page, per_page=per_page, total=total)
 
     return render_template('admin-pages/lib-man/lib.html', items=items, tags_collection=tags_collection,
-                           ObjectId=ObjectId, list=list)
+                           ObjectId=ObjectId, list=list, page=page, per_page=per_page, pagination=pagination)
 
 
 #Library item edit page

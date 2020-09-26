@@ -43,9 +43,12 @@
                 <div class="card mb-5">
                     <div class="card-header">Unigames library</div>
                     <div class="card-block p-0">
+                        {{ pagination.info }}
+                        {{ pagination.links }}
                         <table class="table table-bordered m-0 table-list-search">
                             <thead class="">
                                 <tr>
+                                    <th>#</th>
                                     <th>Title</th>
                                     <th>Tags</th>
                                     <th>Implied tags</th>
@@ -55,6 +58,7 @@
                             <tbody>
                                 {% for item in items %}
                                 <tr>
+                                    <td>{{ loop.index + pagination.skip }}</td>
                                     <td>
                                         <a
                                             href="{{ url_for('lib_edit', item_id = item['_id']) }}">{{ item['attributes']['name'] }}</a>
@@ -85,6 +89,7 @@
                             </tbody>
                         </table>
                     </div>
+                    {{ pagination.links }}
                     <div class="card-footer p-0">
                         <nav aria-label="...">
                             <ul class="pagination justify-content-end mt-3 mr-3">
