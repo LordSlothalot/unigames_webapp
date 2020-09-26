@@ -216,7 +216,7 @@ def lib():
     page, per_page, offset = get_page_args(page_parameter='page', per_page_parameter='per_page')
     total = items.count()
     pagination_items = get_items(items, offset=offset, per_page=per_page)
-    pagination = Pagination(page=page, per_page=per_page, total=total)
+    pagination = Pagination(page=page, per_page=per_page, total=total, css_framework='bootstrap4')
 
     return render_template('admin-pages/lib-man/lib.html', items=items, tags_collection=tags_collection,
                            ObjectId=ObjectId, list=list, page=page, per_page=per_page, pagination=pagination)
