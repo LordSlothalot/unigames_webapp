@@ -148,11 +148,11 @@ def login_required(role="ANY"):
 @app.route('/admin', methods=['GET', 'POST'])
 @login_required(role="Admin")
 def admin():
-    form = serachForm()
-    result = []
-    if form.validate_on_submit():
-        result = search_string_to_mongodb_query(db_manager.mongo, form.searchInput.data)
-    return render_template('admin-pages/home.html', form=form, result=result)
+    #form = serachForm()
+    #result = []
+    #if form.validate_on_submit():
+        #result = search_string_to_mongodb_query(db_manager.mongo, form.searchInput.data)
+    return render_template('admin-pages/new-home.html')
 	
 @app.route('/admin/users', methods=['GET', 'POST'])
 @login_required(role="Admin")
@@ -432,73 +432,3 @@ def page_not_found(e):
 #    app.run(debug=True)
 
 
-
-
-#Unfortunately attributes are gone
-'''
-#Attribute management page
-@app.route('/admin/all-attributes')
-def all_attributes():
-    return render_template('admin-pages/lib-man/attrib-man/all-attributes.html', attrib_collection=attrib_collection)
-
-#Page for creating an attribute
-@app.route('/admin/lib-man/create-attribute', methods=['GET', 'POST'])
-def create_attribute():
-    form = createAttribForm()
-    if form.validate_on_submit():
-        attrib_name = form.attrib_name.data
-        attrib_type = form.attrib_type.data
-        new_attrib = AttributeOption.search_for_by_name(db_manager.mongo, attrib_name)
-        if new_attrib is None:
-            if attrib_type == 'Single-line string':
-                new_attrib = AttributeOption(attrib_name, AttributeTypes.SingleLineString)
-            elif attrib_type == 'Multi-line string':
-                new_attrib = AttributeOption(attrib_name, AttributeTypes.MultiLineString)
-            elif attrib_type == 'Integer':
-                new_attrib = AttributeOption(attrib_name, AttributeTypes.SingleLineInteger)
-            new_attrib.write_to_db(db_manager.mongo)
-        else:
-            return 'Attribute already exists!'
-        return redirect(url_for('all_attributes'))
-    return render_template('admin-pages/lib-man/attrib-man/create-attribute.html', form=form)
-
-#Function for deleting an attribute
-@app.route('/admin/lib-man/delete-attribute/<attrib_name>', methods=['GET', 'POST'])
-def delete_attribute(attrib_name):
-    attrib = AttributeOption.search_for_by_name(db_manager.mongo, attrib_name)
-    attrib.delete_from_db(db_manager.mongo)
-    return redirect(url_for('all_attributes'))
-
-#Page for library item to add an attribute
-@app.route('/admin/lib-man/item-add-attrib/<item_id>', methods=['GET', 'POST'])
-def item_add_attrib(item_id):
-    form = addAttribForm()
-    item = db_manager.mongo.db.items.find({"_id": ObjectId(item_id)})[0]
-    if form.validate_on_submit():
-        attrib_name = form.attrib_name.data
-        new_attrib = {attrib_name: form.attrib_value.data}
-        item['attributes'].update(new_attrib)
-        Item.from_dict(item).write_to_db(db_manager.mongo)
-        return redirect(url_for('lib_edit', item_id=item_id))
-    return render_template('admin-pages/lib-man/item-add-attrib.html', form=form)
-
-#Update attribute detail (attribute management)
-@app.route('/admin/lib-man/item-update-attrib/<item_id>/<attrib_name>', methods=['GET', 'POST'])
-def item_update_attrib(item_id, attrib_name):
-    form = updateAttribForm()
-    item = db_manager.mongo.db.items.find({"_id": ObjectId(item_id)})[0]
-    if form.validate_on_submit():
-        update_attrib = {attrib_name: form.attrib_value.data}
-        item['attributes'].update(update_attrib)
-        Item.from_dict(item).write_to_db(db_manager.mongo)
-        return redirect(url_for('lib_edit', item_id=item_id))
-    return render_template('admin-pages/lib-man/item-add-attrib.html', form=form)
-
-#function for removing an attribute from an item
-@app.route('/admin/lib-man/item-remove-attrib/<item_id>/<attrib_name>', methods=['GET', 'POST'])
-def item_remove_attrib(item_id, attrib_name):
-    item = db_manager.mongo.db.items.find({"_id": ObjectId(item_id)})[0]
-    del item['attributes'][attrib_name]
-    Item.from_dict(item).write_to_db(db_manager.mongo)
-    return redirect(url_for('lib_edit', item_id=item_id))
-'''
