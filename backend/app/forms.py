@@ -116,3 +116,7 @@ class addRuleForm(FlaskForm):
 class serachForm(FlaskForm):
     searchInput = StringField('Look for: ')
     submit = SubmitField('Search')
+
+class createTagForm(FlaskForm):
+    name = StringField('Name')
+    submit = SubmitField('Save')

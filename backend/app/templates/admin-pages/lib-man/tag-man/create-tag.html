@@ -1,0 +1,28 @@
+{% extends "final-admin-layout.html" %}
+
+{% import "bootstrap/wtf.html" as wtf %}
+{% block body %}
+
+<div class="row">
+    <div class="col-md-3">
+
+    </div>
+    <div class="col-md-6">
+        <div class="card shadow mb-4">
+            <div class="card-header py-3">
+                <h6 class="m-0 font-weight-bold text-default">Create a tag</h6>
+            </div>
+            <div class="card-body">
+                Create a new tag
+                <div class="card mb-4 py-3 border-left-success">
+                    <div class="card-body">
+                        {{ wtf.quick_form(form)}}
+                    </div>
+                  </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+{% endblock %}

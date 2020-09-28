@@ -19,6 +19,10 @@
 
   <!-- Custom styles for this template-->
   <link href="{{ url_for('static', filename='css/sb-admin-2.min.css') }}" rel="stylesheet">
+
+  {% block head %}
+  {% endblock %}
+
 </head>
 
 <body id="page-top">
@@ -40,7 +44,7 @@
 
       <!-- Nav Item - Dashboard -->
       <li class="nav-item active">
-        <a class="nav-link" href="index.html">
+        <a class="nav-link" href="{{ url_for('admin') }}" >
           <i class="fas fa-fw fa-tachometer-alt"></i>
           <span>Dashboard</span></a>
       </li>
@@ -61,7 +65,7 @@
           <div class="bg-white py-2 collapse-inner rounded">
             <h6 class="collapse-header">User Management</h6>
             <a class="collapse-item" href="buttons.html">Create a user</a>
-            <a class="collapse-item" href="buttons.html">All users</a>
+            <a class="collapse-item" href="{{ url_for('adminusers') }}">All users</a>
           </div>
         </div>
       </li>
@@ -76,9 +80,9 @@
         <div id="collapseLibrary" class="collapse" aria-labelledby="headingUtilities" data-parent="#accordionSidebar">
           <div class="bg-white py-2 collapse-inner rounded">
             <h6 class="collapse-header">Library Management</h6>
-            <a class="collapse-item" href="utilities-color.html">Create an item</a>
+            <a class="collapse-item" href="{{ url_for('create_item') }}">Create an item</a>
             <a class="collapse-item" href="utilities-border.html">Search for an item</a>
-            <a class="collapse-item" href="utilities-animation.html">All items</a>
+            <a class="collapse-item" href="{{ url_for('all_items') }}">All items</a>
           </div>
         </div>
       </li>
@@ -93,9 +97,9 @@
         <div id="collapseItem" class="collapse" aria-labelledby="headingUtilities" data-parent="#accordionSidebar">
           <div class="bg-white py-2 collapse-inner rounded">
             <h6 class="collapse-header">Tag management</h6>
-            <a class="collapse-item" href="utilities-color.html">Create a tag</a>
+            <a class="collapse-item" href="{{ url_for('create_tag')}}">Create a tag</a>
             <a class="collapse-item" href="utilities-border.html">Search for a tag</a>
-            <a class="collapse-item" href="utilities-animation.html">All tags</a>
+            <a class="collapse-item" href="{{ url_for('all_tags') }}">All tags</a>
             <a class="collapse-item" href="utilities-other.html">All implications</a>
           </div>
         </div>
@@ -227,10 +231,13 @@
     <!-- Page level plugins -->
     <script src="{{ url_for('static', filename='vendor/chart.js/Chart.min.js') }}"></script>
 
-    <!-- Page level custom scripts -->
-    <script src="{{ url_for('static', filename='js/demo/chart-area-demo.js') }}"></script>
-    <script src="{{ url_for('static', filename='js/demo/chart-pie-demo.js') }}"></script>
 
+  <!-- Page level plugins -->
+  <script src="{{ url_for('static', filename= 'vendor/datatables/jquery.dataTables.min.js' )}}"></script>
+  <script src="{{ url_for('static', filename='vendor/datatables/dataTables.bootstrap4.min.js')}}"></script>
+
+  <!-- Page level custom scripts -->
+  <script src="{{ url_for ('static', filename='js/demo/datatables-demo.js' ) }}"></script>
 
 </body>
 

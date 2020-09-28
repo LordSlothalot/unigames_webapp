@@ -7,7 +7,7 @@ from app.database_impl.tags import Tag, TagReference
 
 from bson.objectid import ObjectId
 from app.forms import newEntryForm, addTagForm, addInstanceForm, createTagForm, addTagImplForm, \
-    addAttribForm, updateAttribForm, createAttribForm, LoginForm, RegistrationForm, UpdateForm, addRuleForm, serachForm
+    addAttribForm, updateAttribForm, createAttribForm, LoginForm, RegistrationForm, UpdateForm, addRuleForm, serachForm, createTagForm
 from app.user_models import User
 from app.search_parser import search_string_to_mongodb_query
 from flask_pymongo import PyMongo
@@ -203,14 +203,21 @@ def deleteuser(id):
 def testing():
 	return render_template('admin-pages/test.html')
 
-#Library management page
-@app.route('/admin/lib')
+#Page for showing all library items
+@app.route('/admin/all-items')
 @login_required(role="Admin")
-def lib():
+def all_items():
     items = db_manager.mongo.db.items.find()
 
-    return render_template('admin-pages/lib-man/lib.html', items=items, tags_collection=tags_collection,
+    return render_template('admin-pages/lib-man/all-items.html', items=items, tags_collection=tags_collection,
                            ObjectId=ObjectId, list=list)
+
+#Page for showing all implications
+@app.route('/admin/tag-man/all-impl')
+@login_required(role="Admin")
+def all_impl():
+    ### Needs further implementation
+    return render_template('admin-pages/tag-man/tag-all.html')
 
 
 #Library item edit page
@@ -252,9 +259,9 @@ def item_remove_tag(item_id, tag_name):
 
 
 #Library add item page
-@app.route('/admin/lib-man/lib-add', methods=['GET', 'POST'])
+@app.route('/admin/lib-man/create-item', methods=['GET', 'POST'])
 @login_required(role="Admin")
-def lib_add():
+def create_item():
     form = newEntryForm()
     all_tags = db_manager.mongo.db.tags.find()
     if form.validate_on_submit():
@@ -271,10 +278,10 @@ def lib_add():
             new_item.write_to_db(db_manager.mongo)
             new_item.recalculate_implied_tags(db_manager.mongo)
 
-            return redirect(url_for('lib'))
+            return redirect(url_for('all_items'))
         else:
             return 'the item already exists'
-    return render_template('admin-pages/lib-man/lib-add.html', form=form)
+    return render_template('admin-pages/lib-man/create-item.html', form=form)
 
 #Function for delete an item on library page
 @app.route('/admin/lib-man/lib-delete/<item_id>')
@@ -282,7 +289,7 @@ def lib_add():
 def lib_delete(item_id):
     item = Item.from_dict(db_manager.mongo.db.items.find({"_id" : ObjectId(item_id)})[0])
     item.delete_from_db(db_manager.mongo)
-    return redirect(url_for('lib'))
+    return redirect(url_for('all_items'))
 
 #Tag management page
 @app.route('/admin/lib-man/tag-man/tag-all', methods=['GET', 'POST'])
@@ -331,7 +338,7 @@ def tag_delete(tag_name):
                 tag['implies'].remove(implication)
                 Tag.from_dict(tag).write_to_db(db_manager.mongo)
                 implication_dropped += 1        # need to add user notification
-    return redirect(url_for('tag_all'))
+    return redirect(url_for('all_tags'))
 
 #Function for adding an implicaiton to a tag
 @app.route('/admin/lib-man/tag-man/implication-add/<tag_name>/<cur_child>', methods=['GET', 'POST'])
@@ -368,6 +375,9 @@ def implication_remove(tag_name, implied_id):
             tag.remove_implied_tag(tag_ref)
             tag.write_to_db(db_manager.mongo)
     return redirect(url_for('tag_all'))
+
+
+
 
 #Funciton for adding an implication rule
 @app.route('/admin/lib-man/tag-man/rule-add', methods=['GET', 'POST'])
@@ -413,7 +423,30 @@ def item_update_attrib(item_id, attrib_name):
         return redirect(url_for('lib_edit', item_id=item_id))
     return render_template('admin-pages/lib-man/item-add-attrib.html', form=form)
 
+#Page for creating a tag
+@app.route('/admin/lib-man/tag-man/create-a-tag', methods=['POST','GET'])
+@login_required(role="Admin")
+def create_tag():
+    form = createTagForm()
+    if form.validate_on_submit():
+        if form.name.data.isspace() or form.name.data is '':
+            return 'you cannot create an empty tag'
+        tag_exists = Tag.search_for_by_name(db_manager.mongo, form.name.data)
+        if tag_exists is None:
+            new_tag = Tag(form.name.data, [])
+            new_tag.write_to_db(db_manager.mongo)
+            return redirect(url_for('all_tags'))
+        else:
+            return 'the tag already exists'
+    return render_template('admin-pages/lib-man/tag-man/create-tag.html', form=form)
 
+
+#Page for showing all tags
+@app.route('/admin/lib-man/tag-man/all-tags')
+@login_required(role="Admin")
+def all_tags():
+
+    return render_template('admin-pages/lib-man/tag-man/all-tags.html', tags_collection=tags_collection)
 
 # -------------------------------------------
 #   Error pages, can be futher implemented
