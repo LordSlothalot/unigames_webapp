@@ -190,6 +190,8 @@ class Value:
             return {("attributes." + self.attribute_name): {"$exists": not self.not_value}}
         elif isinstance(self, HasInstanceAttributeValue):
             return {("instances.attributes." + self.attribute_name): {"$exists": not self.not_value}}
+        elif isinstance(self, VisibleItemValue):
+            return {"hidden": {"$ne": True}}
         elif isinstance(self, CheckItemAttributeValue):
             if self.check_mode == CheckMode.Equals:
                 if self.not_value:
@@ -277,6 +279,12 @@ class CheckInstanceAttributeValue(AttributeValue):
     def __str__(self) -> str:
         return "CheckInstanceAttribute: '" + self.attribute_name + "'" + " | " + str(
             self.check_mode) + " | '" + self.value + "'"
+
+
+class VisibleItemValue(Value):
+
+    def __str__(self) -> str:
+        return "VisibleItem"
 
 
 class OperatorTypes(Enum):
@@ -683,13 +691,18 @@ def search_string_parser(search_string: Union[str, List[LexerSymbol]]) -> Union[
     return ast
 
 
-def search_string_to_mongodb_query(mongo: PyMongo, search_string: Union[str, AST]) -> Union[Dict, List[SearchStringParseError]]:
+def search_string_to_mongodb_query(mongo: PyMongo, search_string: Union[str, AST], include_hidden: bool = False) -> Union[Dict, List[SearchStringParseError]]:
     if isinstance(search_string, str):
         ast: AST = search_string_parser(search_string)
         if isinstance(ast, SearchStringParseError):
             return [ast]
     else:
         ast: AST = search_string
+
+    # if not include_hidden then add that condition
+
+    if not include_hidden:
+        ast.base_operator = BinaryOperator(OperatorTypes.And, ast.base_operator, VisibleItemValue())
 
     # verify existence of tags/attribs and get their ids
 

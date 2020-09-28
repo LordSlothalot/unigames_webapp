@@ -13,7 +13,6 @@ from app.database_impl.relations import RelationOption, Relation
 from app.database_impl.roles import Role, Permissions
 from app.database_impl.tags import Tag, TagReference
 from app.database_impl.users import User
-from app.search_parser import search_string_to_mongodb_query
 
 
 class DatabaseManager:
@@ -31,6 +30,39 @@ class DatabaseManager:
         RelationOption.init_indices(self.mongo)
         Relation.init_indices(self.mongo)
 
+        # For actual production, to ensure certain attributes exist
+
+        # create an attribute for a name
+        name_attrib = AttributeOption.search_for_by_name(self.mongo, "name")
+        if name_attrib is None:
+            name_attrib = AttributeOption("name", AttributeTypes.SingleLineString)
+            name_attrib.write_to_db(self.mongo)
+
+        # create an attribute for a description
+        description_attrib = AttributeOption.search_for_by_name(self.mongo, "description")
+        if description_attrib is None:
+            description_attrib = AttributeOption("description", AttributeTypes.MultiLineString)
+            description_attrib.write_to_db(self.mongo)
+
+        # create an attribute for a hidden description
+        hidden_description_attrib = AttributeOption.search_for_by_name(self.mongo, "hidden_description")
+        if hidden_description_attrib is None:
+            hidden_description_attrib = AttributeOption("hidden_description", AttributeTypes.MultiLineString, True)
+            hidden_description_attrib.write_to_db(self.mongo)
+
+        everyone_role = Role.search_for_by_name(self.mongo, "everyone")
+        if everyone_role is None:  # -1 is overridden by everything, an 'everyone' is required for sake of a default
+            everyone_role = Role("everyone", -1, {Permissions.CanEditItems: False, Permissions.CanEditUsers: False,
+                                                  Permissions.CanViewHidden: False})
+            everyone_role.write_to_db(self.mongo)
+
+        admin_role = Role.search_for_by_name(self.mongo, "admin")
+        if admin_role is None:  # 0 overrides everything
+            admin_role = Role("admin", 0, {Permissions.CanEditItems: True, Permissions.CanEditUsers: True,
+                                           Permissions.CanViewHidden: True})
+            admin_role.write_to_db(self.mongo)
+
+    # To only be called for the sake of testing
     def test(self):
         # create a book tag
         book_tag = Tag.search_for_by_name(self.mongo, "Book")
@@ -100,9 +132,7 @@ class DatabaseManager:
 
         # create an attribute for name
         item_name_attrib = AttributeOption.search_for_by_name(self.mongo, "name")
-        if item_name_attrib is None:
-            item_name_attrib = AttributeOption("name", AttributeTypes.SingleLineString)
-            item_name_attrib.write_to_db(self.mongo)
+        # now ensured by init
 
         # create an attribute for author
         item_author_attrib = AttributeOption.search_for_by_name(self.mongo, "author")
@@ -112,9 +142,7 @@ class DatabaseManager:
 
         # create an attribute for description
         item_description_attrib = AttributeOption.search_for_by_name(self.mongo, "description")
-        if item_description_attrib is None:
-            item_description_attrib = AttributeOption("description", AttributeTypes.MultiLineString)
-            item_description_attrib.write_to_db(self.mongo)
+        # now ensured by init
 
         # search for the uuid attribute
         instance_uuid_attrib = AttributeOption.search_for_by_name(self.mongo, "uuid")
@@ -142,25 +170,37 @@ class DatabaseManager:
 
             bob_book_item.instances.append(Instance({"uuid": "109358180",
                                                      "Damage Report": "(4/5/2017): Page 57 has a small section of the top right corner torn off, no text missing, still serviceable"},
-                                                    [TagReference(damaged_tag)]))
+                                                    [TagReference(damaged_tag)], True))
             bob_book_item.instances.append(Instance({"uuid": "109358181"}, []))
 
             bob_book_item.write_to_db(self.mongo)
         else:
             bob_book_item = bob_book_item[0]
 
+        # search for item by its name attribute
+        steve_hidden_book_item = Item.search_for_by_attribute(self.mongo, item_name_attrib, "Steve's Grand Adventure")
+        # create a new item if no search result returned
+        if not steve_hidden_book_item:
+            steve_hidden_book_item = Item({"name": "Steve's Grand Adventure", "description": "No description"},
+                                          [
+                                              TagReference(book_tag), TagReference(players_tag_4)
+                                          ], [], True)
+
+            steve_hidden_book_item.instances.append(Instance({"uuid": "109354180"}, []))
+            steve_hidden_book_item.instances.append(Instance({"uuid": "109354181"}, []))
+
+            steve_hidden_book_item.write_to_db(self.mongo)
+        else:
+            steve_hidden_book_item = steve_hidden_book_item[0]
+
         # recalculates all implied tags for the item and instances
         bob_book_item.recalculate_implied_tags(self.mongo, True)
 
         everyone_role = Role.search_for_by_name(self.mongo, "everyone")
-        if everyone_role is None:  # -1 is overridden by everything, an 'everyone' is required for sake of a default
-            everyone_role = Role("everyone", -1, {Permissions.CanEditItems: False, Permissions.CanEditUsers: False})
-            everyone_role.write_to_db(self.mongo)
+        # now ensured by init
 
         admin_role = Role.search_for_by_name(self.mongo, "admin")
-        if admin_role is None:  # 0 overrides everything
-            admin_role = Role("admin", 0, {Permissions.CanEditItems: True, Permissions.CanEditUsers: True})
-            admin_role.write_to_db(self.mongo)
+        # now ensured by init
 
         borrowing_item_relation = RelationOption.search_for_by_name(self.mongo, "Borrowing")
         if borrowing_item_relation is None:

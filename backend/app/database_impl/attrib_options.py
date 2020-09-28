@@ -16,6 +16,7 @@ class AttributeTypes(IntEnum):
 
 class AttributeOption:
     id: ObjectId = None
+    hidden: bool = False
     attribute_name: str = None
     attribute_type: AttributeTypes = AttributeTypes.Invalid
 
@@ -23,8 +24,9 @@ class AttributeOption:
     def init_indices(mongo: PyMongo):
         mongo.db.attrib_options.create_index([("attribute_name", pymongo.ASCENDING)], unique=True)
 
-    def __init__(self, attribute_name: str, attribute_type: AttributeTypes):
+    def __init__(self, attribute_name: str, attribute_type: AttributeTypes, hidden: bool = False):
         self.id = None
+        self.hidden = hidden
         self.attribute_name = attribute_name
         self.attribute_type = attribute_type
 
@@ -39,6 +41,7 @@ class AttributeOption:
             raise ValueError("the dict must contain a non null 'attribute_type'")
 
         cls.id = value_dict["_id"]
+        cls.hidden = ("hidden" in value_dict and value_dict["hidden"])
         cls.attribute_name = value_dict["attribute_name"]
         cls.attribute_type = AttributeTypes(value_dict["attribute_type"])
 
@@ -49,6 +52,10 @@ class AttributeOption:
             "attribute_name": self.attribute_name.lower(),
             "attribute_type": int(self.attribute_type)
         }
+
+        if self.hidden:
+            result["hidden"] = True
+
         if self.id is not None:
             result["_id"] = self.id
 
@@ -72,6 +79,7 @@ class AttributeOption:
 
         new_item_attribute = AttributeOption.from_dict(new_data)
 
+        self.hidden = new_item_attribute.hidden
         self.attribute_name = new_item_attribute.attribute_name
         self.attribute_name = new_item_attribute.attribute_name
 
