@@ -1,5 +1,6 @@
+import abc
 from enum import IntEnum
-from typing import Dict, Optional
+from typing import Dict, Optional, List, Union
 
 import pymongo
 from bson import ObjectId
@@ -11,7 +12,95 @@ class AttributeTypes(IntEnum):
     SingleLineString = 1
     MultiLineString = 2
     SingleLineInteger = 3
+    Picture = 4
     # TODO: Add more supported types, such as pictures, UUID and some other stuff
+
+
+class Attribute(metaclass=abc.ABCMeta):
+    attrib_type: AttributeTypes
+    option_id: ObjectId
+
+    def __init__(self, option_id: Union['AttributeOption', ObjectId], attrib_type: AttributeTypes):
+        if isinstance(option_id, ObjectId):
+            self.option_id = option_id
+        else:
+            if option_id.attribute_type != attrib_type:
+                raise ValueError("Expected Attribute Types to match")
+            self.option_id = option_id.id
+
+        self.attrib_type = attrib_type
+
+    @staticmethod
+    def from_dict(dict_value: Dict) -> 'Attribute':
+
+        if "option_id" not in dict_value or dict_value["option_id"] is None:
+            raise ValueError("Requires an option_id field")
+        option_id = dict_value["option_id"]
+
+        if "attrib_type" not in dict_value or dict_value["attrib_type"] is None:
+            raise ValueError("Requires an attrib_type field")
+        attrib_type = dict_value["attrib_type"]
+
+        value = dict_value["value"]
+
+        if attrib_type == AttributeTypes.Invalid:
+            raise ValueError("Requires valid attrib_type")
+        elif attrib_type == AttributeTypes.SingleLineString:
+            return SingleLineStringAttribute(option_id, value)
+        elif attrib_type == AttributeTypes.MultiLineString:
+            return MultiLineStringAttribute(option_id, value)
+        elif attrib_type == AttributeTypes.SingleLineInteger:
+            return SingleLineIntegerAttribute(option_id, value)
+        elif attrib_type == AttributeTypes.Picture:
+            return PictureAttribute(option_id, value)
+
+    @abc.abstractmethod
+    def to_dict(self) -> Dict:
+        return {"option_id": self.option_id, "attrib_type": self.attrib_type}
+
+
+class SingleLineStringAttribute(Attribute):
+    text: str
+
+    def __init__(self, option_id: Union['AttributeOption', ObjectId], text: str):
+        super().__init__(option_id, AttributeTypes.SingleLineString)
+        self.text = text
+
+    def to_dict(self) -> Dict:
+        return {**super().to_dict(), "value": self.text}
+
+
+class MultiLineStringAttribute(Attribute):
+    text: List[str]
+
+    def __init__(self, option_id: Union['AttributeOption', ObjectId], text: List[str]):
+        super().__init__(option_id, AttributeTypes.MultiLineString)
+        self.text = text
+
+    def to_dict(self) -> Dict:
+        return {**super().to_dict(), "value": self.text}
+
+
+class SingleLineIntegerAttribute(Attribute):
+    val: int
+
+    def __init__(self, option_id: Union['AttributeOption', ObjectId], val: int):
+        super().__init__(option_id, AttributeTypes.SingleLineInteger)
+        self.val = val
+
+    def to_dict(self) -> Dict:
+        return {**super().to_dict(), "value": self.val}
+
+
+class PictureAttribute(Attribute):
+    picture_file_id: ObjectId
+
+    def __init__(self, option_id: Union['AttributeOption', ObjectId], picture_file_id: ObjectId):
+        super().__init__(option_id, AttributeTypes.Picture)
+        self.picture_file_id = picture_file_id
+
+    def to_dict(self) -> Dict:
+        return {**super().to_dict(), "value": self.picture_file_id}
 
 
 class AttributeOption:

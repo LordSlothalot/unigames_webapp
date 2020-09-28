@@ -187,36 +187,41 @@ class Value:
 
             return {op: [{"instances.tags": inner}, {"instances.implied_tags": inner}]}
         elif isinstance(self, HasItemAttributeValue):
-            return {("attributes." + self.attribute_name): {"$exists": not self.not_value}}
+            if self.not_value:
+                return {"attributes.option_id": {"$ne": self.attribute_option_id}}
+            else:
+                return {"attributes.option_id": self.attribute_option_id}
         elif isinstance(self, HasInstanceAttributeValue):
-            return {("instances.attributes." + self.attribute_name): {"$exists": not self.not_value}}
+            if self.not_value:
+                return {"instances.attributes.option_id": {"$ne": self.attribute_option_id}}
+            else:
+                return {"instances.attributes.option_id": self.attribute_option_id}
         elif isinstance(self, VisibleItemValue):
             return {"hidden": {"$ne": True}}
         elif isinstance(self, CheckItemAttributeValue):
             if self.check_mode == CheckMode.Equals:
                 if self.not_value:
-                    return {("attributes." + self.attribute_name): {"$ne": self.value}}
+                    return {"attributes": {"$elemMatch": {"option_id": self.attribute_option_id, "value": {"$ne": self.value}}}}
                 else:
-                    return {("attributes." + self.attribute_name): self.value}
+                    return {"attributes": {"$elemMatch": {"option_id": self.attribute_option_id, "value": self.value}}}
             elif self.check_mode == CheckMode.Contains:
                 if self.not_value:
-                    return {("attributes." + self.attribute_name): {"not": {"$regex": ".*" + self.value + ".*"}}}
+                    return {"attributes": {"$elemMatch": {"option_id": self.attribute_option_id, "value": {"not": {"$regex": ".*" + self.value + ".*"}}}}}
                 else:
-                    return {("attributes." + self.attribute_name): {"$regex": ".*" + self.value + ".*"}}
+                    return {"attributes": {"$elemMatch": {"option_id": self.attribute_option_id, "value": {"$regex": ".*" + self.value + ".*"}}}}
             else:
                 return {"TODO": "Unexpected"}
         elif isinstance(self, CheckInstanceAttributeValue):
             if self.check_mode == CheckMode.Equals:
                 if self.not_value:
-                    return {("instances.attributes." + self.attribute_name): {"$ne": self.value}}
+                    return {"instances.attributes": {"$elemMatch": {"option_id": self.attribute_option_id, "value": {"$ne": self.value}}}}
                 else:
-                    return {("instances.attributes." + self.attribute_name): self.value}
+                    return {"instances.attributes": {"$elemMatch": {"option_id": self.attribute_option_id, "value": self.value}}}
             elif self.check_mode == CheckMode.Contains:
                 if self.not_value:
-                    return {
-                        ("instances.attributes." + self.attribute_name): {"not": {"$regex": ".*" + self.value + ".*"}}}
+                    return {"instances.attributes": {"$elemMatch": {"option_id": self.attribute_option_id, "value": {"not": {"$regex": ".*" + self.value + ".*"}}}}}
                 else:
-                    return {("instances.attributes." + self.attribute_name): {"$regex": ".*" + self.value + ".*"}}
+                    return {"instances.attributes": {"$elemMatch": {"option_id": self.attribute_option_id, "value": {"$regex": ".*" + self.value + ".*"}}}}
             else:
                 return {"TODO": "Unexpected"}
 
