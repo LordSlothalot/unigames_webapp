@@ -1,22 +1,22 @@
+from functools import wraps
 
-from app import app, db_manager,  login_manager
-from flask import Flask, render_template, url_for, redirect, request, flash
-from app.database_impl.attrib_options import AttributeOption, AttributeTypes
+from bson.errors import InvalidId
+from bson.objectid import ObjectId
+from flask import render_template, url_for, redirect, request, flash, Response
+from flask_login import current_user, login_user, logout_user
+from gridfs import NoFile
+from werkzeug.security import generate_password_hash
+from werkzeug.utils import secure_filename
+
+from app import app, db_manager, login_manager
+from app.database_impl.attrib_options import AttributeOption, PictureAttribute
 from app.database_impl.items_instances import Item, Instance
 from app.database_impl.tags import Tag, TagReference
-
-from bson.objectid import ObjectId
-from app.forms import newEntryForm, addTagForm, addInstanceForm, createTagForm, addTagImplForm, \
-    addAttribForm, updateAttribForm, createAttribForm, LoginForm, RegistrationForm, UpdateForm, addRuleForm, serachForm
-from app.user_models import User
+from app.forms import newEntryForm, addTagForm, createTagForm, addTagImplForm, \
+    updateAttribForm, LoginForm, RegistrationForm, UpdateForm, addRuleForm, serachForm
 from app.search_parser import search_string_to_mongodb_query
-from flask_pymongo import PyMongo
-from flask_login import LoginManager, current_user, login_user, logout_user, login_required
-from werkzeug.security import generate_password_hash
-from functools import wraps
 from app.tables import UserTable
-from bson.objectid import ObjectId
-
+from app.user_models import User
 
 # -------------------------------------------
 #     User pages
@@ -26,10 +26,79 @@ tags_collection = db_manager.mongo.db.tags
 attrib_collection = db_manager.mongo.db.attrib_options
 mongo = db_manager.mongo
 
+
 @app.route('/')
 @app.route('/index')
 def index():
     return render_template('user-pages/index.html')
+
+
+# upload and view code taken and modified from here: https://gist.github.com/artisonian/492713
+# needs refinement from here, but this is to give those who need it a head start
+@app.route('/image/<oid>')
+def image(oid):
+    try:
+        file = db_manager.fs.get(ObjectId(oid))
+        return Response(file, mimetype=file.content_type, direct_passthrough=True)
+    except NoFile or InvalidId:
+        return page_not_found()
+
+
+ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif'}
+
+
+def allowed_file(filename):
+    return '.' in filename and \
+           filename.rsplit('.', 1)[1] in ALLOWED_EXTENSIONS
+
+
+@app.route('/upload_image', methods=['GET', 'POST'])
+def upload_image():
+    if request.method == 'POST':
+        file = request.files['file']
+        if file and allowed_file(file.filename):
+            filename = secure_filename(file.filename)
+            oid = db_manager.fs.put(file, content_type=file.content_type, filename=filename)
+            return redirect(url_for('image', oid=str(oid)))
+    return '''
+        <!DOCTYPE html>
+        <html>
+        <head>
+        <title>Upload new file</title>
+        </head>
+        <body>
+        <h1>Upload new file</h1>
+        <form action="" method="post" enctype="multipart/form-data">
+        <p><input type="file" name="file"></p>
+        <p><input type="submit" value="Upload"></p>
+        </form>
+        <a href="%s">All files</a>
+        </body>
+        </html>
+        ''' % url_for('images')
+
+
+@app.route('/images')
+def images():
+    files = [db_manager.fs.get_last_version(file) for file in db_manager.fs.list()]
+    file_list = "\n".join(['<li><a href="%s">%s</a></li>' % \
+                           (url_for('image', oid=str(file._id)), file.name) \
+                           for file in files])
+    return '''
+    <!DOCTYPE html>
+    <html>
+    <head>
+    <title>Files</title>
+    </head>
+    <body>
+    <h1>Files</h1>
+    <ul>
+    %s
+    </ul>
+    <a href="%s">Upload new file</a>
+    </body>
+    </html>
+    ''' % (file_list, url_for('upload_image'))
 
 
 @app.route('/login', methods=['GET', 'POST'])
@@ -43,7 +112,8 @@ def login():
         find_user = mongo.db.Users.find_one({"email": email})
         print("find_user: ", find_user)
         if User.login_valid(email, password):
-            loguser = User(find_user['email'], find_user['password'], find_user['first_name'], find_user['last_name'], find_user['role'], find_user['_id'])
+            loguser = User(find_user['email'], find_user['password'], find_user['first_name'], find_user['last_name'],
+                           find_user['role'], find_user['_id'])
             login_user(loguser, remember=form.remember_me.data)
             # login_user(find_user, remember=form.remember_me.data)
             flash('You have been logged in!', 'success')
@@ -51,13 +121,14 @@ def login():
         else:
             flash('Login Unsuccessful. Please check email and password', 'danger')
             return "Login Unsuccessful"
-    return render_template('user-pages/login.html', form = form)
+    return render_template('user-pages/login.html', form=form)
 
 
 @app.route('/logout')
 def logout():
     logout_user()
     return redirect(url_for('login'))
+
 
 @app.route("/register", methods=['GET', 'POST'])
 def register():
@@ -67,7 +138,7 @@ def register():
         first_name = form.first_name.data
         last_name = form.last_name.data
         password = generate_password_hash(form.password.data)
-        find_user =  User.get_by_email(email)
+        find_user = User.get_by_email(email)
         if find_user is None:
             User.register(email, password, first_name, last_name, "Admin")
             flash(f'Account created for {form.email.data}!', 'success')
@@ -80,7 +151,15 @@ def register():
 @app.route('/library')
 def library():
     # get urls for images, they are supposed to be retrieved from the db
-    dungeons_pic = url_for('static', filename='img/games/dungeons.jpg')
+    # dungeons_pic = url_for('static', filename='img/games/dungeons.jpg')
+
+    # This would normally be acquired via the attribute in the item when iterating the items
+    dungeons_pic = url_for('image', oid=str([a for a in Item.from_dict(
+        db_manager.mongo.db.items.find_one({"attributes.option_id": db_manager.main_picture.id})).attributes if
+                                             isinstance(a,
+                                                        PictureAttribute) and a.option_id == db_manager.main_picture.id][
+                                                0].picture_file_id))
+
     stars_pic = url_for('static', filename='img/games/stars-without-number.jpg')
     pulp_pic = url_for('static', filename='img/games/pulp-cthulhu.jpg')
     # pass them to the rendering page
@@ -115,31 +194,35 @@ def constitution():
 @app.route('/operations')
 def operations():
     return render_template('user-pages/operations.html')
-	
+
+
 @app.route('/forbidden')
 def forbidden():
-	return render_template('user-pages/forbidden.html')
-		
+    return render_template('user-pages/forbidden.html')
+
+
 @login_manager.unauthorized_handler
 def unauthorized():
-	if not current_user.is_authenticated:
-		return redirect(url_for('login'))
-	if ((current_user.role != "Admin")):
-		return redirect(url_for('forbidden'))
-	return 'Page not found 404.'
+    if not current_user.is_authenticated:
+        return redirect(url_for('login'))
+    if ((current_user.role != "Admin")):
+        return redirect(url_for('forbidden'))
+    return 'Page not found r.'
+
 
 def login_required(role="ANY"):
-	def wrapper(fn):
-		@wraps(fn)
-		def decorated_view(*args, **kwargs):
-			if not current_user.is_authenticated:
-				return login_manager.unauthorized()
-			if ((current_user.role != role) and (role != "ANY")):
-				return login_manager.unauthorized()
-			return fn(*args, **kwargs)
-		return decorated_view
-	return wrapper
+    def wrapper(fn):
+        @wraps(fn)
+        def decorated_view(*args, **kwargs):
+            if not current_user.is_authenticated:
+                return login_manager.unauthorized()
+            if ((current_user.role != role) and (role != "ANY")):
+                return login_manager.unauthorized()
+            return fn(*args, **kwargs)
 
+        return decorated_view
+
+    return wrapper
 
 
 # -------------------------------------------
@@ -153,15 +236,17 @@ def admin():
     if form.validate_on_submit():
         result = search_string_to_mongodb_query(db_manager.mongo, form.searchInput.data)
     return render_template('admin-pages/home.html', form=form, result=result)
-	
+
+
 @app.route('/admin/users', methods=['GET', 'POST'])
 @login_required(role="Admin")
 def adminusers():
-	items = mongo.db.Users.find()
-	table = UserTable(items)
-	table.border = True
-	return render_template('admin-pages/users.html', table=table)
-	
+    items = mongo.db.Users.find()
+    table = UserTable(items)
+    table.border = True
+    return render_template('admin-pages/users.html', table=table)
+
+
 @app.route('/admin/users/<string:id>', methods=['GET', 'POST'])
 @login_required(role="Admin")
 def edit(id):
@@ -174,19 +259,20 @@ def edit(id):
             if form.delete.data:
                 return redirect(url_for('deleteuser', id=id))
             mongo.db.Users.update_one({'_id': id},
-                  { "$set": {
-                             'first_name': request.form['first_name'],
-                              'last_name': request.form['last_name'],
-                              'email': request.form['email'],
-                              'role': request.form['role']
-                             }
-                 })
+                                      {"$set": {
+                                          'first_name': request.form['first_name'],
+                                          'last_name': request.form['last_name'],
+                                          'email': request.form['email'],
+                                          'role': request.form['role']
+                                      }
+                                      })
             flash('User updated successfully!')
             return redirect(url_for('adminusers'))
         return render_template('admin-pages/edit.html', form=form)
     else:
         return 'Error loading #{id}'.format(id=id)
-        
+
+
 @app.route('/admin/users/delete/<string:id>')
 @login_required(role="Admin")
 def deleteuser(id):
@@ -197,13 +283,15 @@ def deleteuser(id):
         return redirect(url_for('adminusers'))
     else:
         return 'Error loading #{id}'.format(id=id)
-		
+
+
 @app.route('/admin/test')
 @login_required(role="Admin")
 def testing():
-	return render_template('admin-pages/test.html')
+    return render_template('admin-pages/test.html')
 
-#Library management page
+
+# Library management page
 @app.route('/admin/lib')
 @login_required(role="Admin")
 def lib():
@@ -213,7 +301,7 @@ def lib():
                            ObjectId=ObjectId, list=list)
 
 
-#Library item edit page
+# Library item edit page
 @app.route('/admin/lib-man/lib-edit/<item_id>', methods=['GET', 'POST'])
 @login_required(role="Admin")
 def lib_edit(item_id):
@@ -221,7 +309,7 @@ def lib_edit(item_id):
     item.recalculate_implied_tags(db_manager.mongo)
     attributes = item.attributes
     form = addTagForm()
-    form.selection.choices=[(tag['name'], tag['name']) for tag in db_manager.mongo.db.tags.find()]
+    form.selection.choices = [(tag['name'], tag['name']) for tag in db_manager.mongo.db.tags.find()]
     if form.validate_on_submit():
         tag_to_attach = Tag.search_for_by_name(db_manager.mongo, form.selection.data)
         for tag_ref in item.tags:
@@ -230,15 +318,13 @@ def lib_edit(item_id):
         item.tags.append(TagReference(tag_to_attach))
         item.write_to_db(db_manager.mongo)
 
-    return render_template('admin-pages/lib-man/lib-edit.html', attributes=attributes, form=form, item=item, item_id=item_id,
+    return render_template('admin-pages/lib-man/lib-edit.html', attributes=attributes, form=form, item=item,
+                           item_id=item_id,
                            Tag=Tag, tags_collection=tags_collection)
 
 
-
-
-
-#function for removing a tag from an item
-@app.route('/admin/lib-man/item-remove-tag/<item_id>/<tag_name>',methods=['GET', 'POST'])
+# function for removing a tag from an item
+@app.route('/admin/lib-man/item-remove-tag/<item_id>/<tag_name>', methods=['GET', 'POST'])
 @login_required(role="Admin")
 def item_remove_tag(item_id, tag_name):
     tag = Tag.search_for_by_name(db_manager.mongo, tag_name)
@@ -250,8 +336,7 @@ def item_remove_tag(item_id, tag_name):
     return redirect(url_for('lib_edit', item_id=item_id))
 
 
-
-#Library add item page
+# Library add item page
 @app.route('/admin/lib-man/lib-add', methods=['GET', 'POST'])
 @login_required(role="Admin")
 def lib_add():
@@ -266,7 +351,7 @@ def lib_add():
             tag_name = form.selection.data
             found_tag = Tag.search_for_by_name(db_manager.mongo, tag_name)
             add_tag = TagReference(found_tag.id)
-            new_instance = Instance([],[])
+            new_instance = Instance([], [])
             new_item = Item({"name": form.title.data, "author": form.author.data}, [add_tag], [new_instance])
             new_item.write_to_db(db_manager.mongo)
             new_item.recalculate_implied_tags(db_manager.mongo)
@@ -276,26 +361,31 @@ def lib_add():
             return 'the item already exists'
     return render_template('admin-pages/lib-man/lib-add.html', form=form)
 
-#Function for delete an item on library page
+
+# Function for delete an item on library page
 @app.route('/admin/lib-man/lib-delete/<item_id>')
 @login_required(role="Admin")
 def lib_delete(item_id):
-    item = Item.from_dict(db_manager.mongo.db.items.find({"_id" : ObjectId(item_id)})[0])
+    item = Item.from_dict(db_manager.mongo.db.items.find({"_id": ObjectId(item_id)})[0])
     item.delete_from_db(db_manager.mongo)
     return redirect(url_for('lib'))
 
-#Tag management page
+
+# Tag management page
 @app.route('/admin/lib-man/tag-man/tag-all', methods=['GET', 'POST'])
 @login_required(role="Admin")
 def tag_all():
-    #all_relations = db_manager.mongo.db.relation_options
+    # all_relations = db_manager.mongo.db.relation_options
     create_tag_form = createTagForm()
     add_implication_form = addTagImplForm()
-    add_implication_form.select_child.choices=[(tag['name'], tag['name']) for tag in db_manager.mongo.db.tags.find()]
+    add_implication_form.select_child.choices = [(tag['name'], tag['name']) for tag in db_manager.mongo.db.tags.find()]
     add_rule_form = addRuleForm()
-    add_rule_form.parent.choices=[(tag['name'], tag['name']) for tag in db_manager.mongo.db.tags.find()]
-    add_rule_form.child.choices=[(tag['name'], tag['name']) for tag in db_manager.mongo.db.tags.find()]
-    return render_template('admin-pages/lib-man/tag-man/tag-all.html', create_tag_form=create_tag_form, add_rule_form=add_rule_form, add_implication_form=add_implication_form, tags_collection=tags_collection)
+    add_rule_form.parent.choices = [(tag['name'], tag['name']) for tag in db_manager.mongo.db.tags.find()]
+    add_rule_form.child.choices = [(tag['name'], tag['name']) for tag in db_manager.mongo.db.tags.find()]
+    return render_template('admin-pages/lib-man/tag-man/tag-all.html', create_tag_form=create_tag_form,
+                           add_rule_form=add_rule_form, add_implication_form=add_implication_form,
+                           tags_collection=tags_collection)
+
 
 # Function for creating a new tag
 @app.route('/admin/lib-man/tag-man/tag-create', methods=['GET', 'POST'])
@@ -303,10 +393,10 @@ def tag_all():
 def tag_create():
     create_tag_form = createTagForm()
     add_implication_form = addTagImplForm()
-    add_implication_form.select_child.choices=[(tag['name'], tag['name']) for tag in db_manager.mongo.db.tags.find()]
+    add_implication_form.select_child.choices = [(tag['name'], tag['name']) for tag in db_manager.mongo.db.tags.find()]
     add_rule_form = addRuleForm()
-    add_rule_form.parent.choices=[(tag['name'], tag['name']) for tag in db_manager.mongo.db.tags.find()]
-    add_rule_form.child.choices=[(tag['name'], tag['name']) for tag in db_manager.mongo.db.tags.find()]
+    add_rule_form.parent.choices = [(tag['name'], tag['name']) for tag in db_manager.mongo.db.tags.find()]
+    add_rule_form.child.choices = [(tag['name'], tag['name']) for tag in db_manager.mongo.db.tags.find()]
     if create_tag_form.validate_on_submit():
         tag_exists = Tag.search_for_by_name(db_manager.mongo, create_tag_form.name.data)
         if tag_exists is None:
@@ -315,7 +405,10 @@ def tag_create():
             return redirect(url_for('tag_all'))
         else:
             return 'the tag already exists'
-    return render_template('admin-pages/lib-man/tag-man/tag-all.html', create_tag_form=create_tag_form, add_rule_form=add_rule_form, add_implication_form=add_implication_form, tags_collection=tags_collection)
+    return render_template('admin-pages/lib-man/tag-man/tag-all.html', create_tag_form=create_tag_form,
+                           add_rule_form=add_rule_form, add_implication_form=add_implication_form,
+                           tags_collection=tags_collection)
+
 
 # Function for deleting the tag (not removing it from the item)
 @app.route('/admin/lib-man/tag-man/tag-delete/<tag_name>')
@@ -330,33 +423,37 @@ def tag_delete(tag_name):
             if str(implication) == str(tag_to_delete.id):
                 tag['implies'].remove(implication)
                 Tag.from_dict(tag).write_to_db(db_manager.mongo)
-                implication_dropped += 1        # need to add user notification
+                implication_dropped += 1  # need to add user notification
     return redirect(url_for('tag_all'))
 
-#Function for adding an implicaiton to a tag
+
+# Function for adding an implicaiton to a tag
 @app.route('/admin/lib-man/tag-man/implication-add/<tag_name>/<cur_child>', methods=['GET', 'POST'])
 @login_required(role="Admin")
 def implication_add(tag_name, cur_child):
     create_tag_form = createTagForm()
     add_implication_form = addTagImplForm()
-    add_implication_form.select_child.choices=[(tag['name'], tag['name']) for tag in db_manager.mongo.db.tags.find()]
+    add_implication_form.select_child.choices = [(tag['name'], tag['name']) for tag in db_manager.mongo.db.tags.find()]
     add_rule_form = addRuleForm()
-    add_rule_form.parent.choices=[(tag['name'], tag['name']) for tag in db_manager.mongo.db.tags.find()]
-    add_rule_form.child.choices=[(tag['name'], tag['name']) for tag in db_manager.mongo.db.tags.find()]
+    add_rule_form.parent.choices = [(tag['name'], tag['name']) for tag in db_manager.mongo.db.tags.find()]
+    add_rule_form.child.choices = [(tag['name'], tag['name']) for tag in db_manager.mongo.db.tags.find()]
     parent_tag = Tag.search_for_by_name(db_manager.mongo, tag_name)
     child_tag = Tag.search_for_by_name(db_manager.mongo, add_implication_form.select_child.data)
 
     if add_implication_form.validate_on_submit():
         if add_implication_form.select_child.data is tag_name:
             return "A tag cannot imply itself!"
-        elif str(child_tag.id)  in cur_child:
+        elif str(child_tag.id) in cur_child:
             return "This implication already exists!"
         else:
             tag_ref = TagReference(child_tag.id)
             parent_tag.implies.append(tag_ref)
             parent_tag.write_to_db(db_manager.mongo)
             return redirect(url_for('tag_all'))
-    return render_template('admin-pages/lib-man/tag-man/tag-all.html', create_tag_form=create_tag_form, add_rule_form=add_rule_form, add_implication_form=add_implication_form, tags_collection=tags_collection)
+    return render_template('admin-pages/lib-man/tag-man/tag-all.html', create_tag_form=create_tag_form,
+                           add_rule_form=add_rule_form, add_implication_form=add_implication_form,
+                           tags_collection=tags_collection)
+
 
 @app.route('/admin/lib-man/implication-remove/<tag_name>/<implied_id>', methods=['GET', 'POST'])
 @login_required(role="Admin")
@@ -369,19 +466,20 @@ def implication_remove(tag_name, implied_id):
             tag.write_to_db(db_manager.mongo)
     return redirect(url_for('tag_all'))
 
-#Funciton for adding an implication rule
+
+# Funciton for adding an implication rule
 @app.route('/admin/lib-man/tag-man/rule-add', methods=['GET', 'POST'])
 @login_required(role="Admin")
 def rule_add():
     create_tag_form = createTagForm()
     add_implication_form = addTagImplForm()
-    add_implication_form.select_child.choices=[(tag['name'], tag['name']) for tag in db_manager.mongo.db.tags.find()]
+    add_implication_form.select_child.choices = [(tag['name'], tag['name']) for tag in db_manager.mongo.db.tags.find()]
     add_rule_form = addRuleForm()
-    add_rule_form.parent.choices=[(tag['name'], tag['name']) for tag in db_manager.mongo.db.tags.find()]
-    add_rule_form.child.choices=[(tag['name'], tag['name']) for tag in db_manager.mongo.db.tags.find()]
+    add_rule_form.parent.choices = [(tag['name'], tag['name']) for tag in db_manager.mongo.db.tags.find()]
+    add_rule_form.child.choices = [(tag['name'], tag['name']) for tag in db_manager.mongo.db.tags.find()]
     if add_rule_form.validate_on_submit():
         parent_tag = Tag.search_for_by_name(db_manager.mongo, add_rule_form.parent.data)
-        child_tag  = Tag.search_for_by_name(db_manager.mongo, add_rule_form.child.data)
+        child_tag = Tag.search_for_by_name(db_manager.mongo, add_rule_form.child.data)
         if add_rule_form.parent.data == add_rule_form.child.data:
             return 'A tag cannot refer to itself'
         if parent_tag.implies:
@@ -389,9 +487,12 @@ def rule_add():
         parent_tag.implies.append(TagReference(child_tag))
         parent_tag.write_to_db(db_manager.mongo)
         return redirect(url_for('tag_all'))
-    return render_template('admin-pages/lib-man/tag-man/tag-all.html', create_tag_form=create_tag_form, add_rule_form=add_rule_form, add_implication_form=add_implication_form, tags_collection=tags_collection)
+    return render_template('admin-pages/lib-man/tag-man/tag-all.html', create_tag_form=create_tag_form,
+                           add_rule_form=add_rule_form, add_implication_form=add_implication_form,
+                           tags_collection=tags_collection)
 
-#Funciton for deleting an implication rule
+
+# Funciton for deleting an implication rule
 @app.route('/admin/lib-man/tag-man/rule-delete/<tag_name>')
 @login_required(role="Admin")
 def rule_delete(tag_name):
@@ -400,7 +501,8 @@ def rule_delete(tag_name):
     tag.write_to_db(db_manager.mongo)
     return redirect(url_for('tag_all'))
 
-#basically for updating Name and Author of an item
+
+# basically for updating Name and Author of an item
 @app.route('/admin/lib-man/item-update-attrib/<item_id>/<attrib_name>', methods=['GET', 'POST'])
 @login_required(role="Admin")
 def item_update_attrib(item_id, attrib_name):
@@ -412,7 +514,6 @@ def item_update_attrib(item_id, attrib_name):
         Item.from_dict(item).write_to_db(db_manager.mongo)
         return redirect(url_for('lib_edit', item_id=item_id))
     return render_template('admin-pages/lib-man/item-add-attrib.html', form=form)
-
 
 
 # -------------------------------------------
@@ -428,13 +529,11 @@ def page_not_found(e):
     return 'Page not found 500.'
 
 
-#if __name__=='__main__':
+# if __name__=='__main__':
 #    app.run(debug=True)
 
 
-
-
-#Unfortunately attributes are gone
+# Unfortunately attributes are gone
 '''
 #Attribute management page
 @app.route('/admin/all-attributes')

@@ -9,7 +9,7 @@ from flask_pymongo import PyMongo
 from gridfs import GridFS
 
 from app.database_impl.attrib_options import AttributeOption, AttributeTypes, SingleLineStringAttribute, \
-    MultiLineStringAttribute
+    MultiLineStringAttribute, PictureAttribute
 from app.database_impl.items_instances import Item, Instance
 from app.database_impl.relations import RelationOption, Relation
 from app.database_impl.roles import Role, Permissions
@@ -141,12 +141,19 @@ class DatabaseManager:
             root_tag = Tag("None", [])
             root_tag.write_to_db(self.mongo)
 
+        # load image from disk, normally one would upload it from the website
+        test_image = self.fs.find_one({"filename": "dungeons.jpg"})
+        if test_image is None:
+            with open("frontend/games-img/dungeons.jpg", "rb") as f:
+                test_image = self.fs.put(f, filename="dungeons.jpg", content_type='image/jpg')
+
         # search for item by its name attribute
         bob_book_item = Item.search_for_by_attribute(self.mongo, self.name_attrib, "Bob's Grand Adventure")
         # create a new item if no search result returned
         if not bob_book_item:
             bob_book_item = Item([SingleLineStringAttribute(self.name_attrib, "Bob's Grand Adventure"),
-                                  MultiLineStringAttribute(self.description_attrib, ["No Description"])],
+                                  MultiLineStringAttribute(self.description_attrib, ["No Description"]),
+                                  PictureAttribute(self.main_picture, test_image)],
                                  [
                                      TagReference(book_tag), TagReference(players_tag_3), TagReference(players_tag_4),
                                      TagReference(players_tag_5)
