@@ -1,0 +1,137 @@
+{% extends "final-admin-layout.html" %}
+
+{% import "bootstrap/wtf.html" as wtf %}
+{% block body %}
+<div class="pb-3 text-center">
+    <br>
+    <h3>Item Edit</h3>
+    <p class="mb-4">Manage an item's attributes and tags.</p>
+</div>
+<div class="row">
+    <div class="col-md-3">
+
+    </div>
+    <div class="col-md-6">
+        <div class="card border-left-success shadow h-100 py-2">
+            <div class="card-body">
+                <div class="row no-gutters align-items-center">
+                    <div class="col mr-2">
+                        <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Currently editing</div>
+                        <div class="h5 mb-0 font-weight-bold text-gray-800">{{ item['attributes']['name'] }}
+                        </div>
+                    </div>
+                    <div class="col-auto">
+                        <a href="{{ url_for('lib_delete', item_id = item['_id']) }}" class="btn btn-danger btn-icon-split">
+                            <span class="icon text-white-50">
+                                <i class="fas fa-trash"></i>
+                            </span>
+                            <span class="text">Delete item</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <div class="col-md-3">
+
+    </div>
+</div>
+
+<br>
+<hr>
+<br>
+
+<div class="row">
+
+    <div class="col-lg-7">
+
+        <div class="card shadow mb-4">
+            <div class="card-header py-3">
+                <h6 class="m-0 font-weight-bold text-primary">Attributes</h6>
+            </div>
+            <div class="card-body">
+                <div class="container">
+                    {% for key in attributes %}
+                    <div class="row">
+                        <div class="col-sm-10">
+
+                                <h5 class="text-uppercase"> {{ key }}</h5>
+                                <p> {{ attributes[key] }}</p>
+                        </div>
+                        <div class="col-sm-2">
+                            <form action="{{ url_for('item_update_attrib', item_id=item.id, attrib_name=key) }}">
+                                <button type="button m-2" class="btn btn-primary">Edit</button>
+                            </form>
+                        </div>
+                    </div>
+                    {% endfor %}
+                    
+                </div>
+            </div>
+        </div>
+
+
+
+    </div>
+
+    <div class="col-lg-5">
+
+        <div class="card mb-5">
+            <div class="card-header py-3">
+                <h6 class="m-0 font-weight-bold text-primary">Tags</h6>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-sm-6">
+                        <span class="mr-5">
+                            <h5>TAGS: </h5>
+                        </span>
+                    </div>
+                    <div class="col-sm-6">
+                        {% for tag in item['tags'] %}
+                        <p>
+                            {% for found_tag in tags_collection.find( {"_id": tag['tag_id']} ) %}
+                            {{ found_tag['name'] }}
+    
+                        </p>
+                        <form action="{{ url_for('item_remove_tag', item_id=item_id, tag_name =found_tag['name']) }}">
+                            <button type="button m-2" class="btn btn-outline-dark shadow-sm">
+                                Delete
+                            </button>
+                        </form>
+                        {% endfor %}
+                        {% endfor %}
+                        {{ wtf.quick_form(form)}}
+                    </div>
+    
+                </div>
+                <hr>
+                <div class="row">
+                    <div class="col-sm-6">
+                        <span class="mr-5">
+                            <h5>IMPLIED TAGS: </h5>
+    
+    
+                        </span>
+    
+                    </div>
+                    <div class="col-sm-6">
+                        {% for tag in item['implied_tags'] %}
+                        <p>
+                            {% for found_tag in tags_collection.find( {"_id": tag['tag_id']} ) %}
+                            {{ found_tag['name']}}
+                            {% endfor %}
+                        </p>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+
+
+{% endblock %}

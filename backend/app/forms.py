@@ -1,7 +1,7 @@
 #This file is for specifying forms
 from app import db_manager
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, SubmitField, BooleanField, SelectField, TextField, validators
+from wtforms import StringField, PasswordField, SubmitField, BooleanField, SelectField, TextField, validators, TextAreaField
 from wtforms.validators import DataRequired, Length, EqualTo, Email
 from wtforms.fields.html5 import EmailField
 # from app.routes import User
@@ -49,7 +49,7 @@ class UpdateForm(FlaskForm):
 #new entry form
 class newEntryForm(FlaskForm):
     title = StringField('Title',[validators.DataRequired()])
-    author = StringField('Author',[validators.DataRequired()])
+    description = TextAreaField('Description')
     selection = SelectField('Add a tag', choices=[(tag['name'], tag['name']) for tag in all_tags1])
     submit = SubmitField('Save')
 
@@ -113,7 +113,7 @@ class addRuleForm(FlaskForm):
     submit = SubmitField('Add new rule')
 
 #search bar
-class serachForm(FlaskForm):
+class searchForm(FlaskForm):
     searchInput = StringField('Look for: ')
     submit = SubmitField('Search')
 

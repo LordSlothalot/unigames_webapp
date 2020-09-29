@@ -7,9 +7,9 @@ from app.database_impl.tags import Tag, TagReference
 
 from bson.objectid import ObjectId
 from app.forms import newEntryForm, addTagForm, addInstanceForm, createTagForm, addTagImplForm, \
-    addAttribForm, updateAttribForm, createAttribForm, LoginForm, RegistrationForm, UpdateForm, addRuleForm, serachForm, createTagForm
+    addAttribForm, updateAttribForm, createAttribForm, LoginForm, RegistrationForm, UpdateForm, addRuleForm, searchForm, createTagForm
 from app.user_models import User
-from app.search_parser import search_string_to_mongodb_query
+from app.search_parser import search_string_to_mongodb_query, SearchStringParseError
 from flask_pymongo import PyMongo
 from flask_login import LoginManager, current_user, login_user, logout_user, login_required
 from werkzeug.security import generate_password_hash
@@ -203,42 +203,8 @@ def deleteuser(id):
 def testing():
 	return render_template('admin-pages/test.html')
 
-#Page for showing all library items
-@app.route('/admin/all-items')
-@login_required(role="Admin")
-def all_items():
-    items = db_manager.mongo.db.items.find()
-
-    return render_template('admin-pages/lib-man/all-items.html', items=items, tags_collection=tags_collection,
-                           ObjectId=ObjectId, list=list)
-
-#Page for showing all implications
-@app.route('/admin/tag-man/all-impl')
-@login_required(role="Admin")
-def all_impl():
-    ### Needs further implementation
-    return render_template('admin-pages/tag-man/tag-all.html')
 
 
-#Library item edit page
-@app.route('/admin/lib-man/lib-edit/<item_id>', methods=['GET', 'POST'])
-@login_required(role="Admin")
-def lib_edit(item_id):
-    item = Item.from_dict(db_manager.mongo.db.items.find({"_id": ObjectId(item_id)})[0])
-    item.recalculate_implied_tags(db_manager.mongo)
-    attributes = item.attributes
-    form = addTagForm()
-    form.selection.choices=[(tag['name'], tag['name']) for tag in db_manager.mongo.db.tags.find()]
-    if form.validate_on_submit():
-        tag_to_attach = Tag.search_for_by_name(db_manager.mongo, form.selection.data)
-        for tag_ref in item.tags:
-            if str(tag_ref.tag_id) == str(tag_to_attach.id):
-                return 'this tag already attached to the item!'
-        item.tags.append(TagReference(tag_to_attach))
-        item.write_to_db(db_manager.mongo)
-
-    return render_template('admin-pages/lib-man/lib-edit.html', attributes=attributes, form=form, item=item, item_id=item_id,
-                           Tag=Tag, tags_collection=tags_collection)
 
 
 
@@ -274,7 +240,7 @@ def create_item():
             found_tag = Tag.search_for_by_name(db_manager.mongo, tag_name)
             add_tag = TagReference(found_tag.id)
             new_instance = Instance([],[])
-            new_item = Item({"name": form.title.data, "author": form.author.data}, [add_tag], [new_instance])
+            new_item = Item({"name": form.title.data, "description": form.description.data}, [add_tag], [new_instance])
             new_item.write_to_db(db_manager.mongo)
             new_item.recalculate_implied_tags(db_manager.mongo)
 
@@ -324,46 +290,9 @@ def tag_create():
             return 'the tag already exists'
     return render_template('admin-pages/lib-man/tag-man/tag-all.html', create_tag_form=create_tag_form, add_rule_form=add_rule_form, add_implication_form=add_implication_form, tags_collection=tags_collection)
 
-# Function for deleting the tag (not removing it from the item)
-@app.route('/admin/lib-man/tag-man/tag-delete/<tag_name>')
-@login_required(role="Admin")
-def tag_delete(tag_name):
-    tag_to_delete = Tag.search_for_by_name(db_manager.mongo, tag_name)
-    tag_to_delete.delete_from_db(db_manager.mongo)
-    implication_dropped = 0
 
-    for tag in tags_collection.find():
-        for implication in tag['implies']:
-            if str(implication) == str(tag_to_delete.id):
-                tag['implies'].remove(implication)
-                Tag.from_dict(tag).write_to_db(db_manager.mongo)
-                implication_dropped += 1        # need to add user notification
-    return redirect(url_for('all_tags'))
 
-#Function for adding an implicaiton to a tag
-@app.route('/admin/lib-man/tag-man/implication-add/<tag_name>/<cur_child>', methods=['GET', 'POST'])
-@login_required(role="Admin")
-def implication_add(tag_name, cur_child):
-    create_tag_form = createTagForm()
-    add_implication_form = addTagImplForm()
-    add_implication_form.select_child.choices=[(tag['name'], tag['name']) for tag in db_manager.mongo.db.tags.find()]
-    add_rule_form = addRuleForm()
-    add_rule_form.parent.choices=[(tag['name'], tag['name']) for tag in db_manager.mongo.db.tags.find()]
-    add_rule_form.child.choices=[(tag['name'], tag['name']) for tag in db_manager.mongo.db.tags.find()]
-    parent_tag = Tag.search_for_by_name(db_manager.mongo, tag_name)
-    child_tag = Tag.search_for_by_name(db_manager.mongo, add_implication_form.select_child.data)
 
-    if add_implication_form.validate_on_submit():
-        if add_implication_form.select_child.data is tag_name:
-            return "A tag cannot imply itself!"
-        elif str(child_tag.id)  in cur_child:
-            return "This implication already exists!"
-        else:
-            tag_ref = TagReference(child_tag.id)
-            parent_tag.implies.append(tag_ref)
-            parent_tag.write_to_db(db_manager.mongo)
-            return redirect(url_for('tag_all'))
-    return render_template('admin-pages/lib-man/tag-man/tag-all.html', create_tag_form=create_tag_form, add_rule_form=add_rule_form, add_implication_form=add_implication_form, tags_collection=tags_collection)
 
 @app.route('/admin/lib-man/implication-remove/<tag_name>/<implied_id>', methods=['GET', 'POST'])
 @login_required(role="Admin")
@@ -408,7 +337,7 @@ def rule_delete(tag_name):
     tag = Tag.search_for_by_name(db_manager.mongo, tag_name)
     tag.implies = []
     tag.write_to_db(db_manager.mongo)
-    return redirect(url_for('tag_all'))
+    return redirect(url_for('edit_tag',tag_name=tag_name))
 
 #basically for updating Name and Author of an item
 @app.route('/admin/lib-man/item-update-attrib/<item_id>/<attrib_name>', methods=['GET', 'POST'])
@@ -420,8 +349,11 @@ def item_update_attrib(item_id, attrib_name):
         update_attrib = {attrib_name: form.attrib_value.data}
         item['attributes'].update(update_attrib)
         Item.from_dict(item).write_to_db(db_manager.mongo)
-        return redirect(url_for('lib_edit', item_id=item_id))
-    return render_template('admin-pages/lib-man/item-add-attrib.html', form=form)
+        return redirect(url_for('edit_item', item_id=item_id))
+    return render_template('admin-pages/lib-man/item-add-attrib.html', form=form, attrib_name=attrib_name)
+
+
+#------------For the new UI------------
 
 #Page for creating a tag
 @app.route('/admin/lib-man/tag-man/create-a-tag', methods=['POST','GET'])
@@ -441,24 +373,154 @@ def create_tag():
     return render_template('admin-pages/lib-man/tag-man/create-tag.html', form=form)
 
 
+#Page for showing all library items
+@app.route('/admin/all-items')
+@login_required(role="Admin")
+def all_items():
+    items = db_manager.mongo.db.items.find()
+
+    return render_template('admin-pages/lib-man/all-items.html', items=items, tags_collection=tags_collection,
+                           ObjectId=ObjectId, list=list)
+
+#Page for showing all implications
+@app.route('/admin/tag-man/all-impl')
+@login_required(role="Admin")
+def all_impl():
+    ### Needs further implementation
+    return render_template('admin-pages/lib-man/tag-man/all-impl.html',  tags_collection=tags_collection)
+
 #Page for showing all tags
 @app.route('/admin/lib-man/tag-man/all-tags')
 @login_required(role="Admin")
 def all_tags():
-
     return render_template('admin-pages/lib-man/tag-man/all-tags.html', tags_collection=tags_collection)
+
+#Page for tag search
+@app.route('/admin/lib-man/tag-man/search-item', methods=['GET', 'POST'])
+@login_required(role="Admin")
+def search_item():
+    searchString = request.form.get('tagSearchInput')
+    is_input = False
+    is_result = False
+    result = []
+    db_results =[]
+    print(searchString)
+    if searchString is not None and searchString is not '':
+        result = search_string_to_mongodb_query(db_manager.mongo, searchString)
+        is_input = True
+        if isinstance(result,list) :
+            is_result=False
+            result = str(result[0])[23:]
+        else:
+            is_result = True
+            db_results = db_manager.mongo.db.items.find(result)
+    return render_template('admin-pages/lib-man/tag-man/search-item.html', is_input=is_input, is_result=is_result, result=result, searchString=searchString, db_results=db_results, tags_collection=tags_collection)
+
+#Page for editing a tag and it's implications
+@app.route('/admin/lib-man/tag-man/all-tags/<tag_name>')
+@login_required(role="Admin")
+def edit_tag(tag_name):
+    this_tag = Tag.search_for_by_name(db_manager.mongo, tag_name)
+    tag = this_tag.to_dict()
+    add_implication_form = addTagImplForm()
+    add_implication_form.select_child.choices=[(tag['name'], tag['name']) for tag in db_manager.mongo.db.tags.find()]
+    return render_template('admin-pages/lib-man/tag-man/edit-tag.html', add_implication_form=add_implication_form, tag=tag, tags_collection=tags_collection)
+
+
+
+
+#Library item edit page
+@app.route('/admin/lib-man/lib-edit/<item_id>', methods=['GET', 'POST'])
+@login_required(role="Admin")
+def lib_edit(item_id):
+    item = Item.from_dict(db_manager.mongo.db.items.find({"_id": ObjectId(item_id)})[0])
+    item.recalculate_implied_tags(db_manager.mongo)
+    attributes = item.attributes
+    form = addTagForm()
+    form.selection.choices=[(tag['name'], tag['name']) for tag in db_manager.mongo.db.tags.find()]
+    if form.validate_on_submit():
+        tag_to_attach = Tag.search_for_by_name(db_manager.mongo, form.selection.data)
+        for tag_ref in item.tags:
+            if str(tag_ref.tag_id) == str(tag_to_attach.id):
+                return 'this tag already attached to the item!'
+        item.tags.append(TagReference(tag_to_attach))
+        item.write_to_db(db_manager.mongo)
+
+    return render_template('admin-pages/lib-man/lib-edit.html', attributes=attributes, form=form, item=item, item_id=item_id,
+                           Tag=Tag, tags_collection=tags_collection)
+
+#Page for editing an item and it's tags
+@app.route('/admin/lib-man/<item_id>', methods=['GET', 'POST'])
+@login_required(role="Admin")
+def edit_item(item_id):
+    item = Item.from_dict(db_manager.mongo.db.items.find({"_id": ObjectId(item_id)})[0])
+    item.recalculate_implied_tags(db_manager.mongo)
+    attributes = item.attributes
+    form = addTagForm()
+    form.selection.choices=[(tag['name'], tag['name']) for tag in db_manager.mongo.db.tags.find()]
+    if form.validate_on_submit():
+        tag_to_attach = Tag.search_for_by_name(db_manager.mongo, form.selection.data)
+        for tag_ref in item.tags:
+            if str(tag_ref.tag_id) == str(tag_to_attach.id):
+                return 'this tag already attached to the item!'
+        item.tags.append(TagReference(tag_to_attach))
+        item.write_to_db(db_manager.mongo)
+
+    return render_template('admin-pages/lib-man/edit-item.html', attributes=attributes, form=form, item=item, item_id=item_id,
+                           Tag=Tag, tags_collection=tags_collection)
+
+#Function for adding an implicaiton to a tag
+@app.route('/admin/lib-man/tag-man/implication-add/<tag_name>/<cur_child>', methods=['GET', 'POST'])
+@login_required(role="Admin")
+def implication_add(tag_name, cur_child):
+    add_implication_form = addTagImplForm()
+    add_implication_form.select_child.choices=[(tag['name'], tag['name']) for tag in db_manager.mongo.db.tags.find()]
+    add_rule_form = addRuleForm()
+    add_rule_form.parent.choices=[(tag['name'], tag['name']) for tag in db_manager.mongo.db.tags.find()]
+    add_rule_form.child.choices=[(tag['name'], tag['name']) for tag in db_manager.mongo.db.tags.find()]
+    parent_tag = Tag.search_for_by_name(db_manager.mongo, tag_name)
+    child_tag = Tag.search_for_by_name(db_manager.mongo, add_implication_form.select_child.data)
+
+    if add_implication_form.validate_on_submit():
+        if add_implication_form.select_child.data is tag_name:
+            return "A tag cannot imply itself!"
+        elif str(child_tag.id)  in cur_child:
+            return "This implication already exists!"
+        else:
+            tag_ref = TagReference(child_tag.id)
+            parent_tag.implies.append(tag_ref)
+            parent_tag.write_to_db(db_manager.mongo)
+            return redirect(url_for('edit_tag', tag_name=tag_name))
+    return render_template('admin-pages/lib-man/tag-man/edit-tag.html', add_implication_form=add_implication_form, tag=tag, tags_collection=tags_collection)
+
+
+# Function for deleting the tag (not removing it from the item)
+@app.route('/admin/lib-man/tag-man/tag-delete/<tag_name>')
+@login_required(role="Admin")
+def tag_delete(tag_name):
+    tag_to_delete = Tag.search_for_by_name(db_manager.mongo, tag_name)
+    tag_to_delete.delete_from_db(db_manager.mongo)
+    implication_dropped = 0
+
+    for tag in tags_collection.find():
+        for implication in tag['implies']:
+            if str(implication) == str(tag_to_delete.id):
+                tag['implies'].remove(implication)
+                Tag.from_dict(tag).write_to_db(db_manager.mongo)
+                implication_dropped += 1        # need to add user notification
+    return redirect(url_for('all_tags'))
 
 # -------------------------------------------
 #   Error pages, can be futher implemented
 # -------------------------------------------
 @app.errorhandler(404)
 def page_not_found(e):
-    return 'Page not found 404.'
+    return render_template('admin-pages/error.html')
 
 
 @app.errorhandler(500)
 def page_not_found(e):
-    return 'Page not found 500.'
+    return render_template('admin-pages/error.html')
 
 
 #if __name__=='__main__':
