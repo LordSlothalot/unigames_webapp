@@ -4,38 +4,51 @@ import pymongo
 from bson import ObjectId
 from flask_pymongo import PyMongo
 
-from app.database_impl.attrib_options import AttributeOption
+from app.database_impl.attrib_options import AttributeOption, Attribute
 from app.database_impl.relations import Relation, RelationOption
 from app.database_impl.tags import Tag, TagReference
 
 
 class Item:
     id: ObjectId = None
-    attributes: Dict = {}
+    hidden: bool = False
+    attributes: List[Attribute]
     tags: List[TagReference] = []
     implied_tags: List[TagReference] = []
     instances: List['Instance'] = []
 
     @staticmethod
     def init_indices(mongo: PyMongo):
+        mongo.db.items.create_index([("hidden", pymongo.ASCENDING)], unique=False, sparse=True)
         mongo.db.items.create_index([("tags.tag_id", pymongo.ASCENDING)], unique=False, sparse=True)
         mongo.db.items.create_index([("implied_tags.tag_id", pymongo.ASCENDING)], unique=False, sparse=True)
+        mongo.db.items.create_index([("attributes.option_id", pymongo.ASCENDING)], unique=False, sparse=True)
 
     # NOTE: attributes must conform an ItemAttributeOption, however that is not checked here
-    def __init__(self, attributes: Dict, tags: List[TagReference], instances: List['Instance']):
+    def __init__(self, attributes: List[Attribute], tags: List[TagReference], instances: List['Instance'], hidden: bool = False):
         self.id = None
+        self.hidden = hidden
         self.attributes = attributes
         self.tags = tags
         self.implied_tags = []
         self.instances = instances
 
+    def get_attributes_by_option(self, option: Union[AttributeOption, ObjectId]) -> List[Attribute]:
+        if isinstance(option, AttributeOption):
+            option = option.id
+
+        return [a for a in self.attributes if a.option_id == option]
+
     def to_dict(self) -> Dict:
         result = {
-            "attributes": self.attributes,
+            "attributes": [a.to_dict() for a in self.attributes],
             "tags": [t.tag_id for t in self.tags],
             "implied_tags": [i.tag_id for i in self.implied_tags],
             "instances": [inst.to_dict() for inst in self.instances]
         }
+        if self.hidden:
+            result["hidden"] = True
+
         if self.id is not None:
             result["_id"] = self.id
 
@@ -50,13 +63,15 @@ class Item:
 
     @staticmethod
     def from_dict(value_dict: Dict) -> 'Item':
-        cls = Item({}, [], [])
+        cls = Item([], [], [], False)
 
         if "_id" in value_dict:
             cls.id = value_dict["_id"]
 
+        cls.hidden = ("hidden" in value_dict and value_dict["hidden"])
+
         if "attributes" in value_dict and value_dict["attributes"] is not None:
-            cls.attributes = value_dict["attributes"]
+            cls.attributes = [Attribute.from_dict(d) for d in value_dict["attributes"]]
 
         if "tags" in value_dict and value_dict["tags"] is not None:
             cls.tags = [TagReference(t) for t in value_dict["tags"]]
@@ -87,6 +102,7 @@ class Item:
 
         new_item = Item.from_dict(new_data)
 
+        self.hidden = new_item.hidden
         self.attributes = new_item.attributes
         self.tags = new_item.tags
         self.implied_tags = new_item.implied_tags
@@ -210,7 +226,7 @@ class Item:
 
     @staticmethod
     def search_for_by_attribute(mongo: PyMongo, attrib_option: AttributeOption, value) -> List['Item']:
-        result = mongo.db.items.find({"attributes." + str(attrib_option.attribute_name): value})
+        result = mongo.db.items.find({"attributes": {"$elemMatch": { "option_id": attrib_option.id, "value": value }}})
 
         if result is None:
             return []
@@ -220,28 +236,35 @@ class Item:
 
 class Instance:
     id: ObjectId = None
-    attributes: Dict = {}
+    hidden: bool = False
+    attributes: List[Attribute]
     tags: List[TagReference] = []
     implied_tags: List[TagReference] = []
 
     @staticmethod
     def init_indices(mongo: PyMongo):
+        mongo.db.items.create_index([("instances.hidden", pymongo.ASCENDING)], unique=False, sparse=True)
         mongo.db.items.create_index([("instances.tags.tag_id", pymongo.ASCENDING)], unique=False, sparse=True)
-        mongo.db.items.create_index([("instances.implied_tags.tag_id", pymongo.ASCENDING)], unique=False,
-                                        sparse=True)
+        mongo.db.items.create_index([("instances.implied_tags.tag_id", pymongo.ASCENDING)], unique=False, sparse=True)
+        mongo.db.items.create_index([("instances.attributes.option_id", pymongo.ASCENDING)], unique=False, sparse=True)
 
-    def __init__(self, attributes: Dict, tags: List[TagReference]):
+    def __init__(self, attributes: List[Attribute], tags: List[TagReference], hidden: bool = False):
         self.id = ObjectId()
+        self.hidden = hidden
         self.attributes = attributes
         self.tags = tags
         self.implied_tags = []
 
     def to_dict(self) -> Dict:
         result = {
-            "attributes": self.attributes,
+            "attributes": [a.to_dict() for a in self.attributes],
             "tags": [t.tag_id for t in self.tags],
             "implied_tags": [t.tag_id for t in self.implied_tags]
         }
+
+        if self.hidden:
+            result["hidden"] = True
+
         if self.id is None:
             self.id = ObjectId()
 
@@ -251,13 +274,15 @@ class Instance:
 
     @staticmethod
     def from_dict(value_dict: Dict) -> 'Instance':
-        cls = Instance({}, [])
+        cls = Instance([], [], False)
 
         if "_id" in value_dict:
             cls.id = value_dict["_id"]
 
+        cls.hidden = ("hidden" in value_dict and value_dict["hidden"])
+
         if "attributes" in value_dict and value_dict["attributes"] is not None:
-            cls.attributes = value_dict["attributes"]
+            cls.attributes = [Attribute.from_dict(a) for a in value_dict["attributes"]]
 
         if "tags" in value_dict and value_dict["tags"] is not None:
             cls.tags = [TagReference(t) for t in value_dict["tags"]]

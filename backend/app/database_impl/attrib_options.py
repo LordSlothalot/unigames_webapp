@@ -1,5 +1,6 @@
+import abc
 from enum import IntEnum
-from typing import Dict, Optional
+from typing import Dict, Optional, List, Union
 
 import pymongo
 from bson import ObjectId
@@ -11,11 +12,93 @@ class AttributeTypes(IntEnum):
     SingleLineString = 1
     MultiLineString = 2
     SingleLineInteger = 3
+    Picture = 4
     # TODO: Add more supported types, such as pictures, UUID and some other stuff
+
+
+class Attribute(metaclass=abc.ABCMeta):
+    attrib_type: AttributeTypes
+    option_id: ObjectId
+    value = None
+
+    def __init__(self, option_id: Union['AttributeOption', ObjectId], attrib_type: AttributeTypes):
+        if isinstance(option_id, ObjectId):
+            self.option_id = option_id
+        else:
+            if option_id.attribute_type != attrib_type:
+                raise ValueError("Expected Attribute Types to match")
+            self.option_id = option_id.id
+
+        self.attrib_type = attrib_type
+
+    @staticmethod
+    def from_dict(dict_value: Dict) -> 'Attribute':
+
+        if "option_id" not in dict_value or dict_value["option_id"] is None:
+            raise ValueError("Requires an option_id field")
+        option_id = dict_value["option_id"]
+
+        if "attrib_type" not in dict_value or dict_value["attrib_type"] is None:
+            raise ValueError("Requires an attrib_type field")
+        attrib_type = dict_value["attrib_type"]
+
+        value = dict_value["value"]
+
+        if attrib_type == AttributeTypes.Invalid:
+            raise ValueError("Requires valid attrib_type")
+        elif attrib_type == AttributeTypes.SingleLineString:
+            return SingleLineStringAttribute(option_id, value)
+        elif attrib_type == AttributeTypes.MultiLineString:
+            return MultiLineStringAttribute(option_id, value)
+        elif attrib_type == AttributeTypes.SingleLineInteger:
+            return SingleLineIntegerAttribute(option_id, value)
+        elif attrib_type == AttributeTypes.Picture:
+            return PictureAttribute(option_id, value)
+
+    @abc.abstractmethod
+    def to_dict(self) -> Dict:
+        return {"option_id": self.option_id, "attrib_type": self.attrib_type}
+
+
+class SingleLineStringAttribute(Attribute):
+    def __init__(self, option_id: Union['AttributeOption', ObjectId], text: str):
+        super().__init__(option_id, AttributeTypes.SingleLineString)
+        self.value = text
+
+    def to_dict(self) -> Dict:
+        return {**super().to_dict(), "value": self.value}
+
+
+class MultiLineStringAttribute(Attribute):
+    def __init__(self, option_id: Union['AttributeOption', ObjectId], text: List[str]):
+        super().__init__(option_id, AttributeTypes.MultiLineString)
+        self.value = text
+
+    def to_dict(self) -> Dict:
+        return {**super().to_dict(), "value": self.value}
+
+
+class SingleLineIntegerAttribute(Attribute):
+    def __init__(self, option_id: Union['AttributeOption', ObjectId], val: int):
+        super().__init__(option_id, AttributeTypes.SingleLineInteger)
+        self.value = val
+
+    def to_dict(self) -> Dict:
+        return {**super().to_dict(), "value": self.value}
+
+
+class PictureAttribute(Attribute):
+    def __init__(self, option_id: Union['AttributeOption', ObjectId], picture_file_id: ObjectId):
+        super().__init__(option_id, AttributeTypes.Picture)
+        self.value = picture_file_id
+
+    def to_dict(self) -> Dict:
+        return {**super().to_dict(), "value": self.value}
 
 
 class AttributeOption:
     id: ObjectId = None
+    hidden: bool = False
     attribute_name: str = None
     attribute_type: AttributeTypes = AttributeTypes.Invalid
 
@@ -23,8 +106,9 @@ class AttributeOption:
     def init_indices(mongo: PyMongo):
         mongo.db.attrib_options.create_index([("attribute_name", pymongo.ASCENDING)], unique=True)
 
-    def __init__(self, attribute_name: str, attribute_type: AttributeTypes):
+    def __init__(self, attribute_name: str, attribute_type: AttributeTypes, hidden: bool = False):
         self.id = None
+        self.hidden = hidden
         self.attribute_name = attribute_name
         self.attribute_type = attribute_type
 
@@ -39,6 +123,7 @@ class AttributeOption:
             raise ValueError("the dict must contain a non null 'attribute_type'")
 
         cls.id = value_dict["_id"]
+        cls.hidden = ("hidden" in value_dict and value_dict["hidden"])
         cls.attribute_name = value_dict["attribute_name"]
         cls.attribute_type = AttributeTypes(value_dict["attribute_type"])
 
@@ -49,6 +134,10 @@ class AttributeOption:
             "attribute_name": self.attribute_name.lower(),
             "attribute_type": int(self.attribute_type)
         }
+
+        if self.hidden:
+            result["hidden"] = True
+
         if self.id is not None:
             result["_id"] = self.id
 
@@ -72,6 +161,7 @@ class AttributeOption:
 
         new_item_attribute = AttributeOption.from_dict(new_data)
 
+        self.hidden = new_item_attribute.hidden
         self.attribute_name = new_item_attribute.attribute_name
         self.attribute_name = new_item_attribute.attribute_name
 

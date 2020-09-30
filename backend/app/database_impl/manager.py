@@ -6,23 +6,27 @@
 
 from flask import Flask
 from flask_pymongo import PyMongo
+from gridfs import GridFS
 
-from app.database_impl.attrib_options import AttributeOption, AttributeTypes
+from app.database_impl.attrib_options import AttributeOption, AttributeTypes, SingleLineStringAttribute, \
+    MultiLineStringAttribute, PictureAttribute
 from app.database_impl.items_instances import Item, Instance
 from app.database_impl.relations import RelationOption, Relation
 from app.database_impl.roles import Role, Permissions
 from app.database_impl.tags import Tag, TagReference
 from app.database_impl.users import User
-from app.search_parser import search_string_to_mongodb_query
 
 
 class DatabaseManager:
-    mongo = None
+    mongo: PyMongo
+    fs: GridFS
 
     def __init__(self, app: Flask):
         app.config["MONGO_URI"] = "mongodb://localhost:27017/unigames_webapp_db"
 
         self.mongo = PyMongo(app)
+        self.fs = GridFS(self.mongo.db, 'fs')
+
         Tag.init_indices(self.mongo)
         AttributeOption.init_indices(self.mongo)
         Item.init_indices(self.mongo)
@@ -31,6 +35,45 @@ class DatabaseManager:
         RelationOption.init_indices(self.mongo)
         Relation.init_indices(self.mongo)
 
+        # For actual production, to ensure certain attributes exist
+
+        # create an attribute for a name
+        self.name_attrib = AttributeOption.search_for_by_name(self.mongo, "name")
+        if self.name_attrib is None:
+            self.name_attrib = AttributeOption("name", AttributeTypes.SingleLineString)
+            self.name_attrib.write_to_db(self.mongo)
+
+        # create an attribute for a description
+        self.description_attrib = AttributeOption.search_for_by_name(self.mongo, "description")
+        if self.description_attrib is None:
+            self.description_attrib = AttributeOption("description", AttributeTypes.MultiLineString)
+            self.description_attrib.write_to_db(self.mongo)
+
+        # create an attribute for a hidden description
+        self.hidden_description_attrib = AttributeOption.search_for_by_name(self.mongo, "hidden_description")
+        if self.hidden_description_attrib is None:
+            self.hidden_description_attrib = AttributeOption("hidden_description", AttributeTypes.MultiLineString, True)
+            self.hidden_description_attrib.write_to_db(self.mongo)
+
+        # create an attribute for the main picture on an item/instance
+        self.main_picture = AttributeOption.search_for_by_name(self.mongo, "main_picture")
+        if self.main_picture is None:
+            self.main_picture = AttributeOption("main_picture", AttributeTypes.Picture, True)
+            self.main_picture.write_to_db(self.mongo)
+
+        self.everyone_role = Role.search_for_by_name(self.mongo, "everyone")
+        if self.everyone_role is None:  # -1 is overridden by everything, 'everyone' is required for sake of a default
+            self.everyone_role = Role("everyone", -1, {Permissions.CanEditItems: False, Permissions.CanEditUsers: False,
+                                                       Permissions.CanViewHidden: False})
+            self.everyone_role.write_to_db(self.mongo)
+
+        self.admin_role = Role.search_for_by_name(self.mongo, "admin")
+        if self.admin_role is None:  # 0 overrides everything
+            self.admin_role = Role("admin", 0, {Permissions.CanEditItems: True, Permissions.CanEditUsers: True,
+                                                Permissions.CanViewHidden: True})
+            self.admin_role.write_to_db(self.mongo)
+
+    # To only be called for the sake of testing
     def test(self):
         # create a book tag
         book_tag = Tag.search_for_by_name(self.mongo, "Book")
@@ -100,69 +143,53 @@ class DatabaseManager:
             root_tag = Tag("None", [])
             root_tag.write_to_db(self.mongo)
 
-        # create an attribute for name
-        item_name_attrib = AttributeOption.search_for_by_name(self.mongo, "name")
-        if item_name_attrib is None:
-            item_name_attrib = AttributeOption("name", AttributeTypes.SingleLineString)
-            item_name_attrib.write_to_db(self.mongo)
-
-        # create an attribute for author
-        item_author_attrib = AttributeOption.search_for_by_name(self.mongo, "author")
-        if item_author_attrib is None:
-            item_author_attrib = AttributeOption("author", AttributeTypes.SingleLineString)
-            item_author_attrib.write_to_db(self.mongo)
-
-        # create an attribute for description
-        item_description_attrib = AttributeOption.search_for_by_name(self.mongo, "description")
-        if item_description_attrib is None:
-            item_description_attrib = AttributeOption("description", AttributeTypes.MultiLineString)
-            item_description_attrib.write_to_db(self.mongo)
-
-        # search for the uuid attribute
-        instance_uuid_attrib = AttributeOption.search_for_by_name(self.mongo, "uuid")
-        # if none returned, create a new uuid attribute
-        if instance_uuid_attrib is None:
-            instance_uuid_attrib = AttributeOption("uuid", AttributeTypes.SingleLineString)
-            instance_uuid_attrib.write_to_db(self.mongo)
-
-        # search for the Damage Report attribute
-        instance_damage_report_attrib = AttributeOption.search_for_by_name(self.mongo, "Damage Report")
-        # if none returned, create a Damage Report attribute
-        if instance_damage_report_attrib is None:
-            instance_damage_report_attrib = AttributeOption("Damage Report", AttributeTypes.MultiLineString)
-            instance_damage_report_attrib.write_to_db(self.mongo)
+        # load image from disk, normally one would upload it from the website
+        test_image = self.fs.find_one({"filename": "dungeons.jpg"})
+        if test_image is None:
+            with open("frontend/games-img/dungeons.jpg", "rb") as f:
+                test_image = self.fs.put(f, filename="dungeons.jpg", content_type='image/jpg')
+        else:
+            test_image = test_image._id
 
         # search for item by its name attribute
-        bob_book_item = Item.search_for_by_attribute(self.mongo, item_name_attrib, "Bob's Grand Adventure")
+        bob_book_item = Item.search_for_by_attribute(self.mongo, self.name_attrib, "Bob's Grand Adventure")
         # create a new item if no search result returned
         if not bob_book_item:
-            bob_book_item = Item({"name": "Bob's Grand Adventure", "description": "No description"},
+            bob_book_item = Item([SingleLineStringAttribute(self.name_attrib, "Bob's Grand Adventure"),
+                                  MultiLineStringAttribute(self.description_attrib, ["No Description"]),
+                                  PictureAttribute(self.main_picture, test_image)],
                                  [
                                      TagReference(book_tag), TagReference(players_tag_3), TagReference(players_tag_4),
                                      TagReference(players_tag_5)
                                  ], [])
 
-            bob_book_item.instances.append(Instance({"uuid": "109358180",
-                                                     "Damage Report": "(4/5/2017): Page 57 has a small section of the top right corner torn off, no text missing, still serviceable"},
-                                                    [TagReference(damaged_tag)]))
-            bob_book_item.instances.append(Instance({"uuid": "109358181"}, []))
+            bob_book_item.instances.append(Instance([MultiLineStringAttribute(self.description_attrib, ["No Description", "uuid: 109358180"]),
+                                                     MultiLineStringAttribute(self.hidden_description_attrib, ["Damage Report: (4/5/2017): Page 57 has a small section of the top right corner torn off, no text missing, still serviceable"])],
+                                                    [TagReference(damaged_tag)], True))
+            bob_book_item.instances.append(Instance([MultiLineStringAttribute(self.description_attrib, ["No Description", "uuid: 109358181"])], []))
 
             bob_book_item.write_to_db(self.mongo)
         else:
             bob_book_item = bob_book_item[0]
 
+        # search for item by its name attribute
+        steve_hidden_book_item = Item.search_for_by_attribute(self.mongo, self.name_attrib, "Steve's Grand Adventure")
+        # create a new item if no search result returned
+        if not steve_hidden_book_item:
+            steve_hidden_book_item = Item([SingleLineStringAttribute(self.name_attrib, "Steve's Grand Adventure")],
+                                          [
+                                              TagReference(book_tag), TagReference(players_tag_4)
+                                          ], [], True)
+
+            steve_hidden_book_item.instances.append(Instance([MultiLineStringAttribute(self.description_attrib, ["No Description", "uuid: 109354180"])], []))
+            steve_hidden_book_item.instances.append(Instance([MultiLineStringAttribute(self.description_attrib, ["No Description", "uuid: 109354181"])], []))
+
+            steve_hidden_book_item.write_to_db(self.mongo)
+        else:
+            steve_hidden_book_item = steve_hidden_book_item[0]
+
         # recalculates all implied tags for the item and instances
         bob_book_item.recalculate_implied_tags(self.mongo, True)
-
-        everyone_role = Role.search_for_by_name(self.mongo, "everyone")
-        if everyone_role is None:  # -1 is overridden by everything, an 'everyone' is required for sake of a default
-            everyone_role = Role("everyone", -1, {Permissions.CanEditItems: False, Permissions.CanEditUsers: False})
-            everyone_role.write_to_db(self.mongo)
-
-        admin_role = Role.search_for_by_name(self.mongo, "admin")
-        if admin_role is None:  # 0 overrides everything
-            admin_role = Role("admin", 0, {Permissions.CanEditItems: True, Permissions.CanEditUsers: True})
-            admin_role.write_to_db(self.mongo)
 
         borrowing_item_relation = RelationOption.search_for_by_name(self.mongo, "Borrowing")
         if borrowing_item_relation is None:
@@ -171,11 +198,12 @@ class DatabaseManager:
 
         matthew_user = User.search_for_by_display_name(self.mongo, "Matthew")
         if matthew_user is None:
-            matthew_user = User("Matthew", [admin_role.id])
+            matthew_user = User("Matthew", [self.admin_role.id])
             matthew_user.write_to_db(self.mongo)
 
-        inst_0_id = [inst for inst in bob_book_item.instances if inst.attributes["uuid"] == "109358180"][0].id
-        inst_1_id = [inst for inst in bob_book_item.instances if inst.attributes["uuid"] == "109358181"][0].id
+        # this code should never be needed normally, this is modeling a human performing this action, if you want to automate this properlly then properlly add a uuid attribute
+        inst_0_id = [inst for inst in bob_book_item.instances if len([a for a in inst.attributes if isinstance(a, MultiLineStringAttribute) and len([line for line in a.value if line.find("uuid: 109358180") != -1]) != 0]) != 0][0].id
+        inst_1_id = [inst for inst in bob_book_item.instances if len([a for a in inst.attributes if isinstance(a, MultiLineStringAttribute) and len([line for line in a.value if line.find("uuid: 109358181") != -1]) != 0]) != 0][0].id
 
         matthew_bob_borrow_relation = Relation.search_for_by_instance_id(self.mongo, inst_1_id)
         if not matthew_bob_borrow_relation:

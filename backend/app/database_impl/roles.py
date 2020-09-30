@@ -9,6 +9,7 @@ from flask_pymongo import PyMongo
 class Permissions(Enum):
     CanEditItems = "can_edit_items"
     CanEditUsers = "can_edit_users"
+    CanViewHidden = "can_view_hidden"
 
     def __str__(self):
         return self.value
