@@ -33,6 +33,12 @@ class Item:
         self.implied_tags = []
         self.instances = instances
 
+    def get_attributes_by_option(self, option: Union[AttributeOption, ObjectId]) -> List[Attribute]:
+        if isinstance(option, AttributeOption):
+            option = option.id
+
+        return [a for a in self.attributes if a.option_id == option]
+
     def to_dict(self) -> Dict:
         result = {
             "attributes": [a.to_dict() for a in self.attributes],

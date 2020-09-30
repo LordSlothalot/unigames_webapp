@@ -5,14 +5,13 @@
 
 <div class="row">
     <div class="col-sm-4 mt-4">
-        <img class="img-thumbnail mx-auto d-block" src="games-img/dungeons.jpg" alt="Generic placeholder image"
+        <img class="img-thumbnail mx-auto d-block" src="{{ image_url }}" alt="Generic placeholder image"
             style="width: 300px;">
         <div class="text-center">
-            <form>
-                <div class="form-group">
-                    <label for="exampleFormControlFile1">Upload picture</label>
-                    <input type="file" class="form-control-file ml-5" id="exampleFormControlFile1">
-                </div>
+            <form action= "{{ url_for('lib_item_image_edit', item_id=item_id) }}" method="post" enctype="multipart/form-data">
+                <label for="image_file">Upload picture</label>
+                <input type="file" name="file" required="required">
+                <input type="submit" value="Upload">
             </form>
         </div>
 
@@ -21,16 +20,16 @@
     <div class="col-sm-8">
         <div class="lib-edit-right">
 
-            {% for key in attributes %}
+            {% for attribute in attributes %}
             <div class="row">
                 <div class="col-sm-6">
                     <span class="mr-5">
-                        <h5 class="text-uppercase"> {{ key }}</h5>
-                        <p> {{ attributes[key] }}</p>
+                        <h5 class="text-uppercase"> {{ attribute_options[attribute['option_id']]['attribute_name'] }}</h5>
+                        <p> {{ attribute['value'] }}</p>
                     </span>
                 </div>
                 <div class="col-sm-6">
-                    <form action="{{ url_for('item_update_attrib', item_id=item.id, attrib_name=key) }}">
+                    <form action="{{ url_for('item_update_attrib', item_id=item.id, attrib_option_id=attribute['option_id']) }}">
                         <button type="button m-2" class="btn btn-primary">Edit</button>
                     </form>
                 </div>

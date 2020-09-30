@@ -19,6 +19,7 @@ class AttributeTypes(IntEnum):
 class Attribute(metaclass=abc.ABCMeta):
     attrib_type: AttributeTypes
     option_id: ObjectId
+    value = None
 
     def __init__(self, option_id: Union['AttributeOption', ObjectId], attrib_type: AttributeTypes):
         if isinstance(option_id, ObjectId):
@@ -60,47 +61,39 @@ class Attribute(metaclass=abc.ABCMeta):
 
 
 class SingleLineStringAttribute(Attribute):
-    text: str
-
     def __init__(self, option_id: Union['AttributeOption', ObjectId], text: str):
         super().__init__(option_id, AttributeTypes.SingleLineString)
-        self.text = text
+        self.value = text
 
     def to_dict(self) -> Dict:
-        return {**super().to_dict(), "value": self.text}
+        return {**super().to_dict(), "value": self.value}
 
 
 class MultiLineStringAttribute(Attribute):
-    text: List[str]
-
     def __init__(self, option_id: Union['AttributeOption', ObjectId], text: List[str]):
         super().__init__(option_id, AttributeTypes.MultiLineString)
-        self.text = text
+        self.value = text
 
     def to_dict(self) -> Dict:
-        return {**super().to_dict(), "value": self.text}
+        return {**super().to_dict(), "value": self.value}
 
 
 class SingleLineIntegerAttribute(Attribute):
-    val: int
-
     def __init__(self, option_id: Union['AttributeOption', ObjectId], val: int):
         super().__init__(option_id, AttributeTypes.SingleLineInteger)
-        self.val = val
+        self.value = val
 
     def to_dict(self) -> Dict:
-        return {**super().to_dict(), "value": self.val}
+        return {**super().to_dict(), "value": self.value}
 
 
 class PictureAttribute(Attribute):
-    picture_file_id: ObjectId
-
     def __init__(self, option_id: Union['AttributeOption', ObjectId], picture_file_id: ObjectId):
         super().__init__(option_id, AttributeTypes.Picture)
-        self.picture_file_id = picture_file_id
+        self.value = picture_file_id
 
     def to_dict(self) -> Dict:
-        return {**super().to_dict(), "value": self.picture_file_id}
+        return {**super().to_dict(), "value": self.value}
 
 
 class AttributeOption:

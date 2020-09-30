@@ -41,7 +41,7 @@ def image(oid):
         file = db_manager.fs.get(ObjectId(oid))
         return Response(file, mimetype=file.content_type, direct_passthrough=True)
     except NoFile or InvalidId:
-        return page_not_found()
+        return page_not_found(404)
 
 
 ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif'}
@@ -80,7 +80,7 @@ def upload_image():
 
 @app.route('/images')
 def images():
-    files = [db_manager.fs.get_last_version(file) for file in db_manager.fs.list()]
+    files = db_manager.fs.find()
     file_list = "\n".join(['<li><a href="%s">%s</a></li>' % \
                            (url_for('image', oid=str(file._id)), file.name) \
                            for file in files])
@@ -158,7 +158,7 @@ def library():
         db_manager.mongo.db.items.find_one({"attributes.option_id": db_manager.main_picture.id})).attributes if
                                              isinstance(a,
                                                         PictureAttribute) and a.option_id == db_manager.main_picture.id][
-                                                0].picture_file_id))
+                                                0].value))
 
     stars_pic = url_for('static', filename='img/games/stars-without-number.jpg')
     pulp_pic = url_for('static', filename='img/games/pulp-cthulhu.jpg')
@@ -296,9 +296,46 @@ def testing():
 @login_required(role="Admin")
 def lib():
     items = db_manager.mongo.db.items.find()
+    items = [Item.from_dict(item) for item in items]
+    item_names = {item.id: item.get_attributes_by_option(db_manager.name_attrib)[0].value for item in items}
+    item_images = {}
+    for item in items:
+        picture = item.get_attributes_by_option(db_manager.main_picture)
+        if picture:
+            item_images[item.id] = url_for('image', oid=str(picture[0].value))
+        else:
+            item_images[item.id] = url_for('static', filename='img/logo.png')  # TODO supply 'no-image' image?
 
-    return render_template('admin-pages/lib-man/lib.html', items=items, tags_collection=tags_collection,
+    return render_template('admin-pages/lib-man/lib.html', items=items, item_names=item_names, item_images=item_images, tags_collection=tags_collection,
                            ObjectId=ObjectId, list=list)
+
+
+@app.route('/admin/lib-man/image-edit/<item_id>', methods=['POST'])
+@login_required(role="Admin")
+def lib_item_image_edit(item_id):
+    item = db_manager.mongo.db.items.find_one({"_id": ObjectId(item_id)})
+    if item is None:
+        return page_not_found(404)
+    item = Item.from_dict(item)
+
+    file = request.files['file']
+    if file and allowed_file(file.filename):
+        filename = secure_filename(file.filename)
+        oid = db_manager.fs.put(file, content_type=file.content_type, filename=filename)
+
+        attribute = item.get_attributes_by_option(db_manager.main_picture)
+        if attribute:
+            attribute = attribute[0]
+
+            db_manager.fs.delete(attribute.value)
+
+            attribute.value = oid
+        else:
+            item.attributes.append(PictureAttribute(db_manager.main_picture, oid))
+
+        item.write_to_db(db_manager.mongo)
+
+    return redirect(url_for('lib_edit', item_id=str(item_id)))
 
 
 # Library item edit page
@@ -306,10 +343,18 @@ def lib():
 @login_required(role="Admin")
 def lib_edit(item_id):
     item = Item.from_dict(db_manager.mongo.db.items.find({"_id": ObjectId(item_id)})[0])
-    item.recalculate_implied_tags(db_manager.mongo)
-    attributes = item.attributes
+    item.recalculate_implied_tags(db_manager.mongo)  # TODO: This should never be needed here
+    attributes = [a for a in item.attributes if a.option_id != db_manager.main_picture.id]
+    attribute_options = db_manager.mongo.db.attrib_options.find({"_id": {"$in": [a.option_id for a in attributes]}})
+    attribute_options = {a.id: a for a in [AttributeOption.from_dict(a) for a in attribute_options]}
     form = addTagForm()
     form.selection.choices = [(tag['name'], tag['name']) for tag in db_manager.mongo.db.tags.find()]
+
+    if item.get_attributes_by_option(db_manager.main_picture):
+        image_url = url_for('image', oid=str(item.get_attributes_by_option(db_manager.main_picture)[0].value))
+    else:
+        image_url = url_for('static', filename='img/logo.png')  # TODO supply 'no-image' image?
+
     if form.validate_on_submit():
         tag_to_attach = Tag.search_for_by_name(db_manager.mongo, form.selection.data)
         for tag_ref in item.tags:
@@ -320,7 +365,7 @@ def lib_edit(item_id):
 
     return render_template('admin-pages/lib-man/lib-edit.html', attributes=attributes, form=form, item=item,
                            item_id=item_id,
-                           Tag=Tag, tags_collection=tags_collection)
+                           Tag=Tag, tags_collection=tags_collection, attribute_options=attribute_options, image_url=image_url)
 
 
 # function for removing a tag from an item
@@ -503,15 +548,24 @@ def rule_delete(tag_name):
 
 
 # basically for updating Name and Author of an item
-@app.route('/admin/lib-man/item-update-attrib/<item_id>/<attrib_name>', methods=['GET', 'POST'])
+@app.route('/admin/lib-man/item-update-attrib/<item_id>/<attrib_option_id>', methods=['GET', 'POST'])
 @login_required(role="Admin")
-def item_update_attrib(item_id, attrib_name):
+def item_update_attrib(item_id, attrib_option_id):
     form = updateAttribForm()
-    item = db_manager.mongo.db.items.find({"_id": ObjectId(item_id)})[0]
+    item = db_manager.mongo.db.items.find_one({"_id": ObjectId(item_id)})
+    if item is None:
+        return page_not_found(404)
+    item = Item.from_dict(item)
+
     if form.validate_on_submit():
-        update_attrib = {attrib_name: form.attrib_value.data}
-        item['attributes'].update(update_attrib)
-        Item.from_dict(item).write_to_db(db_manager.mongo)
+        attribute = item.get_attributes_by_option(ObjectId(attrib_option_id))
+        if not attribute:
+            return page_not_found(404)
+        attribute = attribute[0]
+
+        attribute.value = form.attrib_value.data
+
+        item.write_to_db(db_manager.mongo)
         return redirect(url_for('lib_edit', item_id=item_id))
     return render_template('admin-pages/lib-man/item-add-attrib.html', form=form)
 
@@ -521,12 +575,12 @@ def item_update_attrib(item_id, attrib_name):
 # -------------------------------------------
 @app.errorhandler(404)
 def page_not_found(e):
-    return 'Page not found 404.'
+    return 'Page not found: 404.'
 
 
 @app.errorhandler(500)
 def page_not_found(e):
-    return 'Page not found 500.'
+    return 'Internal Server Error: 500.'
 
 
 # if __name__=='__main__':

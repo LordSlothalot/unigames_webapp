@@ -146,6 +146,8 @@ class DatabaseManager:
         if test_image is None:
             with open("frontend/games-img/dungeons.jpg", "rb") as f:
                 test_image = self.fs.put(f, filename="dungeons.jpg", content_type='image/jpg')
+        else:
+            test_image = test_image._id
 
         # search for item by its name attribute
         bob_book_item = Item.search_for_by_attribute(self.mongo, self.name_attrib, "Bob's Grand Adventure")
@@ -198,8 +200,8 @@ class DatabaseManager:
             matthew_user.write_to_db(self.mongo)
 
         # this code should never be needed normally, this is modeling a human performing this action, if you want to automate this properlly then properlly add a uuid attribute
-        inst_0_id = [inst for inst in bob_book_item.instances if len([a for a in inst.attributes if isinstance(a, MultiLineStringAttribute) and len([line for line in a.text if line.find("uuid: 109358180") != -1]) != 0]) != 0][0].id
-        inst_1_id = [inst for inst in bob_book_item.instances if len([a for a in inst.attributes if isinstance(a, MultiLineStringAttribute) and len([line for line in a.text if line.find("uuid: 109358181") != -1]) != 0]) != 0][0].id
+        inst_0_id = [inst for inst in bob_book_item.instances if len([a for a in inst.attributes if isinstance(a, MultiLineStringAttribute) and len([line for line in a.value if line.find("uuid: 109358180") != -1]) != 0]) != 0][0].id
+        inst_1_id = [inst for inst in bob_book_item.instances if len([a for a in inst.attributes if isinstance(a, MultiLineStringAttribute) and len([line for line in a.value if line.find("uuid: 109358181") != -1]) != 0]) != 0][0].id
 
         matthew_bob_borrow_relation = Relation.search_for_by_instance_id(self.mongo, inst_1_id)
         if not matthew_bob_borrow_relation:
