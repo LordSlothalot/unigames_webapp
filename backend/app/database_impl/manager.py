@@ -146,7 +146,7 @@ class DatabaseManager:
         # load image from disk, normally one would upload it from the website
         test_image = self.fs.find_one({"filename": "dungeons.jpg"})
         if test_image is None:
-            with open("frontend/games-img/dungeons.jpg", "rb") as f:
+            with open("../frontend/games-img/dungeons.jpg", "rb") as f:
                 test_image = self.fs.put(f, filename="dungeons.jpg", content_type='image/jpg')
         else:
             test_image = test_image._id
