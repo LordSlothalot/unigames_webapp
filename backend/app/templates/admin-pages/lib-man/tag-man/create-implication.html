@@ -1,0 +1,39 @@
+{% extends "final-admin-layout.html" %}
+
+{% import "bootstrap/wtf.html" as wtf %}
+{% block body %}
+<div class="pb-3 text-center">
+    <br>
+    <h3>Create Implication</h3>
+</div>
+<div class="row">
+    <div class="col-md-3">
+
+    </div>
+    <div class="col-md-6">
+        <div class="card shadow mb-4">
+            <div class="card-header py-3">
+                <h6 class="m-0 font-weight-bold text-default">New Implication</h6>
+            </div>
+            <div class="card-body">
+                <div class="container">
+
+                    <div class="row mb-5">
+                        <div class="col-sm text-center">
+                            <form action="{{ url_for('create_impl') }}" method="post">
+                                {{ form.hidden_tag() }}
+                                {{ form.parent }}
+                                {{ form.child }}
+                                {{ form.submit }}
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+{% endblock %}

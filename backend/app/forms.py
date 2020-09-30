@@ -1,7 +1,7 @@
 #This file is for specifying forms
 from app import db_manager
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, SubmitField, BooleanField, SelectField, TextField, validators
+from wtforms import StringField, PasswordField, SubmitField, BooleanField, SelectField, TextField, validators, TextAreaField
 from wtforms.validators import DataRequired, Length, EqualTo, Email
 from wtforms.fields.html5 import EmailField
 # from app.routes import User
@@ -49,7 +49,7 @@ class UpdateForm(FlaskForm):
 #new entry form
 class newEntryForm(FlaskForm):
     title = StringField('Title',[validators.DataRequired()])
-    author = StringField('Author',[validators.DataRequired()])
+    description = TextAreaField('Description')
     selection = SelectField('Add a tag', choices=[(tag['name'], tag['name']) for tag in all_tags1])
     submit = SubmitField('Save')
 
@@ -88,31 +88,23 @@ class addTagImplForm(FlaskForm):
     select_child = SelectField('Select its child tag')
     submit = SubmitField('Add implied tag')
 
-#add attribute to an item form
-class addAttribForm(FlaskForm):
-    attrib_name = SelectField('Select an attribute', choices=[(attrib['attribute_name'], attrib['attribute_name']) for attrib in all_attirb])
-    attrib_value = StringField('Attribute value')
-    submit = SubmitField('Add')
-
 #update attribute for an item form
 class updateAttribForm(FlaskForm):
     attrib_value = StringField('New attribute value')
     submit = SubmitField('Update')
-
-#create a new attribute
-class createAttribForm(FlaskForm):
-    attrib_name = StringField('New attribute name')
-    attrib_type = SelectField('Select attribute type', choices=[('Single-line string', 'Single-line string'), ('Multi-line string', 'Multi-line string'), ('Integer', 'Integer')])
-    submit = SubmitField('Create')
 
 
 #add an implication rul
 class addRuleForm(FlaskForm):
     parent = SelectField('Parent tag')
     child = SelectField('Child tag')
-    submit = SubmitField('Add new rule')
+    submit = SubmitField('Save implication')
 
 #search bar
-class serachForm(FlaskForm):
+class searchForm(FlaskForm):
     searchInput = StringField('Look for: ')
     submit = SubmitField('Search')
+
+class createTagForm(FlaskForm):
+    name = StringField('Name')
+    submit = SubmitField('Save')

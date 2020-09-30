@@ -1,0 +1,210 @@
+{% extends "final-admin-layout.html" %}
+
+{% block body %}
+
+<div class="container-fluid">
+
+    <!-- Page Heading -->
+    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+      <h1 class="h3 mb-0 text-gray-800">Dashboard</h1>
+
+    </div>
+
+    <!-- Content Row -->
+    <div class="row">
+
+      <div class="col-xl-3 col-md-6 mb-4">
+        <div class="card border-left-primary shadow h-100 py-2">
+          <div class="card-body">
+            <div class="row no-gutters align-items-center">
+              <div class="col mr-2">
+                <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Total library items</div>
+                <div class="h5 mb-0 font-weight-bold text-gray-800">{{ item_count }}</div>
+              </div>
+              <div class="col-auto">
+                <i class="fas fa-book-open fa-2x text-gray-300"></i>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-xl-3 col-md-6 mb-4">
+        <div class="card border-left-success shadow h-100 py-2">
+          <div class="card-body">
+            <div class="row no-gutters align-items-center">
+              <div class="col mr-2">
+                <div class="text-xs font-weight-bold text-success text-uppercase mb-1">Total tags</div>
+                <div class="h5 mb-0 font-weight-bold text-gray-800">{{ tag_count }}</div>
+              </div>
+              <div class="col-auto">
+                <i class="fas fa-tags fa-2x text-gray-300"></i>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-xl-3 col-md-6 mb-4">
+        <div class="card border-left-info shadow h-100 py-2">
+          <div class="card-body">
+            <div class="row no-gutters align-items-center">
+              <div class="col mr-2">
+                <div class="text-xs font-weight-bold text-info text-uppercase mb-1">Tags with implications</div>
+                <div class="h5 mb-0 font-weight-bold text-gray-800">{{ tag_impl_count }}</div>
+              </div>
+              <div class="col-auto">
+                <i class="fas fa-hashtag fa-2x text-gray-300"></i>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-xl-3 col-md-6 mb-4">
+        <div class="card border-left-warning shadow h-100 py-2">
+          <div class="card-body">
+            <div class="row no-gutters align-items-center">
+              <div class="col mr-2">
+                <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">System Administrators</div>
+                <div class="h5 mb-0 font-weight-bold text-gray-800"> {{user_count}}</div>
+              </div>
+              <div class="col-auto">
+                <i class="fas fa-users fa-2x text-gray-300"></i>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+    <!-- Content Row -->
+    <div class="row">
+
+      <!-- Content Column -->
+      <div class="col-lg-7 mb-4">
+        <!-- Recently added items table -->
+        <div class="card shadow mb-4">
+          <div class="card-header py-3">
+            <h6 class="m-0 font-weight-bold text-primary">Recently Added Items</h6>
+          </div>
+          <div class="card-body">
+              <table class="table table-bordered" width="100%" cellspacing="0">
+                <thead>
+                  <tr>
+                    <th>Title</th>
+                    <th>Tags</th>
+                    <th>Implied Tags</th>
+                    <th>Details</th>
+
+                  </tr>
+                </thead>
+                <tbody>
+                  {% for item in recent_items %}
+                  <tr>
+                      <td>
+                          <a
+                              href="{{ url_for('edit_item', item_id = item['_id']) }}">{{ item['attributes']['name'] }}</a>
+                      </td>
+
+                      <td>
+                          {% for tag in item['tags'] %}
+                          {% for found_tag in tags_collection.find( {"_id": tag} ) %}
+                          <span class="badge badge-pill badge-success ">{{ found_tag['name'] }}</span>
+                          {% endfor %}
+                          {% endfor %}
+                      </td>
+
+                      <td>
+                          {% for tag in item['implied_tags'] %}
+                          {% for found_tag in tags_collection.find( {"_id": tag} ) %}
+                          <span class="badge badge-pill badge-info ">{{ found_tag['name'] }}</span>
+                          {% endfor %}
+                          {% endfor %}
+                      </td>
+
+                      <td><a href="{{ url_for('edit_item', item_id = item['_id']) }}">Edit</a>
+                          <a>/</a>
+                          <a href="{{ url_for('lib_delete', item_id = item['_id']) }}">Delete</a>
+                      </td>
+                  </tr>
+                  {% endfor %}
+
+              </tbody>
+              </table>
+              <small class="d-block text-right mt-3">
+                <a href="{{ url_for('all_items')}}">All items >></a>
+            </small>
+          </div>
+        </div>
+
+        <!-- Approach -->
+        <div class="card shadow mb-4">
+          <div class="card-header py-3">
+            <h6 class="m-0 font-weight-bold text-primary">Instruction</h6>
+          </div>
+          <div class="card-body">
+            <p>User's manual/instruction goes here.</p>
+            <p class="mb-0">Some other trivial stuff.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-lg-5 mb-4">
+
+        <!-- Recently added items table -->
+        <div class="card shadow mb-4">
+          <div class="card-header py-3">
+            <h6 class="m-0 font-weight-bold text-primary">Recently Added Tags</h6>
+          </div>
+          <div class="card-body">
+              <table class="table table-bordered" width="100%" cellspacing="0">
+                <thead>
+                  <tr>
+                    <th>Tag</th>
+                    <th>Implied Tags</th>
+                    <th>Details</th>
+
+                  </tr>
+                </thead>
+                <tbody>
+                  {% for tag in recent_tags %}
+                  <tr>
+      
+                    <td>
+                      <a href="{{ url_for('edit_tag', tag_name=tag['name']) }}">{{ tag['name'] }}</a>
+                    </td>
+      
+                    <td>
+                      {% for implied_id in tag['implies'] %}
+                      <span class="badge badge-pill badge-info "> {% for impl in tags_collection.find( {"_id": implied_id}) %}
+                        {{ impl['name'] }}
+                        {% endfor %}</span>
+                      {% endfor %}
+      
+      
+                    </td>
+      
+                    <td><a href="{{ url_for('edit_tag', tag_name=tag['name']) }}">Edit</a>
+                      <a>/</a>
+                      <a href="{{ url_for('tag_delete', tag_name=tag['name']) }}">Delete</a>
+                    </td>
+                  </tr>
+                  {% endfor %}
+      
+                </tbody>
+              </table>
+              <small class="d-block text-right mt-3">
+                <a href="{{ url_for('all_tags')}}">All tags >></a>
+            </small>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+    <!-- /.container-fluid -->
+
+  </div>
+{% endblock %}

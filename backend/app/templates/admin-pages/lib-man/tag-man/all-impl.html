@@ -1,0 +1,94 @@
+{% extends "final-admin-layout.html" %}
+
+{% block head %}
+<!-- Custom styles for all-items page -->
+<link href="{{url_for ('static' , filename= 'vendor/datatables/dataTables.bootstrap4.min.css') }}" rel="stylesheet">
+{% endblock %}
+
+
+{% block body %}
+
+
+<!-- Begin Page Content -->
+<div class="container-fluid">
+
+  <!-- Page Heading -->
+  <div class="pb-3 text-center">
+    <br>
+    <h3>Tag Implications</h3>
+    <p class="mb-4">This page shows all existing tag implications.</p>
+</div>
+
+
+  <!-- DataTales Example -->
+  <div class="card shadow mb-4">
+    <div class="card-header py-3">
+      <h6 class="m-0 font-weight-bold text-primary">Tag implications</h6>
+    </div>
+    <div class="card-body">
+      <div class="table-responsive">
+        <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+          <thead>
+            <tr>
+              <th>Tag</th>
+              <th>Implies</th>
+              <th>Details</th>
+            </tr>
+          </thead>
+          <tfoot>
+            <tr>
+              <th>Tag</th>
+              <th>Implies</th>
+              <th>Details</th>
+            </tr>
+          </tfoot>
+          <tbody>
+            {% for tag in tags_collection.find() %}
+            {% if tag['implies'] %}
+            <tr>
+
+              <td>
+                <a href="{{ url_for('edit_tag', tag_name=tag['name']) }}">{{ tag['name'] }}</a>
+              </td>
+
+              <td>
+                {% for implied_id in tag['implies'] %}
+                <span class="badge badge-pill badge-info "> {% for impl in tags_collection.find( {"_id": implied_id}) %}
+                  {{ impl['name'] }}
+                  {% endfor %}</span>
+                {% endfor %}
+
+
+              </td>
+
+              <td><a href="{{ url_for('edit_tag', tag_name=tag['name']) }}">Edit</a>
+                <a>/</a>
+                <a href="{{ url_for('impl_delete', tag_name=tag['name']) }}">Delete</a>
+              </td>
+            </tr>
+            {% endif %}
+            {% endfor %}
+
+          </tbody>
+        </table>
+      </div>
+
+    </div>
+
+  </div>
+  <div class="row">
+    <div class="col-md-9">
+    </div>
+    <div class="col-md-3">
+      <a href="{{ url_for('create_impl') }}" class="btn btn-primary btn-user btn-block">
+        Create an implication
+      </a></div>
+  </div>
+</div>
+
+
+
+
+
+
+{% endblock %}

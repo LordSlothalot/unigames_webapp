@@ -135,6 +135,8 @@ class DatabaseManager:
             borrowed_out_tag = Tag("Borrowed Out", [])
             borrowed_out_tag.write_to_db(self.mongo)
 
+
+
         # create a None tag (all root tags point to this tag for easier management)
         root_tag = Tag.search_for_by_name(self.mongo, "None")
         if root_tag is None:
@@ -211,6 +213,27 @@ class DatabaseManager:
             matthew_bob_borrow_relation = matthew_bob_borrow_relation[0]
 
         bob_book_item.recalculate_implied_tags(self.mongo, True)
+
+
+        #Page load testing
+        '''
+        #1000 tags
+        DO_NOT_DELETE_tag = Tag.search_for_by_name(self.mongo, "DO NOT DELETE ME")
+        if DO_NOT_DELETE_tag is None:
+            DO_NOT_DELETE_tag = Tag("DO NOT DELETE ME", [])
+            DO_NOT_DELETE_tag.write_to_db(self.mongo)
+            for i in range(1000):
+                new_tag = Tag("tag"+str(i), [])
+                new_tag.write_to_db(self.mongo)
+        
+        #1000 items
+        DO_NOT_DELETE_item = Item.search_for_by_attribute(self.mongo, item_name_attrib, "DO NOT DELETE ME")
+        if not DO_NOT_DELETE_item:
+            DO_NOT_DELETE_item = Item({"name": "DO NOT DELETE ME", "description": "No description"},[], [])
+            for i in range(1000):
+                new_item = Item({"name": "item"+str(i), "description": "No description"},[], [])
+                new_item.write_to_db(self.mongo)
+        '''
 
         # print("Search 'book, players: 4': " + str(search_string_to_mongodb_query(self.mongo, "book, players: 4")))
         # print("Search 'book, players: (4)': " + str(search_string_to_mongodb_query(self.mongo, "book, players: (4)")))
