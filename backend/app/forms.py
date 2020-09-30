@@ -88,29 +88,17 @@ class addTagImplForm(FlaskForm):
     select_child = SelectField('Select its child tag')
     submit = SubmitField('Add implied tag')
 
-#add attribute to an item form
-class addAttribForm(FlaskForm):
-    attrib_name = SelectField('Select an attribute', choices=[(attrib['attribute_name'], attrib['attribute_name']) for attrib in all_attirb])
-    attrib_value = StringField('Attribute value')
-    submit = SubmitField('Add')
-
 #update attribute for an item form
 class updateAttribForm(FlaskForm):
     attrib_value = StringField('New attribute value')
     submit = SubmitField('Update')
-
-#create a new attribute
-class createAttribForm(FlaskForm):
-    attrib_name = StringField('New attribute name')
-    attrib_type = SelectField('Select attribute type', choices=[('Single-line string', 'Single-line string'), ('Multi-line string', 'Multi-line string'), ('Integer', 'Integer')])
-    submit = SubmitField('Create')
 
 
 #add an implication rul
 class addRuleForm(FlaskForm):
     parent = SelectField('Parent tag')
     child = SelectField('Child tag')
-    submit = SubmitField('Add new rule')
+    submit = SubmitField('Save implication')
 
 #search bar
 class searchForm(FlaskForm):

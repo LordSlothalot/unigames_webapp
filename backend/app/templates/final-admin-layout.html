@@ -65,7 +65,7 @@
         <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
           <div class="bg-white py-2 collapse-inner rounded">
             <h6 class="collapse-header">User Management</h6>
-            <a class="collapse-item" href="buttons.html">Create a user</a>
+            <a class="collapse-item" href="">Create a user</a>
             <a class="collapse-item" href="{{ url_for('adminusers') }}">All users</a>
           </div>
         </div>
@@ -175,11 +175,34 @@
 
         <!-- Begin Page Content -->
         <div class="container-fluid">
+
+              {% with messages = get_flashed_messages() %}
+              {% if messages %}
+              <div class="row">
+                <div class="col-md-3">
+                </div>
+                <div class="col-md-6">
+                  <div class="alert alert-warning flashes" role="alert">
+                    {% for message in messages %}
+                    <h5>
+                      {{ message }}
+                    </h5>
+  
+                    {% endfor %}
+                      </div>
+                      </div>
+
+                </div>
+
+
+              {% endif %}
+              {% endwith %}
+
           {% block body %}{% endblock %}
         </div>
 
       </div>
-        <!-- End of Main Content -->
+      <!-- End of Main Content -->
 
 
       <!-- Footer -->

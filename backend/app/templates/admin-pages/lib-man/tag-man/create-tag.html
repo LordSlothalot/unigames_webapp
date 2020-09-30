@@ -4,7 +4,8 @@
 {% block body %}
 <div class="pb-3 text-center">
     <br>
-    <h3>Create a Tag</h3>
+    <h3>Create Tag</h3>
+    <p class="mb-4">Create a tag which can be implied or attached to an item.</p>
 </div>
 <div class="row">
     <div class="col-md-3">
@@ -16,12 +17,11 @@
                 <h6 class="m-0 font-weight-bold text-default">New tag</h6>
             </div>
             <div class="card-body">
-                Create a new tag
-                <div class="card mb-4 py-3 border-left-success">
+
                     <div class="card-body">
                         {{ wtf.quick_form(form)}}
                     </div>
-                  </div>
+
             </div>
         </div>
 

@@ -51,7 +51,7 @@
                             <td>
                                 {% for tag in item['tags'] %}
                                 {% for found_tag in tags_collection.find( {"_id": tag} ) %}
-                                <span class="badge badge-pill badge-info ">{{ found_tag['name'] }}</span>
+                                <span class="badge badge-pill badge-success ">{{ found_tag['name'] }}</span>
                                 {% endfor %}
                                 {% endfor %}
                             </td>

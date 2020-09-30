@@ -1,0 +1,52 @@
+{% extends "final-admin-layout.html" %}
+
+{% block body %}
+<div class="pb-3 text-center">
+    <br>
+    <h3>Administrator Edit</h3>
+    <p class="mb-4">This page edit the information of an administrator.</p>
+</div>
+<div class="row">
+    <div class="col-sm-3"></div>
+    <div class="col-sm-6">
+        <div class="card mb-4">
+            <div class="card-header">
+                Edit user
+            </div>
+            <div class="card-body">
+                <form method="post" action="">
+                    <div class="login-section">
+                        {{ form.hidden_tag() }}
+                        <fieldset class="form-group">
+                            <div class="form-group">
+                                {{ form.first_name.label }}
+                                {{ form.first_name(class='form-control') }}
+                            </div>
+                            <div class="form-group">
+                                {{ form.last_name.label }}
+                                {{ form.last_name(class='form-control') }}
+                                <div class="form-group">
+                                    {{ form.email.label }}
+                                    {{ form.email(class='form-control') }}
+                                </div>
+                                <div class="form-group">
+                                    {{ form.role.label }}
+                                    {{ form.role(class='form-control') }}
+                                </div>
+                                <div class="form-group">
+                                    {{ form.submit(class='btn btn-outline-info') }}
+                                </div>
+                                <div class="form-group">
+                                    {{ form.delete(onclick="return confirm('Are you sure you wish to delete?')", class='btn btn-outline-info') }}
+                                </div>
+                        </fieldset>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-3"></div>
+</div>
+
+
+{% endblock %}

@@ -92,6 +92,8 @@ class Item:
         self.implied_tags = new_item.implied_tags
         self.instances = new_item.instances
 
+        return True
+
     # if 'instances' is true, then also recalculate the implied of all the instances
     # if 'inherit' is true, then if a tag is on all instance of an object it will be implied on the item
     # returns true if successful, false otherwise
@@ -140,6 +142,7 @@ class Item:
             self.implied_tags.extend(possibilities)
 
         self.write_to_db(mongo)
+        return True
 
     # returns true if successful, false otherwise
     def recalculate_instance_implied_tags(self, mongo: PyMongo, index: Optional[Union[int, List[int]]] = None):
@@ -185,6 +188,7 @@ class Item:
                             inst.implied_tags.append(implied)
 
             self.write_to_db(mongo)
+            return True
 
     def delete_from_db(self, mongo: PyMongo) -> bool:
         if self.id is None:
