@@ -9,7 +9,8 @@ from werkzeug.security import generate_password_hash
 from werkzeug.utils import secure_filename
 
 from app import app, db_manager, login_manager
-from app.database_impl.attrib_options import AttributeOption, PictureAttribute
+from app.database_impl.attrib_options import AttributeOption, PictureAttribute, SingleLineStringAttribute, \
+    MultiLineStringAttribute
 from app.database_impl.items_instances import Item, Instance
 from app.database_impl.tags import Tag, TagReference
 
@@ -703,15 +704,16 @@ def create_item():
     all_tags = db_manager.mongo.db.tags.find()
     if form.validate_on_submit():
         # search for an item with the same title
-        item_name_attrib = AttributeOption.search_for_by_name(db_manager.mongo, "name")
-        item_exists = Item.search_for_by_attribute(db_manager.mongo, item_name_attrib, form.title.data)
+        # TODO: Ask client: Do we really care if things have the same name?
+        item_exists = Item.search_for_by_attribute(db_manager.mongo, db_manager.name_attrib, form.title.data)
         if not item_exists:
             # find the matching tag
             tag_name = form.selection.data
             found_tag = Tag.search_for_by_name(db_manager.mongo, tag_name)
             add_tag = TagReference(found_tag.id)
-            new_instance = Instance([],[])
-            new_item = Item({"name": form.title.data, "description": form.description.data}, [add_tag], [new_instance])
+            new_item = Item([SingleLineStringAttribute(db_manager.name_attrib, form.title.data),
+                             MultiLineStringAttribute(db_manager.description_attrib, form.description.data)],
+                            [add_tag], [])
             new_item.write_to_db(db_manager.mongo)
             new_item.recalculate_implied_tags(db_manager.mongo)
             return redirect(url_for('all_items'))
