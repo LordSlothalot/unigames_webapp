@@ -105,7 +105,7 @@
                   <tr>
                       <td>
                           <a
-                              href="{{ url_for('edit_item', item_id = item['_id']) }}">{{ item['attributes']['name'] }}</a>
+                              href="{{ url_for('edit_item', item_id = item['_id']) }}">{{ Item.from_dict(item).get_attributes_by_option(name_attrib_option)[0].value }}</a>
                       </td>
 
                       <td>
@@ -126,7 +126,7 @@
 
                       <td><a href="{{ url_for('edit_item', item_id = item['_id']) }}">Edit</a>
                           <a>/</a>
-                          <a href="{{ url_for('lib_delete', item_id = item['_id']) }}">Delete</a>
+                          <a href="{{ url_for('lib_delete', item_id = item['_id']) }}" onclick="return confirm('Are you sure you want to delete this item?\nThis can not be undone.');">Delete</a>
                       </td>
                   </tr>
                   {% endfor %}

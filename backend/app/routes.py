@@ -395,7 +395,7 @@ def admin():
     recent_items = recent_items[:6]
     recent_tags.reverse()
     recent_tags = recent_tags[:6]
-    return render_template('admin-pages/new-home.html', tags_collection=tags_collection, user_count=user_count, recent_items=recent_items, recent_tags=recent_tags,item_count=item_count, tag_count=tag_count, tag_impl_count=tag_impl_count)
+    return render_template('admin-pages/new-home.html', tags_collection=tags_collection, user_count=user_count, recent_items=recent_items, recent_tags=recent_tags,item_count=item_count, tag_count=tag_count, tag_impl_count=tag_impl_count, name_attrib_option=db_manager.name_attrib, Item=Item)
 
 #Page for creating a tag
 @app.route('/admin/lib-man/tag-man/create-a-tag', methods=['POST','GET'])
@@ -540,7 +540,11 @@ def lib_edit(item_id):
 @app.route('/admin/lib-man/<item_id>', methods=['GET', 'POST'])
 @login_required(role="Admin")
 def edit_item(item_id):
-    item = Item.from_dict(db_manager.mongo.db.items.find_one({"_id": ObjectId(item_id)}))
+    item = db_manager.mongo.db.items.find_one({"_id": ObjectId(item_id)})
+    if item is None:
+        return page_not_found(404)
+
+    item = Item.from_dict(item)
     item.recalculate_implied_tags(db_manager.mongo)
 
     attributes = [a for a in item.attributes if a.option_id != db_manager.main_picture.id]
