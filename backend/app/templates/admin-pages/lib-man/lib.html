@@ -81,9 +81,9 @@
                                         {% endfor %}
                                     </td>
 
-                                    <td><a href="{{ url_for('lib_edit', item_id = item['id']) }}">Edit</a>
+                                    <td><a href="{{ url_for('lib_edit', item_id = item.id) }}">Edit</a>
                                         <a>/</a>
-                                        <a href="{{ url_for('lib_delete', item_id = item['id']) }}">Delete</a>
+                                        <a href="{{ url_for('lib_delete', item_id = item.id) }}">Delete</a>
                                     </td>
                                 </tr>
                                 {% endfor %}

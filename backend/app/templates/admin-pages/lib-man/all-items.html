@@ -26,6 +26,7 @@
                 <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                     <thead>
                         <tr>
+                            <th>Picture</th>
                             <th>Title</th>
                             <th>Tags</th>
                             <th>Implied tags</th>
@@ -34,6 +35,7 @@
                     </thead>
                     <tfoot>
                         <tr>
+                            <th>Picture</th>
                             <th>Title</th>
                             <th>Tags</th>
                             <th>Implied tags</th>
@@ -44,13 +46,17 @@
                         {% for item in items %}
                         <tr>
                             <td>
+                                <img class="img-thumbnail mx-auto d-block" src="{{ item_images[item.id] }}" style="width: 50px;" alt="Placeholder image">
+                            </td>
+
+                            <td>
                                 <a
-                                    href="{{ url_for('edit_item', item_id = item['_id']) }}">{{ item['attributes']['name'] }}</a>
+                                    href="{{ url_for('edit_item', item_id = item.id) }}">{{ item_names[item.id] }}</a>
                             </td>
 
                             <td>
                                 {% for tag in item['tags'] %}
-                                {% for found_tag in tags_collection.find( {"_id": tag} ) %}
+                                {% for found_tag in tags_collection.find( {"_id": tag.tag_id} ) %}
                                 <span class="badge badge-pill badge-success ">{{ found_tag['name'] }}</span>
                                 {% endfor %}
                                 {% endfor %}
@@ -58,7 +64,7 @@
 
                             <td>
                                 {% for tag in item['implied_tags'] %}
-                                {% for found_tag in tags_collection.find( {"_id": tag} ) %}
+                                {% for found_tag in tags_collection.find( {"_id": tag.tag_id} ) %}
                                 <span class="badge badge-pill badge-info ">{{ found_tag['name'] }}</span>
                                 {% endfor %}
                                 {% endfor %}

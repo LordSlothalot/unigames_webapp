@@ -421,11 +421,22 @@ def create_tag():
 def all_items():
     
     items = db_manager.mongo.db.items.find()
-    for item in db_manager.mongo.db.items.find():
-        this_item = Item.from_dict(item)
-        this_item.recalculate_implied_tags(db_manager.mongo)
+    items = [Item.from_dict(i) for i in items]
+
+    for item in items:
+        item.recalculate_implied_tags(db_manager.mongo)  # Again, thia is NOT be needed
+
+    item_names = {item.id: item.get_attributes_by_option(db_manager.name_attrib)[0].value for item in items}
+    item_images = {}
+    for item in items:
+        picture = item.get_attributes_by_option(db_manager.main_picture)
+        if picture:
+            item_images[item.id] = url_for('image', oid=str(picture[0].value))
+        else:
+            item_images[item.id] = url_for('static', filename='img/logo.png')  # TODO supply 'no-image' image?
+
     return render_template('admin-pages/lib-man/all-items.html', items=items, tags_collection=tags_collection,
-                           ObjectId=ObjectId, list=list)
+                           item_names=item_names, item_images=item_images)
 
 #Function for delete an item
 #checked OK
