@@ -17,11 +17,11 @@
                 <div class="row no-gutters align-items-center">
                     <div class="col mr-2">
                         <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Currently editing</div>
-                        <div class="h5 mb-0 font-weight-bold text-gray-800">{{ item['attributes']['name'] }}
+                        <div class="h5 mb-0 font-weight-bold text-gray-800">{{ item.get_attributes_by_option(name_attribute)[0].value }}
                         </div>
                     </div>
                     <div class="col-auto">
-                        <a href="{{ url_for('lib_delete', item_id = item['_id']) }}" class="btn btn-danger btn-icon-split">
+                        <a href="{{ url_for('lib_delete', item_id = item.id) }}" class="btn btn-danger btn-icon-split">
                             <span class="icon text-white-50">
                                 <i class="fas fa-trash"></i>
                             </span>
@@ -52,15 +52,15 @@
             </div>
             <div class="card-body">
                 <div class="container">
-                    {% for key in attributes %}
+                    {% for attribute in attribute_options.values() %}
                     <div class="row">
                         <div class="col-sm-10">
 
-                                <h5 class="text-uppercase"> {{ key }}</h5>
-                                <p> {{ attributes[key] }}</p>
+                                <h5 class="text-uppercase"> {{ attribute.attribute_name }}</h5>
+                                <p> {{ item.get_attributes_by_option(attribute)[0].value }}</p>
                         </div>
                         <div class="col-sm-2">
-                            <form action="{{ url_for('item_update_attrib', item_id=item.id, attrib_name=key) }}">
+                            <form action="{{ url_for('item_update_attrib', item_id=item.id, attrib_name=attribute.attribute_name) }}">
                                 <button type="button m-2" class="btn btn-success">Edit</button>
                             </form>
                         </div>

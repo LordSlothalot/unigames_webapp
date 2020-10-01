@@ -540,9 +540,18 @@ def lib_edit(item_id):
 @app.route('/admin/lib-man/<item_id>', methods=['GET', 'POST'])
 @login_required(role="Admin")
 def edit_item(item_id):
-    item = Item.from_dict(db_manager.mongo.db.items.find({"_id": ObjectId(item_id)})[0])
+    item = Item.from_dict(db_manager.mongo.db.items.find_one({"_id": ObjectId(item_id)}))
     item.recalculate_implied_tags(db_manager.mongo)
-    attributes = item.attributes
+
+    attributes = [a for a in item.attributes if a.option_id != db_manager.main_picture.id]
+    attribute_options = db_manager.mongo.db.attrib_options.find({"_id": {"$in": [a.option_id for a in attributes]}})
+    attribute_options = {a.id: a for a in [AttributeOption.from_dict(a) for a in attribute_options]}
+
+    if item.get_attributes_by_option(db_manager.main_picture):
+        image_url = url_for('image', oid=str(item.get_attributes_by_option(db_manager.main_picture)[0].value))
+    else:
+        image_url = url_for('static', filename='img/logo.png')  # TODO supply 'no-image' image?
+
     form = addTagForm()
     form.selection.choices=[(tag['name'], tag['name']) for tag in db_manager.mongo.db.tags.find()]
     if form.validate_on_submit():
@@ -556,8 +565,8 @@ def edit_item(item_id):
         item.recalculate_implied_tags(db_manager.mongo)
         flash('Tag added successfully! Tag implications have been recalculated.')
         return redirect(url_for('edit_item', item_id=item_id))
-    return render_template('admin-pages/lib-man/edit-item.html', attributes=attributes, form=form, item=item, item_id=item_id,
-                           Tag=Tag, tags_collection=tags_collection)
+    return render_template('admin-pages/lib-man/edit-item.html', attribute_options=attribute_options, form=form, item=item,
+                           item_id=item_id, tags_collection=tags_collection, image_url=image_url, name_attribute=db_manager.name_attrib)
 
 
 #function for removing a tag from an item
