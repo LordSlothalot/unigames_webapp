@@ -322,7 +322,7 @@ def tag_create():
         if tag_exists is None:
             new_tag = Tag(create_tag_form.name.data, [])
             new_tag.write_to_db(db_manager.mongo)
-            return redirect(url_for('tag_all'))
+            return redirect(url_for('all_tags'))
         else:
             return 'the tag already exists'
     return render_template('admin-pages/lib-man/tag-man/tag-all.html', create_tag_form=create_tag_form,
@@ -339,7 +339,7 @@ def implication_remove(tag_name, implied_id):
         if tag_ref.tag_id == implied_tag.id:
             tag.remove_implied_tag(tag_ref)
             tag.write_to_db(db_manager.mongo)
-    return redirect(url_for('tag_all'))
+    return redirect(url_for('edit_tag', tag_name=tag_name))
 
 
 
@@ -630,7 +630,7 @@ def tag_delete(tag_name):
                 Tag.from_dict(tag).write_to_db(db_manager.mongo)
                 implication_dropped += 1        # need to add user notification
     flash('Tag: ' + str(tag_name) + ' dropped, ' + str(implication_dropped) + ' implications are affected.')
-    return redirect(url_for('all_tags'))
+    return redirect(url_for('edit_tag'))
 
 #Page for creating an implication
 #checked OK
