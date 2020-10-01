@@ -48,6 +48,30 @@
 
         <div class="card shadow mb-4">
             <div class="card-header py-3">
+                <h6 class="m-0 font-weight-bold text-success">Item Picture</h6>
+            </div>
+            <div class="card-body">
+                <div class="container">
+
+                    <img class="img-thumbnail mx-auto d-block" src="{{ image_url }}" alt="Generic placeholder image">
+
+                    <form action= "{{ url_for('lib_item_image_edit', item_id=item.id) }}" method="post" enctype="multipart/form-data">
+                        <label for="image_file">Upload picture</label>
+                        <input type="file" name="file" required="required">
+                        <input type="submit" value="Upload">
+                    </form>
+
+                    <form action= "{{ url_for('lib_item_image_remove', item_id=item.id) }}" method="post" enctype="multipart/form-data"
+                            onsubmit="return confirm('Are you sure you want to remove the image?\nThis can not be undone.');">
+                        <input type="submit" value="Remove Image">
+                    </form>
+                    
+                </div>
+            </div>
+        </div>
+
+        <div class="card shadow mb-4">
+            <div class="card-header py-3">
                 <h6 class="m-0 font-weight-bold text-success">Attributes</h6>
             </div>
             <div class="card-body">
@@ -60,19 +84,16 @@
                                 <p> {{ item.get_attributes_by_option(attribute)[0].value }}</p>
                         </div>
                         <div class="col-sm-2">
-                            <form action="{{ url_for('item_update_attrib', item_id=item.id, attrib_name=attribute.attribute_name) }}">
+                            <form action="{{ url_for('item_update_attrib', item_id=item.id, attrib_option_id=attribute.id) }}">
                                 <button type="button m-2" class="btn btn-success">Edit</button>
                             </form>
                         </div>
                     </div>
                     {% endfor %}
-                    
+
                 </div>
             </div>
         </div>
-
-
-
     </div>
 
     <div class="col-lg-5">

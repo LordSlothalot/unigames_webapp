@@ -690,7 +690,7 @@ def impl_delete(tag_name):
 
 #Page for updating Name or Description of an item
 #checked OK
-@app.route('/admin/lib-man/item-update-attrib/<item_id>/<attrib_name>', methods=['GET', 'POST'])
+@app.route('/admin/lib-man/item-update-attrib/<item_id>/<attrib_option_id>', methods=['GET', 'POST'])
 @login_required(role="Admin")
 def item_update_attrib(item_id, attrib_option_id):
     form = updateAttribForm()
@@ -699,19 +699,28 @@ def item_update_attrib(item_id, attrib_option_id):
         return page_not_found(404)
     item = Item.from_dict(item)
 
+    attribute_option = db_manager.mongo.db.attrib_options.find_one({"_id": ObjectId(attrib_option_id)})
+    if attribute_option is None:
+        return page_not_found(404)
+    attribute_option = AttributeOption.from_dict(attribute_option)
+
     if form.validate_on_submit():
-        if attrib_name == 'name':
+        if ObjectId(attrib_option_id) == db_manager.name_attrib:
             item_name_attrib = AttributeOption.search_for_by_name(db_manager.mongo, "name")
             item_exists = Item.search_for_by_attribute(db_manager.mongo, item_name_attrib, form.attrib_value.data)
             if item_exists:
                 flash('An item with the same name already exists!')
-                return redirect(url_for('item_update_attrib', item_id=item_id, attrib_name=attrib_name))
-        update_attrib = {attrib_name: form.attrib_value.data}
-        item['attributes'].update(update_attrib)
-        Item.from_dict(item).write_to_db(db_manager.mongo)
+                return redirect(url_for('item_update_attrib', item_id=item_id, attrib_option_id=attrib_option_id))
+
+        if not item.get_attributes_by_option(ObjectId(attrib_option_id)):
+            return page_not_found(404)
+
+        item.get_attributes_by_option(ObjectId(attrib_option_id))[0].value = form.attrib_value.data
+        item.write_to_db(db_manager.mongo)
+
         flash('Item updated')
-        return redirect(url_for('edit_item', item_id=item_id, attrib_name=attrib_name))
-    return render_template('admin-pages/lib-man/item-add-attrib.html', form=form, attrib_name=attrib_name)
+        return redirect(url_for('edit_item', item_id=item_id))
+    return render_template('admin-pages/lib-man/item-add-attrib.html', form=form, attrib_name=attribute_option.attribute_name)
 
 
 
@@ -743,6 +752,53 @@ def create_item():
     return render_template('admin-pages/lib-man/create-item.html', form=form)
 
 
+@app.route('/admin/lib-man/image-edit/<item_id>', methods=['POST'])
+@login_required(role="Admin")
+def lib_item_image_edit(item_id):
+    item = db_manager.mongo.db.items.find_one({"_id": ObjectId(item_id)})
+    if item is None:
+        return page_not_found(404)
+    item = Item.from_dict(item)
+
+    file = request.files['file']
+    if file and allowed_file(file.filename):
+        filename = secure_filename(file.filename)
+        oid = db_manager.fs.put(file, content_type=file.content_type, filename=filename)
+
+        attribute = item.get_attributes_by_option(db_manager.main_picture)
+        if attribute:
+            attribute = attribute[0]
+
+            db_manager.fs.delete(attribute.value)
+
+            attribute.value = oid
+        else:
+            item.attributes.append(PictureAttribute(db_manager.main_picture, oid))
+
+        item.write_to_db(db_manager.mongo)
+
+    return redirect(url_for('edit_item', item_id=str(item_id)))
+
+
+@app.route('/admin/lib-man/image-remove/<item_id>', methods=['POST'])
+@login_required(role="Admin")
+def lib_item_image_remove(item_id):
+    item = db_manager.mongo.db.items.find_one({"_id": ObjectId(item_id)})
+    if item is None:
+        return page_not_found(404)
+    item = Item.from_dict(item)
+
+    attribute = item.get_attributes_by_option(db_manager.main_picture)
+    if attribute:
+        attribute = attribute[0]
+
+        db_manager.fs.delete(attribute.value)
+
+        item.attributes = [a for a in item.attributes if a.option_id != db_manager.main_picture.id]
+
+        item.write_to_db(db_manager.mongo)
+
+    return redirect(url_for('edit_item', item_id=str(item_id)))
 
 # -------------------------------------------
 #   Error pages, can be futher implemented
