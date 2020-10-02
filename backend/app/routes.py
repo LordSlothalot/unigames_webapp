@@ -16,7 +16,8 @@ from app.database_impl.tags import Tag, TagReference
 
 from bson.objectid import ObjectId
 from app.forms import newEntryForm, addTagForm, addInstanceForm, createTagForm, addTagImplForm, \
-    updateAttribForm, LoginForm, RegistrationForm, UpdateForm, addRuleForm, searchForm, createTagForm
+    updateAttribForm, LoginForm, RegistrationForm, UpdateForm, addRuleForm, searchForm, createTagForm, \
+    addTagParentImplForm, addTagSiblingImplForm
 from app.user_models import User
 from app.search_parser import search_string_to_mongodb_query, SearchStringParseError
 from flask_pymongo import PyMongo
@@ -238,7 +239,7 @@ def login_required(role="ANY"):
 #     Admin pages
 # -------------------------------------------
 
-	
+
 @app.route('/admin/users', methods=['GET', 'POST'])
 @login_required(role="Admin")
 def adminusers():
@@ -246,7 +247,7 @@ def adminusers():
 	#table = UserTable(items)
 	#table.border = True
 	return render_template('admin-pages/user-man/users.html', users=users)
-	
+
 @app.route('/admin/users/edit/<id>', methods=['GET', 'POST'])
 @login_required(role="Admin")
 def edit(id):
@@ -329,6 +330,31 @@ def tag_create():
                            add_rule_form=add_rule_form, add_implication_form=add_implication_form,
                            tags_collection=tags_collection)
 
+
+@app.route('/admin/lib-man/implication-remove/<tag_name>/<implied_id>', methods=['GET', 'POST'])
+@login_required(role="Admin")
+def parent_implication_remove(tag_name, implied_id):
+    tag = Tag.from_dict(db_manager.mongo.db.tags.find({"name": tag_name})[0])
+    implied_tag = Tag.from_dict(db_manager.mongo.db.tags.find({"_id": ObjectId(implied_id)})[0])
+    for tag_ref in tag.implies:
+        if tag_ref.tag_id == implied_tag.id:
+            tag.remove_implied_tag(tag_ref)
+            tag.write_to_db(db_manager.mongo)
+    return redirect(url_for('edit_tag', tag_name=implied_tag.name))
+
+@app.route('/admin/lib-man/sibling-implication-remove/<tag_name>/<sibling_id>', methods=['GET', 'POST'])
+@login_required(role="Admin")
+def sibling_implication_remove(tag_name, sibling_id):
+    tag = Tag.from_dict(db_manager.mongo.db.tags.find({"name": tag_name})[0])
+    sibling_tag = Tag.from_dict(db_manager.mongo.db.tags.find_one({"_id": ObjectId(sibling_id)}))
+
+    tag.implies = [i for i in tag.implies if i.tag_id != sibling_tag.id]
+    sibling_tag.implies = [i for i in sibling_tag.implies if i.tag_id != tag.id]
+
+    tag.write_to_db(db_manager.mongo)
+    sibling_tag.write_to_db(db_manager.mongo)
+
+    return redirect(url_for('edit_tag', tag_name=tag_name))
 
 @app.route('/admin/lib-man/implication-remove/<tag_name>/<implied_id>', methods=['GET', 'POST'])
 @login_required(role="Admin")
@@ -419,7 +445,7 @@ def create_tag():
 @app.route('/admin/all-items')
 @login_required(role="Admin")
 def all_items():
-    
+
     items = db_manager.mongo.db.items.find()
     items = [Item.from_dict(i) for i in items]
 
@@ -473,7 +499,7 @@ def search_item():
     result = []
     db_results =[]
     print(searchString)
-    if searchString is not None and searchString is not '':   
+    if searchString is not None and searchString is not '':
         result = search_string_to_mongodb_query(db_manager.mongo, searchString)
         is_input = True
         if isinstance(result,list) :
@@ -491,26 +517,40 @@ def search_item():
 @login_required(role="Admin")
 def edit_tag(tag_name):
     this_tag = Tag.search_for_by_name(db_manager.mongo, tag_name)
-    tag = this_tag.to_dict()
+
+    sibling_list = [Tag.from_dict(t) for t in tags_collection.find({"$and": [{"implies": this_tag.id}, {"_id": {"$in": [t.tag_id for t in this_tag.implies]}}]})]
+    implied_by_list = [Tag.from_dict(t) for t in tags_collection.find({"$and": [{"implies": this_tag.id}, {"_id": {"$not": {"$in": [t.tag_id for t in this_tag.implies]}}}]})]
+    implied_list = [t for t in this_tag.implies if t.tag_id not in [it.id for it in sibling_list]]
+
+    add_parent_implication_form = addTagParentImplForm()
+    add_parent_implication_form.select_parent.choices=[(tag['_id'], tag['name']) for tag in db_manager.mongo.db.tags.find({"$and": [{"_id": {"$ne": this_tag.id}}, {"_id": {"$not": {"$in": [t.id for t in implied_by_list]}}}]})]
+
+    add_sibling_implication_form = addTagSiblingImplForm()
+    add_sibling_implication_form.select_sibling.choices=[(tag['_id'], tag['name']) for tag in db_manager.mongo.db.tags.find({"$and": [{"_id": {"$ne": this_tag.id}}, {"_id": {"$not": {"$in": [t.id for t in sibling_list]}}}]})]
+
     add_implication_form = addTagImplForm()
-    add_implication_form.select_child.choices=[(tag['name'], tag['name']) for tag in db_manager.mongo.db.tags.find()]
+    add_implication_form.select_child.choices=[(tag['_id'], tag['name']) for tag in db_manager.mongo.db.tags.find({"$and": [{"_id": {"$ne": this_tag.id}}, {"_id": {"$not": {"$in": [t.tag_id for t in this_tag.implies]}}}]})]
 
-    if add_implication_form.validate_on_submit():
-        parent_tag = Tag.search_for_by_name(db_manager.mongo, tag_name)
-        child_tag = Tag.search_for_by_name(db_manager.mongo, add_implication_form.select_child.data)
-        if add_implication_form.select_child.data == tag_name:
-            flash("A tag cannot imply itself!")
-            return redirect(url_for('edit_tag', tag_name=tag_name))
-        elif str(child_tag.id)  in cur_child:
-            flash("This implication already exists!")
-            return redirect(url_for('edit_tag', tag_name=tag_name))
-        else:
+    # Note: Below is  currently actually doing anything, plus `cur_child` is not defined, so needs re-write should
+    # you want to use it
 
-            tag_ref = TagReference(child_tag.id)
-            parent_tag.implies.append(tag_ref)
-            parent_tag.write_to_db(db_manager.mongo)
-            return redirect(url_for('edit_tag', tag_name=tag_name))
-    return render_template('admin-pages/lib-man/tag-man/edit-tag.html', add_implication_form=add_implication_form, tag=tag, tags_collection=tags_collection)
+    # if add_implication_form.validate_on_submit():
+    #     parent_tag = Tag.search_for_by_name(db_manager.mongo, tag_name)
+    #     child_tag = Tag.search_for_by_name(db_manager.mongo, add_implication_form.select_child.data)
+    #     if add_implication_form.select_child.data == tag_name:
+    #         flash("A tag cannot imply itself!")
+    #         return redirect(url_for('edit_tag', tag_name=tag_name))
+    #     elif str(child_tag.id)  in cur_child:
+    #         flash("This implication already exists!")
+    #         return redirect(url_for('edit_tag', tag_name=tag_name))
+    #     else:
+    #
+    #         tag_ref = TagReference(child_tag.id)
+    #         parent_tag.implies.append(tag_ref)
+    #         parent_tag.write_to_db(db_manager.mongo)
+    #         return redirect(url_for('edit_tag', tag_name=tag_name))
+
+    return render_template('admin-pages/lib-man/tag-man/edit-tag.html', add_implication_form=add_implication_form,add_parent_implication_form=add_parent_implication_form,add_sibling_implication_form=add_sibling_implication_form, tag=this_tag, tags_collection=tags_collection,sibling_list=sibling_list,implied_by_list=implied_by_list,implied_list=implied_list, Tag=Tag)
 
 
 #Library item edit page
@@ -562,7 +602,7 @@ def edit_item(item_id):
         tag_to_attach = Tag.search_for_by_name(db_manager.mongo, form.selection.data)
         for tag_ref in item.tags:
             if str(tag_ref.tag_id) == str(tag_to_attach.id):
-                flash('this tag already attached to the item!') 
+                flash('this tag already attached to the item!')
                 return redirect(url_for('edit_item', item_id=item_id))
         item.tags.append(TagReference(tag_to_attach))
         item.write_to_db(db_manager.mongo)
@@ -590,28 +630,101 @@ def item_remove_tag(item_id, tag_name):
 
 #Function for adding an implicaiton to a tag
 # no longer used 
-@app.route('/admin/lib-man/tag-man/implication-add/<tag_name>/<cur_child>', methods=['GET', 'POST'])
+@app.route('/admin/lib-man/tag-man/parent-implication-add/<child_tag_id>', methods=['GET', 'POST'])
 @login_required(role="Admin")
-def implication_add(tag_name, cur_child):
-    add_implication_form = addTagImplForm()
-    add_implication_form.select_child.choices=[(tag['name'], tag['name']) for tag in db_manager.mongo.db.tags.find()]
+def parent_implication_add(child_tag_id):
 
-    parent_tag = Tag.search_for_by_name(db_manager.mongo, tag_name)
-    child_tag = Tag.search_for_by_name(db_manager.mongo, add_implication_form.select_child.data)
+    add_implication_form = addTagParentImplForm()
+    # add_implication_form.select_parent.choices = [(tag['_id'], tag['name']) for tag in db_manager.mongo.db.tags.find()]
 
-    if add_implication_form.validate_on_submit():
-        if add_implication_form.select_child.data is tag_name:
-            flash("A tag cannot imply itself!")
-            return redirect(url_for('implication_add', tag_name=tag_name, cur_child=cur_child))
-        elif str(child_tag.id)  in cur_child:
-            flash("This implication already exists!")
-            return redirect(url_for('implication_add', tag_name=tag_name, cur_child=cur_child))
-        else:
-            tag_ref = TagReference(child_tag.id)
-            parent_tag.implies.append(tag_ref)
+    child_tag = db_manager.mongo.db.tags.find_one({"_id": ObjectId(child_tag_id)})
+    if child_tag is None:
+        return page_not_found(404)
+    child_tag = Tag.from_dict(child_tag)
+
+    parent_tag = db_manager.mongo.db.tags.find_one({"_id": ObjectId(add_implication_form.select_parent.data)})
+    if parent_tag is None:
+        return page_not_found(404)
+    parent_tag = Tag.from_dict(parent_tag)
+
+    if parent_tag.id == child_tag.id:
+        flash("A tag cannot imply itself!")
+        return redirect(url_for('edit_tag', tag_name=parent_tag.name))
+    elif child_tag.id in [t.tag_id for t in parent_tag.implies]:
+        flash("This implication already exists!")
+        return redirect(url_for('edit_tag', tag_name=child_tag.name))
+    else:
+        tag_ref = TagReference(child_tag.id)
+        parent_tag.implies.append(tag_ref)
+        parent_tag.write_to_db(db_manager.mongo)
+        return redirect(url_for('edit_tag', tag_name=child_tag.name))
+
+#Function for adding an implicaiton to a tag
+# no longer used
+@app.route('/admin/lib-man/tag-man/sibling-implication-add/<parent_tag_id>', methods=['GET', 'POST'])
+@login_required(role="Admin")
+def sibling_implication_add(parent_tag_id):
+    add_sibling_implication_form = addTagSiblingImplForm()
+    # add_implication_form.select_child.choices = [(tag['_id'], tag['name']) for tag in db_manager.mongo.db.tags.find()]
+
+    parent_tag = db_manager.mongo.db.tags.find_one({"_id": ObjectId(parent_tag_id)})
+    if parent_tag is None:
+        return page_not_found(404)
+    parent_tag = Tag.from_dict(parent_tag)
+
+    child_tag = db_manager.mongo.db.tags.find_one({"_id": ObjectId(add_sibling_implication_form.select_sibling.data)})
+    if child_tag is None:
+        return page_not_found(404)
+    child_tag = Tag.from_dict(child_tag)
+
+    if parent_tag.id == child_tag.id:
+        flash("A tag cannot imply itself!")
+        return redirect(url_for('edit_tag', tag_name=parent_tag.name))
+    elif child_tag.id in [t.tag_id for t in parent_tag.implies] and parent_tag.id in [t.tag_id for t in child_tag.implies]:
+        flash("This implication already exists!")
+        return redirect(url_for('edit_tag', tag_name=parent_tag.name))
+    else:
+        if child_tag.id not in [t.tag_id for t in parent_tag.implies]:
+            child_tag_ref = TagReference(child_tag.id)
+            parent_tag.implies.append(child_tag_ref)
             parent_tag.write_to_db(db_manager.mongo)
-            return redirect(url_for('edit_tag', tag_name=tag_name))
-    return render_template('admin-pages/lib-man/tag-man/edit-tag.html', add_implication_form=add_implication_form, tag=tag, tags_collection=tags_collection)
+
+        if parent_tag.id not in [t.tag_id for t in child_tag.implies]:
+            parent_tag_ref = TagReference(parent_tag.id)
+            child_tag.implies.append(parent_tag_ref)
+            child_tag.write_to_db(db_manager.mongo)
+
+        return redirect(url_for('edit_tag', tag_name=parent_tag.name))
+
+#Function for adding an implicaiton to a tag
+# no longer used
+@app.route('/admin/lib-man/tag-man/implication-add/<parent_tag_id>', methods=['GET', 'POST'])
+@login_required(role="Admin")
+def implication_add(parent_tag_id):
+    add_implication_form = addTagImplForm()
+    # add_implication_form.select_child.choices = [(tag['_id'], tag['name']) for tag in db_manager.mongo.db.tags.find()]
+
+    parent_tag = db_manager.mongo.db.tags.find_one({"_id": ObjectId(parent_tag_id)})
+    if parent_tag is None:
+        return page_not_found(404)
+    parent_tag = Tag.from_dict(parent_tag)
+
+    child_tag = db_manager.mongo.db.tags.find_one({"_id": ObjectId(add_implication_form.select_child.data)})
+    if child_tag is None:
+        return page_not_found(404)
+    child_tag = Tag.from_dict(child_tag)
+
+    if parent_tag.id == child_tag.id:
+        flash("A tag cannot imply itself!")
+        return redirect(url_for('edit_tag', tag_name=parent_tag.name))
+    elif child_tag.id in [t.tag_id for t in parent_tag.implies]:
+        flash("This implication already exists!")
+        return redirect(url_for('edit_tag', tag_name=parent_tag.name))
+    else:
+        tag_ref = TagReference(child_tag.id)
+        parent_tag.implies.append(tag_ref)
+        parent_tag.write_to_db(db_manager.mongo)
+        return redirect(url_for('edit_tag', tag_name=parent_tag.name))
 
 
 # Function for deleting the tag (not removing it from the item)
@@ -660,16 +773,57 @@ def create_impl():
             print(item.recalculate_implied_tags(db_manager.mongo))
 
         '''
-        
+
         for item in db_manager.mongo.db.items.find():
             this_item = Item.from_dict(item)
             this_item.recalculate_implied_tags(db_manager.mongo)
-        
+
         flash('Implication added successfully, all items implication are updated')
-        
+
         return redirect(url_for('all_impl'))
     return render_template('admin-pages/lib-man/tag-man/create-implication.html', form=form)
 
+
+#Funciton for deleting an implication rule on Tag's detail page
+@app.route('/admin/lib-man/tag-man/parent-rule-delete/<tag_name>')
+@login_required(role="Admin")
+def parent_rule_delete(tag_name):
+    child_tag = Tag.search_for_by_name(db_manager.mongo, tag_name)
+
+    tags = db_manager.mongo.db.tags.find({"implies": child_tag.id})
+
+    for tag in tags:
+        tag = Tag.from_dict(tag)
+        tag.implies = [tag for tag in tag.implies if tag.tag_id != child_tag.id]
+        tag.write_to_db(db_manager.mongo)
+
+    flash('The parent implications for tag '+ tag_name + ' has been cleared')
+    return redirect(url_for('edit_tag',tag_name=tag_name))
+
+#Funciton for deleting an implication rule on Tag's detail page
+@app.route('/admin/lib-man/tag-man/sibling-rule-delete/<tag_name>')
+@login_required(role="Admin")
+def sibling_rule_delete(tag_name):
+    tag = Tag.search_for_by_name(db_manager.mongo, tag_name)
+
+    to_remove = []
+
+    for implied in tag.implies:
+        implied = Tag.from_dict(db_manager.mongo.db.tags.find_one({"_id": implied.tag_id}))
+
+        if tag.id in [t.tag_id for t in implied.implies]:
+            to_remove.append(implied.id)
+
+            implied.implies = [i for i in implied.implies if i.tag_id != tag.id]
+            implied.write_to_db(db_manager.mongo)
+
+    tag.implies = [i for i in tag.implies if i.tag_id not in to_remove]
+
+    tag.write_to_db(db_manager.mongo)
+
+    flash('The Bi-implications for tag '+ tag_name + ' has been cleared')
+    return redirect(url_for('edit_tag',tag_name=tag_name))
+    return redirect(url_for('edit_tag',tag_name=tag_name))
 
 #Funciton for deleting an implication rule on Tag's detail page
 @app.route('/admin/lib-man/tag-man/rule-delete/<tag_name>')

@@ -84,6 +84,16 @@ class addTagParamForm(FlaskForm):
     submit = SubmitField('Add parameter')
 
 #add tag's implications form
+class addTagParentImplForm(FlaskForm):
+    select_parent = SelectField('Select its parent tag')
+    submit = SubmitField('Add implying tag')
+
+#add tag's implications form
+class addTagSiblingImplForm(FlaskForm):
+    select_sibling = SelectField('Select its sibling tag')
+    submit = SubmitField('Add implied tag')
+
+#add tag's implications form
 class addTagImplForm(FlaskForm):
     select_child = SelectField('Select its child tag')
     submit = SubmitField('Add implied tag')
