@@ -41,7 +41,7 @@
                     </td>
                     <td><a href="{{ url_for('edit', id= user['_id']) }}">Edit</a>
                         <a>/</a>
-                        <a href="{{ url_for('deleteuser', id=user['_id'])}}">Delete</a>
+                        <a href="{{ url_for('deleteuser', id=user['_id'])}}" onclick="return confirm('Are you sure you wish to delete?')">Delete</a>
                     </td>
                 </tr>
                 {% endfor %}

@@ -1,28 +1,73 @@
 from typing import List, Dict, Optional
 
+from flask import session
+from uuid import uuid4
+from werkzeug.security import check_password_hash
+from app import login_manager
+
 import pymongo
 from bson import ObjectId
 from flask_pymongo import PyMongo
+from app.database_impl.roles import Role
+
 
 
 class User:
     id: ObjectId
     display_name: str
-    role_ids: List[ObjectId]
+    role_ids: List[Role]
+    email: str
+    password: str
+    first_name: str
+    last_name: str
 
     @staticmethod
     def init_indices(mongo: PyMongo):
         mongo.db.users.create_index([("display_name", pymongo.ASCENDING)], unique=False, sparse=False)
 
-    def __init__(self, display_name: str, role_ids: List[ObjectId]):
+    def __init__(self, display_name: str, role_ids: List[Role], email: str, password: str, first_name: str, last_name: str):
         self.id = None
         self.display_name = display_name
         self.role_ids = role_ids
+        self.email = email
+        self.password = password
+        self.first_name = first_name
+        self.last_name = last_name
+        
+    @staticmethod
+    def is_authenticated():
+        return True
+
+    @staticmethod
+    def is_active():
+        return True
+
+    @staticmethod
+    def is_anonymous():
+        return False
+
+    def get_id(self):
+        return self.id
+        
+    @staticmethod
+    def login_valid(mongo: PyMongo, email, password):
+        verify_user = User.search_for_by_email(mongo, email)
+        if verify_user is not None:
+            return check_password_hash(verify_user.password, password)
+        return False
+        
+    @staticmethod
+    def check_password(password_hash, password):
+        return check_password_hash(password_hash, password)
 
     def to_dict(self) -> Dict:
         result = {
-            "display_name": self.display_name,
-            "roles": self.role_ids
+            "display_name": self.display_name, 
+            "roles": [r.id for r in self.role_ids], 
+            "email": self.email, 
+            "password": self.password, 
+            "first_name": self.first_name, 
+            "last_name": self.last_name 
         }
 
         if self.id is not None:
@@ -32,7 +77,7 @@ class User:
 
     @staticmethod
     def from_dict(value_dict: Dict) -> 'User':
-        cls = User("", [])
+        cls = User("", [], "", "", "", "")
 
         if "_id" in value_dict:
             cls.id = value_dict["_id"]
@@ -43,8 +88,34 @@ class User:
 
         if "role_ids" in value_dict and value_dict["role_ids"] is not None:
             cls.role_ids = value_dict["role_ids"]
+            
+        if "email" in value_dict and value_dict["email"] is not None:
+            cls.email = value_dict["email"]
+            
+        if "password" in value_dict and value_dict["password"] is not None:
+            cls.password = value_dict["password"]
+        
+        if "first_name" in value_dict and value_dict["first_name"] is not None:
+            cls.first_name = value_dict["first_name"]
+            
+        if "last_name" in value_dict and value_dict["last_name"] is not None:
+            cls.last_name = value_dict["last_name"]
+
 
         return cls
+        
+    @classmethod
+    def register(cls, mongo: PyMongo, display_name, email, password, first_name, last_name):
+        user = cls.search_for_by_email(mongo, email)
+        if user is None:
+            adminid = Role.search_for_by_name(mongo, "admin")
+            role_ids = [adminid]
+            new_user = cls(display_name, role_ids, email, password, first_name, last_name)
+            new_user.id = mongo.db.users.insert_one(new_user.to_dict()).inserted_id
+            session['email'] = email
+            return True
+        else:
+            return False
 
     def write_to_db(self, mongo: PyMongo):
         if self.id is None:
@@ -66,6 +137,10 @@ class User:
 
         self.display_name = new_user.display_name
         self.role_ids = new_user.role_ids
+        self.email = new_user.email
+        self.password = new_user.password
+        self.first_name = new_user.first_name
+        self.last_name = new_user.last_name
 
     def delete_from_db(self, mongo: PyMongo) -> bool:
         if self.id is None:
@@ -80,3 +155,20 @@ class User:
             return None
 
         return User.from_dict(result)
+        
+    @staticmethod
+    def search_for_by_email(mongo: PyMongo, email: str) -> Optional['User']:
+        result = mongo.db.users.find_one({"email": email})
+        if result is None:
+            return None
+
+        return User.from_dict(result)
+        
+    @staticmethod
+    def get_by_id(mongo:PyMongo, id):
+        result = mongo.db.users.find_one({"_id": id})
+        if result is None:
+            return None
+
+        return User.from_dict(result)
+

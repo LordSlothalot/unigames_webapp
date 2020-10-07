@@ -18,7 +18,7 @@ from bson.objectid import ObjectId
 from app.forms import newEntryForm, addTagForm, addInstanceForm, createTagForm, addTagImplForm, \
     updateAttribForm, LoginForm, RegistrationForm, UpdateForm, addRuleForm, searchForm, createTagForm, \
     addTagParentImplForm, addTagSiblingImplForm
-from app.user_models import User
+
 from app.search_parser import search_string_to_mongodb_query, SearchStringParseError
 from flask_pymongo import PyMongo
 from flask_login import LoginManager, current_user, login_user, logout_user, login_required
@@ -26,7 +26,7 @@ from werkzeug.security import generate_password_hash
 from functools import wraps
 
 from app.tables import UserTable
-from app.user_models import User
+from app.database_impl.users import User
 
 # -------------------------------------------
 #     User pages
@@ -119,13 +119,11 @@ def login():
     if form.validate_on_submit():
         email = form.email.data
         password = form.password.data
-        find_user = mongo.db.Users.find_one({"email": email})
+        find_user = mongo.db.users.find_one({"email": email})
         print("find_user: ", find_user)
-        if User.login_valid(email, password):
-            loguser = User(find_user['email'], find_user['password'], find_user['first_name'], find_user['last_name'],
-                           find_user['role'], find_user['_id'])
+        if User.login_valid(db_manager.mongo, email, password):
+            loguser = User.from_dict(find_user)
             login_user(loguser, remember=form.remember_me.data)
-            # login_user(find_user, remember=form.remember_me.data)
             flash('You have been logged in!', 'success')
             return redirect(url_for('admin'))
         else:
@@ -145,12 +143,13 @@ def register():
     form = RegistrationForm()
     if form.validate_on_submit():
         email = form.email.data
+        display_name = form.display_name.data
         first_name = form.first_name.data
         last_name = form.last_name.data
         password = generate_password_hash(form.password.data)
-        find_user = User.get_by_email(email)
+        find_user = User.search_for_by_email(db_manager.mongo, email)
         if find_user is None:
-            User.register(email, password, first_name, last_name, "Admin")
+            User.register(db_manager.mongo, display_name, email, password, first_name, last_name)
             flash(f'Account created for {form.email.data}!', 'success')
             return redirect(url_for('index'))
         else:
@@ -226,8 +225,13 @@ def login_required(role="ANY"):
         def decorated_view(*args, **kwargs):
             if not current_user.is_authenticated:
                 return login_manager.unauthorized()
-            if ((current_user.role != role) and (role != "ANY")):
-                return login_manager.unauthorized()
+            if (role != "ANY"):
+                hasrole = False
+                for r in current_user.role_ids:
+                    if r.name == role:
+                        hasrole = True
+                if not hasrole:
+                    return login_manager.unauthorized()
             return fn(*args, **kwargs)
 
         return decorated_view
@@ -971,7 +975,9 @@ def page_not_found(e):
 def page_not_found(e):
     return render_template('admin-pages/error.html')
 
-
+@login_manager.user_loader
+def load_user(id):
+    return User.get_by_id(db_manager.mongo, id)
 
 # if __name__=='__main__':
 #    app.run(debug=True)
