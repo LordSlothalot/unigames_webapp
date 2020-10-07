@@ -1,0 +1,163 @@
+{% extends "final-public-layout.html" %}
+
+{% block head%}
+<style>
+    .jumbotron {
+        background-image: url("/static/img/jumbotron-bg.jpg");
+        background-repeat: no-repeat;
+        background-position: center;
+        background-size: cover;
+        position: relative;
+        color: white;
+    }
+
+    body {
+
+        background-image: url("/static/img/main-background.png");
+        background-repeat: repeat;
+    }
+    a{
+        color: darkslategray;
+    }
+</style>
+
+{% endblock %}
+
+{% block body %}
+
+<div class="jumbotron jumbotron-fluid">
+    <div class="container">
+        <h1 class="display-3">Welcome to Unigames!</h1>
+        <p>
+            Unigames is the table-top gaming club at the University of Western Australia.
+            We do roleplaying, wargaming, board and card gaming and indeed gaming in all forms.
+            Whether it's D&D, Magic the Gathering, Warhammer 40K, or any of our dozens of other systems and games,
+            we've got you covered.
+        </p>
+        <p><a class="btn btn-warning btn-lg" href="#" role="button">Learn more »</a></p>
+    </div>
+</div>
+
+<main role="main" class="container">
+    <div class="row">
+        <div class="col-md-12 padded-right-container mb-4">
+            <div class="card bg-light text-black shadow">
+                <div class="card-body">
+                    <h5>
+                        Announcements
+                    </h5>
+                   
+                  <div class="text-gray-900"><b>
+                    One of the benefits of Unigames membership is a 10% discount on all materials at Tactics, Perth's
+                    premier
+                    gaming supply store. Just show your membership card when you go to pay for things.
+                  </b>
+
+                  </div>
+                </div>
+              </div>
+
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-6">
+            <div class="card flex-md-row mb-4 shadow-sm h-md-250">
+                <div class="card-body d-flex flex-column align-items-start">
+                    <strong class="d-inline-block mb-2 text-primary">Play</strong>
+                    <h3 class="mb-0">
+                        <a class="text-dark" href="#">Drop by and play</a>
+                    </h3>
+                    <div class="mb-1 text-muted">with your favourite friends</div>
+                    <p class="card-text mb-2">For a start, Unigames is located above the UWA Tavern. If you don't know
+                        where
+                        that is, just ask anyone you can find, wandering anywhere on campus.</p>
+                    <a
+                        href="https://www.google.com/maps/place/University+Computer+Club/@-31.9810547,115.8195858,19.75z/data=!4m8!1m2!2m1!1suwa+unigame+location!3m4!1s0x2a32a4ec331747bb:0xae602699978add54!8m2!3d-31.980983!4d115.819754">View
+                        the map >></a>
+                </div>
+                <img class="card-img-right flex-auto d-none d-lg-block"
+                    src="{{ url_for('static', filename='img/play.jpg', _external=True) }}" alt="Thumbnail"
+                    data-holder-rendered="true"
+                    style="width: 200px; height: 250px;  background-size: cover; object-fit: cover; background-repeat: no-repeat;">
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="card flex-md-row mb-4 shadow-sm h-md-250">
+                <div class="card-body d-flex flex-column align-items-start">
+                    <strong class="d-inline-block mb-2 text-success">Join</strong>
+                    <h3 class="mb-0">
+                        <a class="text-dark" href="#">Become a member</a>
+                    </h3>
+                    <div class="mb-1 text-muted">Borrow & Enjoy Discounts</div>
+                    <p class="card-text mb-2">One of the benefits of Unigames membership is a 10% discount on all
+                        materials at
+                        Tactics, Perth's premier gaming supply store. </p>
+                    <a href="#">Find out more >></a>
+                </div>
+                <img class="card-img-right flex-auto d-none d-lg-block"
+                    src="{{ url_for('static', filename='img/join.jpeg', _external=True) }}" alt="Thumbnail [200x250]"
+                    src="data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%22200%22%20height%3D%22250%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%20200%20250%22%20preserveAspectRatio%3D%22none%22%3E%3Cdefs%3E%3Cstyle%20type%3D%22text%2Fcss%22%3E%23holder_173ccc54179%20text%20%7B%20fill%3A%23eceeef%3Bfont-weight%3Abold%3Bfont-family%3AArial%2C%20Helvetica%2C%20Open%20Sans%2C%20sans-serif%2C%20monospace%3Bfont-size%3A13pt%20%7D%20%3C%2Fstyle%3E%3C%2Fdefs%3E%3Cg%20id%3D%22holder_173ccc54179%22%3E%3Crect%20width%3D%22200%22%20height%3D%22250%22%20fill%3D%22%2355595c%22%3E%3C%2Frect%3E%3Cg%3E%3Ctext%20x%3D%2255.6015625%22%20y%3D%22131%22%3EThumbnail%3C%2Ftext%3E%3C%2Fg%3E%3C%2Fg%3E%3C%2Fsvg%3E"
+                    data-holder-rendered="true"
+                    style="width: 200px; height: 250px;  background-size: cover; object-fit: cover; background-repeat: no-repeat;">
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <!-- Recently added items table -->
+        <div class="col-md-12">
+            <div class="card shadow-sm mb-4">
+                <div class="card-header py-3">
+                    <h6 class="m-0 font-weight-bold text-gray-900">Newly Added Library Items</h6>
+                </div>
+                <div class="card-body">
+                    <table class="table table-bordered" width="100%" cellspacing="0">
+                        <thead>
+                            <tr>
+                                <th>Title</th>
+                                <th>Tags</th>
+                                <th>Implied Tags</th>
+                                <th>Details</th>
+    
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for item in recent_items %}
+                            <tr>
+                                <td>
+                                    <a
+                                        href="{{ url_for('edit_item', item_id = item['_id']) }}">{{ Item.from_dict(item).get_attributes_by_option(name_attrib_option)[0].value }}</a>
+                                </td>
+    
+                                <td>
+                                    {% for tag in item['tags'] %}
+                                    {% for found_tag in tags_collection.find( {"_id": tag} ) %}
+                                    <span class="badge badge-pill badge-success ">{{ found_tag['name'] }}</span>
+                                    {% endfor %}
+                                    {% endfor %}
+                                </td>
+    
+                                <td>
+                                    {% for tag in item['implied_tags'] %}
+                                    {% for found_tag in tags_collection.find( {"_id": tag} ) %}
+                                    <span class="badge badge-pill badge-info ">{{ found_tag['name'] }}</span>
+                                    {% endfor %}
+                                    {% endfor %}
+                                </td>
+    
+                                <td><a href="{{ url_for('edit_item', item_id = item['_id']) }}">Click for detail >></a>
+                                </td>
+                            </tr>
+                            {% endfor %}
+    
+                        </tbody>
+                    </table>
+                    <small class="d-block text-right mt-3">
+                        <a href="{{ url_for('all_items')}}">All items >></a>
+                    </small>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</main>
+{% endblock %}
