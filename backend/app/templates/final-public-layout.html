@@ -62,8 +62,13 @@
 
             <li class="nav-item active">
                 <a class="nav-link text-gray-900" href="{{ url_for('admin') }}">
-                    <i class="fas fa-fw fa-address-card"></i>
-                    <span>Become a member</span></a>
+                    <i class="fas fa-fw fa-theater-masks"></i>
+                    <span>Roleplaying?</span></a>
+            </li>
+            <li class="nav-item active">
+                <a class="nav-link text-gray-900" href="{{ url_for('admin') }}">
+                    <i class="fas fa-fw fa-calendar-alt"></i>
+                    <span>Events</span></a>
             </li>
 
             <li class="nav-item active">
@@ -77,7 +82,7 @@
                     <span>Life members</span></a>
             </li>
             <li class="nav-item active">
-                <a class="nav-link text-gray-900" href="{{ url_for('admin') }}">
+                <a class="nav-link text-gray-900" href="{{ url_for('constitution') }}">
                     <i class="fas fa-fw fa-university"></i>
                     <span>Constitution</span></a>
             </li>
@@ -86,9 +91,21 @@
                     <i class="fas fa-fw fa-handshake"></i>
                     <span>Operations</span></a>
             </li>
+            <li class="nav-item active">
+                <a class="nav-link text-gray-900" href="{{ url_for('admin') }}">
+                    <i class="fas fa-fw fa-video"></i>
+                    <span>Webcam</span></a>
+            </li>
+            <li class="nav-item active">
+                <a class="nav-link text-gray-900" href="{{ url_for('admin') }}">
+                    <i class="fas fa-fw fa-question-circle"></i>
+                    <span>FAQ</span></a>
+            </li>
             <!-- Divider -->
             <hr class="sidebar-divider">
-
+            <div class="sidebar-heading">
+                Unigames Management
+            </div>
             <li class="nav-item active">
                 <a class="nav-link text-gray-900" href="{{ url_for('admin') }}">
                     <i class="fas fa-fw fa-user-cog"></i>

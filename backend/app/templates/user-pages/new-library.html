@@ -54,7 +54,7 @@
 
                             <td>
                                 <a
-                                    href="{{ url_for('edit_item', item_id = item.id) }}">{{ item_names[item.id] }}</a>
+                                    href="{{ url_for('item_detail', item_id = item.id) }}">{{ item_names[item.id] }}</a>
                             </td>
 
                             <td>
@@ -73,7 +73,7 @@
                                 {% endfor %}
                             </td>
 
-                            <td><a href="{{ url_for('edit_item', item_id = item.id) }}">Click for detail >></a>
+                            <td><a href="{{ url_for('item_detail', item_id = item.id) }}">Click for detail >></a>
                             </td>
                         </tr>
                         {% endfor %}

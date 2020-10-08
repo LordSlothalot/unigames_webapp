@@ -1,5 +1,50 @@
-{% extends "layout.html" %}
+{% extends "final-public-layout.html" %}
 
 {% block title%} 
 Constitution
+{% endblock %}
+
+{% block head %}
+<style>
+    body {
+  
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  background-size: cover;
+  -o-background-size: cover;
+}
+.hey{
+    background-image: url("{{ url_for('static', filename='img/wooden-bg.jpg', _external=True) }}" ) no-repeat center center fixed !important;
+    
+}
+.new-bg{
+    background-image: url("{{ url_for('static', filename='img/wooden-bg.jpg', _external=True) }}" ) no-repeat center center fixed
+}
+
+</style>
+{% endblock %}
+
+
+
+{% block body%}
+<div class="new-bg">
+<p>123</p>
+</div>
+<div class="container">
+    <div class="hey">
+        <br>
+        <br>
+        <img src="{{ url_for('static', filename='img/wooden-bg.jpg', _external=True) }}">
+        <div class="card border-0 shadow my-5">
+            <div class="card-body p-5">
+              <h1 class="font-weight-light">Fixed Full Page Background Image</h1>
+              <p class="lead">In this snippet, the background image is fixed to the body element. Content on the page will scroll, but the image will remain in a fixed position!</p>
+              <p class="lead">Scroll down...</p>
+              <div style="height: 700px"></div>
+              <p class="lead mb-0">You've reached the end!</p>
+            </div>
+          </div>
+    </div>
+
+  </div>
 {% endblock %}

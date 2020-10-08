@@ -165,23 +165,11 @@ def register():
             flash(f'Account already exists for {form.email.data}!', 'success')
     return render_template('user-pages/register.html', title='Register', form=form)
 
+# New UI
+# Public library page
 
 @app.route('/library')
 def library():
-    # get urls for images, they are supposed to be retrieved from the db
-    # dungeons_pic = url_for('static', filename='img/games/dungeons.jpg')
-    all_items = db_manager.mongo.db.items
-    # This would normally be acquired via the attribute in the item when iterating the items
-    dungeons_pic = url_for('image', oid=str([a for a in Item.from_dict(
-    db_manager.mongo.db.items.find_one({"attributes.option_id": db_manager.main_picture.id})).attributes if
-                                             isinstance(a,
-                                                        PictureAttribute) and a.option_id == db_manager.main_picture.id][
-                                                0].value))
-
-    stars_pic = url_for('static', filename='img/games/stars-without-number.jpg')
-    pulp_pic = url_for('static', filename='img/games/pulp-cthulhu.jpg')
-    # pass them to the rendering page
-
     items = db_manager.mongo.db.items.find()
     items = [Item.from_dict(i) for i in items]
 
@@ -199,6 +187,24 @@ def library():
 
     return render_template('user-pages/new-library.html', items=items, tags_collection=tags_collection,
                            item_names=item_names, item_images=item_images)
+
+
+# New UI
+# Public library item detail page
+@app.route('/libarary/item_detail/<item_id>', methods=['GET', 'POST'])
+def item_detail(item_id):
+    item = db_manager.mongo.db.items.find_one({"_id": ObjectId(item_id)})
+    if item is None:
+        return page_not_found(404)
+    item = Item.from_dict(item)
+
+    if item.get_attributes_by_option(db_manager.main_picture):
+        image_url = url_for('image', oid=str(item.get_attributes_by_option(db_manager.main_picture)[0].value))
+    else:
+        image_url = url_for('static', filename='img/logo.png')  # TODO supply 'no-image' image?
+
+    return render_template('user-pages/item-detail.html', image_url=image_url, item=item, tags_collection=tags_collection, 
+                                name_attribute=db_manager.name_attrib)
 
 
 @app.route('/events')
