@@ -39,10 +39,10 @@ class RegistrationForm(FlaskForm):
     #     User.objects()
 	
 class UpdateForm(FlaskForm):
+    display_name = TextField('Display Name', validators = [DataRequired()]) 
     first_name = TextField('First Name', validators = [DataRequired()])
     last_name = TextField('Last Name', validators = [DataRequired()])
     email = EmailField('Email', validators = [DataRequired(), Email()])
-    role = TextField('Role', validators = [DataRequired()])
     submit = SubmitField('Update')
     delete = SubmitField('Delete')
     

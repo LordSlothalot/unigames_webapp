@@ -1,5 +1,6 @@
 from functools import wraps
 
+import json
 from bson.errors import InvalidId
 from bson.objectid import ObjectId
 from flask import render_template, url_for, redirect, request, flash, Response
@@ -214,7 +215,7 @@ def forbidden():
 def unauthorized():
     if not current_user.is_authenticated:
         return redirect(url_for('login'))
-    if ((current_user.role != "Admin")):
+    else:
         return redirect(url_for('forbidden'))
     return 'Page not found r.'
 
@@ -223,12 +224,17 @@ def login_required(role="ANY"):
     def wrapper(fn):
         @wraps(fn)
         def decorated_view(*args, **kwargs):
+            print(current_user.display_name, " ", current_user.role)
             if not current_user.is_authenticated:
+                print("User unauthenticated")
                 return login_manager.unauthorized()
             if (role != "ANY"):
                 hasrole = False
-                for r in current_user.role_ids:
-                    if r.name == role:
+                for r in current_user.role:
+                    print ("Role ID ", r)
+                    name = db_manager.mongo.db.roles.find_one({"_id": r})['name']
+                    print ("Roles ", name)
+                    if name == role:
                         hasrole = True
                 if not hasrole:
                     return login_manager.unauthorized()
@@ -245,17 +251,17 @@ def login_required(role="ANY"):
 
 
 @app.route('/admin/users', methods=['GET', 'POST'])
-@login_required(role="Admin")
+@login_required(role="admin")
 def adminusers():
-	users = mongo.db.Users.find()
+	users = mongo.db.users.find()
 	#table = UserTable(items)
 	#table.border = True
 	return render_template('admin-pages/user-man/users.html', users=users)
 
 @app.route('/admin/users/edit/<id>', methods=['GET', 'POST'])
-@login_required(role="Admin")
+@login_required(role="admin")
 def edit(id):
-    searcheduser = mongo.db.Users.find_one({'_id': id})
+    searcheduser = mongo.db.users.find_one({'_id': ObjectId(id)})
 
     if searcheduser:
         form = UpdateForm(**searcheduser)
@@ -263,12 +269,11 @@ def edit(id):
         if form.validate_on_submit():
             if form.delete.data:
                 return redirect(url_for('deleteuser', id=id))
-            mongo.db.Users.update_one({'_id': id},
+            mongo.db.users.update_one({'_id': ObjectId(id)},
                                       {"$set": {
                                           'first_name': request.form['first_name'],
                                           'last_name': request.form['last_name'],
                                           'email': request.form['email'],
-                                          'role': request.form['role']
                                       }
                                       })
             flash('User updated successfully!')
@@ -279,11 +284,11 @@ def edit(id):
     return render_template('admin-pages/user-man/edit.html', form=form)
 
 @app.route('/admin/users/delete/<string:id>')
-@login_required(role="Admin")
+@login_required(role="admin")
 def deleteuser(id):
-    searcheduser = mongo.db.Users.find_one({'_id': id})
+    searcheduser = mongo.db.users.find_one({'_id': ObjectId(id)})
     if searcheduser:
-        mongo.db.Users.delete_one({'_id': id})
+        mongo.db.users.delete_one({'_id': ObjectId(id)})
         flash('User deleted successfully!')
         return redirect(url_for('adminusers'))
     else:
@@ -291,14 +296,14 @@ def deleteuser(id):
 
 
 @app.route('/admin/test')
-@login_required(role="Admin")
+@login_required(role="admin")
 def testing():
     return render_template('admin-pages/test.html')
 
 
 # Tag management page
 @app.route('/admin/lib-man/tag-man/tag-all', methods=['GET', 'POST'])
-@login_required(role="Admin")
+@login_required(role="admin")
 def tag_all():
     # all_relations = db_manager.mongo.db.relation_options
     create_tag_form = createTagForm()
@@ -314,7 +319,7 @@ def tag_all():
 
 # Function for creating a new tag
 @app.route('/admin/lib-man/tag-man/tag-create', methods=['GET', 'POST'])
-@login_required(role="Admin")
+@login_required(role="admin")
 def tag_create():
     create_tag_form = createTagForm()
     add_implication_form = addTagImplForm()
@@ -336,7 +341,7 @@ def tag_create():
 
 
 @app.route('/admin/lib-man/implication-remove/<tag_name>/<implied_id>', methods=['GET', 'POST'])
-@login_required(role="Admin")
+@login_required(role="admin")
 def parent_implication_remove(tag_name, implied_id):
     tag = Tag.from_dict(db_manager.mongo.db.tags.find({"name": tag_name})[0])
     implied_tag = Tag.from_dict(db_manager.mongo.db.tags.find({"_id": ObjectId(implied_id)})[0])
@@ -347,7 +352,7 @@ def parent_implication_remove(tag_name, implied_id):
     return redirect(url_for('edit_tag', tag_name=implied_tag.name))
 
 @app.route('/admin/lib-man/sibling-implication-remove/<tag_name>/<sibling_id>', methods=['GET', 'POST'])
-@login_required(role="Admin")
+@login_required(role="admin")
 def sibling_implication_remove(tag_name, sibling_id):
     tag = Tag.from_dict(db_manager.mongo.db.tags.find({"name": tag_name})[0])
     sibling_tag = Tag.from_dict(db_manager.mongo.db.tags.find_one({"_id": ObjectId(sibling_id)}))
@@ -361,7 +366,7 @@ def sibling_implication_remove(tag_name, sibling_id):
     return redirect(url_for('edit_tag', tag_name=tag_name))
 
 @app.route('/admin/lib-man/implication-remove/<tag_name>/<implied_id>', methods=['GET', 'POST'])
-@login_required(role="Admin")
+@login_required(role="admin")
 def implication_remove(tag_name, implied_id):
     tag = Tag.from_dict(db_manager.mongo.db.tags.find({"name": tag_name})[0])
     implied_tag = Tag.from_dict(db_manager.mongo.db.tags.find({"_id": ObjectId(implied_id)})[0])
@@ -376,7 +381,7 @@ def implication_remove(tag_name, implied_id):
 #Funciton for adding an implication rule
 
 @app.route('/admin/lib-man/tag-man/rule-add', methods=['GET', 'POST'])
-@login_required(role="Admin")
+@login_required(role="admin")
 def rule_add():
     create_tag_form = createTagForm()
     add_implication_form = addTagImplForm()
@@ -402,7 +407,7 @@ def rule_add():
 #------------For the new UI------------
 
 @app.route('/admin', methods=['GET', 'POST'])
-@login_required(role="Admin")
+@login_required(role="admin")
 def admin():
     item_count = 0
     tag_count = 0
@@ -429,7 +434,7 @@ def admin():
 
 #Page for creating a tag
 @app.route('/admin/lib-man/tag-man/create-a-tag', methods=['POST','GET'])
-@login_required(role="Admin")
+@login_required(role="admin")
 def create_tag():
     form = createTagForm()
     if form.validate_on_submit():
@@ -447,7 +452,7 @@ def create_tag():
 
 #Page for showing all library items
 @app.route('/admin/all-items')
-@login_required(role="Admin")
+@login_required(role="admin")
 def all_items():
 
     items = db_manager.mongo.db.items.find()
@@ -471,7 +476,7 @@ def all_items():
 #Function for delete an item
 #checked OK
 @app.route('/admin/lib-man/lib-delete/<item_id>')
-@login_required(role="Admin")
+@login_required(role="admin")
 def lib_delete(item_id):
     item = Item.from_dict(db_manager.mongo.db.items.find({"_id" : ObjectId(item_id)})[0])
     item.delete_from_db(db_manager.mongo)
@@ -481,21 +486,21 @@ def lib_delete(item_id):
 #Page for showing all implications
 #checked OK
 @app.route('/admin/tag-man/all-impl')
-@login_required(role="Admin")
+@login_required(role="admin")
 def all_impl():
     return render_template('admin-pages/lib-man/tag-man/all-impl.html',  tags_collection=tags_collection)
 
 #Page for showing all tags
 #checked OK
 @app.route('/admin/lib-man/tag-man/all-tags')
-@login_required(role="Admin")
+@login_required(role="admin")
 def all_tags():
     return render_template('admin-pages/lib-man/tag-man/all-tags.html', tags_collection=tags_collection)
 
 #Page for tag search
 #checked OK
 @app.route('/admin/lib-man/tag-man/search-item', methods=['GET', 'POST'])
-@login_required(role="Admin")
+@login_required(role="admin")
 def search_item():
     searchString = request.form.get('tagSearchInput')
     is_input = False
@@ -518,7 +523,7 @@ def search_item():
 #Page for editing a tag and it's implications
 # Need to debug
 @app.route('/admin/lib-man/tag-man/edit-tag/<tag_name>')
-@login_required(role="Admin")
+@login_required(role="admin")
 def edit_tag(tag_name):
     this_tag = Tag.search_for_by_name(db_manager.mongo, tag_name)
 
@@ -559,7 +564,7 @@ def edit_tag(tag_name):
 
 #Library item edit page
 @app.route('/admin/lib-man/lib-edit/<item_id>', methods=['GET', 'POST'])
-@login_required(role="Admin")
+@login_required(role="admin")
 def lib_edit(item_id):
     item = Item.from_dict(db_manager.mongo.db.items.find({"_id": ObjectId(item_id)})[0])
     item.recalculate_implied_tags(db_manager.mongo)
@@ -582,7 +587,7 @@ def lib_edit(item_id):
 #curretnly in use
 #need to recalculate impl
 @app.route('/admin/lib-man/<item_id>', methods=['GET', 'POST'])
-@login_required(role="Admin")
+@login_required(role="admin")
 def edit_item(item_id):
     item = db_manager.mongo.db.items.find_one({"_id": ObjectId(item_id)})
     if item is None:
@@ -620,7 +625,7 @@ def edit_item(item_id):
 #function for removing a tag from an item
 #checked OK
 @app.route('/admin/lib-man/item-remove-tag/<item_id>/<tag_name>',methods=['GET', 'POST'])
-@login_required(role="Admin")
+@login_required(role="admin")
 def item_remove_tag(item_id, tag_name):
     tag = Tag.search_for_by_name(db_manager.mongo, tag_name)
     item = Item.from_dict(db_manager.mongo.db.items.find({"_id": ObjectId(item_id)})[0])
@@ -635,7 +640,7 @@ def item_remove_tag(item_id, tag_name):
 #Function for adding an implicaiton to a tag
 # no longer used 
 @app.route('/admin/lib-man/tag-man/parent-implication-add/<child_tag_id>', methods=['GET', 'POST'])
-@login_required(role="Admin")
+@login_required(role="admin")
 def parent_implication_add(child_tag_id):
 
     add_implication_form = addTagParentImplForm()
@@ -666,7 +671,7 @@ def parent_implication_add(child_tag_id):
 #Function for adding an implicaiton to a tag
 # no longer used
 @app.route('/admin/lib-man/tag-man/sibling-implication-add/<parent_tag_id>', methods=['GET', 'POST'])
-@login_required(role="Admin")
+@login_required(role="admin")
 def sibling_implication_add(parent_tag_id):
     add_sibling_implication_form = addTagSiblingImplForm()
     # add_implication_form.select_child.choices = [(tag['_id'], tag['name']) for tag in db_manager.mongo.db.tags.find()]
@@ -703,7 +708,7 @@ def sibling_implication_add(parent_tag_id):
 #Function for adding an implicaiton to a tag
 # no longer used
 @app.route('/admin/lib-man/tag-man/implication-add/<parent_tag_id>', methods=['GET', 'POST'])
-@login_required(role="Admin")
+@login_required(role="admin")
 def implication_add(parent_tag_id):
     add_implication_form = addTagImplForm()
     # add_implication_form.select_child.choices = [(tag['_id'], tag['name']) for tag in db_manager.mongo.db.tags.find()]
@@ -734,7 +739,7 @@ def implication_add(parent_tag_id):
 # Function for deleting the tag (not removing it from the item)
 # checked OK
 @app.route('/admin/lib-man/tag-man/tag-delete/<tag_name>')
-@login_required(role="Admin")
+@login_required(role="admin")
 def tag_delete(tag_name):
     tag_to_delete = Tag.search_for_by_name(db_manager.mongo, tag_name)
     tag_to_delete.delete_from_db(db_manager.mongo)
@@ -752,7 +757,7 @@ def tag_delete(tag_name):
 #Page for creating an implication
 #checked OK
 @app.route('/admin/lib-man/tag-man/create-impl', methods=['GET', 'POST'])
-@login_required(role="Admin")
+@login_required(role="admin")
 def create_impl():
     form = addRuleForm()
     form.parent.choices=[(tag['name'], tag['name']) for tag in db_manager.mongo.db.tags.find()]
@@ -790,7 +795,7 @@ def create_impl():
 
 #Funciton for deleting an implication rule on Tag's detail page
 @app.route('/admin/lib-man/tag-man/parent-rule-delete/<tag_name>')
-@login_required(role="Admin")
+@login_required(role="admin")
 def parent_rule_delete(tag_name):
     child_tag = Tag.search_for_by_name(db_manager.mongo, tag_name)
 
@@ -806,7 +811,7 @@ def parent_rule_delete(tag_name):
 
 #Funciton for deleting an implication rule on Tag's detail page
 @app.route('/admin/lib-man/tag-man/sibling-rule-delete/<tag_name>')
-@login_required(role="Admin")
+@login_required(role="admin")
 def sibling_rule_delete(tag_name):
     tag = Tag.search_for_by_name(db_manager.mongo, tag_name)
 
@@ -831,7 +836,7 @@ def sibling_rule_delete(tag_name):
 
 #Funciton for deleting an implication rule on Tag's detail page
 @app.route('/admin/lib-man/tag-man/rule-delete/<tag_name>')
-@login_required(role="Admin")
+@login_required(role="admin")
 def rule_delete(tag_name):
     tag = Tag.search_for_by_name(db_manager.mongo, tag_name)
     tag.implies = []
@@ -842,7 +847,7 @@ def rule_delete(tag_name):
 
 #Funciton for deleting an implication rule on Tag Implication page
 @app.route('/admin/lib-man/tag-man/impl_delete/<tag_name>')
-@login_required(role="Admin")
+@login_required(role="admin")
 def impl_delete(tag_name):
     tag = Tag.search_for_by_name(db_manager.mongo, tag_name)
     tag.implies = []
@@ -853,7 +858,7 @@ def impl_delete(tag_name):
 #Page for updating Name or Description of an item
 #checked OK
 @app.route('/admin/lib-man/item-update-attrib/<item_id>/<attrib_option_id>', methods=['GET', 'POST'])
-@login_required(role="Admin")
+@login_required(role="admin")
 def item_update_attrib(item_id, attrib_option_id):
     form = updateAttribForm()
     item = db_manager.mongo.db.items.find_one({"_id": ObjectId(item_id)})
@@ -889,7 +894,7 @@ def item_update_attrib(item_id, attrib_option_id):
 #Page for creating an item
 #checked OK
 @app.route('/admin/lib-man/create-item', methods=['GET', 'POST'])
-@login_required(role="Admin")
+@login_required(role="admin")
 def create_item():
     form = newEntryForm()
     all_tags = db_manager.mongo.db.tags.find()
@@ -915,7 +920,7 @@ def create_item():
 
 
 @app.route('/admin/lib-man/image-edit/<item_id>', methods=['POST'])
-@login_required(role="Admin")
+@login_required(role="admin")
 def lib_item_image_edit(item_id):
     item = db_manager.mongo.db.items.find_one({"_id": ObjectId(item_id)})
     if item is None:
@@ -943,7 +948,7 @@ def lib_item_image_edit(item_id):
 
 
 @app.route('/admin/lib-man/image-remove/<item_id>', methods=['POST'])
-@login_required(role="Admin")
+@login_required(role="admin")
 def lib_item_image_remove(item_id):
     item = db_manager.mongo.db.items.find_one({"_id": ObjectId(item_id)})
     if item is None:
@@ -976,9 +981,9 @@ def page_not_found(e):
     return render_template('admin-pages/error.html')
 
 @login_manager.user_loader
-def load_user(id):
-    return User.get_by_id(db_manager.mongo, id)
-
+def load_user(did):
+    return User.search_for_by_display_name(db_manager.mongo, did)
+    
 # if __name__=='__main__':
 #    app.run(debug=True)
 
