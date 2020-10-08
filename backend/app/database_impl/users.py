@@ -15,7 +15,8 @@ from app.database_impl.roles import Role
 class User:
     id: ObjectId
     display_name: str
-    role: Role
+    role_ids: List[ObjectId]
+    rolename: str
     email: str
     password: str
     first_name: str
@@ -25,10 +26,10 @@ class User:
     def init_indices(mongo: PyMongo):
         mongo.db.users.create_index([("display_name", pymongo.ASCENDING)], unique=False, sparse=False)
 
-    def __init__(self, display_name: str, role: Role, email: str, password: str, first_name: str, last_name: str):
+    def __init__(self, display_name: str, role_ids: List[ObjectId], email: str, password: str, first_name: str, last_name: str):
         self.id = None
         self.display_name = display_name
-        self.role = role
+        self.role_ids = role_ids
         self.email = email
         self.password = password
         self.first_name = first_name
@@ -63,7 +64,7 @@ class User:
     def to_dict(self) -> Dict:
         result = {
             "display_name": self.display_name, 
-            "role": self.role, 
+            "role_ids": [r for r in self.role_ids], 
             "email": self.email, 
             "password": self.password, 
             "first_name": self.first_name, 
@@ -86,8 +87,8 @@ class User:
             raise ValueError("User must have display_name")
         cls.display_name = value_dict["display_name"]
 
-        if "role" in value_dict and value_dict["role"] is not None:
-            cls.role = value_dict["role"]
+        if "role_ids" in value_dict and value_dict["role_ids"] is not None:
+            cls.role_ids = value_dict["role_ids"]
             
         if "email" in value_dict and value_dict["email"] is not None:
             cls.email = value_dict["email"]
@@ -108,8 +109,9 @@ class User:
     def register(cls, mongo: PyMongo, display_name, email, password, first_name, last_name):
         user = cls.search_for_by_email(mongo, email)
         if user is None:
-            admin = Role.search_for_by_name(mongo, "admin")
-            new_user = cls(display_name, admin, email, password, first_name, last_name)
+            roleid = Role.search_for_by_name(mongo, "everyone").id
+            role_ids = [roleid]
+            new_user = cls(display_name, role_ids, email, password, first_name, last_name)
             new_user.id = mongo.db.users.insert_one(new_user.to_dict()).inserted_id
             session['email'] = email
             return True
@@ -135,7 +137,7 @@ class User:
         new_user = User.from_dict(new_data)
 
         self.display_name = new_user.display_name
-        self.role = new_user.role
+        self.role_ids = new_user.role_ids
         self.email = new_user.email
         self.password = new_user.password
         self.first_name = new_user.first_name

@@ -26,6 +26,11 @@
                 <tr>
                     <td>
                         <p>
+                            {{ user['display_name'] }}
+                        </p>
+                    </td>
+                    <td>
+                        <p>
                             {{ user['first_name'] }}
                         </p>
                     </td>
@@ -37,7 +42,7 @@
                         {{ user['email'] }}
                     </td>
                     <td>
-                        {{ user['role'] }}
+                        {{ rolesdic[user['role_ids'][0]] }}
                     </td>
                     <td><a href="{{ url_for('edit', id= user['_id']) }}">Edit</a>
                         <a>/</a>

@@ -13,6 +13,7 @@ all_tags3 = db_manager.mongo.db.tags.find()
 all_tags4 = db_manager.mongo.db.tags.find()
 all_tags5 = db_manager.mongo.db.tags.find()
 all_tags6 = db_manager.mongo.db.tags.find()
+all_roles = db_manager.mongo.db.roles.find()
 #get all tag parameters
 #all_tag_params = db_manager.mongo.db.
 #get all attributes
@@ -43,6 +44,7 @@ class UpdateForm(FlaskForm):
     first_name = TextField('First Name', validators = [DataRequired()])
     last_name = TextField('Last Name', validators = [DataRequired()])
     email = EmailField('Email', validators = [DataRequired(), Email()])
+    role = SelectField('Role', coerce=str)
     submit = SubmitField('Update')
     delete = SubmitField('Delete')
     

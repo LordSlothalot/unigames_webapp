@@ -28,6 +28,7 @@ from functools import wraps
 
 from app.tables import UserTable
 from app.database_impl.users import User
+from app.database_impl.roles import Role
 
 # -------------------------------------------
 #     User pages
@@ -224,16 +225,12 @@ def login_required(role="ANY"):
     def wrapper(fn):
         @wraps(fn)
         def decorated_view(*args, **kwargs):
-            print(current_user.display_name, " ", current_user.role)
             if not current_user.is_authenticated:
-                print("User unauthenticated")
                 return login_manager.unauthorized()
             if (role != "ANY"):
                 hasrole = False
-                for r in current_user.role:
-                    print ("Role ID ", r)
+                for r in current_user.role_ids:
                     name = db_manager.mongo.db.roles.find_one({"_id": r})['name']
-                    print ("Roles ", name)
                     if name == role:
                         hasrole = True
                 if not hasrole:
@@ -253,27 +250,36 @@ def login_required(role="ANY"):
 @app.route('/admin/users', methods=['GET', 'POST'])
 @login_required(role="admin")
 def adminusers():
-	users = mongo.db.users.find()
-	#table = UserTable(items)
-	#table.border = True
-	return render_template('admin-pages/user-man/users.html', users=users)
+    users = mongo.db.users.find()
+    rolescursor = mongo.db.roles.find()
+    rolesdic = {}
+    for r in rolescursor:
+        print(r)
+        rolesdic[r['_id']] = r['name']
+    return render_template('admin-pages/user-man/users.html', users=users, rolesdic=rolesdic)
 
 @app.route('/admin/users/edit/<id>', methods=['GET', 'POST'])
 @login_required(role="admin")
 def edit(id):
     searcheduser = mongo.db.users.find_one({'_id': ObjectId(id)})
+    rid = searcheduser['role_ids'][0]
+    role = mongo.db.roles.find_one(rid)
+    rolename = role['name']
 
     if searcheduser:
         form = UpdateForm(**searcheduser)
-        name = searcheduser['first_name']
+        form.role.choices=[(r['name'], r['name']) for r in db_manager.mongo.db.roles.find()]
+        form.role.data = rolename
         if form.validate_on_submit():
             if form.delete.data:
                 return redirect(url_for('deleteuser', id=id))
             mongo.db.users.update_one({'_id': ObjectId(id)},
                                       {"$set": {
-                                          'first_name': request.form['first_name'],
-                                          'last_name': request.form['last_name'],
-                                          'email': request.form['email'],
+                                          'display_name': form.display_name.data,
+                                          'first_name': form.first_name.data,
+                                          'last_name': form.last_name.data,
+                                          'email': form.email.data,
+                                          'role_ids': [Role.search_for_by_name(db_manager.mongo, form.role.data).id]
                                       }
                                       })
             flash('User updated successfully!')
