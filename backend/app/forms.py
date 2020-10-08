@@ -44,7 +44,7 @@ class UpdateForm(FlaskForm):
     first_name = TextField('First Name', validators = [DataRequired()])
     last_name = TextField('Last Name', validators = [DataRequired()])
     email = EmailField('Email', validators = [DataRequired(), Email()])
-    role = SelectField('Role', coerce=str)
+    role = SelectField('Role', choices=[(role['name'], role['name']) for role in all_roles])
     submit = SubmitField('Update')
     delete = SubmitField('Delete')
     

@@ -262,17 +262,17 @@ def adminusers():
 @login_required(role="admin")
 def edit(id):
     searcheduser = mongo.db.users.find_one({'_id': ObjectId(id)})
-    rid = searcheduser['role_ids'][0]
-    role = mongo.db.roles.find_one(rid)
-    rolename = role['name']
+    rid = mongo.db.roles.find_one(searcheduser['role_ids'][0])
+    rolename = rid['name']
+    searcheduser['role'] = rolename
 
     if searcheduser:
         form = UpdateForm(**searcheduser)
-        form.role.choices=[(r['name'], r['name']) for r in db_manager.mongo.db.roles.find()]
-        form.role.data = rolename
+        form.role.default = rolename
         if form.validate_on_submit():
             if form.delete.data:
                 return redirect(url_for('deleteuser', id=id))
+            print(Role.search_for_by_name(db_manager.mongo, form.role.data).id)
             mongo.db.users.update_one({'_id': ObjectId(id)},
                                       {"$set": {
                                           'display_name': form.display_name.data,
