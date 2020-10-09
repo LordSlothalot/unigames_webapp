@@ -1,0 +1,95 @@
+
+
+{% extends "final-public-layout.html" %}
+
+
+
+
+{% block body %}
+
+        <!-- Topbar -->
+        <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow text-center">
+
+            <h3>{{ item.get_attributes_by_option(name_attribute)[0].value }} - Library Item Detail</h3>
+  
+  
+          </nav>
+
+<div class="container-fluid">
+
+    <div class="pb-3 text-center">
+        <br>
+        <h3>Item Edit</h3>
+        <p class="mb-4">Manage an item's attributes and tags.</p>
+    </div>
+    <div class="row">
+        <div class="col-lg-4">
+            
+        </div>
+        <div class="col-lg-3">
+            <div class="card mb-4">
+                <img class="img-thumbnail mx-auto d-block card shadow" src="{{ image_url }}" alt="Generic placeholder image" style="width: 100%; height:100%;">
+            </div>
+
+            <hr class="mt-1">
+        </div>
+        <div class="col-lg-4">
+            
+        </div>
+    </div>
+    
+    <div class="row">
+        <div class="col-md-1">
+    
+        </div>
+        <div class="col-md-10">
+            <div class="card border-left-success shadow h-100 py-2">
+                <div class="card-body">
+                    <div class="row no-gutters align-items-center">
+                        <div class="col-auto">
+                            <img class="img-thumbnail mx-auto d-block card shadow" src="{{ image_url }}" alt="Generic placeholder image">
+                        </div>
+                        <div class="col-lg-3" style="border-right: 1px dashed #333;">
+
+                        </div>
+                        <div class="col">
+                            <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">NAME</div>
+                            <div class="h5 mb-0 font-weight-bold text-gray-800">Bob's Grand Adventure
+                                
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+    
+        </div>
+        <div class="col-md-1">
+    
+        </div>
+    </div>
+
+
+
+            <div class="card shadow mb-4">
+                
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-lg-6">
+                            
+                        </div>
+                        <div class="topbar-divider d-none d-sm-block"></div>
+                        <div class="col-lg-6">
+
+                        </div>
+                    </div>
+
+                </div>
+              </div>
+
+</div>
+
+
+
+
+
+{% endblock %}

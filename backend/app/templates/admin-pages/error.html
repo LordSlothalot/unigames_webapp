@@ -1,14 +1,30 @@
-{% extends "final-admin-layout.html" %}
+{% extends "final-public-layout.html" %}
 
 {% block body %}
 
 <div class="container-fluid">
-
+  <br>
+  <br>
+  <br>
+  <br>  
+  <br>
+  <br>
+  <div class="mb-5"></div>
+  <br>
+  <br>
+  <br>
+  <br>
     <div class="text-center">
       <div class="error mx-auto" data-text="404">404</div>
       <p class="lead text-gray-800 mb-5">Page Not Found</p>
-      <p class="text-gray-500 mb-0">It looks like you found a glitch in the system...</p>
-      <a href="{{ url_for('admin') }}">← Back to Dashboard</a>
+      <p class="text-gray-600 mb-2">It looks like you found a glitch in the system...</p>
+      <p class="text-gray-600 mb-2 ">For technical support, please contact dev team: </p>
+      <p class="text-gray-600 mb-0">Mingchuan Tian (<a href="mailto: mingchuantian1@gmail.com">mingchuantian1@gmail.com</a>)</p>
+      <p class="text-gray-600 mb-0">Matthew Chidlow</p>
+      <p class="text-gray-600 mb-0">Paris Loney</p>
+      <p class="text-gray-600 mb-0">Luke Stagoll</p>
+      <p class="text-gray-600 mb-5">Sirui Wang</p>
+      <a href="{{ url_for('home') }}">← Back to Home</a>
     </div>
 
   </div>
