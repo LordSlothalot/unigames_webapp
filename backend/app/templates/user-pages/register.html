@@ -1,18 +1,52 @@
-{% extends "layout.html" %}
+{% extends "final-public-layout.html" %}
 <!--Inherit basic layout & elements from the layout.html-->
 
 
 {% block body %}
 
+<br>
+<br>
+<br>
+<br>
+{% with messages = get_flashed_messages() %}
+{% if messages %}
+<div class="row">
+    <div class="col-md-3">
+    </div>
+    <div class="col-md-6">
+        <div class="alert alert-warning flashes" role="alert">
+            {% for message in messages %}
+            <h5>
+                {{ message }}
+            </h5>
 
+            {% endfor %}
+        </div>
+    </div>
+
+</div>
+
+
+{% endif %}
+{% endwith %}
+<div class="pb-3 text-center">
+    <br>
+    <h3>User Registeration</h3>
+    <p class="mb-4">A newly registered user has to be given access to the management system by the board member.</p>
+</div>
 <div class="row">
     <div class="col-sm-3"></div>
     <div class="col-sm-6">
-        <form method="post" action="{{ url_for('register') }}">
-            <div class="login-section rounded shadow-sm mt-5">
-                {{ form.hidden_tag() }}
-                <fieldset class="form-group">
-                    <legend class="border-bottom mb-4">Register</legend>
+        <div class="card shadow mb-4">
+            <div class="card-header py-3">
+                <h6 class="m-0 font-weight-bold text-success">New User</h6>
+            </div>
+            <div class="card-body">
+            <form method="post" action="{{ url_for('register') }}">
+                <div class="login-section">
+                    {{ form.hidden_tag() }}
+                    <fieldset class="form-group">
+                        <legend class="border-bottom mb-4">Register</legend>
                         <div class="form-group">
                             {{ form.display_name.label }}
                             {{ form.display_name(class='form-control') }}
@@ -24,23 +58,25 @@
                         <div class="form-group">
                             {{ form.last_name.label }}
                             {{ form.last_name(class='form-control') }}
-                        <div class="form-group">
-                            {{ form.email.label }}
-                            {{ form.email(class='form-control') }}
-                        </div>
-                        <div class="form-group">
-                            {{ form.password.label }}
-                            {{ form.password(class='form-control') }}
-                        </div>
-                        <div class="form-group">
-                            {{ form.password2.label }}
-                            {{ form.password2(class='form-control') }}
-                        </div>
-                        <div class="form-group">
-                            {{ form.submit(class='btn btn-outline-info') }}
-                        </div>
-                </fieldset>
-        </form>
+                            <div class="form-group">
+                                {{ form.email.label }}
+                                {{ form.email(class='form-control') }}
+                            </div>
+                            <div class="form-group">
+                                {{ form.password.label }}
+                                {{ form.password(class='form-control') }}
+                            </div>
+                            <div class="form-group">
+                                {{ form.password2.label }}
+                                {{ form.password2(class='form-control') }}
+                            </div>
+                            <div class="form-group">
+                                {{ form.submit(class='btn btn-success') }}
+                            </div>
+                    </fieldset>
+            </form>
+        </div>
+        </div>
     </div>
 </div>
 <div class="col-sm-3"></div>

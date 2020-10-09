@@ -118,7 +118,23 @@
                         {% endif %}
                     </span></a>
             </li>
-
+            {% if not current_user.is_authenticated: %}
+            <li class="nav-item active">
+                <a class="nav-link text-gray-900" href="{{ url_for('register') }}">
+                    <i class="fas fa-fw fa-user-plus"></i>
+                    <span> 
+                        User registration
+                    </span></a>
+            </li>
+            {% else %}
+            <li class="nav-item active">
+                <a class="nav-link text-gray-900" href="{{ url_for('logout') }}">
+                    <i class="fas fa-fw fa-sign-out-alt"></i>
+                    <span> 
+                        Logout
+                    </span></a>
+            </li>
+            {% endif %}
         </ul>
         <!-- End of Sidebar -->
 
