@@ -54,6 +54,7 @@
                     </tfoot>
                     <tbody>
                         {% for item in items %}
+                        {% if not item.hidden %}
                         <tr>
                             <td>
                                 <img class="img-thumbnail mx-auto d-block" src="{{ item_images[item.id] }}" style="width: 50px;" alt="Placeholder image">
@@ -83,6 +84,7 @@
                             <td><a href="{{ url_for('item_detail', item_id = item.id) }}">Click for detail >></a>
                             </td>
                         </tr>
+                        {% endif %}
                         {% endfor %}
 
                     </tbody>
