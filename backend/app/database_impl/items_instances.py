@@ -211,6 +211,13 @@ class Item:
             return False
 
         return mongo.db.items.delete_one({"_id": self.id}).deleted_count == 1
+    
+    def hide(self, mongo: PyMongo) -> bool:
+        if self.hidden is True:
+            self.hidden = False
+        else:
+            self.hidden = True
+        self.write_to_db(mongo)
 
     @staticmethod
     def search_for_by_tag(mongo: PyMongo, tag_ref: Union[Tag, TagReference]) -> List['Item']:

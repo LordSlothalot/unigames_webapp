@@ -135,7 +135,7 @@ def login():
             loguser = User.from_dict(find_user)
             login_user(loguser, remember=form.remember_me.data)
             flash('You have been logged in!', 'success')
-            return redirect(url_for('home'))
+            return redirect(url_for('admin'))
         else:
             flash('Login Unsuccessful. Please check email and password', 'danger')
             return redirect(url_for('login'))
@@ -203,16 +203,14 @@ def item_detail(item_id):
     if item is None:
         return page_not_found(404)
     item = Item.from_dict(item)
-    attributes = [a for a in item.attributes if a.option_id != db_manager.main_picture.id]
-    attribute_options = db_manager.mongo.db.attrib_options.find({"_id": {"$in": [a.option_id for a in attributes]}})
-    attribute_options = {a.id: a for a in [AttributeOption.from_dict(a) for a in attribute_options]}
+
     if item.get_attributes_by_option(db_manager.main_picture):
         image_url = url_for('image', oid=str(item.get_attributes_by_option(db_manager.main_picture)[0].value))
     else:
         image_url = url_for('static', filename='img/logo.png')  # TODO supply 'no-image' image?
 
     return render_template('user-pages/item-detail.html', image_url=image_url, item=item, tags_collection=tags_collection, 
-                                name_attribute=db_manager.name_attrib, attribute_options=attribute_options)
+                                name_attribute=db_manager.name_attrib)
 
 
 @app.route('/events')
@@ -647,6 +645,13 @@ def lib_delete(item_id):
     item.delete_from_db(db_manager.mongo)
     flash('Item has been deleted successfully')
     return redirect(url_for('all_items'))
+
+@app.route('/admin/lib-man/item_hide/<item_id>')
+@login_required(perm="can_edit_items")
+def item_hide(item_id):
+    item = Item.from_dict(db_manager.mongo.db.items.find({"_id" : ObjectId(item_id)})[0])
+    item.hide(db_manager.mongo)
+    return redirect(url_for('edit_item', item_id=item_id))
 
 # Page for showing all implications
 # checked OK
