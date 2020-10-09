@@ -75,6 +75,12 @@ class DatabaseManager:
             self.admin_role = Role("admin", 0, {Permissions.CanEditItems: True, Permissions.CanEditUsers: True,
                                                 Permissions.CanViewHidden: True})
             self.admin_role.write_to_db(self.mongo)
+            
+        self.test_role = Role.search_for_by_name(self.mongo, "testing")
+        if self.test_role is None:  # 0 overrides everything
+            self.test_role = Role("testing", 0, {Permissions.CanEditItems: True, Permissions.CanEditUsers: True,
+                                                Permissions.CanViewHidden: True})
+            self.test_role.write_to_db(self.mongo)
 
     # To only be called for the sake of testing
     def test(self):

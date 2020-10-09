@@ -1,0 +1,56 @@
+{% extends "final-admin-layout.html" %}
+
+{% block body %}
+<div class="pb-3 text-center">
+    <br>
+    <h3>Role Edit</h3>
+    <p class="mb-4">This page edits the details for a role.</p>
+</div>
+<div class="row">
+    <div class="col-sm-3"></div>
+    <div class="col-sm-6">
+        <div class="card mb-4">
+            <div class="card-header">
+                Edit role
+            </div>
+            <div class="card-body">
+                <form method="post" action="">
+                    <div class="login-section">
+                        {{ form.hidden_tag() }}
+                        <fieldset class="form-group">
+                            <div class="form-group">
+                                {{ form.name.label }}
+                                {{ form.name(class='form-control') }}
+                            </div>
+                            <div class="form-group">
+                                {{ form.priority.label }}
+                                {{ form.priority(class='form-control') }}
+                            </div>
+                            <div class="form-group">
+                                {{ form.can_view_hidden.label }}
+                                {{ form.can_view_hidden(class='form-control') }}
+                                <div class="form-group">
+                                    {{ form.can_edit_users.label }}
+                                    {{ form.can_edit_users(class='form-control') }}
+                                </div>
+                                <div class="form-group">
+                                    {{ form.can_edit_items.label }}
+                                    {{ form.can_edit_items(class='form-control') }}
+                                </div>
+                                <div class="form-group">
+                                    {{ form.submit(class='btn btn-outline-info') }}
+                                </div>
+                                <div class="form-group">
+                                    {{ form.delete(onclick="return confirm('Are you sure you wish to delete?')", class='btn btn-outline-info') }}
+                                </div>
+                        </fieldset>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-3"></div>
+</div>
+
+
+{% endblock %}

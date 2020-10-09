@@ -1,53 +1,53 @@
 {% extends "final-admin-layout.html" %}
 {% block body%}
 <!-- Page Heading -->
-<h1 class="h3 mb-2 text-gray-800">All administrators</h1>
-<p class="mb-4">This page shows all users with access to the library management system.</p>
+<h1 class="h3 mb-2 text-gray-800">All roles</h1>
+<p class="mb-4">This page shows all roles in the user system and their permissions.</p>
 
 <!-- DataTales Example -->
 <div class="card shadow mb-4">
     <div class="card-header py-3">
-        <h6 class="m-0 font-weight-bold text-primary">Administrators</h6>
+        <h6 class="m-0 font-weight-bold text-primary">Roles</h6>
     </div>
     <div class="card-body">
         <table class="table table-bordered" width="100%" cellspacing="0">
             <thead>
                 <tr>
-                    <th>Display Name</th>
-                    <th>First Name</th>
-                    <th>Last Name</th>
-                    <th>Email</th>
-                    <th>Role</th>
+                    <th>Role Name</th>
+                    <th>Priority</th>
+                    <th>Can View Hidden</th>
+                    <th>Can Edit Items</th>
+                    <th>Can Edit Users</th>
                     <th>Options</th>
                 </tr>
             </thead>
 
             <tbody>
-                {% for user in users %}
+                {% for role in roles %}
                 <tr>
                     <td>
                         <p>
-                            {{ user['display_name'] }}
+                            {{ role['name'] }}
                         </p>
                     </td>
                     <td>
                         <p>
-                            {{ user['first_name'] }}
+                            {{ role['priority'] }}
                         </p>
                     </td>
                     <td>
-                        {{ user['last_name'] }}
+                        {{ role['permissions']["can_view_hidden"] }}
+                    </td>
+                    <td>
+                        {{ role['permissions']["can_edit_items"] }}
+                    </td>
+                    <td>
+                        {{ role['permissions']["can_edit_users"] }}
                     </td>
 
-                    <td>
-                        {{ user['email'] }}
-                    </td>
-                    <td>
-                        {{ rolesdic[user['role_ids'][0]] }}
-                    </td>
-                    <td><a href="{{ url_for('edit', id= user['_id']) }}">Edit</a>
+                    <td><a href="{{ url_for('editrole', id= role['_id']) }}">Edit</a>
                         <a>/</a>
-                        <a href="{{ url_for('deleteuser', id=user['_id'])}}" onclick="return confirm('Are you sure you wish to delete?')">Delete</a>
+                        <a href="{{ url_for('deleterole', id=role['_id'])}}" onclick="return confirm('Are you sure you wish to delete?')">Delete</a>
                     </td>
                 </tr>
                 {% endfor %}

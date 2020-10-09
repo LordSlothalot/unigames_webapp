@@ -48,6 +48,15 @@ class UpdateForm(FlaskForm):
     submit = SubmitField('Update')
     delete = SubmitField('Delete')
     
+class UpdateRoleForm(FlaskForm):
+    name = TextField('Name', validators = [DataRequired()]) 
+    priority = TextField('Priority', validators = [DataRequired()])
+    can_view_hidden = BooleanField('Can View Hidden')
+    can_edit_items = BooleanField('Can Edit Items')
+    can_edit_users = BooleanField('Can Edit Users')
+    submit = SubmitField('Update')
+    delete = SubmitField('Delete')
+    
 
 #new entry form
 class newEntryForm(FlaskForm):
