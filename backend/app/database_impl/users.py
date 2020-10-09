@@ -21,12 +21,13 @@ class User:
     password: str
     first_name: str
     last_name: str
+    temp: bool
 
     @staticmethod
     def init_indices(mongo: PyMongo):
         mongo.db.users.create_index([("display_name", pymongo.ASCENDING)], unique=False, sparse=False)
 
-    def __init__(self, display_name: str, role_ids: List[ObjectId], email: str, password: str, first_name: str, last_name: str):
+    def __init__(self, display_name: str, role_ids: List[ObjectId], email: str, password: str, first_name: str, last_name: str, temp = False):
         self.id = None
         self.display_name = display_name
         self.role_ids = role_ids
@@ -34,6 +35,7 @@ class User:
         self.password = password
         self.first_name = first_name
         self.last_name = last_name
+        self.temp = temp
         
     @staticmethod
     def is_authenticated():
@@ -106,12 +108,12 @@ class User:
         return cls
         
     @classmethod
-    def register(cls, mongo: PyMongo, display_name, email, password, first_name, last_name):
+    def register(cls, mongo: PyMongo, display_name, email, password, first_name, last_name, role = "everyone", temp = False):
         user = cls.search_for_by_email(mongo, email)
         if user is None:
-            roleid = Role.search_for_by_name(mongo, "everyone").id
+            roleid = Role.search_for_by_name(mongo, role).id
             role_ids = [roleid]
-            new_user = cls(display_name, role_ids, email, password, first_name, last_name)
+            new_user = cls(display_name, role_ids, email, password, first_name, last_name, temp)
             new_user.id = mongo.db.users.insert_one(new_user.to_dict()).inserted_id
             session['email'] = email
             return True

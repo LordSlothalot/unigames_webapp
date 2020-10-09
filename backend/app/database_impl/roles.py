@@ -98,3 +98,17 @@ class Role:
             return None
 
         return Role.from_dict(result)
+    
+    @classmethod
+    def create_new(cls, mongo: PyMongo, name: str, priority: int, can_view_hidden: bool, can_edit_users: bool, can_edit_items: bool):
+        role = cls.search_for_by_name(mongo, name)
+        if role is None:
+            permissions = {}
+            permissions['can_view_hidden'] = can_view_hidden
+            permissions['can_edit_users'] = can_edit_users
+            permissions['can_edit_items'] = can_edit_items
+            new_role = cls(name, priority, permissions)
+            new_role.id = mongo.db.roles.insert_one(new_role.to_dict()).inserted_id
+            return True
+        else:
+            return False

@@ -18,7 +18,7 @@ from app.database_impl.tags import Tag, TagReference
 from bson.objectid import ObjectId
 from app.forms import newEntryForm, addTagForm, addInstanceForm, createTagForm, addTagImplForm, \
     updateAttribForm, LoginForm, RegistrationForm, UpdateForm, addRuleForm, searchForm, createTagForm, \
-    addTagParentImplForm, addTagSiblingImplForm, UpdateRoleForm
+    addTagParentImplForm, addTagSiblingImplForm, UpdateRoleForm, CreateUserForm
 
 from app.search_parser import search_string_to_mongodb_query, SearchStringParseError
 from flask_pymongo import PyMongo
@@ -293,6 +293,7 @@ def edit(id):
 
     if searcheduser:
         form = UpdateForm(**searcheduser)
+        form.role.choices = [(role['name'], role['name']) for role in db_manager.mongo.db.roles.find()]
         if form.validate_on_submit():
             if form.delete.data:
                 return redirect(url_for('deleteuser', id=id))
@@ -313,6 +314,33 @@ def edit(id):
         return 'Error loading #{id}'.format(id=id)
     return render_template('admin-pages/user-man/edit.html', form=form)
     
+    
+@app.route('/admin/users/createuser', methods=['GET', 'POST'])
+@login_required(perm="can_edit_users")
+def createuser():
+    form = CreateUserForm()
+    form.role.choices = [(role['name'], role['name']) for role in db_manager.mongo.db.roles.find()]
+    if form.validate_on_submit():
+        email = form.email.data
+        display_name = form.display_name.data
+        first_name = form.first_name.data
+        last_name = form.last_name.data
+        password = generate_password_hash(form.password.data)
+        role = form.role.data
+        find_by_email = User.search_for_by_email(db_manager.mongo, email)
+        find_by_name = User.search_for_by_display_name(db_manager.mongo, display_name)
+        if find_by_email is None and find_by_name is None:
+            User.register(db_manager.mongo, display_name, email, password, first_name, last_name, role, True)
+            flash(f'Account created for {form.email.data}!', 'success')
+            return redirect(url_for('adminusers'))
+        else:
+            if find_by_name is None: 
+                flash(f'Account already exists for {form.email.data}!', 'success')
+            else:
+                flash(f'Account already exists for {form.display_name.data}!', 'success')
+        return render_template('admin-pages/user-man/createuser.html', form=form)
+    return render_template('admin-pages/user-man/createuser.html', form=form) 
+ 
 @app.route('/admin/users/delete/<string:id>')
 @login_required(perm="can_view_hidden")
 def deleteuser(id):
@@ -376,6 +404,20 @@ def deleterole(id):
         return redirect(url_for('roles'))
     else:
         return 'Error loading #{id}'.format(id=id)
+        
+@app.route('/admin/users/createrole/', methods=['GET', 'POST'])
+@login_required(perm="can_edit_users")
+def createrole(): 
+    form = UpdateRoleForm()
+    if form.validate_on_submit():
+        if(Role.search_for_by_name(db_manager.mongo, form.name.data) is None):
+            Role.create_new(db_manager.mongo, form.name.data, form.priority.data, form.can_edit_items.data, form.can_edit_users.data, form.can_view_hidden.data)
+            flash('Role updated successfully!')
+            return redirect(url_for('roles'))
+        else:
+            flash('A role with that name already exists')
+            return redirect(url_for('createrole'))
+    return render_template('admin-pages/user-man/createrole.html', form=form)
 
 
 @app.route('/admin/test')

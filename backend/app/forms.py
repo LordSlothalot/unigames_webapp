@@ -41,12 +41,22 @@ class RegistrationForm(FlaskForm):
 	
 class UpdateForm(FlaskForm):
     display_name = TextField('Display Name', validators = [DataRequired()]) 
-    first_name = TextField('First Name', validators = [DataRequired()])
-    last_name = TextField('Last Name', validators = [DataRequired()])
+    first_name = TextField('First Name')
+    last_name = TextField('Last Name')
     email = EmailField('Email', validators = [DataRequired(), Email()])
     role = SelectField('Role', choices=[(role['name'], role['name']) for role in all_roles])
     submit = SubmitField('Update')
     delete = SubmitField('Delete')
+    
+class CreateUserForm(FlaskForm):
+    display_name = TextField('Display Name', validators = [DataRequired()])
+    first_name = TextField('First Name')
+    last_name = TextField('Last Name')
+    email = EmailField('Email', validators = [DataRequired(), Email()])
+    password = PasswordField("Password", validators = [DataRequired()])
+    password2 = PasswordField("Repeat Password", validators=[DataRequired(), EqualTo("password")])
+    role = SelectField('Role', choices=[(role['name'], role['name']) for role in all_roles])
+    submit = SubmitField('Register')
     
 class UpdateRoleForm(FlaskForm):
     name = TextField('Name', validators = [DataRequired()]) 
