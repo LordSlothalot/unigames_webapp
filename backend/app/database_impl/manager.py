@@ -15,6 +15,8 @@ from app.database_impl.relations import RelationOption, Relation
 from app.database_impl.roles import Role, Permissions
 from app.database_impl.tags import Tag, TagReference
 from app.database_impl.users import User
+from werkzeug.security import generate_password_hash
+from werkzeug.utils import secure_filename
 
 
 class DatabaseManager:
@@ -34,6 +36,7 @@ class DatabaseManager:
         Role.init_indices(self.mongo)
         RelationOption.init_indices(self.mongo)
         Relation.init_indices(self.mongo)
+        User.init_indices(self.mongo)
 
         # For actual production, to ensure certain attributes exist
 
@@ -72,6 +75,12 @@ class DatabaseManager:
             self.admin_role = Role("admin", 0, {Permissions.CanEditItems: True, Permissions.CanEditUsers: True,
                                                 Permissions.CanViewHidden: True})
             self.admin_role.write_to_db(self.mongo)
+            
+        self.test_role = Role.search_for_by_name(self.mongo, "testing")
+        if self.test_role is None:  # 0 overrides everything
+            self.test_role = Role("testing", 0, {Permissions.CanEditItems: True, Permissions.CanEditUsers: True,
+                                                Permissions.CanViewHidden: True})
+            self.test_role.write_to_db(self.mongo)
 
     # To only be called for the sake of testing
     def test(self):
@@ -198,7 +207,7 @@ class DatabaseManager:
 
         matthew_user = User.search_for_by_display_name(self.mongo, "Matthew")
         if matthew_user is None:
-            matthew_user = User("Matthew", [self.admin_role.id])
+            matthew_user = User("Matthew", [self.admin_role.id], "default@test.com", generate_password_hash("password"), "Test", "LastTest")
             matthew_user.write_to_db(self.mongo)
 
         # this code should never be needed normally, this is modeling a human performing this action, if you want to automate this properlly then properlly add a uuid attribute

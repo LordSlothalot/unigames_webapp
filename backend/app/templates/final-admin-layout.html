@@ -65,8 +65,11 @@
         <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
           <div class="bg-white py-2 collapse-inner rounded">
             <h6 class="collapse-header">User Management</h6>
-            <a class="collapse-item" href="">Create a user</a>
             <a class="collapse-item" href="{{ url_for('adminusers') }}">All users</a>
+            <a class="collapse-item" href="{{ url_for('createuser') }}">Create user</a>
+            <a class="collapse-item" href="{{ url_for('roles') }}">All roles</a>
+            <a class="collapse-item" href="{{ url_for('createrole') }}">Create role</a>
+            
           </div>
         </div>
       </li>
@@ -139,6 +142,7 @@
             <div class="topbar-divider d-none d-sm-block"></div>
 
             <!-- Nav Item - User Information -->
+
             <li class="nav-item">
               <a class="nav-link" href="{{url_for('logout')}}"  role="button" >
                 <span class="mr-2 d-none d-lg-inline text-gray-600 small">Logout</span>
