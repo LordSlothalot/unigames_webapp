@@ -23,7 +23,8 @@ email-validator = "*"
 flask-login = "*"
 flask-security = "*"
 flask-table = "*"
-python-bsonjs = "*"
+selenium = "*"
+
 
 [requires]
 python_version = "3.6"
