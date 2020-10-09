@@ -122,7 +122,7 @@ def images():
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     if current_user.is_authenticated:
-        return redirect(url_for('index'))
+        return redirect(url_for('admin'))
     form = LoginForm()
     if form.validate_on_submit():
         email = form.email.data
@@ -138,13 +138,14 @@ def login():
             return redirect(url_for('admin'))
         else:
             flash('Login Unsuccessful. Please check email and password', 'danger')
-            return "Login Unsuccessful"
+            return redirect(url_for('login'))
     return render_template('user-pages/login.html', form=form)
 
 
 @app.route('/logout')
 def logout():
     logout_user()
+    flash('You have been logged out')
     return redirect(url_for('login'))
 
 
@@ -211,22 +212,27 @@ def item_detail(item_id):
 def events():
     return render_template('user-pages/events.html')
 
-
-@app.route('/join')
-def join():
-    return render_template('user-pages/join.html')
+# Roleplaying page
+@app.route('/roleplaying')
+def roleplaying():
+    return render_template('user-pages/roleplaying.html')
 
 
 @app.route('/committee')
 def committee():
     return render_template('user-pages/committee.html')
 
-
+# Lif members page
 @app.route('/lifeMembers')
 def lifeMembers():
     return render_template('user-pages/lifeMembers.html')
 
+# FAQ page
+@app.route('/lifeMembers')
+def faq():
+    return render_template('user-pages/faq.html')
 
+# Constitution page
 @app.route('/constitution')
 def constitution():
     return render_template('user-pages/constitution.html')
@@ -236,7 +242,7 @@ def constitution():
 def operations():
     return render_template('user-pages/operations.html')
 
-
+# needs to be implemented or deleted
 @app.route('/forbidden')
 def forbidden():
     return render_template('user-pages/forbidden.html')

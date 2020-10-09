@@ -46,7 +46,7 @@
 
             <!-- Nav Item - Dashboard -->
             <li class="nav-item active">
-                <a class="nav-link text-gray-900" href="{{ url_for('admin') }}">
+                <a class="nav-link text-gray-900" href="{{ url_for('home') }}">
                     <i class="fas fa-fw fa-home"></i>
                     <span>Home</span></a>
             </li>
@@ -55,29 +55,29 @@
                 Unigames Gaming Club
             </div>
             <li class="nav-item active">
-                <a class="nav-link text-gray-900" href="{{ url_for('admin') }}">
+                <a class="nav-link text-gray-900" href="{{ url_for('library') }}">
                     <i class="fas fa-fw fa-chess-knight"></i>
                     <span>Library</span></a>
             </li>
 
             <li class="nav-item active">
-                <a class="nav-link text-gray-900" href="{{ url_for('admin') }}">
+                <a class="nav-link text-gray-900" href="{{ url_for('roleplaying') }}">
                     <i class="fas fa-fw fa-theater-masks"></i>
                     <span>Roleplaying?</span></a>
             </li>
             <li class="nav-item active">
-                <a class="nav-link text-gray-900" href="{{ url_for('admin') }}">
+                <a class="nav-link text-gray-900" href="{{ url_for('events') }}">
                     <i class="fas fa-fw fa-calendar-alt"></i>
                     <span>Events</span></a>
             </li>
 
             <li class="nav-item active">
-                <a class="nav-link text-gray-900" href="{{ url_for('admin') }}">
+                <a class="nav-link text-gray-900" href="{{ url_for('committee') }}">
                     <i class="fas fa-fw fa-users"></i>
                     <span>Committee</span></a>
             </li>
             <li class="nav-item active">
-                <a class="nav-link text-gray-900" href="{{ url_for('admin') }}">
+                <a class="nav-link text-gray-900" href="{{ url_for('lifeMembers') }}">
                     <i class="fas fa-fw fa-infinity"></i>
                     <span>Life members</span></a>
             </li>
@@ -87,17 +87,17 @@
                     <span>Constitution</span></a>
             </li>
             <li class="nav-item active">
-                <a class="nav-link text-gray-900" href="{{ url_for('admin') }}">
+                <a class="nav-link text-gray-900" href="{{ url_for('operations') }}">
                     <i class="fas fa-fw fa-handshake"></i>
                     <span>Operations</span></a>
             </li>
             <li class="nav-item active">
-                <a class="nav-link text-gray-900" href="{{ url_for('admin') }}">
+                <a class="nav-link text-gray-900" href="http://webcam.ucc.asn.au/">
                     <i class="fas fa-fw fa-video"></i>
                     <span>Webcam</span></a>
             </li>
             <li class="nav-item active">
-                <a class="nav-link text-gray-900" href="{{ url_for('admin') }}">
+                <a class="nav-link text-gray-900" href="{{ url_for('faq') }}">
                     <i class="fas fa-fw fa-question-circle"></i>
                     <span>FAQ</span></a>
             </li>
@@ -107,9 +107,16 @@
                 Unigames Management
             </div>
             <li class="nav-item active">
-                <a class="nav-link text-gray-900" href="{{ url_for('admin') }}">
+                <a class="nav-link text-gray-900" href="{{ url_for('login') }}">
                     <i class="fas fa-fw fa-user-cog"></i>
-                    <span>Admin login</span></a>
+                    
+                    <span> 
+                        {% if current_user.is_authenticated: %}
+                        Manage Library
+                        {% else %}
+                        Admin login
+                        {% endif %}
+                    </span></a>
             </li>
 
         </ul>
