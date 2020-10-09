@@ -149,13 +149,17 @@ def register():
         first_name = form.first_name.data
         last_name = form.last_name.data
         password = generate_password_hash(form.password.data)
-        find_user = User.search_for_by_email(db_manager.mongo, email)
-        if find_user is None:
+        find_by_email = User.search_for_by_email(db_manager.mongo, email)
+        find_by_name = User.search_for_by_display_name(db_manager.mongo, display_name)
+        if find_by_email is None and find_by_name is None:
             User.register(db_manager.mongo, display_name, email, password, first_name, last_name)
             flash(f'Account created for {form.email.data}!', 'success')
             return redirect(url_for('index'))
         else:
-            flash(f'Account already exists for {form.email.data}!', 'success')
+            if find_by_name is None: 
+                flash(f'Account already exists for {form.email.data}!', 'success')
+            else:
+                flash(f'Account already exists for {form.display_name.data}!', 'success')
     return render_template('user-pages/register.html', title='Register', form=form)
 
 
@@ -230,6 +234,7 @@ def login_required(role="ANY"):
             if (role != "ANY"):
                 hasrole = False
                 for r in current_user.role_ids:
+                    print(db_manager.mongo.db.roles.find_one({"_id": r})['permissions'])
                     name = db_manager.mongo.db.roles.find_one({"_id": r})['name']
                     if name == role:
                         hasrole = True
@@ -254,7 +259,6 @@ def adminusers():
     rolescursor = mongo.db.roles.find()
     rolesdic = {}
     for r in rolescursor:
-        print(r)
         rolesdic[r['_id']] = r['name']
     return render_template('admin-pages/user-man/users.html', users=users, rolesdic=rolesdic)
 
@@ -268,7 +272,6 @@ def edit(id):
 
     if searcheduser:
         form = UpdateForm(**searcheduser)
-        form.role.default = rolename
         if form.validate_on_submit():
             if form.delete.data:
                 return redirect(url_for('deleteuser', id=id))

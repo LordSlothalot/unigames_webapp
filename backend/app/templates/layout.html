@@ -68,6 +68,28 @@
 
     {% endblock %}
 
+              {% with messages = get_flashed_messages() %}
+              {% if messages %}
+              <div class="row">
+                <div class="col-md-3">
+                </div>
+                <div class="col-md-6">
+                  <div class="alert alert-warning flashes" role="alert">
+                    {% for message in messages %}
+                    <h5>
+                      {{ message }}
+                    </h5>
+  
+                    {% endfor %}
+                      </div>
+                      </div>
+
+                </div>
+
+
+              {% endif %}
+              {% endwith %}
     {% block body %}
+    
     {% endblock %}
 </body>
