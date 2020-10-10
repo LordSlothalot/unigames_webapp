@@ -27,20 +27,9 @@
                     </h3>
                     <strong class="d-inline-block mb-1 text-primary">Description</strong>
                 <div class="container">
-                    {% for attribute in attribute_options.values() %}
-                    <div class="row">
-                        <div class="col-sm-10">
-
-                                <h5 class="text-uppercase"> {{ attribute.attribute_name }}</h5>
-                                <p> {{ item.get_attributes_by_option(attribute)[0].value }}</p>
-                        </div>
-                        <div class="col-sm-2">
-                            <form action="{{ url_for('item_update_attrib', item_id=item.id, attrib_option_id=attribute.id) }}">
-                                <button type="button m-2" class="btn btn-success">Edit</button>
-                            </form>
-                        </div>
-                    </div>
-                    {% endfor %}
+                    <h3 class="mb-3">
+                        (Still working on multi-line description)
+                    </h3>
 
                 </div>
 
