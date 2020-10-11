@@ -40,10 +40,18 @@ mongo = db_manager.mongo
 
 
 @app.route('/')
+@app.route('/home')
+def home():
+    recent_items = []
+    for item in db_manager.mongo.db.items.find():
+        recent_items.append(item)
+    recent_items.reverse()
+    recent_items = recent_items[:6]
+    return render_template('user-pages/home.html', recent_items=recent_items, Item=Item, name_attrib_option=db_manager.name_attrib, tags_collection=tags_collection)
+
 @app.route('/index')
 def index():
     return render_template('user-pages/index.html')
-
 
 # upload and view code taken and modified from here: https://gist.github.com/artisonian/492713
 # needs refinement from here, but this is to give those who need it a head start
@@ -116,7 +124,7 @@ def images():
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     if current_user.is_authenticated:
-        return redirect(url_for('index'))
+        return redirect(url_for('admin'))
     form = LoginForm()
     if form.validate_on_submit():
         email = form.email.data
@@ -134,13 +142,14 @@ def login():
                 return redirect(url_for('admin'))
         else:
             flash('Login Unsuccessful. Please check email and password', 'danger')
-            return "Login Unsuccessful"
+            return redirect(url_for('login'))
     return render_template('user-pages/login.html', form=form)
 
 
 @app.route('/logout')
 def logout():
     logout_user()
+    flash('You have been logged out')
     return redirect(url_for('login'))
 
 @app.route('/changepw', methods=['GET', 'POST'])
@@ -183,45 +192,73 @@ def register():
                 flash(f'Account already exists for {form.display_name.data}!', 'success')
     return render_template('user-pages/register.html', title='Register', form=form)
 
+# New UI
+# Public library page
 
 @app.route('/library')
 def library():
-    # get urls for images, they are supposed to be retrieved from the db
-    # dungeons_pic = url_for('static', filename='img/games/dungeons.jpg')
+    items = db_manager.mongo.db.items.find()
+    items = [Item.from_dict(i) for i in items]
 
-    # This would normally be acquired via the attribute in the item when iterating the items
-    dungeons_pic = url_for('image', oid=str([a for a in Item.from_dict(
-        db_manager.mongo.db.items.find_one({"attributes.option_id": db_manager.main_picture.id})).attributes if
-                                             isinstance(a,
-                                                        PictureAttribute) and a.option_id == db_manager.main_picture.id][
-                                                0].value))
+    for item in items:
+        item.recalculate_implied_tags(db_manager.mongo)  # Again, thia is NOT be needed
 
-    stars_pic = url_for('static', filename='img/games/stars-without-number.jpg')
-    pulp_pic = url_for('static', filename='img/games/pulp-cthulhu.jpg')
-    # pass them to the rendering page
-    return render_template('user-pages/library.html', dungeons_pic=dungeons_pic, stars_pic=stars_pic, pulp_pic=pulp_pic)
+    item_names = {item.id: item.get_attributes_by_option(db_manager.name_attrib)[0].value for item in items}
+    item_images = {}
+    for item in items:
+        picture = item.get_attributes_by_option(db_manager.main_picture)
+        if picture:
+            item_images[item.id] = url_for('image', oid=str(picture[0].value))
+        else:
+            item_images[item.id] = url_for('static', filename='img/logo.png')  # TODO supply 'no-image' image?
+
+    return render_template('user-pages/new-library.html', items=items, tags_collection=tags_collection,
+                           item_names=item_names, item_images=item_images)
+
+
+# New UI
+# Public library item detail page
+@app.route('/libarary/item_detail/<item_id>', methods=['GET', 'POST'])
+def item_detail(item_id):
+    item = db_manager.mongo.db.items.find_one({"_id": ObjectId(item_id)})
+    if item is None:
+        return page_not_found(404)
+    item = Item.from_dict(item)
+
+    if item.get_attributes_by_option(db_manager.main_picture):
+        image_url = url_for('image', oid=str(item.get_attributes_by_option(db_manager.main_picture)[0].value))
+    else:
+        image_url = url_for('static', filename='img/logo.png')  # TODO supply 'no-image' image?
+
+    return render_template('user-pages/item-detail.html', image_url=image_url, item=item, tags_collection=tags_collection, 
+                                name_attribute=db_manager.name_attrib)
 
 
 @app.route('/events')
 def events():
     return render_template('user-pages/events.html')
 
-
-@app.route('/join')
-def join():
-    return render_template('user-pages/join.html')
+# Roleplaying page
+@app.route('/roleplaying')
+def roleplaying():
+    return render_template('user-pages/roleplaying.html')
 
 
 @app.route('/committee')
 def committee():
     return render_template('user-pages/committee.html')
 
-
+# Lif members page
 @app.route('/lifeMembers')
 def lifeMembers():
     return render_template('user-pages/lifeMembers.html')
 
+# FAQ page
+@app.route('/lifeMembers')
+def faq():
+    return render_template('user-pages/faq.html')
 
+# Constitution page
 @app.route('/constitution')
 def constitution():
     return render_template('user-pages/constitution.html')
@@ -231,7 +268,7 @@ def constitution():
 def operations():
     return render_template('user-pages/operations.html')
 
-
+# needs to be implemented or deleted
 @app.route('/forbidden')
 def forbidden():
     return render_template('user-pages/forbidden.html')
@@ -303,6 +340,7 @@ def adminusers():
     for r in rolescursor:
         rolesdic[r['_id']] = r['name']
     return render_template('admin-pages/user-man/users.html', users=users, rolesdic=rolesdic)
+
 
 @app.route('/admin/users/edit/<id>', methods=['GET', 'POST'])
 @login_required(perm="can_view_hidden")
@@ -524,7 +562,7 @@ def implication_remove(tag_name, implied_id):
 
 
 
-#Funciton for adding an implication rule
+# Funciton for adding an implication rule
 
 @app.route('/admin/lib-man/tag-man/rule-add', methods=['GET', 'POST'])
 @login_required(perm="can_edit_items")
@@ -550,7 +588,7 @@ def rule_add():
 
 
 
-#------------For the new UI------------
+# ------------For the new UI------------
 
 @app.route('/admin', methods=['GET', 'POST'])
 @login_required(perm="can_view_hidden")
@@ -578,7 +616,7 @@ def admin():
     recent_tags = recent_tags[:6]
     return render_template('admin-pages/new-home.html', tags_collection=tags_collection, user_count=user_count, recent_items=recent_items, recent_tags=recent_tags,item_count=item_count, tag_count=tag_count, tag_impl_count=tag_impl_count, name_attrib_option=db_manager.name_attrib, Item=Item)
 
-#Page for creating a tag
+# Page for creating a tag
 @app.route('/admin/lib-man/tag-man/create-a-tag', methods=['POST','GET'])
 @login_required(perm="can_edit_items")
 def create_tag():
@@ -596,7 +634,7 @@ def create_tag():
     return render_template('admin-pages/lib-man/tag-man/create-tag.html', form=form)
 
 
-#Page for showing all library items
+# Page for showing all library items
 @app.route('/admin/all-items')
 @login_required(perm="can_view_hidden")
 def all_items():
@@ -619,8 +657,8 @@ def all_items():
     return render_template('admin-pages/lib-man/all-items.html', items=items, tags_collection=tags_collection,
                            item_names=item_names, item_images=item_images)
 
-#Function for delete an item
-#checked OK
+# Function for delete an item
+# checked OK
 @app.route('/admin/lib-man/lib-delete/<item_id>')
 @login_required(perm="can_edit_items")
 def lib_delete(item_id):
@@ -629,22 +667,29 @@ def lib_delete(item_id):
     flash('Item has been deleted successfully')
     return redirect(url_for('all_items'))
 
-#Page for showing all implications
-#checked OK
+@app.route('/admin/lib-man/item_hide/<item_id>')
+@login_required(perm="can_edit_items")
+def item_hide(item_id):
+    item = Item.from_dict(db_manager.mongo.db.items.find({"_id" : ObjectId(item_id)})[0])
+    item.hide(db_manager.mongo)
+    return redirect(url_for('edit_item', item_id=item_id))
+
+# Page for showing all implications
+# checked OK
 @app.route('/admin/tag-man/all-impl')
 @login_required(perm="can_view_hidden")
 def all_impl():
     return render_template('admin-pages/lib-man/tag-man/all-impl.html',  tags_collection=tags_collection)
 
-#Page for showing all tags
-#checked OK
+# Page for showing all tags
+# checked OK
 @app.route('/admin/lib-man/tag-man/all-tags')
 @login_required(perm="can_view_hidden")
 def all_tags():
     return render_template('admin-pages/lib-man/tag-man/all-tags.html', tags_collection=tags_collection)
 
-#Page for tag search
-#checked OK
+# Page for tag search
+# checked OK
 @app.route('/admin/lib-man/tag-man/search-item', methods=['GET', 'POST'])
 @login_required(perm="can_view_hidden")
 def search_item():
@@ -666,7 +711,7 @@ def search_item():
             db_results = db_manager.mongo.db.items.find(result)
     return render_template('admin-pages/lib-man/tag-man/search-item.html', is_input=is_input, is_result=is_result, result=result, searchString=searchString, db_results=db_results, tags_collection=tags_collection)
 
-#Page for editing a tag and it's implications
+# Page for editing a tag and it's implications
 # Need to debug
 @app.route('/admin/lib-man/tag-man/edit-tag/<tag_name>')
 @login_required(perm="can_edit_items")
@@ -708,7 +753,7 @@ def edit_tag(tag_name):
     return render_template('admin-pages/lib-man/tag-man/edit-tag.html', add_implication_form=add_implication_form,add_parent_implication_form=add_parent_implication_form,add_sibling_implication_form=add_sibling_implication_form, tag=this_tag, tags_collection=tags_collection,sibling_list=sibling_list,implied_by_list=implied_by_list,implied_list=implied_list, Tag=Tag)
 
 
-#Library item edit page
+# Library item edit page
 @app.route('/admin/lib-man/lib-edit/<item_id>', methods=['GET', 'POST'])
 @login_required(perm="can_edit_items")
 def lib_edit(item_id):
@@ -729,9 +774,9 @@ def lib_edit(item_id):
                            Tag=Tag, tags_collection=tags_collection)
 
 
-#Page for editing an item and it's tags
-#curretnly in use
-#need to recalculate impl
+# Page for editing an item and it's tags
+# curretnly in use
+# need to recalculate impl
 @app.route('/admin/lib-man/<item_id>', methods=['GET', 'POST'])
 @login_required(perm="can_edit_items")
 def edit_item(item_id):
@@ -768,8 +813,8 @@ def edit_item(item_id):
                            item_id=item_id, tags_collection=tags_collection, image_url=image_url, name_attribute=db_manager.name_attrib)
 
 
-#function for removing a tag from an item
-#checked OK
+# function for removing a tag from an item
+# checked OK
 @app.route('/admin/lib-man/item-remove-tag/<item_id>/<tag_name>',methods=['GET', 'POST'])
 @login_required(perm="can_edit_items")
 def item_remove_tag(item_id, tag_name):
@@ -783,7 +828,7 @@ def item_remove_tag(item_id, tag_name):
             flash('Tag deleted successfully! Tag implications has been recalculated.')
     return redirect(url_for('edit_item', item_id=item_id))
 
-#Function for adding an implicaiton to a tag
+# Function for adding an implicaiton to a tag
 # no longer used 
 @app.route('/admin/lib-man/tag-man/parent-implication-add/<child_tag_id>', methods=['GET', 'POST'])
 @login_required(perm="can_edit_items")
@@ -814,7 +859,7 @@ def parent_implication_add(child_tag_id):
         parent_tag.write_to_db(db_manager.mongo)
         return redirect(url_for('edit_tag', tag_name=child_tag.name))
 
-#Function for adding an implicaiton to a tag
+# Function for adding an implicaiton to a tag
 # no longer used
 @app.route('/admin/lib-man/tag-man/sibling-implication-add/<parent_tag_id>', methods=['GET', 'POST'])
 @login_required(perm="can_edit_items")
@@ -851,7 +896,7 @@ def sibling_implication_add(parent_tag_id):
 
         return redirect(url_for('edit_tag', tag_name=parent_tag.name))
 
-#Function for adding an implicaiton to a tag
+# Function for adding an implicaiton to a tag
 # no longer used
 @app.route('/admin/lib-man/tag-man/implication-add/<parent_tag_id>', methods=['GET', 'POST'])
 @login_required(perm="can_edit_items")
@@ -900,8 +945,8 @@ def tag_delete(tag_name):
     flash('Tag: ' + str(tag_name) + ' dropped, ' + str(implication_dropped) + ' implications are affected.')
     return redirect(url_for('edit_tag'))
 
-#Page for creating an implication
-#checked OK
+# Page for creating an implication
+# checked OK
 @app.route('/admin/lib-man/tag-man/create-impl', methods=['GET', 'POST'])
 @login_required(perm="can_edit_items")
 def create_impl():
@@ -939,7 +984,7 @@ def create_impl():
     return render_template('admin-pages/lib-man/tag-man/create-implication.html', form=form)
 
 
-#Funciton for deleting an implication rule on Tag's detail page
+# Funciton for deleting an implication rule on Tag's detail page
 @app.route('/admin/lib-man/tag-man/parent-rule-delete/<tag_name>')
 @login_required(perm="can_edit_items")
 def parent_rule_delete(tag_name):
@@ -955,7 +1000,7 @@ def parent_rule_delete(tag_name):
     flash('The parent implications for tag '+ tag_name + ' has been cleared')
     return redirect(url_for('edit_tag',tag_name=tag_name))
 
-#Funciton for deleting an implication rule on Tag's detail page
+# Funciton for deleting an implication rule on Tag's detail page
 @app.route('/admin/lib-man/tag-man/sibling-rule-delete/<tag_name>')
 @login_required(perm="can_edit_items")
 def sibling_rule_delete(tag_name):
@@ -980,7 +1025,7 @@ def sibling_rule_delete(tag_name):
     return redirect(url_for('edit_tag',tag_name=tag_name))
     return redirect(url_for('edit_tag',tag_name=tag_name))
 
-#Funciton for deleting an implication rule on Tag's detail page
+# Funciton for deleting an implication rule on Tag's detail page
 @app.route('/admin/lib-man/tag-man/rule-delete/<tag_name>')
 @login_required(perm="can_edit_items")
 def rule_delete(tag_name):
@@ -991,7 +1036,7 @@ def rule_delete(tag_name):
     return redirect(url_for('edit_tag',tag_name=tag_name))
 
 
-#Funciton for deleting an implication rule on Tag Implication page
+# Funciton for deleting an implication rule on Tag Implication page
 @app.route('/admin/lib-man/tag-man/impl_delete/<tag_name>')
 @login_required(perm="can_edit_items")
 def impl_delete(tag_name):
@@ -1001,8 +1046,8 @@ def impl_delete(tag_name):
     flash('The implications for tag '+ tag_name + ' has been deleted')
     return render_template('admin-pages/lib-man/tag-man/all-impl.html',  tags_collection=tags_collection)
 
-#Page for updating Name or Description of an item
-#checked OK
+# Page for updating Name or Description of an item
+# checked OK
 @app.route('/admin/lib-man/item-update-attrib/<item_id>/<attrib_option_id>', methods=['GET', 'POST'])
 @login_required(perm="can_edit_items")
 def item_update_attrib(item_id, attrib_option_id):
@@ -1037,8 +1082,8 @@ def item_update_attrib(item_id, attrib_option_id):
 
 
 
-#Page for creating an item
-#checked OK
+# Page for creating an item
+# checked OK
 @app.route('/admin/lib-man/create-item', methods=['GET', 'POST'])
 @login_required(perm="can_edit_items")
 def create_item():

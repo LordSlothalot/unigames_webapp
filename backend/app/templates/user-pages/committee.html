@@ -1,26 +1,50 @@
-{% extends "layout.html" %}
-{%block head %}
-{{ super() }}
+{% extends "final-public-layout.html" %}
+
+{% block title%}
+Constitution
 {% endblock %}
 
-{% block title%} 
-Committee
+{% block head %}
+<style>
+    h1.title {
+        font-size: x-large;
+        margin-bottom: 1ex;
+        text-align: center;
+    }
+
+    h2.section {
+        font-weight: bold;
+        font-size: x-large;
+        margin-top: 1.3ex;
+        margin-bottom: 0.7ex;
+        text-align: left;
+
+    }
+
+    ol.enumerate {
+        margin-top: 0.7ex;
+        margin-bottom: 0.7ex;
+        margin-left: 3ex;
+        text-align: left;
+
+    }
+
+    div.standard {
+        margin-bottom: 2ex;
+    }
+
+    dl.description dt {
+        font-weight: bold;
+    }
+</style>
 {% endblock %}
 
-{% block navbar %}
-{{ super() }}
-{% endblock %}
-{% block body %}
-<div class="committee_body">
-    <h1>The Unigames Committee</h1>
-    <br>
-    <h2>Committee 2020</h2>
-    <br>
-    <p>
-        <b>President</b>
-        <br>
-        Alistair Langton
-    </p>
+
+
+{% block body%}
+<div class="container">
+    <div class="card border-0 shadow my-5">
+        <div class="card-body p-5">
     <p>
         <b>Vice President</b>
         <br>
@@ -63,5 +87,7 @@ Committee
         <br>
         Alaura Evans
     </p>
+    </div>
+    </div>
 </div>
 {% endblock %}

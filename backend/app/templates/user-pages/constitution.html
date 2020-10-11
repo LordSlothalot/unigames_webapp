@@ -1,5 +1,741 @@
-{% extends "layout.html" %}
+{% extends "final-public-layout.html" %}
 
-{% block title%} 
+{% block title%}
 Constitution
+{% endblock %}
+
+{% block head %}
+<style>
+    h1.title {
+        font-size: x-large;
+        margin-bottom: 1ex;
+        text-align: center;
+    }
+
+    h2.section {
+        font-weight: bold;
+        font-size: x-large;
+        margin-top: 1.3ex;
+        margin-bottom: 0.7ex;
+        text-align: left;
+
+    }
+
+    ol.enumerate {
+        margin-top: 0.7ex;
+        margin-bottom: 0.7ex;
+        margin-left: 3ex;
+        text-align: left;
+
+    }
+
+    div.standard {
+        margin-bottom: 2ex;
+    }
+
+    dl.description dt {
+        font-weight: bold;
+    }
+</style>
+{% endblock %}
+
+
+
+{% block body%}
+<div class="container">
+    <div class="card border-0 shadow my-5">
+        <div class="card-body p-5">
+
+            <h1 class="title"><a id='magicparlabel-1' />The Constitution of Unigames</h1>
+            <h2 class="section"><a id='magicparlabel-2' /><span class="section_label">1</span> Name</h2>
+
+            <ol class="enumerate"><a id='magicparlabel-3' />
+                <li class="enumerate_item">The name of the Society shall be: Unigames. </li>
+            </ol>
+            <h2 class="section"><a id='magicparlabel-4' /><span class="section_label">2</span> Definitions</h2>
+
+            <ol class="enumerate"><a id='magicparlabel-5' />
+                <li class="enumerate_item">Guild - the University of Western Australia Student Guild. </li>
+                <li class="enumerate_item">University - The University of Western Australia. </li>
+                <li class="enumerate_item">Traditional games - games including, but are not necessarily limited to: pen
+                    and paper roleplaying games, live action roleplaying (LARP) games, wargames, choose your own
+                    adventure books, card games, and board games, but specifically excluding video games. </li>
+                <li class="enumerate_item">Library - Unigames' collection of books, magazines, dice, boardgames, cards,
+                    figurines and other resources for traditional games, (whether literal books or not). </li>
+                <li class="enumerate_item">The Society - Unigames. </li>
+                <li class="enumerate_item">Fresher - First time member to Unigames, regardless of how many years they
+                    have been at university. </li>
+                <li class="enumerate_item">Regulation - a rule, passed by Committee, with ongoing consequences to the
+                    Society. (For example a Regulation may be made that allows certain members to keep the clubroom
+                    open.) </li>
+            </ol>
+            <h2 class="section"><a id='magicparlabel-12' /><span class="section_label">3</span> Objectives <a
+                    id="sec_Objectives" />
+            </h2>
+
+            <ol class="enumerate"><a id='magicparlabel-13' />
+                <li class="enumerate_item">To encourage and facilitate the playing, design and production of traditional
+                    games in all forms within University and more widely amongst the community. </li>
+                <li class="enumerate_item">To remain affiliated to the Societies Council of the Guild </li>
+                <li class="enumerate_item">To encourage and facilitate all forms of literature dealing with the topics
+                    of traditional games. </li>
+                <li class="enumerate_item">To encourage and facilitate the convening of conventions at which the
+                    promotion of traditional games is a part. </li>
+                <li class="enumerate_item">To produce and distribute any number of Society publications promoting the
+                    activities of the Society. </li>
+                <li class="enumerate_item">To maintain a Society Library which contains material beneficial to the
+                    Objectives of the Society. </li>
+                <li class="enumerate_item">To encourage and facilitate the holding of events and functions beneficial to
+                    Objectives of the Society. </li>
+                <li class="enumerate_item">To encourage and promote cooperation between the Society and other societies
+                    and community-based organizations representative of the Society's interests. </li>
+                <li class="enumerate_item">To ensure that the Society shall not by way of gift; transmit any monies,
+                    grants or property to any person except as detailed in <a href="#sec_Dissolution">Section 18</a>.
+                </li>
+            </ol>
+            <h2 class="section"><a id='magicparlabel-22' /><span class="section_label">4</span> Membership of Unigames
+            </h2>
+
+            <ol class="enumerate"><a id='magicparlabel-23' />
+                <li class="enumerate_item">Unigames membership is targeted at, but not restricted to:
+
+                    <ol class="enumerate"><a id='magicparlabel-24' />
+                        <li class="enumerate_item">Students of the University </li>
+                        <li class="enumerate_item">Members of the Guild </li>
+                        <li class="enumerate_item">Past members of Unigames </li>
+                    </ol>
+                </li>
+                <li class="enumerate_item">Membership shall not be made available to persons who have been expelled. As
+                    detailed in <a href="#sec_Expulsion_of_members">Section 14</a>-<a
+                        href="#subsec_Expelled_no_membership">3.</a>. </li>
+                <li class="enumerate_item">Honorary life membership may be conferred by a two-thirds majority of a
+                    General Meeting upon any member, who has performed outstanding service to Unigames.
+
+                    <ol class="enumerate"><a id='magicparlabel-29' />
+                        <li class="enumerate_item">In exceptional circumstances, an honorary life membership may be
+                            removed by a two-thirds majority of a General Meeting. </li>
+                        <li class="enumerate_item">An honorary life member may choose to resign their honorary life
+                            membership upon written request to the Secretary or President. </li>
+                    </ol>
+                </li>
+                <li class="enumerate_item">The annual subscription for members shall be set by the Committee of
+                    Unigames, as bound by the restrictions set by the Guild. </li>
+                <li class="enumerate_item">A financial member is a member who has paid their annual subscription for the
+                    year. </li>
+                <li class="enumerate_item">Financial memberships expire 1 day prior to the holding of the Annual General
+                    Meeting in the subsequent year from its payment (see <a href="#sec_Annual_General_Meetings">Section
+                        6</a>). </li>
+            </ol>
+            <h2 class="section"><a id='magicparlabel-34' /><span class="section_label">5</span> General Meetings</h2>
+
+            <ol class="enumerate"><a id='magicparlabel-35' />
+                <li class="enumerate_item">There shall be at least one Ordinary General Meeting of Unigames in each
+                    academic semester. This includes the Annual General Meeting (see <a
+                        href="#sec_Annual_General_Meetings">Section 6</a>). </li>
+                <li class="enumerate_item">The Committee may, at any time, call an Ordinary General Meeting of Unigames.
+                </li>
+                <li class="enumerate_item">The Secretary shall forthwith call a Special General Meeting upon receiving a
+                    written requisition from at least 10 financial members of Unigames.
+
+                    <ol class="enumerate"><a id='magicparlabel-38' />
+                        <li class="enumerate_item">Such meeting shall be held no later than 14 days immediately
+                            following receipt of such requisition.
+
+                            <ol class="enumerate"><a id='magicparlabel-39' />
+                                <li class="enumerate_item">If the secretary fails to call the meeting within that time,
+                                    any of the signatories of the requisition may do so. </li>
+                            </ol>
+                        </li>
+                        <li class="enumerate_item"><a id="enu_special_meeting_priority" />
+                            Any business set out in the requisition shall have priority over all other business. </li>
+                    </ol>
+                </li>
+                <li class="enumerate_item">The Secretary shall cause written notice of any General Meeting together with
+                    the agenda therefore to be posted on Guild or Unigames notice boards, or in Unigames or Guild
+                    publications at least four days before the date appointed for that meeting.
+
+                    <ol class="enumerate"><a id='magicparlabel-42' />
+                        <li class="enumerate_item">This agenda may be changed during the meeting, subject to the
+                            restriction in <a href="#enu_special_meeting_priority">(b)</a> if appropriate. </li>
+                    </ol>
+                </li>
+                <li class="enumerate_item">No General Meeting may be held while a Guild General Meeting is in progress,
+                    provided this shall not apply where the written notice of the meeting was given before the written
+                    notice of the Guild General Meeting. Any such meeting being conducted in contravention thereof shall
+                    disband immediately on the order of a disciplinary officer of the Guild. </li>
+                <li class="enumerate_item">The quorum of a General Meeting shall consist of 21 financial members. </li>
+                <li class="enumerate_item">All General Meetings of Unigames shall be conducted in accordance with the
+                    procedures in the UWA Student Guild Standing Orders in all cases where they are applicable and not
+                    inconsistent with this Constitution or Regulations. </li>
+                <li class="enumerate_item">The General Meeting shall, in addition to the powers expressly granted to it
+                    by this Constitution, have all powers which are granted to the Committee. </li>
+                <li class="enumerate_item">Only Unigames members may move motions at General Meetings.
+
+                    <ol class="enumerate"><a id='magicparlabel-48' />
+                        <li class="enumerate_item">Only financial members of Unigames may vote at General Meetings.
+                        </li>
+                        <li class="enumerate_item">Voting by means of a proxy at a General Meeting is not allowed.</li>
+                    </ol>
+                </li>
+            </ol>
+            <h2 class="section"><a id='magicparlabel-50' /><span class="section_label">6</span> Annual General Meetings
+                of Unigames<a id="sec_Annual_General_Meetings" />
+            </h2>
+
+            <ol class="enumerate"><a id='magicparlabel-51' />
+                <li class="enumerate_item">Unigames shall hold its Annual General Meeting during the first four weeks of
+                    each academic year. </li>
+                <li class="enumerate_item">Unigames may, at the Annual General Meeting, select a patron who, willing to
+                    do so, shall hold office until the succeeding Annual General Meeting. </li>
+                <li class="enumerate_item">Before the Annual General Meeting, the Secretary shall call for nominations
+                    for the offices and Committee of Unigames, and shall include the same in the notice of the Annual
+                    General Meeting. Nominations shall close at that meeting. </li>
+                <li class="enumerate_item">The election of the offices and Committee of Unigames shall be conducted:
+
+                    <ol class="enumerate"><a id='magicparlabel-55' />
+                        <li class="enumerate_item">By approval voting, i.e. each member may vote for any number of
+                            candidates. </li>
+                        <li class="enumerate_item">Only financial members of Unigames may nominate, or be nominated.
+                        </li>
+                        <li class="enumerate_item">Absentee votes are only accepted in the form of explicit instructions
+                            in writing, those instructions being; the names of the candidates, and position(s) for which
+                            they are being voted to. </li>
+                        <li class="enumerate_item">Members must have had at least 42 days of membership prior to the
+                            election to absentee vote. </li>
+                        <li class="enumerate_item">Absentee votes do not count as attendees for purposes of meeting
+                            quorum. </li>
+                    </ol>
+                </li>
+                <li class="enumerate_item">The executive office bearers of Unigames:
+
+                    <ol class="enumerate"><a id='magicparlabel-61' />
+                        <li class="enumerate_item"><a id="Office_bearers" />
+                            Shall consist of President, Vice President, Treasurer, Secretary, Librarian. </li>
+                        <li class="enumerate_item"><a id="enu_Guild_Exect_Rules" />
+                            Executive office bearers must be:
+
+                            <ol class="enumerate"><a id='magicparlabel-63' />
+                                <li class="enumerate_item">Students at the university at the time of their election.
+                                </li>
+                                <li class="enumerate_item">Guild members for the duration of their term. </li>
+                            </ol>
+                        </li>
+                        <li class="enumerate_item">The executive office bearers' powers and duties are defined in <a
+                                href="#sec__duties">Section 8</a>. </li>
+                    </ol>
+                </li>
+                <li class="enumerate_item"><a id="Additional_commitee_members" />
+                    Additional Committee members shall consist of Fresher Representative and 4 Ordinary Committee
+                    Members.
+
+                    <ol class="enumerate"><a id='magicparlabel-67' />
+                        <li class="enumerate_item"><a id="Fresher_Rep_Must_Fresher" />
+                            Only Freshers shall be eligible for the position of Fresher Representative. </li>
+                        <li class="enumerate_item">The Fresher Representatives duties are primarily social and are
+                            defined in <a href="#sec__duties">Section 8</a>. This should be reminded to the general
+                            meeting prior to the election. </li>
+                    </ol>
+                </li>
+                <li class="enumerate_item">By executive decision of the new president: the immediate past president, if
+                    they have not been elected to a Committee position, may be added as a nonvoting, advisory member of
+                    Committee for the duration of the President's term.<a id="enu_IPP" />
+                </li>
+            </ol>
+            <h2 class="section"><a id='magicparlabel-70' /><span class="section_label">7</span> The Committee<a
+                    id="sec_The_Committee" />
+            </h2>
+
+            <ol class="enumerate"><a id='magicparlabel-71' />
+                <li class="enumerate_item">The executive office bearers, (President, Vice President, Treasurer,
+                    Secretary, Librarian) together with the Fresher Representative, and Ordinary Committee Members shall
+                    be known as the Committee members. </li>
+                <li class="enumerate_item">The Committee members shall remain in office until the next Annual General
+                    Meeting, or until they resign, or until their position is declared vacant as per <a
+                        href="#sec_The_Committee">Section 7</a>-<a href="#subsec__Removing_committee_members">3.</a> and
+                    <a href="#sec_The_Committee">Section 7</a>-<a href="#subsec_Committee_leaving">4.</a>. </li>
+                <li class="enumerate_item"><a id="subsec__Removing_committee_members" />
+                    By two-thirds majority vote the General Meeting may remove any member of Committee, from Committee,
+                    and declare their position vacant. They must then elect a member to that role, following the rules
+                    laid out in <a href="#sec_Annual_General_Meetings">Section 6</a>. </li>
+                <li class="enumerate_item"><a id="subsec_Committee_leaving" />
+                    If a Committee member ceases to meet the eligibility requirements for their position, as detailed in
+                    <a href="#sec_Annual_General_Meetings">Section 6</a>-<a href="#enu_Guild_Exect_Rules">(b)</a> and <a
+                        href="#sec_Annual_General_Meetings">Section 6</a>-<a href="#Fresher_Rep_Must_Fresher">(a)</a>,
+                    then they shall cease to hold office and the position shall be declared vacant. </li>
+                <li class="enumerate_item"><a id="subsec__OB_resign" />
+                    If an executive office bearer resigns or ceases to hold office for any reason then the vacancy shall
+                    either:
+
+                    <ol class="enumerate"><a id='magicparlabel-76' />
+                        <li class="enumerate_item">be filled through appointment by Committee with an existing member of
+                            the Committee, subject to review at the next General Meeting.
+
+                            <ol class="enumerate"><a id='magicparlabel-77' />
+                                <li class="enumerate_item">When reviewing, a simple majority vote of the General Meeting
+                                    will confirm the appointment. If such a vote fails, the position must be immediately
+                                    filled by election (as per <a href="#sec_Annual_General_Meetings">Section 6</a>).
+                                </li>
+                            </ol>
+                        </li>
+                        <li class="enumerate_item">or it may remain vacant and be filled by election (as per <a
+                                href="#sec_Annual_General_Meetings">Section 6</a>) , at the next General Meeting, which
+                            must be held within the next 2 weeks. </li>
+                    </ol>
+                </li>
+                <li class="enumerate_item"><a id="enu__OCM_resigns" />
+                    If an ordinary Committee member or Fresher Representative resigns or ceases to hold office for any
+                    reason, (including appointed an executive office bearer under <a href="#subsec__OB_resign">5.</a>
+                    above,) then the vacancy shall either:
+
+                    <ol class="enumerate"><a id='magicparlabel-80' />
+                        <li class="enumerate_item">be filled through appointment by Committee from the financial
+                            membership of the club, subject to review at the next General Meeting
+
+                            <ol class="enumerate"><a id='magicparlabel-81' />
+                                <li class="enumerate_item">When reviewing, a simple majority vote of the General Meeting
+                                    will confirm the appointment. If such a vote fails then the position must be
+                                    immediately filled by election (as per <a
+                                        href="#sec_Annual_General_Meetings">Section 6</a>). </li>
+                            </ol>
+                        </li>
+                        <li class="enumerate_item">or it may remain vacant and be filled by election (as per <a
+                                href="#sec_Annual_General_Meetings">Section 6</a>), at the next General Meeting, which
+                            must be held within the next 2 weeks. </li>
+                    </ol>
+                </li>
+                <li class="enumerate_item">No member of Committee may fill two roles simultaneously. Upon being
+                    appointed to a second position, they immediately cease to hold the first (and are subject to the
+                    rules given by <a href="#sec_The_Committee">Section 7</a>-<a href="#subsec__OB_resign">5.</a> and <a
+                        href="#sec_The_Committee">Section 7</a>-<a href="#enu__OCM_resigns">6.</a>). </li>
+            </ol>
+            <h2 class="section"><a id='magicparlabel-84' /><span class="section_label">8</span> Duties and Powers <a
+                    id="sec__duties" />
+            </h2>
+
+            <ol class="enumerate"><a id='magicparlabel-85' />
+                <li class="enumerate_item">The President shall have the following duties and powers, in addition to
+                    those elsewhere in the Constitution and in any Regulations: <a id="subsec_Pres_Duties" />
+
+
+                    <ol class="enumerate"><a id='magicparlabel-86' />
+                        <li class="enumerate_item">To coordinate and supervise the work of the Committee </li>
+                        <li class="enumerate_item">To carry out the will of Unigames </li>
+                        <li class="enumerate_item">To chair Committee and General Meetings of Unigames </li>
+                        <li class="enumerate_item">When immediate action is required in any matter affecting the
+                            interests of the society: <a id="enu_Power_Of_Exec" />
+
+
+                            <ol class="enumerate"><a id='magicparlabel-90' />
+                                <li class="enumerate_item">To take such actions upon seeking the advice and agreement of
+                                    another member of the Committee (preferably the Vice President). </li>
+                                <li class="enumerate_item">Any actions taken as such, shall be subject to review at the
+                                    next Committee meeting. </li>
+                            </ol>
+                        </li>
+                    </ol>
+                </li>
+                <li class="enumerate_item">The Vice President shall have the following duties and powers, in addition to
+                    those elsewhere in the Constitution and in any Regulations:
+
+                    <ol class="enumerate"><a id='magicparlabel-93' />
+                        <li class="enumerate_item">Assisting the President wherever possible. </li>
+                        <li class="enumerate_item">Whenever the President is unavailable, to take on the duties and
+                            powers of the President as detailed in <a href="#sec__duties">Section 8</a>-<a
+                                href="#subsec_Pres_Duties">1.</a>. </li>
+                    </ol>
+                </li>
+                <li class="enumerate_item">The Treasurer shall have the following duties, in addition to those elsewhere
+                    in the Constitution and in any Regulations:
+
+                    <ol class="enumerate"><a id='magicparlabel-96' />
+                        <li class="enumerate_item">To keep proper books of account dealing with the property and
+                            finances of Unigames and to furnish the Committee with such information upon request. </li>
+                        <li class="enumerate_item">To arrange and be responsible for the handling of the petty cash.
+                        </li>
+                        <li class="enumerate_item">To prepare a financial statement detailing income and expenses during
+                            their term of office, for presentation at the Annual General Meeting. </li>
+                        <li class="enumerate_item">To produce and deliver all necessary books, vouchers and other
+                            documents to the persons appointed by the Guild for the purpose of conducting an audit,
+                            insofar as such persons require. </li>
+                        <li class="enumerate_item">To produce and deliver all necessary books, receipts and other
+                            documents to the persons appointed by the Guild for the purpose of obtaining grants, insofar
+                            as such persons require. </li>
+                    </ol>
+                </li>
+                <li class="enumerate_item">The Secretary shall have the following duties, in addition to those elsewhere
+                    in the constitution and in any Regulations:
+
+                    <ol class="enumerate"><a id='magicparlabel-102' />
+                        <li class="enumerate_item">To record and distribute all proceedings of Unigames in all meetings.
+                        </li>
+                        <li class="enumerate_item">To provide the Guild with information about Unigames, upon request.
+                        </li>
+                        <li class="enumerate_item">To keep record of all Society members, and their contact information.
+                        </li>
+                        <li class="enumerate_item">To keep record of any members granted special powers, rights, or
+                            responsibilities by Committee. </li>
+                        <li class="enumerate_item">To keep record of any Regulations passed by Committee. </li>
+                    </ol>
+                </li>
+                <li class="enumerate_item">The Librarian shall have the following duties, in addition to those elsewhere
+                    in the Constitution and in any Regulations:
+
+                    <ol class="enumerate"><a id='magicparlabel-108' />
+                        <li class="enumerate_item">To maintain the library. </li>
+                        <li class="enumerate_item">To maintain the catalogue and the borrowers records. </li>
+                        <li class="enumerate_item">To research opportunities to expand the library, with respect to the
+                            desires of Society members. </li>
+                        <li class="enumerate_item">To enforce Regulations regarding the library. </li>
+                    </ol>
+                </li>
+                <li class="enumerate_item">The Fresher Representative shall have the following duties, in addition to
+                    those elsewhere in the constitution and in any Regulations:
+
+                    <ol class="enumerate"><a id='magicparlabel-113' />
+                        <li class="enumerate_item">To look out for the needs, and rights of the Freshers. </li>
+                        <li class="enumerate_item">To be aware of, and acquainted with all Freshers of the Society,
+                            insofar as is possible. </li>
+                        <li class="enumerate_item">To be involved, insofar as is possible, in any Fresher targeted
+                            activity the Society may run. </li>
+                    </ol>
+                </li>
+                <li class="enumerate_item">Should any of the Committee members be temporarily unable to fulfill their
+                    duties, as defined above, another willing member of Committee shall, at the request of Committee
+                    take on some, or all, of their duties. (For example if the Secretary is uncontactable, the Committee
+                    may ask the President to call a Special General Meeting). </li>
+            </ol>
+            <h2 class="section"><a id='magicparlabel-117' /><span class="section_label">9</span> Committee Meetings</h2>
+
+            <ol class="enumerate"><a id='magicparlabel-118' />
+                <li class="enumerate_item">The Committee shall meet at such times and places as the President, in
+                    consultation with the other Committee members, shall determine. </li>
+                <li class="enumerate_item">The Committee shall only exercise its powers (as defined in this constitution
+                    or in Regulations) at a properly convened meeting of the Committee, except as elsewhere provided in
+                    the Constitution. </li>
+                <li class="enumerate_item">The Committee may conduct business by electronic circular, in the case of:
+
+                    <ol class="enumerate"><a id='magicparlabel-121' />
+                        <li class="enumerate_item">urgent business; </li>
+                        <li class="enumerate_item">business which becuase of its nature could not be set on the agenda;
+                            or </li>
+                        <li class="enumerate_item">business which by procedural motion, the Commmittee decided not to
+                            deal with at a Committee Meeting.</li>
+                    </ol>
+                </li>
+                <li class="enumerate_item">The Secretary or President shall cause all members of the Committee to
+                    receive three days notice of any such meeting including a list of the business to be discussed. This
+                    list may be expanded upon during the meeting.
+
+                    <ol class="enumerate"><a id='magicparlabel-125' />
+                        <li class="enumerate_item">A meeting may be called without this notice, if seven or more,
+                            eligible to vote, Committee members are present, at least four of whom are executive office
+                            bearers. </li>
+                    </ol>
+                </li>
+                <li class="enumerate_item">The Secretary shall forthwith call a Special Committee Meeting, upon
+                    receiving a written requisition from at least two Committee members.
+
+                    <ol class="enumerate"><a id='magicparlabel-127' />
+                        <li class="enumerate_item">Any such Special Meeting shall be held not later than seven days
+                            immediately following the receipt of such requisition.
+
+                            <ol class="enumerate"><a id='magicparlabel-128' />
+                                <li class="enumerate_item">If the Secretary fails to call the meeting within that time,
+                                    any one of the members signing the requisition may do so. </li>
+                            </ol>
+                        </li>
+                        <li class="enumerate_item">Any business set out in the requisition shall have priority over all
+                            other business </li>
+                    </ol>
+                </li>
+                <li class="enumerate_item">The quorum of a Committee meeting shall be five Committee members, whom are
+                    eligible to vote, of which at least three must be executive office bearers. </li>
+                <li class="enumerate_item">All meetings of the Committee shall be conducted in accordance with the
+                    procedures in the UWA Student Guild Standing Orders in all cases where they are applicable and not
+                    inconsistent with this Constitution or Regulations. </li>
+                <li class="enumerate_item">Subject to this Constitution, the Committee shall be responsible for giving
+                    effect to the objectives of the Society (see <a href="#sec_Objectives">Section 3</a>) and for
+                    carrying on its everyday business. </li>
+                <li class="enumerate_item">Towards this end, the Committee shall have the power to:
+
+                    <ol class="enumerate"><a id='magicparlabel-134' />
+                        <li class="enumerate_item">Acquire and dispose of property; to dispose of money; to open banking
+                            accounts; and to enter into contracts.
+
+                            <ol class="enumerate"><a id='magicparlabel-135' />
+                                <li class="enumerate_item">The Committee shall not borrow money or incur debts or
+                                    liabilities on behalf of or in the name of Unigames to a greater amount than five
+                                    dollars for each and every existing financial member of the Society. </li>
+                            </ol>
+                        </li>
+                        <li class="enumerate_item">Make Regulations for the orderly and proper management of the affairs
+                            of Unigames,
+
+                            <ol class="enumerate"><a id='magicparlabel-137' />
+                                <li class="enumerate_item">so long as no Regulation is inconsistent with, or repugnant
+                                    to, this Constitution. </li>
+                            </ol>
+                        </li>
+                        <li class="enumerate_item">Impose fines for the breach of this Constitution, or Regulations.
+                        </li>
+                    </ol>
+                </li>
+                <li class="enumerate_item">These powers are in addition to any other powers given in this Constitution
+                    (in particular, see <a href="#sec_Suspension_of_members">Section 13</a>). </li>
+            </ol>
+            <h2 class="section"><a id='magicparlabel-140' /><span class="section_label">10</span> Deposits and
+                Withdrawals of Monies</h2>
+
+            <ol class="enumerate"><a id='magicparlabel-141' />
+                <li class="enumerate_item">All monies due and payable to Unigames shall be received by the Treasurer who
+                    shall lodge them without undue delay in the Unigames Banking Account for the credit of Unigames.
+                </li>
+                <li class="enumerate_item">Any two Executive Office Bearers of Unigames shall be empowered to jointly
+                    sign cheques or forms of authority for the withdrawal of any money from the Unigames Banking
+                    Account. </li>
+            </ol>
+            <h2 class="section"><a id='magicparlabel-143' /><span class="section_label">11</span> Payments<a
+                    id="sec_Payments" />
+            </h2>
+
+            <ol class="enumerate"><a id='magicparlabel-144' />
+                <li class="enumerate_item"><a id="subsec_The_treasurer_may_authorise_petty_payments" />
+                    The Committee may define a weekly budget from which the Treasurer may authorise the purchasing of
+                    consumables. These payments are subject to review by Committee. </li>
+                <li class="enumerate_item"><a id="enu_printing_payments" />
+                    Any Committee member may make payments for printing on behalf of Unigames. These payments are
+                    subject to review by Committee. </li>
+                <li class="enumerate_item">With exception of the consumable and printing payments (<a
+                        href="#sec_Payments">Section 11</a>-<a
+                        href="#subsec_The_treasurer_may_authorise_petty_payments">1.</a> and <a
+                        href="#sec_Payments">Section 11</a>-<a href="#enu_printing_payments">2.</a>), and the executive
+                    power of the President (<a href="#sec__duties">Section 8</a>-<a href="#subsec_Pres_Duties">1.</a>):
+                    No payments shall be made on behalf or in the name of Unigames unless it has been authorized by the
+                    Committee. </li>
+            </ol>
+            <h2 class="section"><a id='magicparlabel-147' /><span class="section_label">12</span> Major Obligations to
+                the Guild<a id="sec_Major_Obligations_to" />
+            </h2>
+
+            <ol class="enumerate"><a id='magicparlabel-148' />
+                <li class="enumerate_item">Unigames shall comply with the rules of Guild and Societies Council, and all
+                    other provisions enrolled upon the Guild Statutes Book.
+
+                    <ol class="enumerate"><a id='magicparlabel-149' />
+                        <li class="enumerate_item">All Office Bearers shall be jointly and severally responsible for
+                            such compliance, and shall be deemed liable in the event of noncompliance therewith. </li>
+                    </ol>
+                </li>
+                <li class="enumerate_item">Such rules supersede the Regulations of Unigames, and this Constitution, if
+                    and where contradiction occurs. </li>
+            </ol>
+            <h2 class="section"><a id='magicparlabel-151' /><span class="section_label">13</span> Suspension of
+                members<a id="sec_Suspension_of_members" />
+            </h2>
+
+            <ol class="enumerate"><a id='magicparlabel-152' />
+                <li class="enumerate_item">Failure to return, or damage to, the resources of the Library may, at the
+                    decision of the Librarian, result in immediate suspension from the Society.
+
+                    <ol class="enumerate"><a id='magicparlabel-153' />
+                        <li class="enumerate_item">A member as such suspended shall remain suspended until the next
+                            Committee meeting. During which Committee will discuss the issue and resolve sanctions.
+                        </li>
+                        <li class="enumerate_item">A Committee meeting must be held within 14 days of the suspension.
+                        </li>
+                    </ol>
+                </li>
+                <li class="enumerate_item">Failure to pay any fines, levies or debts owed to the Society, or theft from
+                    the Society, may at the decision of the Treasurer, result in immediate suspension from the Society.
+
+                    <ol class="enumerate"><a id='magicparlabel-156' />
+                        <li class="enumerate_item">A member as such suspended shall remain suspended until the next
+                            Committee meeting. During which Committee will discuss the issue and resolve sanctions.
+                        </li>
+                        <li class="enumerate_item">A Committee meeting must be held within 14 days of the suspension.
+                        </li>
+                    </ol>
+                </li>
+                <li class="enumerate_item">The President or Vice President may immediately suspend any member of the
+                    Society for any reason the Librarian or Treasurer may, and also for reasons for the preserving the
+                    security or well-being of the Society or its members.
+
+                    <ol class="enumerate"><a id='magicparlabel-159' />
+                        <li class="enumerate_item">A member as such suspended shall remain suspended until the next
+                            Committee meeting. During which Committee will discuss the issue and resolve sanctions.
+                        </li>
+                        <li class="enumerate_item">A Committee meeting must be held within 14 days of the suspension.
+                        </li>
+                    </ol>
+                </li>
+                <li class="enumerate_item">The Committee has the ability to suspend any member if they believe it in the
+                    best interests of the Society. Such suspensions shall be reviewed at the next General Meeting of the
+                    Society. </li>
+                <li class="enumerate_item">While suspended the member shall be unable to exercise any right as a member
+                    including, but not limited to, Library usage and clubroom access. </li>
+                <li class="enumerate_item">The Committee, or General Meeting, may discontinue suspension and restore a
+                    member to normal standing, or impose other sanctions. (Such as expulsion (see <a
+                        href="#sec_Expulsion_of_members">Section 14</a>) or continued suspension for a fixed amount of
+                    time.) </li>
+                <li class="enumerate_item"><a id="enu_CM_suspend" />
+                    If for any reason a Committee member is suspended, a General Meeting must be held within two weeks
+                    to resolve the situation.
+
+                    <ol class="enumerate"><a id='magicparlabel-165' />
+                        <li class="enumerate_item"><a id="enu_CM_Suspend_No_Vote" />
+                            While suspended, a Committee member may not vote in Committee meetings. </li>
+                        <li class="enumerate_item">While one or more Executive Office Bearers are suspended, any
+                            decisions made by Committee shall be subject to review at the first Committee Meeting
+                            subsequent to this sitution being resolved. </li>
+                    </ol>
+                </li>
+            </ol>
+            <h2 class="section"><a id='magicparlabel-167' /><span class="section_label">14</span> Expulsion of members<a
+                    id="sec_Expulsion_of_members" />
+            </h2>
+
+            <ol class="enumerate"><a id='magicparlabel-168' />
+                <li class="enumerate_item">The General Meeting may, by two-thirds majority vote, expel any member or
+                    associate. </li>
+                <li class="enumerate_item">While expelled the former member or associate shall be unable to exercise any
+                    right as a member including, but not limited to, Library usage and clubroom access. </li>
+                <li class="enumerate_item"><a id="subsec_Expelled_no_membership" />
+                    Once expelled the former member or associate remains expelled and is barred from membership for all
+                    time. </li>
+                <li class="enumerate_item">Expulsion can be repealed by a two-thirds majority vote of a General Meeting
+                </li>
+            </ol>
+            <h2 class="section"><a id='magicparlabel-172' /><span class="section_label">15</span> Availability of
+                Constitution</h2>
+
+            <ol class="enumerate"><a id='magicparlabel-173' />
+                <li class="enumerate_item">The Committee shall make available, on member's request, copies of this
+                    Constitution. </li>
+            </ol>
+            <h2 class="section"><a id='magicparlabel-174' /><span class="section_label">16</span> Alteration of
+                Constitution</h2>
+
+            <ol class="enumerate"><a id='magicparlabel-175' />
+                <li class="enumerate_item">To amend this Constitution, the following steps must be taken:
+
+                    <ol class="enumerate"><a id='magicparlabel-176' />
+                        <li class="enumerate_item">Any two financial members of Unigames may not less than four days
+                            before the day appointed for the next General Meeting submit to the Secretary a notice of
+                            motion by them proposing an alteration to the Constitution. </li>
+                        <li class="enumerate_item">The motion may then be considered by Unigames at its next General
+                            Meeting and amendments which are relevant to the subject matter thereof may be moved without
+                            notice. </li>
+                        <li class="enumerate_item">The motion or any amendment thereto shall be deemed adopted if it
+                            receives a two-thirds majority of the General Meeting. </li>
+                        <li class="enumerate_item">The motion as adopted with any amendments shall come into force upon
+                            receiving the approval of Societies Council. </li>
+                    </ol>
+                </li>
+            </ol>
+            <h2 class="section"><a id='magicparlabel-180' /><span class="section_label">17</span> Library</h2>
+
+            <ol class="enumerate"><a id='magicparlabel-181' />
+                <li class="enumerate_item">The Library is Unigames' primary asset and as such:
+
+                    <ol class="enumerate"><a id='magicparlabel-182' />
+                        <li class="enumerate_item">Activities detrimental to the Library's contents or use are not
+                            permitted. </li>
+                        <li class="enumerate_item">It is one of the main duties of Unigames and the Committee to
+                            maintain the Library and expand it. </li>
+                        <li class="enumerate_item">A reasonable portion of Unigames' annual income should be expended on
+                            improving the library and attendant materials. </li>
+                        <li class="enumerate_item">The Library shall be available to all members, except as excluded by
+                            this Constitution and Unigames Regulations. </li>
+                    </ol>
+                </li>
+            </ol>
+            <h2 class="section"><a id='magicparlabel-186' /><span class="section_label">18</span> Dissolution<a
+                    id="sec_Dissolution" />
+            </h2>
+
+            <ol class="enumerate"><a id='magicparlabel-187' />
+                <li class="enumerate_item">In the event of Unigames' disaffiliation to the Societies Council
+                    <em>and</em> cessation of activity, resources of Unigames, including the Library, shall be given
+                    into the holding of the University Science Fiction and Fantasy Association (UniSFA).
+
+                    <ol class="enumerate"><a id='magicparlabel-188' />
+                        <li class="enumerate_item">This is given with the understanding that upon the formation of a
+                            club of similar spirit and objectives (see <a href="#sec_Objectives">Section 3</a>) to
+                            Unigames, as judged by the University Science Fiction and Fantasy Association (UniSFA),
+                            comes into being, that these resources shall be passed on to them. </li>
+                    </ol>
+                </li>
+                <li class="enumerate_item">In the event of the University Science Fiction and Fantasy Association
+                    (UniSFA), no longer existing at the time of Unigames' dissolution, resources of Unigames, including
+                    the Library, shall be given into the holding of the Societies Council of the Guild.
+
+                    <ol class="enumerate"><a id='magicparlabel-190' />
+                        <li class="enumerate_item">This is given with the understanding that upon the formation of a
+                            club of similar spirit and objectives (see <a href="#sec_Objectives">Section 3</a>) to
+                            Unigames, as judged by the Societies Council of the Guild, comes into being, that these
+                            resources shall be passed on to them. </li>
+                    </ol>
+                </li>
+            </ol>
+            <div class="standard"><a id='magicparlabel-191' /><br />
+            </div>
+
+            <div class="standard"><a id='magicparlabel-192' />
+                <hr />
+
+            </div>
+
+            <div class="standard"><a id='magicparlabel-193' />Prepared by Lyndon &ldquo;Frames&rdquo; White, with the
+                assistance of Hannah Gifford (SOC President 2011), and club members. Drawing on surviving fragments of
+                the original constitution.</div>
+
+            <div class="standard"><a id='magicparlabel-194' />
+                <div style='height:3ex'></div>
+            </div>
+
+            <div class="standard"><a id='magicparlabel-195' />Adopted by General Meeting on 12 April 2011</div>
+
+            <div class="standard"><a id='magicparlabel-196' />Revisions Adopted by General Meeting on 31 August 2012
+            </div>
+
+            <div class="standard"><a id='magicparlabel-197' />Revisions Adopted by General Meeting on 3 March 2015</div>
+
+            <div class="standard"><a id='magicparlabel-198' />Revisions Adopted by General Meeting on 14 August 2015
+            </div>
+
+            <div class="standard"><a id='magicparlabel-199' />Revisions Adopted by General Meeting on 11 August 2016
+            </div>
+
+            <div class="standard"><a id='magicparlabel-200' />Revisions Adopted by General Meeting on 3 March 2017</div>
+
+            <div class="standard"><a id='magicparlabel-201' />Revisions Adopted by General Meeting on 9 May 2017</div>
+
+            <div class="standard"><a id='magicparlabel-202' />Revisions Adopted by General Meeting on 2 August 2019
+            </div>
+
+            <div class="standard"><a id='magicparlabel-203' />Revisions Adopted by General Meeting on 10 September 2019
+            </div>
+
+            <div class="standard"><a id='magicparlabel-204' />As witnessed by: </div>
+
+            <dl class='description'><a id='magicparlabel-205' />
+                <dt class="description_label">President:</dt>
+                <dd class="description_item"> Alaura Evans </dd>
+                <dt class="description_label">Vice&nbsp;President:</dt>
+                <dd class="description_item"> Aoibhinn O'Shea </dd>
+                <dt class="description_label">Treasurer:</dt>
+                <dd class="description_item"> Taylor Home </dd>
+                <dt class="description_label">Secretary:</dt>
+                <dd class="description_item"> Donald Sutherland </dd>
+            </dl>
+
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
 {% endblock %}
