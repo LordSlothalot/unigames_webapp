@@ -2,7 +2,7 @@ import unittest, os, time
 from selenium import webdriver
 from selenium.webdriver.support.ui import Select
 from selenium.webdriver.common.keys import Keys
-basedir = os.path.abspath(os.path.dirname(__file__))
+
 
 # SystemTest class does testing on system level 
 # and checks workflow from users perspective in different scenarios
@@ -64,8 +64,8 @@ class Test(unittest.TestCase):
         time.sleep(1)
 
         #output
-        login_identifier = self.driver.find_element_by_id('Logged in successful').get_attribute('innerHTML')
-        self.assertEqual(login_identifier, 'You have been logged in!')
+        login_identifier = self.driver.find_element_by_tag_name('h3')
+        self.assertEqual(login_identifier, 'Unigames Library Management System')
 
         return True
 
@@ -105,13 +105,20 @@ class Test(unittest.TestCase):
         tag = self.driver.find_element_by_id('selection')
         submit = self.driver.find_element_by_id('submit')
 
-        title.send_keys('aaaaa')
-        description.send_keys('bbbbbbbb')
+        title.send_keys('aaa')
+        description.send_keys('bbb')
         #tag.
         submit.click()
         time.sleep(1)
 
         #check
+        search= self.driver.find_element_by_id('dataTable_filter')
+
+        search.send_keys('aaa')
+
+        search_identifier = self.driver.find_element_by_tag_id('dataTable_info')
+        self.assertEqual(search_identifier, 'Showing 1 to 1 of 1 entries')
+
 
         #Search for items
         library=self.driver.find_element_by_id('collapseLibrary')
@@ -123,11 +130,13 @@ class Test(unittest.TestCase):
         search = self.driver.find_element_by_name('tagSearchInput')
         submit = self.driver.find_element_by_type('submit')
 
-        search.send_keys('')
+        search.send_keys('book')
         submit.click()
         time.sleep(1)
 
         #check
+        result_identifier = self.driver.find_element_by_tag_name('h5')
+        self.assertEqual(result_identifier, 'Search results')
 
         #All items
         library=self.driver.find_element_by_id('collapseLibrary')
@@ -163,6 +172,25 @@ class Test(unittest.TestCase):
         time.sleep(1)
 
         #check
+        check_link = self.driver.find_element_by_link_text('new tag')
+        check_link.click()
+        time.sleep(1)
+
+        check_identifier = self.driver.find_element_by_tag_name('h3')
+        self.assertEqual(check_identifier, 'Tag Edit')
+
+        #delete
+        delete = self.driver.find_element_by_link_text('Delete tag')
+        delete.click()
+        time.sleep(1)
+
+        alert = self.driver.switchTo().alert()
+        alert.accept()
+        time.sleep(1)
+
+        check_identifier = self.driver.find_element_by_tag_name('h5')
+        self.assertEqual(check_identifier, 'Tag: new tag dropped')
+
 
 
         #All tags
@@ -176,6 +204,7 @@ class Test(unittest.TestCase):
         book_link = self.driver.find_element_by_link_text('book')
         book_link.click()
         time.sleep(1)
+
         # add all tags
         options = self.driver.find_element_by_id('select_parent')
         submit = self.driver.find_element_by_id('submit')
