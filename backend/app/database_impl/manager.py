@@ -205,10 +205,11 @@ class DatabaseManager:
             borrowing_item_relation = RelationOption("Borrowing", [TagReference(borrowed_out_tag)])
             borrowing_item_relation.write_to_db(self.mongo)
 
-        matthew_user = User.search_for_by_display_name(self.mongo, "Matthew")
-        if matthew_user is None:
-            matthew_user = User("Matthew", [self.admin_role.id], "default@test.com", generate_password_hash("password"), "Test", "LastTest")
-            matthew_user.write_to_db(self.mongo)
+        emptycheck = self.mongo.db.users.count()
+        default_user = User.search_for_by_display_name(self.mongo, "DefaultAdmin")
+        if emptycheck == 0:
+            default_user = User("DefaultAdmin", [self.admin_role.id], "default@test.com", generate_password_hash("password"), "Test", "LastTest")
+            default_user.write_to_db(self.mongo)
 
         # this code should never be needed normally, this is modeling a human performing this action, if you want to automate this properlly then properlly add a uuid attribute
         inst_0_id = [inst for inst in bob_book_item.instances if len([a for a in inst.attributes if isinstance(a, MultiLineStringAttribute) and len([line for line in a.value if line.find("uuid: 109358180") != -1]) != 0]) != 0][0].id
@@ -216,7 +217,7 @@ class DatabaseManager:
 
         matthew_bob_borrow_relation = Relation.search_for_by_instance_id(self.mongo, inst_1_id)
         if not matthew_bob_borrow_relation:
-            matthew_bob_borrow_relation = Relation.new_instance(matthew_user.id, borrowing_item_relation.id, inst_1_id)
+            matthew_bob_borrow_relation = Relation.new_instance(default_user.id, borrowing_item_relation.id, inst_1_id)
             matthew_bob_borrow_relation.write_to_db(self.mongo)
         else:
             matthew_bob_borrow_relation = matthew_bob_borrow_relation[0]
