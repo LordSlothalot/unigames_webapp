@@ -8,11 +8,6 @@ from wtforms.fields.html5 import EmailField
 
 #get all tags from the db
 all_tags1 = db_manager.mongo.db.tags.find()
-all_tags2 = db_manager.mongo.db.tags.find()
-all_tags3 = db_manager.mongo.db.tags.find()
-all_tags4 = db_manager.mongo.db.tags.find()
-all_tags5 = db_manager.mongo.db.tags.find()
-all_tags6 = db_manager.mongo.db.tags.find()
 all_roles = db_manager.mongo.db.roles.find()
 #get all tag parameters
 #all_tag_params = db_manager.mongo.db.
@@ -86,13 +81,6 @@ class addTagForm(FlaskForm):
     selection = SelectField('Add a tag')
     submit = SubmitField('Save')
 
-#add an instance form
-class addInstanceForm(FlaskForm):
-    uuid = StringField('UUID')
-    damage_report = TextField('Damage report')
-    selection = SelectField('Add a tag', choices=[(tag['name'], tag['name']) for tag in all_tags3])
-    submit = SubmitField('Save')
-
 #create a tag form
 class createTagForm(FlaskForm):
     name = StringField('New tag', [validators.DataRequired()])
@@ -137,12 +125,3 @@ class addRuleForm(FlaskForm):
     parent = SelectField('Parent tag')
     child = SelectField('Child tag')
     submit = SubmitField('Save implication')
-
-#search bar
-class searchForm(FlaskForm):
-    searchInput = StringField('Look for: ')
-    submit = SubmitField('Search')
-
-class createTagForm(FlaskForm):
-    name = StringField('Name')
-    submit = SubmitField('Save')
