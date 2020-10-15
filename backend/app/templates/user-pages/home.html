@@ -16,7 +16,8 @@
         background-image: url("/static/img/main-background.png");
         background-repeat: repeat;
     }
-    a{
+
+    a {
         color: darkslategray;
     }
 </style>
@@ -24,7 +25,6 @@
 {% endblock %}
 
 {% block body %}
-
 <div class="jumbotron jumbotron-fluid shadow-lg">
     <div class="container">
         <h1 class="display-3">Welcome to Unigames!</h1>
@@ -41,27 +41,28 @@
 <main role="main" class="container">
     <div class="row">
         <div class="col-md-12 padded-right-container mb-4" style="border-radius: 1rem">
-            <div class="card bg-light text-black shadow"style="border-radius: 1rem">
+            <div class="card bg-light text-black shadow" style="border-radius: 1rem">
                 <div class="card-body border-bottom-warning" style="border-radius: 1rem">
                     <h5>
                         Announcements
                     </h5>
-                   
-                  <div class="text-gray-900"><b>
-                    One of the benefits of Unigames membership is a 10% discount on all materials at Tactics, Perth's
-                    premier
-                    gaming supply store. Just show your membership card when you go to pay for things.
-                  </b>
 
-                  </div>
+                    <div class="text-gray-900"><b>
+                            One of the benefits of Unigames membership is a 10% discount on all materials at Tactics,
+                            Perth's
+                            premier
+                            gaming supply store. Just show your membership card when you go to pay for things.
+                        </b>
+
+                    </div>
                 </div>
-              </div>
+            </div>
 
         </div>
     </div>
     <div class="row">
-        <div class="col-md-6" >
-            <div class="card flex-md-row mb-4 shadow h-md-250  border-bottom-primary"style="border-radius: 1rem">
+        <div class="col-md-6">
+            <div class="card flex-md-row mb-4 shadow h-md-250  border-bottom-primary" style="border-radius: 1rem">
                 <div class="card-body d-flex flex-column align-items-start" style="border-radius: 1rem">
                     <strong class="d-inline-block mb-2 text-primary">Play</strong>
                     <h3 class="mb-0">
@@ -82,8 +83,8 @@
             </div>
         </div>
         <div class="col-md-6">
-            <div class="card flex-md-row mb-4 shadow h-md-250  border-bottom-primary "style="border-radius: 1rem">
-                <div class="card-body d-flex flex-column align-items-start"style="border-radius: 1rem">
+            <div class="card flex-md-row mb-4 shadow h-md-250  border-bottom-primary " style="border-radius: 1rem">
+                <div class="card-body d-flex flex-column align-items-start" style="border-radius: 1rem">
                     <strong class="d-inline-block mb-2 text-success">Join</strong>
                     <h3 class="mb-0">
                         <a class="text-dark" href="#">Become a member</a>
@@ -106,7 +107,7 @@
         <!-- Recently added items table -->
         <div class="col-md-12">
             <div class="card shadow-sm mb-4 border-bottom-success" style="border-radius: 1rem">
-                <div class="card-header py-3 "style="border-top-left-radius: 1rem; border-top-right-radius: 1rem">
+                <div class="card-header py-3 " style="border-top-left-radius: 1rem; border-top-right-radius: 1rem">
                     <h6 class="m-0 font-weight-bold text-gray-900">Newly Added Library Items</h6>
                 </div>
                 <div class="card-body" style="border-radius: 1rem">
@@ -117,7 +118,7 @@
                                 <th>Tags</th>
                                 <th>Implied Tags</th>
                                 <th>Details</th>
-    
+
                             </tr>
                         </thead>
                         <tbody>
@@ -127,7 +128,7 @@
                                     <a
                                         href="{{ url_for('edit_item', item_id = item['_id']) }}">{{ Item.from_dict(item).get_attributes_by_option(name_attrib_option)[0].value }}</a>
                                 </td>
-    
+
                                 <td>
                                     {% for tag in item['tags'] %}
                                     {% for found_tag in tags_collection.find( {"_id": tag} ) %}
@@ -135,7 +136,7 @@
                                     {% endfor %}
                                     {% endfor %}
                                 </td>
-    
+
                                 <td>
                                     {% for tag in item['implied_tags'] %}
                                     {% for found_tag in tags_collection.find( {"_id": tag} ) %}
@@ -143,12 +144,12 @@
                                     {% endfor %}
                                     {% endfor %}
                                 </td>
-    
+
                                 <td><a href="{{ url_for('edit_item', item_id = item['_id']) }}">Click for detail >></a>
                                 </td>
                             </tr>
                             {% endfor %}
-    
+
                         </tbody>
                     </table>
                     <small class="d-block text-right mt-3">
