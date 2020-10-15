@@ -82,6 +82,13 @@ class Item:
         return result
 
     def remove_tag(self, tag: TagReference):
+        """
+        Removes a tag from an item
+
+        Returns
+        -------
+            True if the tag has been removed from the item
+        """
         if tag in self.tags:
             self.tags.remove(tag)
             return True
@@ -112,6 +119,17 @@ class Item:
         return cls
 
     def write_to_db(self, mongo: PyMongo):
+        """
+        Writes the item to the database if it's `id` doesn't exist, 
+        otherwise it will overwrite the item with the same `id`
+
+        Attributes
+        ----------
+            self
+                the item to be updated
+            mongo
+                the database
+        """
         if self.id is None:
             self.id = mongo.db.items.insert_one(self.to_dict()).inserted_id
         else:
@@ -119,6 +137,22 @@ class Item:
 
     # Returns True if the update worked, else False, usually meaning it's no longer there
     def update_from_db(self, mongo: PyMongo) -> bool:
+        """
+        Updates an item in the database
+
+        Attributes
+        ----------
+            self
+                the item to be updated
+            mongo
+                the database
+
+        Returns
+        -------
+            False if the item's id is None
+            False if the item does not exist in the database
+            True if the item was updated
+        """
         if self.id is None:
             return False
 
@@ -137,10 +171,25 @@ class Item:
 
         return True
 
-    # if 'instances' is true, then also recalculate the implied of all the instances
-    # if 'inherit' is true, then if a tag is on all instance of an object it will be implied on the item
-    # returns true if successful, false otherwise
     def recalculate_implied_tags(self, mongo: PyMongo, instances: bool = False, inherit: bool = True):
+        """
+        Recalculates the implied tags
+
+        Attributes
+        ----------
+            self
+                the item to be updated
+            mongo
+                the database
+            instances
+                if true, then also recalculate the implied of all the instances
+            inherit
+                if true and a tag is on all instances of an object it will be implied on the item
+
+        Returns
+        -------
+            True if successfull, False otherwise
+        """
         if instances:
             self.recalculate_instance_implied_tags(mongo, None)
         else:
@@ -234,12 +283,37 @@ class Item:
             return True
 
     def delete_from_db(self, mongo: PyMongo) -> bool:
+        """
+        Removes an item from the database
+
+        Attributes
+        ----------
+            self
+                the item to be deleted
+            mongo
+                the database
+
+        Returns
+        -------
+            False if the item does not exist, or has not been deleted
+            True if the the item has been deleted
+        """
         if self.id is None:
             return False
 
         return mongo.db.items.delete_one({"_id": self.id}).deleted_count == 1
     
     def hide(self, mongo: PyMongo) -> bool:
+        """
+        A function to toggle between an item being hidden and visible in the user library
+
+        Attributes
+        ----------
+            self
+                the item to be hidden or made visible
+            mongo
+                the database
+        """
         if self.hidden is True:
             self.hidden = False
         else:
@@ -248,6 +322,20 @@ class Item:
 
     @staticmethod
     def search_for_by_tag(mongo: PyMongo, tag_ref: Union[Tag, TagReference]) -> List['Item']:
+        """
+        Finds all items with a specific tag
+
+        Attributes
+        ----------
+            mongo
+                the database
+            tag_ref
+                the tag to be searched by
+
+        Returns
+        -------
+            A list of all items with the specified tag
+        """
         if isinstance(tag_ref, Tag):
             tag_ref = TagReference(tag_ref)
 
@@ -260,6 +348,20 @@ class Item:
 
     @staticmethod
     def search_for_by_attribute(mongo: PyMongo, attrib_option: AttributeOption, value) -> List['Item']:
+        """
+        Finds all items with a specific attribute
+
+        Attributes
+        ----------
+            mongo
+                the database
+            attrib_option
+                the attribute to be searched by
+
+        Returns
+        -------
+            A list of all items with the specified attibute
+        """
         result = mongo.db.items.find({"attributes": {"$elemMatch": { "option_id": attrib_option.id, "value": value }}})
 
         if result is None:
