@@ -30,9 +30,12 @@ from app.tables import UserTable
 from app.database_impl.users import User
 from app.database_impl.roles import Role
 
+from flask_paginate import Pagination, get_page_parameter, get_page_args
 tags_collection = db_manager.mongo.db.tags
 attrib_collection = db_manager.mongo.db.attrib_options
 mongo = db_manager.mongo
+
+
 
 
 # -------------------------------------------
@@ -94,7 +97,7 @@ def changepw():
                                       }
                                       })
         flash("Password updated successfully!")
-        return redirect(url_for('index'))
+        return redirect(url_for('home'))
     return render_template('user-pages/changepw.html', form=form)
 
 
@@ -112,7 +115,7 @@ def register():
         if find_by_email is None and find_by_name is None:
             User.register(db_manager.mongo, display_name, email, password, first_name, last_name)
             flash(f'Account created for {form.email.data}!', 'success')
-            return redirect(url_for('index'))
+            return redirect(url_for('home'))
         else:
             if find_by_name is None: 
                 flash(f'Account already exists for {form.email.data}!', 'success')
@@ -487,6 +490,9 @@ def testing():
 
 #### Following pages for Tag and Implication Management ####
 
+
+
+
 # Page for creating a tag
 @app.route('/admin/lib-man/tag-man/create-a-tag', methods=['POST','GET'])
 @login_required(perm="can_edit_items")
@@ -511,11 +517,21 @@ def create_tag():
 def all_impl():
     return render_template('admin-pages/lib-man/tag-man/all-impl.html',  tags_collection=tags_collection)
 
+
+def get_tags(tags, offset=0, per_page=10):
+    return tags[offset: offset + per_page]
+
 # Page for showing all tags
 @app.route('/admin/lib-man/tag-man/all-tags')
 @login_required(perm="can_view_hidden")
 def all_tags():
-    return render_template('admin-pages/lib-man/tag-man/all-tags.html', tags_collection=tags_collection)
+    tags = tags_collection.find()
+    page, per_page, offset = get_page_args(page_parameter='page', per_page_parameter='per_page')
+    total = tags_collection.count()
+    page = request.args.get(get_page_parameter(), type=int, default=1)
+    pagination_tags = get_tags(tags, offset=offset, per_page=per_page)
+    pagination = Pagination(page=page, per_page=per_page, total=total, css_framework='bootstrap4')
+    return render_template('admin-pages/lib-man/tag-man/all-tags.html', tags=tags, pagination=pagination)
 
 # Page for tag search
 @app.route('/admin/lib-man/tag-man/search-item', methods=['GET', 'POST'])
