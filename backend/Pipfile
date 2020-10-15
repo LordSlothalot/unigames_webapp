@@ -25,7 +25,6 @@ flask-security = "*"
 flask-table = "*"
 selenium = "*"
 pdoc3 = "*"
-sphinx = "*"
 
 [requires]
 python_version = "3.6"
