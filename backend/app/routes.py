@@ -18,7 +18,7 @@ from app.database_impl.tags import Tag, TagReference
 from bson.objectid import ObjectId
 from app.forms import newEntryForm, addTagForm, addInstanceForm, createTagForm, addTagImplForm, \
     updateAttribForm, LoginForm, RegistrationForm, UpdateForm, addRuleForm, searchForm, createTagForm, \
-    addTagParentImplForm, addTagSiblingImplForm, UpdateRoleForm, CreateUserForm
+    addTagParentImplForm, addTagSiblingImplForm, UpdateRoleForm, CreateUserForm, UpdatePasswordForm
 
 from app.search_parser import search_string_to_mongodb_query, SearchStringParseError
 from flask_pymongo import PyMongo
@@ -135,7 +135,11 @@ def login():
             loguser = User.from_dict(find_user)
             login_user(loguser, remember=form.remember_me.data)
             flash('You have been logged in!', 'success')
-            return redirect(url_for('admin'))
+            if loguser.temp:
+                flash('You have a temporary password, please update it.')
+                return redirect(url_for('changepw'))
+            else:
+                return redirect(url_for('admin'))
         else:
             flash('Login Unsuccessful. Please check email and password', 'danger')
             return redirect(url_for('login'))
@@ -147,6 +151,23 @@ def logout():
     logout_user()
     flash('You have been logged out')
     return redirect(url_for('login'))
+
+@app.route('/changepw', methods=['GET', 'POST'])
+@login_required
+def changepw():
+    form = UpdatePasswordForm()
+    if form.validate_on_submit():
+        id = current_user.id
+        password = generate_password_hash(form.password.data)
+        mongo.db.users.update_one({'_id': ObjectId(id)},
+                                      {"$set": {
+                                            'password': password,
+                                            'temp': False
+                                      }
+                                      })
+        flash("Password updated successfully!")
+        return redirect(url_for('index'))
+    return render_template('user-pages/changepw.html', form=form)
 
 
 @app.route("/register", methods=['GET', 'POST'])
