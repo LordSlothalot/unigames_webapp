@@ -116,7 +116,7 @@ class addTagImplForm(FlaskForm):
 
 #update attribute for an item form
 class updateAttribForm(FlaskForm):
-    attrib_value = StringField('New attribute value')
+    attrib_value = TextAreaField('New attribute value')
     submit = SubmitField('Update')
 
 

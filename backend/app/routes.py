@@ -157,7 +157,7 @@ def item_detail(item_id):
         image_url = url_for('static', filename='img/logo.png')  # TODO supply 'no-image' image?
 
     return render_template('user-pages/item-detail.html', image_url=image_url, item=item, tags_collection=tags_collection, 
-                                name_attribute=db_manager.name_attrib)
+                                name_attribute=db_manager.name_attrib, description_attribute = db_manager.description_attrib)
 
 
 @app.route('/events')
@@ -634,8 +634,9 @@ def create_item():
             tag_name = form.selection.data
             found_tag = Tag.search_for_by_name(db_manager.mongo, tag_name)
             add_tag = TagReference(found_tag.id)
+            description = form.description.data.split('\r\n')
             new_item = Item([SingleLineStringAttribute(db_manager.name_attrib, form.title.data),
-                             MultiLineStringAttribute(db_manager.description_attrib, form.description.data)],
+                             MultiLineStringAttribute(db_manager.description_attrib, description)],
                             [add_tag], [])
             new_item.write_to_db(db_manager.mongo)
             new_item.recalculate_implied_tags(db_manager.mongo)
@@ -719,11 +720,17 @@ def item_update_attrib(item_id, attrib_option_id):
                 return redirect(url_for('item_update_attrib', item_id=item_id, attrib_option_id=attrib_option_id))
         if not item.get_attributes_by_option(ObjectId(attrib_option_id)):
             return page_not_found(404)
-        item.get_attributes_by_option(ObjectId(attrib_option_id))[0].value = form.attrib_value.data
-        item.write_to_db(db_manager.mongo)
 
-        flash('Item updated')
-        return redirect(url_for('edit_item', item_id=item_id))
+        attribute = item.get_attributes_by_option(ObjectId(attrib_option_id))[0]
+        if attribute:
+            listOfString = form.attrib_value.data.split('\r\n')
+            attribute.value = listOfString
+            print(listOfString)
+            item.write_to_db(db_manager.mongo)
+            flash('Item updated')
+            return redirect(url_for('edit_item', item_id=item_id))
+        else:
+            return page_not_found(404)
     return render_template('admin-pages/lib-man/item-add-attrib.html', form=form, attrib_name=attribute_option.attribute_name)
 
 

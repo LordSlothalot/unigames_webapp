@@ -62,14 +62,13 @@
                 <div class="container">
 
                     <img class="img-thumbnail mx-auto d-block" src="{{ image_url }}" alt="Generic placeholder image">
-
-                    <form action= "{{ url_for('lib_item_image_edit', item_id=item.id) }}" method="post" enctype="multipart/form-data">
-                        <label for="image_file">Upload picture</label>
+                    <p class="text-center">Upload Picture</p>
+                    <form class="text-center" action= "{{ url_for('lib_item_image_edit', item_id=item.id) }}" method="post" enctype="multipart/form-data">
                         <input type="file" name="file" required="required">
                         <input type="submit" value="Upload">
                     </form>
-
-                    <form action= "{{ url_for('lib_item_image_remove', item_id=item.id) }}" method="post" enctype="multipart/form-data"
+                    <br>
+                    <form class="text-center" action= "{{ url_for('lib_item_image_remove', item_id=item.id) }}" method="post" enctype="multipart/form-data"
                             onsubmit="return confirm('Are you sure you want to remove the image?\nThis can not be undone.');">
                         <input type="submit" value="Remove Image">
                     </form>
@@ -89,7 +88,14 @@
                         <div class="col-sm-10">
 
                                 <h5 class="text-uppercase"> {{ attribute.attribute_name }}</h5>
-                                <p> {{ item.get_attributes_by_option(attribute)[0].value }}</p>
+                                {% if attribute.attribute_name == "description" %}
+                                {% for value in item.get_attributes_by_option(attribute)[0].value %}
+                                <p>{{ value }}</p>
+                                {% endfor %}
+                                {% else %}
+                                <p>{{ item.get_attributes_by_option(attribute)[0].value }}</p>
+                                {% endif %}
+                                
                         </div>
                         <div class="col-sm-2">
                             <form action="{{ url_for('item_update_attrib', item_id=item.id, attrib_option_id=attribute.id) }}">
