@@ -13,6 +13,7 @@ all_tags3 = db_manager.mongo.db.tags.find()
 all_tags4 = db_manager.mongo.db.tags.find()
 all_tags5 = db_manager.mongo.db.tags.find()
 all_tags6 = db_manager.mongo.db.tags.find()
+all_roles = db_manager.mongo.db.roles.find()
 #get all tag parameters
 #all_tag_params = db_manager.mongo.db.
 #get all attributes
@@ -27,9 +28,16 @@ class LoginForm(FlaskForm):
 
 
 class RegistrationForm(FlaskForm):
-    first_name = TextField('First Name', validators = [DataRequired()])
-    last_name = TextField('Last Name', validators = [DataRequired()])
+    display_name = TextField('Display Name', validators = [DataRequired()])
+    first_name = TextField('First Name')
+    last_name = TextField('Last Name')
     email = EmailField('Email', validators = [DataRequired(), Email()])
+    password = PasswordField("Password", validators = [DataRequired()])
+    password2 = PasswordField("Repeat Password", validators=[DataRequired(), EqualTo("password")])
+    submit = SubmitField('Register')
+    
+    
+class UpdatePasswordForm(FlaskForm):
     password = PasswordField("Password", validators = [DataRequired()])
     password2 = PasswordField("Repeat Password", validators=[DataRequired(), EqualTo("password")])
     submit = SubmitField('Register')
@@ -38,10 +46,30 @@ class RegistrationForm(FlaskForm):
     #     User.objects()
 	
 class UpdateForm(FlaskForm):
-    first_name = TextField('First Name', validators = [DataRequired()])
-    last_name = TextField('Last Name', validators = [DataRequired()])
+    display_name = TextField('Display Name', validators = [DataRequired()]) 
+    first_name = TextField('First Name')
+    last_name = TextField('Last Name')
     email = EmailField('Email', validators = [DataRequired(), Email()])
-    role = TextField('Role', validators = [DataRequired()])
+    role = SelectField('Role', choices=[(role['name'], role['name']) for role in all_roles])
+    submit = SubmitField('Update')
+    delete = SubmitField('Delete')
+    
+class CreateUserForm(FlaskForm):
+    display_name = TextField('Display Name', validators = [DataRequired()])
+    first_name = TextField('First Name')
+    last_name = TextField('Last Name')
+    email = EmailField('Email', validators = [DataRequired(), Email()])
+    password = PasswordField("Password", validators = [DataRequired()])
+    password2 = PasswordField("Repeat Password", validators=[DataRequired(), EqualTo("password")])
+    role = SelectField('Role', choices=[(role['name'], role['name']) for role in all_roles])
+    submit = SubmitField('Register')
+    
+class UpdateRoleForm(FlaskForm):
+    name = TextField('Name', validators = [DataRequired()]) 
+    priority = TextField('Priority', validators = [DataRequired()])
+    can_view_hidden = BooleanField('Can View Hidden')
+    can_edit_items = BooleanField('Can Edit Items')
+    can_edit_users = BooleanField('Can Edit Users')
     submit = SubmitField('Update')
     delete = SubmitField('Delete')
     

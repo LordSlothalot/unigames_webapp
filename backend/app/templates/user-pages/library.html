@@ -1,7 +1,7 @@
 {% extends "layout.html" %}
 
 
-{% block title%} 
+{% block title%}
 Library
 {% endblock %}
 
@@ -77,44 +77,26 @@ Library
         <div class="col-sm-8">
             <div class="lib-right rounded shadow-sm">
                 <ul class="list-unstyled">
+                    {% for item in items %}
                     <li class="media">
-                        <img class="mr-3 img-thumbnail" style="width: 90px;"
-                            src= {{ stars_pic }} alt="Generic placeholder image">
+                        <img class="mr-3 img-thumbnail" style="width: 90px;" src="{{ item_images[item.id] }}"
+                            alt="Placeholder image">
                         <div class="media-body">
-                            <h5 class="mt-0 mb-1">Stars Without Number</h5>
-                            Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante
-                            sollicitudin.
-                            Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum
-                            nunc
-                            ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.
+                            <h5 class="mt-0 mb-1">{{ item_names[item.id] }}</h5>
+                            {% for tag in item['tags'] %}
+                            {% for found_tag in tags_collection.find( {"_id": tag.tag_id} ) %}
+                            <span class="badge badge-pill badge-info ">{{ found_tag['name'] }}</span>
+                            {% endfor %}
+                            {% endfor %}
+                            {% for tag in item['implied_tags'] %}
+                            {% for found_tag in tags_collection.find( {"_id": tag.tag_id} ) %}
+                            <span class="badge badge-pill badge-info ">{{ found_tag['name'] }}</span>
+                            {% endfor %}
+                            {% endfor %}
                         </div>
                     </li>
                     <hr>
-                    <li class="media my-4">
-                        <img class="mr-3 img-thumbnail" style="width: 90px;"
-                            src={{ dungeons_pic }} alt="Generic placeholder image">
-                        <div class="media-body">
-                            <h5 class="mt-0 mb-1">Dungeons and Dragons</h5>
-                            Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante
-                            sollicitudin.
-                            Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum
-                            nunc
-                            ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.
-                        </div>
-                    </li>
-                    <hr>
-                    <li class="media">
-                        <img class="mr-3 img-thumbnail" style="width: 90px;"
-                            src= {{ pulp_pic }} alt="Generic placeholder image">
-                        <div class="media-body">
-                            <h5 class="mt-0 mb-1">Pulp Cthulhu</h5>
-                            Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante
-                            sollicitudin.
-                            Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum
-                            nunc
-                            ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.
-                        </div>
-                    </li>
+                    {% endfor %}
                 </ul>
             </div>
 

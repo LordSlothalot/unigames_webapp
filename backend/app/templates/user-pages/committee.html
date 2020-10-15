@@ -1,26 +1,52 @@
-{% extends "layout.html" %}
-{%block head %}
-{{ super() }}
+{% extends "final-public-layout.html" %}
+
+{% block title%}
+Constitution
 {% endblock %}
 
-{% block title%} 
-Committee
+{% block head %}
+<style>
+    h1.title {
+        font-size: x-large;
+        margin-bottom: 1ex;
+        text-align: center;
+    }
+
+    h2.section {
+        font-weight: bold;
+        font-size: x-large;
+        margin-top: 1.3ex;
+        margin-bottom: 0.7ex;
+        text-align: left;
+
+    }
+
+    ol.enumerate {
+        margin-top: 0.7ex;
+        margin-bottom: 0.7ex;
+        margin-left: 3ex;
+        text-align: left;
+
+    }
+
+    div.standard {
+        margin-bottom: 2ex;
+    }
+
+    dl.description dt {
+        font-weight: bold;
+    }
+</style>
 {% endblock %}
 
-{% block navbar %}
-{{ super() }}
-{% endblock %}
-{% block body %}
-<div class="commity-body" style="text-align:center;">
-    <h1>The Unigames Committee</h1>
-    <br>
-    <h2>Committee 2020</h2>
-    <br>
-    <p>
-        <b>President</b>
-        <br>
-        Alistair Langton
-    </p>
+
+
+
+{% block body%}
+<div class="container">
+    <div class="card border-0 shadow my-5">
+        <div class="card-body p-5">
+
     <p>
         <b>Vice President</b>
         <br>
@@ -63,14 +89,9 @@ Committee
         <br>
         Alaura Evans
     </p>
-    <p>
-        <b>Contact us:</b> Email to <a href="uwaunigames@gmail.com" onclick="return false">uwaunigames@gmail.com</a>  or  <a href="unigames-owner@ucc.gu.uwa.edu.au" onclick="return false">unigames-owner@ucc.gu.uwa.edu.au</a>
-    </p>
-</div>
-<!--footer-->
-<div style="text-align:center;">
-    <p>
-        © Unigames
-    </p>
+
+    </div>
+    </div>
+
 </div>
 {% endblock %}

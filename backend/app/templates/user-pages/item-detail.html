@@ -1,0 +1,90 @@
+{% extends "final-public-layout.html" %}
+
+
+
+
+{% block body %}
+
+<br>
+<br>
+
+
+
+<div class="container-fluid">
+
+    <div class="pb-3 text-center">
+        <br>
+        <h3>Item Detail</h3>
+        <p class="mb-4">Detail information of an unigames item.</p>
+    </div>
+    <div class="row featurette">
+        <div class="col-md-7 order-md-2">
+            <div class="card flex-md-row mb-4 mr-4 shadow h-md-250  border-bottom-primary" style="border-radius: 1rem">
+                <div class="card-body d-flex flex-column align-items-start" style="border-radius: 1rem">
+                    <strong class="d-inline-block mb-1 text-primary">Item</strong>
+                    <h3 class="mb-3">
+                        <a class="text-dark" href="#">{{ item.get_attributes_by_option(name_attribute)[0].value }}</a>
+                    </h3>
+                    <strong class="d-inline-block mb-1 text-primary">Description</strong>
+                <div class="container">
+                    <h3 class="mb-3">
+                        (Still working on multi-line description)
+                    </h3>
+
+                </div>
+
+                </div>
+            </div>
+
+            <div class="card flex-md-row mb-4 mr-4 shadow h-md-250  border-bottom-success" style="border-radius: 1rem">
+                <div class="card-body d-flex flex-column align-items-start" style="border-radius: 1rem">
+                    <strong class="d-inline-block mb-2 text-success">Tags</strong>
+                    <div class="row mb-3">
+                        <div class="col-sm text-center">
+                            {% for tag in item['tags'] %}
+                            {% for found_tag in tags_collection.find( {"_id": tag['tag_id']} ) %}
+
+                            <form action="#" style="display:inline">
+                                <button type="button m-2" style="margin-bottom: 7px; margin-right: 5px;"
+                                    class="btn btn-outline-dark shadow-sm"> {{ found_tag['name'] }}</button>
+                            </form>
+
+                            {% endfor %}
+                            {% endfor %}
+                        </div>
+                    </div>
+                    <strong class="d-inline-block mb-2 text-success">Related tags</strong>
+                    <div class="row">
+                        <div class="col-sm text-center">
+                            {% for tag in item['implied_tags'] %}
+                            {% for found_tag in tags_collection.find( {"_id": tag['tag_id']} ) %}
+
+                            <form action="#" style="display:inline">
+                                <button type="button m-2" style="margin-bottom: 7px; margin-right: 5px;"
+                                    class="btn btn-outline-dark shadow-sm"> {{ found_tag['name'] }}</button>
+                            </form>
+
+                            {% endfor %}
+                            {% endfor %}
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <a href="{{ url_for('library')}}" class="btn btn-warning float-right mt-4 mr-5 text-gray-900">
+                Return to library
+            </a>
+
+
+        </div>
+        <div class="col-md-5 order-md-1">
+            <img class="featurette-image img-fluid mx-auto img-thumbnail shadow-sm rounded mx-auto d-block"
+                data-src="holder.js/500x500/auto" alt="500x500" src="{{ image_url }}" data-holder-rendered="true"
+                style="width: 400px; height: 550px;">
+        </div>
+    </div>
+
+</div>
+
+
+{% endblock %}
