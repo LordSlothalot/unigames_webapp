@@ -42,6 +42,12 @@ mongo = db_manager.mongo
 @app.route('/')
 @app.route('/home')
 def home():
+    """
+    Home route endpoint
+
+    Returns:
+        Renders the home.html user page template
+    """
     recent_items = []
     for item in db_manager.mongo.db.items.find():
         recent_items.append(item)

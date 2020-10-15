@@ -10,12 +10,39 @@ from app.database_impl.tags import Tag, TagReference
 
 
 class Item:
+    """
+    A class to represent an item in the library
+    """
+
     id: ObjectId = None
+    """
+    The item's unique id
+    """
+
     hidden: bool = False
+    """
+    Determines if the item is hidden from the user library page
+    """
+
     attributes: List[Attribute]
+    """
+    A list of the item's attributes
+    """
+
     tags: List[TagReference] = []
+    """
+    A list of the item's tags
+    """
+
     implied_tags: List[TagReference] = []
+    """
+    A list of the item's implied tags
+    """
+
     instances: List['Instance'] = []
+    """
+
+    """
 
     @staticmethod
     def init_indices(mongo: PyMongo):

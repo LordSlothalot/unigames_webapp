@@ -97,8 +97,8 @@ class createTagForm(FlaskForm):
 class addTagParamForm(FlaskForm):
     paramType = SelectField('Tag parameter type', choices=[('integer', 'integer'), ('real number', 'real number'),('range(integer)', 'range(integer)'), ('range(real)', 'range(real)'), ('enumerated', 'enumerated'), ('string', 'string')])
     #These two need to be conditional
-    min_value = StringField('Min value', [validators.regexp('^-?[0-9]\d*(\.\d+)?$')])
-    max_value = StringField('Max value', [validators.regexp('^-?[0-9]\d*(\.\d+)?$')])
+    min_value = StringField('Min value', [validators.regexp(r'^-?[0-9]\d*(\.\d+)?$')])
+    max_value = StringField('Max value', [validators.regexp(r'^-?[0-9]\d*(\.\d+)?$')])
     #also conditional
     enumerate_values1 = StringField('Enumerate values')
     enumerate_values2 = StringField('Enumerate values')
