@@ -26,7 +26,6 @@ flask-table = "*"
 selenium = "*"
 pdoc3 = "*"
 sphinx = "*"
-jinja = "*"
 
 [requires]
 python_version = "3.6"
