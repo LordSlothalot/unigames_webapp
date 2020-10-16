@@ -624,6 +624,7 @@ def all_items():
 @login_required(perm="can_edit_items")
 def create_item():
     form = newEntryForm()
+    form.selection.choices=[(tag['name'], tag['name']) for tag in db_manager.mongo.db.tags.find()]
     all_tags = db_manager.mongo.db.tags.find()
     if form.validate_on_submit():
         # search for an item with the same title
@@ -631,13 +632,14 @@ def create_item():
         item_exists = Item.search_for_by_attribute(db_manager.mongo, db_manager.name_attrib, form.title.data)
         if not item_exists:
             # find the matching tag
-            tag_name = form.selection.data
-            found_tag = Tag.search_for_by_name(db_manager.mongo, tag_name)
-            add_tag = TagReference(found_tag.id)
+            tags = []
+            for tag in form.selection.data:
+                found_tag = Tag.search_for_by_name(db_manager.mongo, tag)
+                tags.append(TagReference(found_tag.id))
             description = form.description.data.split('\r\n')
             new_item = Item([SingleLineStringAttribute(db_manager.name_attrib, form.title.data),
                              MultiLineStringAttribute(db_manager.description_attrib, description)],
-                            [add_tag], [])
+                            tags, [])
             new_item.write_to_db(db_manager.mongo)
             new_item.recalculate_implied_tags(db_manager.mongo)
             return redirect(url_for('all_items'))
