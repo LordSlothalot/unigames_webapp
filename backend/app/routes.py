@@ -30,9 +30,12 @@ from app.tables import UserTable
 from app.database_impl.users import User
 from app.database_impl.roles import Role
 
+from flask_paginate import Pagination, get_page_parameter, get_page_args
 tags_collection = db_manager.mongo.db.tags
 attrib_collection = db_manager.mongo.db.attrib_options
 mongo = db_manager.mongo
+
+
 
 
 # -------------------------------------------
@@ -154,7 +157,7 @@ def item_detail(item_id):
         image_url = url_for('static', filename='img/logo.png')  # TODO supply 'no-image' image?
 
     return render_template('user-pages/item-detail.html', image_url=image_url, item=item, tags_collection=tags_collection, 
-                                name_attribute=db_manager.name_attrib)
+                                name_attribute=db_manager.name_attrib, description_attribute = db_manager.description_attrib)
 
 
 @app.route('/events')
@@ -487,6 +490,9 @@ def testing():
 
 #### Following pages for Tag and Implication Management ####
 
+
+
+
 # Page for creating a tag
 @app.route('/admin/lib-man/tag-man/create-a-tag', methods=['POST','GET'])
 @login_required(perm="can_edit_items")
@@ -511,11 +517,21 @@ def create_tag():
 def all_impl():
     return render_template('admin-pages/lib-man/tag-man/all-impl.html',  tags_collection=tags_collection)
 
+
+def get_tags(tags, offset=0, per_page=10):
+    return tags[offset: offset + per_page]
+
 # Page for showing all tags
 @app.route('/admin/lib-man/tag-man/all-tags')
 @login_required(perm="can_view_hidden")
 def all_tags():
-    return render_template('admin-pages/lib-man/tag-man/all-tags.html', tags_collection=tags_collection)
+    tags = tags_collection.find()
+    page, per_page, offset = get_page_args(page_parameter='page', per_page_parameter='per_page')
+    total = tags_collection.count()
+    page = request.args.get(get_page_parameter(), type=int, default=1)
+    pagination_tags = get_tags(tags, offset=offset, per_page=per_page)
+    pagination = Pagination(page=page, per_page=per_page, total=total, css_framework='bootstrap4')
+    return render_template('admin-pages/lib-man/tag-man/all-tags.html', tags=tags, pagination=pagination)
 
 # Page for tag search
 @app.route('/admin/lib-man/tag-man/search-item', methods=['GET', 'POST'])
@@ -608,6 +624,7 @@ def all_items():
 @login_required(perm="can_edit_items")
 def create_item():
     form = newEntryForm()
+    form.selection.choices=[(tag['name'], tag['name']) for tag in db_manager.mongo.db.tags.find()]
     all_tags = db_manager.mongo.db.tags.find()
     if form.validate_on_submit():
         # search for an item with the same title
@@ -615,12 +632,14 @@ def create_item():
         item_exists = Item.search_for_by_attribute(db_manager.mongo, db_manager.name_attrib, form.title.data)
         if not item_exists:
             # find the matching tag
-            tag_name = form.selection.data
-            found_tag = Tag.search_for_by_name(db_manager.mongo, tag_name)
-            add_tag = TagReference(found_tag.id)
+            tags = []
+            for tag in form.selection.data:
+                found_tag = Tag.search_for_by_name(db_manager.mongo, tag)
+                tags.append(TagReference(found_tag.id))
+            description = form.description.data.split('\r\n')
             new_item = Item([SingleLineStringAttribute(db_manager.name_attrib, form.title.data),
-                             MultiLineStringAttribute(db_manager.description_attrib, form.description.data)],
-                            [add_tag], [])
+                             MultiLineStringAttribute(db_manager.description_attrib, description)],
+                            tags, [])
             new_item.write_to_db(db_manager.mongo)
             new_item.recalculate_implied_tags(db_manager.mongo)
             return redirect(url_for('all_items'))
@@ -703,11 +722,17 @@ def item_update_attrib(item_id, attrib_option_id):
                 return redirect(url_for('item_update_attrib', item_id=item_id, attrib_option_id=attrib_option_id))
         if not item.get_attributes_by_option(ObjectId(attrib_option_id)):
             return page_not_found(404)
-        item.get_attributes_by_option(ObjectId(attrib_option_id))[0].value = form.attrib_value.data
-        item.write_to_db(db_manager.mongo)
 
-        flash('Item updated')
-        return redirect(url_for('edit_item', item_id=item_id))
+        attribute = item.get_attributes_by_option(ObjectId(attrib_option_id))[0]
+        if attribute:
+            listOfString = form.attrib_value.data.split('\r\n')
+            attribute.value = listOfString
+            print(listOfString)
+            item.write_to_db(db_manager.mongo)
+            flash('Item updated')
+            return redirect(url_for('edit_item', item_id=item_id))
+        else:
+            return page_not_found(404)
     return render_template('admin-pages/lib-man/item-add-attrib.html', form=form, attrib_name=attribute_option.attribute_name)
 
 
