@@ -41,7 +41,7 @@ class Item:
 
     instances: List['Instance'] = []
     """
-
+    A list of all instances of the item
     """
 
     @staticmethod
@@ -67,6 +67,13 @@ class Item:
         return [a for a in self.attributes if a.option_id == option]
 
     def to_dict(self) -> Dict:
+        """
+	    Serialising the data structure into a MongoDB compliant dictionary for use in PyMongo functions
+
+        Returns
+        -------
+            The MongoDB compliant data structure
+        """
         result = {
             "attributes": [a.to_dict() for a in self.attributes],
             "tags": [t.tag_id for t in self.tags],
@@ -85,6 +92,11 @@ class Item:
         """
         Removes a tag from an item
 
+        Attributes
+        ----------
+            tag
+                the tag to be removed
+
         Returns
         -------
             True if the tag has been removed from the item
@@ -97,6 +109,18 @@ class Item:
 
     @staticmethod
     def from_dict(value_dict: Dict) -> 'Item':
+        """
+	    Deserialising a MongoDB compliant dictionary into a data structure for use in python functions
+
+        Parameters
+        ----------
+            value_dict
+                The dictionary to be deserialised
+
+        Returns
+        -------
+            The deserialised data structure
+        """
         cls = Item([], [], [], False)
 
         if "_id" in value_dict:
@@ -125,10 +149,8 @@ class Item:
 
         Attributes
         ----------
-            self
-                the item to be updated
             mongo
-                the database
+                the mongo database
         """
         if self.id is None:
             self.id = mongo.db.items.insert_one(self.to_dict()).inserted_id
@@ -142,10 +164,8 @@ class Item:
 
         Attributes
         ----------
-            self
-                the item to be updated
             mongo
-                the database
+                the mongo database
 
         Returns
         -------
@@ -177,10 +197,8 @@ class Item:
 
         Attributes
         ----------
-            self
-                the item to be updated
             mongo
-                the database
+                the mongo database
             instances
                 if true, then also recalculate the implied of all the instances
             inherit
@@ -238,6 +256,19 @@ class Item:
 
     # returns true if successful, false otherwise
     def recalculate_instance_implied_tags(self, mongo: PyMongo, index: Optional[Union[int, List[int]]] = None):
+        """
+        Recalculates the implied tags for instances
+
+        Attributes
+        ----------
+            mongo
+                the mongo database
+            index
+
+        Returns
+        -------
+            True if successfull, False otherwise
+        """
         if not self.update_from_db(mongo):
             return False
 
@@ -288,10 +319,8 @@ class Item:
 
         Attributes
         ----------
-            self
-                the item to be deleted
             mongo
-                the database
+                the mongo database
 
         Returns
         -------
@@ -328,7 +357,7 @@ class Item:
         Attributes
         ----------
             mongo
-                the database
+                the mongo database
             tag_ref
                 the tag to be searched by
 
@@ -354,7 +383,7 @@ class Item:
         Attributes
         ----------
             mongo
-                the database
+                the mongo database
             attrib_option
                 the attribute to be searched by
 
@@ -371,11 +400,35 @@ class Item:
 
 
 class Instance:
+    """
+    An item can have instances, such as a book having an instance per physical copy, or it could have none, 
+    in the case of a digital resource.
+    """
+
     id: ObjectId = None
+    """
+    Unique instance id
+    """
+
     hidden: bool = False
+    """
+    The instance may be hidden from users
+    """
+
     attributes: List[Attribute]
+    """
+    A list of attributes associated with the instance
+    """
+
     tags: List[TagReference] = []
+    """
+    A list of tags associated with the instance
+    """
+
     implied_tags: List[TagReference] = []
+    """
+    A list of all the instance's implied tags
+    """
 
     @staticmethod
     def init_indices(mongo: PyMongo):
@@ -392,6 +445,13 @@ class Instance:
         self.implied_tags = []
 
     def to_dict(self) -> Dict:
+        """
+	    Serialising the data structure into a MongoDB compliant dictionary for use in PyMongo functions
+
+        Returns
+        -------
+            The MongoDB compliant data structure
+        """
         result = {
             "attributes": [a.to_dict() for a in self.attributes],
             "tags": [t.tag_id for t in self.tags],
@@ -410,6 +470,18 @@ class Instance:
 
     @staticmethod
     def from_dict(value_dict: Dict) -> 'Instance':
+        """
+	    Deserialising a MongoDB compliant dictionary into a data structure for use in python functions
+
+        Parameters
+        ----------
+            value_dict
+                The dictionary to be deserialised
+
+        Returns
+        -------
+            The deserialised data structure
+        """
         cls = Instance([], [], False)
 
         if "_id" in value_dict:
