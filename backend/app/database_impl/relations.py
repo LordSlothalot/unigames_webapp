@@ -9,9 +9,23 @@ from app.database_impl.tags import TagReference
 
 
 class RelationOption:
+    """
+    A class to represent relation options. An example of a relation option is "borrowing".
+    """
+
     id: ObjectId = None
+    """
+    A relation option id
+    """
     name: str = None
+    """
+    The name of the relation option
+    """
+
     implies: List[TagReference] = []
+    """
+    A list of tags this relation option implies
+    """
 
     @staticmethod
     def init_indices(mongo: PyMongo):
@@ -24,6 +38,13 @@ class RelationOption:
         self.implies = implies
 
     def to_dict(self) -> Dict:
+        """
+	    Serialising the data structure into a MongoDB compliant dictionary for use in PyMongo functions
+
+        Returns
+        -------
+            The MongoDB compliant data structure
+        """
         result = {
             "name": self.name,
             "implies": [i.tag_id for i in self.implies]
@@ -36,6 +57,18 @@ class RelationOption:
 
     @staticmethod
     def from_dict(value_dict: Dict) -> 'RelationOption':
+        """
+	    Deserialising a MongoDB compliant dictionary into a data structure for use in python functions
+
+        Parameters
+        ----------
+            value_dict
+                The dictionary to be deserialised
+
+        Returns
+        -------
+            The deserialised data structure
+        """
         cls = RelationOption("", [])
 
         if "_id" in value_dict:
@@ -52,6 +85,15 @@ class RelationOption:
         return cls
 
     def write_to_db(self, mongo: PyMongo):
+        """
+        Writes the relation to the database if it's `id` doesn't exist, 
+        otherwise it will overwrite the relation with the same `id`
+
+        Parameters
+        ----------
+            mongo
+                The mongo database
+        """
         if self.id is None:
             self.id = mongo.db.relation_options.insert_one(self.to_dict()).inserted_id
         else:
@@ -59,6 +101,20 @@ class RelationOption:
 
     # Returns True if the update worked, else False, usually meaning it's no longer there
     def update_from_db(self, mongo: PyMongo) -> bool:
+        """
+        Updates the relation in the database
+
+        Parameters
+        ----------
+            mongo
+                The mongo database
+
+        Returns
+        -------
+            False if the relation's id is None
+            False if the relation does not exist in the database
+            True if the relation was updated
+        """
         if self.id is None:
             return False
 
@@ -73,6 +129,19 @@ class RelationOption:
         self.implies = new_relation_option.implies
 
     def delete_from_db(self, mongo: PyMongo) -> bool:
+        """
+        Removes the relation from the database
+
+        Parameters
+        ----------
+            mongo
+                The mongo database
+
+        Returns
+        -------
+            False if the relation does not exist, or has not been deleted
+            True if the relation has been deleted
+        """
         if self.id is None:
             return False
 
@@ -80,6 +149,21 @@ class RelationOption:
 
     @staticmethod
     def search_for_by_name(mongo: PyMongo, name: str) -> Optional['RelationOption']:
+        """
+        Finds a relation in the database with the specified name
+
+        Parameters
+        ----------
+            mongo
+                The mongo database
+            tag_ref
+                The name to be searched by
+
+        Returns
+        -------
+            None if a relation has not been found
+            The relation if it exists in the database
+        """
         result = mongo.db.relation_options.find_one({"name": name})
         if result is None:
             return None
@@ -88,16 +172,38 @@ class RelationOption:
 
 
 class RelationType(Enum):
+    """
+    The types of relations
+    """
+
     Invalid = 0
     Item = 1
     Instance = 2
 
 
 class Relation:
+    """
+    A class to represent a relation between users and items or instances
+    """
+
     id: ObjectId = None
+    """
+    The id of the relation
+    """
+
     user_id: ObjectId = None
+    """
+    The user creating the relation
+    """
+
     option_id: ObjectId = None
+    """
+    """
+
     relation_type: RelationType = RelationType.Invalid
+    """
+    The type of relation
+    """
 
     @staticmethod
     def init_indices(mongo: PyMongo):
@@ -114,6 +220,22 @@ class Relation:
 
     @staticmethod
     def new_item(user_id: ObjectId, option_id: ObjectId, item_id: ObjectId) -> 'Relation':
+        """
+        Create a new item relation
+
+        Parameters
+        ----------
+            user_id
+                The user creating the relation
+            option_id
+                The relation option
+            item_id
+                The item
+
+        Returns
+        -------
+            The new item relation
+        """
         cls = Relation()
 
         cls.id = None
@@ -126,6 +248,22 @@ class Relation:
 
     @staticmethod
     def new_instance(user_id: ObjectId, option_id: ObjectId, instance_id: ObjectId) -> 'Relation':
+        """
+        Create a new instance relation
+
+        Parameters
+        ----------
+            user_id
+                The user creating the relation
+            option_id
+                The relation option
+            item_id
+                The instance
+
+        Returns
+        -------
+            The new instance relation
+        """
         cls = Relation()
 
         cls.id = None
@@ -137,6 +275,13 @@ class Relation:
         return cls
 
     def to_dict(self) -> Dict:
+        """
+	    Serialising the data structure into a MongoDB compliant dictionary for use in PyMongo functions
+
+        Returns
+        -------
+            The MongoDB compliant data structure
+        """
         result = {
             "user_id": self.user_id,
             "option_id": self.option_id,
@@ -156,6 +301,18 @@ class Relation:
 
     @staticmethod
     def from_dict(value_dict: Dict) -> 'Relation':
+        """
+	    Deserialising a MongoDB compliant dictionary into a data structure for use in python functions
+
+        Parameters
+        ----------
+            value_dict
+                The dictionary to be deserialised
+
+        Returns
+        -------
+            The deserialised data structure
+        """
         cls = Relation()
 
         if "_id" in value_dict:
@@ -187,6 +344,15 @@ class Relation:
         return cls
 
     def write_to_db(self, mongo: PyMongo):
+        """
+        Writes the relation to the database if it's `id` doesn't exist, 
+        otherwise it will overwrite the relation with the same `id`
+
+        Parameters
+        ----------
+            mongo
+                The mongo database
+        """
         if self.id is None:
             self.id = mongo.db.relations.insert_one(self.to_dict()).inserted_id
         else:
@@ -194,6 +360,19 @@ class Relation:
 
     # Returns True if the update worked, else False, usually meaning it's no longer there
     def update_from_db(self, mongo: PyMongo) -> bool:
+        """
+        Updates a relation in the database
+
+        Parameters
+        ----------
+            mongo
+                The mongo database
+
+        Returns
+        -------
+            False if the relation's id is None
+            False if the relation does not exist in the database
+        """
         if self.id is None:
             return False
 
@@ -215,6 +394,19 @@ class Relation:
             ValueError("Should never get here")
 
     def delete_from_db(self, mongo: PyMongo) -> bool:
+        """
+        Removes an relation from the database
+
+        Parameters
+        ----------
+            mongo
+                The mongo database
+
+        Returns
+        -------
+            False if the relation does not exist, or has not been deleted
+            True if the the relation has been deleted
+        """
         if self.id is None:
             return False
 
@@ -222,6 +414,20 @@ class Relation:
 
     @staticmethod
     def search_for_by_user_id(mongo: PyMongo, user_id: ObjectId) -> List['Relation']:
+        """
+        Finds all the relations containing a specific user id
+
+        Parameters
+        ----------
+            mongo
+                The mongo database
+            user_id
+                The user id to be searched by
+
+        Returns
+        -------
+            A list of all relations with the specified user id
+        """
         result = mongo.db.relations.find({"user_id": user_id})
         if result is None or not result:
             return []
@@ -230,6 +436,20 @@ class Relation:
 
     @staticmethod
     def search_for_by_item_id(mongo: PyMongo, item_id: ObjectId) -> List['Relation']:
+        """
+        Finds all the relations containing a specific item id
+
+        Parameters
+        ----------
+            mongo
+                The mongo database
+            user_id
+                The item id to be searched by
+
+        Returns
+        -------
+            A list of all relations with the specified item id
+        """
         result = mongo.db.relations.find({"item_id": item_id})
         if result is None or not result:
             return []
@@ -238,6 +458,20 @@ class Relation:
 
     @staticmethod
     def search_for_by_instance_id(mongo: PyMongo, instance_id: ObjectId) -> List['Relation']:
+        """
+        Finds all the relations containing a specific instance id
+
+        Parameters
+        ----------
+            mongo
+                The mongo database
+            user_id
+                The instance id to be searched by
+
+        Returns
+        -------
+            A list of all relations with the specified instance id
+        """
         result = mongo.db.relations.find({"instance_id": instance_id})
         if result is None or not result:
             return []
