@@ -17,9 +17,24 @@ class TagReference:
 
 
 class Tag:
+    """
+    A class to represent tags associated with items
+    """
+
     id: ObjectId = None
+    """
+    The tag id
+    """
+
     name: str = None
+    """
+    The name of the tag
+    """
+
     implies: List[TagReference] = []
+    """
+    List of tags this tag implies
+    """
 
     @staticmethod
     def init_indices(mongo: PyMongo):
@@ -31,6 +46,13 @@ class Tag:
         self.implies = implies
 
     def to_dict(self) -> Dict:
+        """
+	    Serialising the data structure into a MongoDB compliant dictionary for use in PyMongo functions
+
+        Returns
+        -------
+            The MongoDB compliant data structure
+        """
         result = {
             "name": self.name.lower(),
             "implies": [i.tag_id for i in self.implies]
@@ -40,6 +62,18 @@ class Tag:
         return result
 
     def remove_implied_tag(self, tag: TagReference):
+        """
+        Removes a tag from the list of implied tags
+
+        Attribute
+        ---------
+            tag
+                the implied tag to be removed
+
+        Returns
+        -------
+            True if the implied tag has been removed
+        """
         if tag in self.implies:
             self.implies.remove(tag)
             return True
@@ -48,6 +82,18 @@ class Tag:
 
     @staticmethod
     def from_dict(value_dict: Dict) -> 'Tag':
+        """
+	    Deserialising a MongoDB compliant dictionary into a data structure for use in python functions
+
+        Parameters
+        ----------
+            value_dict
+                The dictionary to be deserialised
+
+        Returns
+        -------
+            The MongoDB compliant data structure
+        """
         cls = Tag("", [])
 
         if "name" not in value_dict:
@@ -64,6 +110,15 @@ class Tag:
         return cls
 
     def write_to_db(self, mongo: PyMongo):
+        """
+        Writes the tag to the database if it's `id` doesn't exist, 
+        otherwise it will overwrite the tag with the same `id`
+
+        Attributes
+        ----------
+            mongo
+                the mongo database
+        """
         if self.id is None:
             self.id = mongo.db.tags.insert_one(self.to_dict()).inserted_id
         else:
@@ -71,6 +126,19 @@ class Tag:
 
     # Returns True if the update worked, else False, usually meaning it's no longer there
     def update_from_db(self, mongo: PyMongo) -> bool:
+        """
+        Updates a tag in the database
+
+        Attributes
+        ----------
+            mongo
+                the mongo database
+
+        Returns
+        -------
+            False if the tag's id is None
+            False if the tag does not exist in the database
+        """
         if self.id is None:
             return False
 
@@ -85,6 +153,19 @@ class Tag:
         self.implies = new_tag.implies
 
     def delete_from_db(self, mongo: PyMongo) -> bool:
+        """
+        Removes a tag from the database
+
+        Attributes
+        ----------
+            mongo
+                the mongo database
+
+        Returns
+        -------
+            False if the tag does not exist, or has not been deleted
+            True if the the tag has been deleted
+        """
         if self.id is None:
             return False
 
@@ -92,6 +173,21 @@ class Tag:
 
     @staticmethod
     def search_for_by_name(mongo: PyMongo, name: str) -> Optional['Tag']:
+        """
+        Finds a tag in the database with the specified name
+
+        Attributes
+        ----------
+            mongo
+                the mongo database
+            tag_ref
+                the tag to be searched by
+
+        Returns
+        -------
+            None if a tag has not been found
+            The tag if it exists in the database
+        """
         result = mongo.db.tags.find_one({"name": name.lower()})
         if result is None:
             return None
