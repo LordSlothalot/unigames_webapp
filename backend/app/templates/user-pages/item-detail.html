@@ -20,7 +20,10 @@
                     <strong class="d-inline-block mb-1 text-primary">Description</strong>
                     <div class="container">
                         <h3 class="mb-3">
-                            (Still working on multi-line description)
+                            
+                            {% for value in item.get_attributes_by_option(description_attribute)[0].value %}
+                            <p>{{value}}</p>
+                            {% endfor %}
                         </h3>
                     </div>
                 </div>
