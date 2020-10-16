@@ -94,7 +94,7 @@ def changepw():
                                       }
                                       })
         flash("Password updated successfully!")
-        return redirect(url_for('index'))
+        return redirect(url_for('home'))
     return render_template('user-pages/changepw.html', form=form)
 
 
@@ -112,7 +112,7 @@ def register():
         if find_by_email is None and find_by_name is None:
             User.register(db_manager.mongo, display_name, email, password, first_name, last_name)
             flash(f'Account created for {form.email.data}!', 'success')
-            return redirect(url_for('index'))
+            return redirect(url_for('home'))
         else:
             if find_by_name is None: 
                 flash(f'Account already exists for {form.email.data}!', 'success')

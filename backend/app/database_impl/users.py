@@ -70,7 +70,8 @@ class User:
             "email": self.email, 
             "password": self.password, 
             "first_name": self.first_name, 
-            "last_name": self.last_name 
+            "last_name": self.last_name,
+            "temp": self.temp
         }
 
         if self.id is not None:
@@ -103,6 +104,9 @@ class User:
             
         if "last_name" in value_dict and value_dict["last_name"] is not None:
             cls.last_name = value_dict["last_name"]
+            
+        if "temp" in value_dict and value_dict["temp"] is not None:
+            cls.temp = value_dict["temp"]
 
 
         return cls
