@@ -160,7 +160,7 @@ class Item:
     # Returns True if the update worked, else False, usually meaning it's no longer there
     def update_from_db(self, mongo: PyMongo) -> bool:
         """
-        Updates an item in the database
+        Updates the item in the database
 
         Parameters
         ----------
@@ -315,7 +315,7 @@ class Item:
 
     def delete_from_db(self, mongo: PyMongo) -> bool:
         """
-        Removes an item from the database
+        Removes the item from the database
 
         Parameters
         ----------
@@ -325,7 +325,7 @@ class Item:
         Returns
         -------
             False if the item does not exist, or has not been deleted
-            True if the the item has been deleted
+            True if the item has been deleted
         """
         if self.id is None:
             return False

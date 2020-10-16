@@ -135,7 +135,7 @@ class Role:
     # Returns True if the update worked, else False, usually meaning it's no longer there
     def update_from_db(self, mongo: PyMongo) -> bool:
         """
-        Updates a role in the database
+        Updates the role in the database
 
         Parameters
         ----------
@@ -163,7 +163,7 @@ class Role:
 
     def delete_from_db(self, mongo: PyMongo) -> bool:
         """
-        Removes a role from the database
+        Removes the role from the database
 
         Parameters
         ----------
@@ -189,7 +189,7 @@ class Role:
         ----------
             mongo
                 The mongo database
-            tag_ref
+            name
                 The name to be searched by
 
         Returns

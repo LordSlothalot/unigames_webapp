@@ -127,7 +127,7 @@ class Tag:
     # Returns True if the update worked, else False, usually meaning it's no longer there
     def update_from_db(self, mongo: PyMongo) -> bool:
         """
-        Updates a tag in the database
+        Updates the tag in the database
 
         Parameters
         ----------
@@ -154,7 +154,7 @@ class Tag:
 
     def delete_from_db(self, mongo: PyMongo) -> bool:
         """
-        Removes a tag from the database
+        Removes the tag from the database
 
         Parameters
         ----------
@@ -180,8 +180,8 @@ class Tag:
         ----------
             mongo
                 The mongo database
-            tag_ref
-                The tag to be searched by
+            name
+                The name to be searched by
 
         Returns
         -------

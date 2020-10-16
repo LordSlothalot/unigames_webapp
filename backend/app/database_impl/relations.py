@@ -17,6 +17,7 @@ class RelationOption:
     """
     A relation option id
     """
+
     name: str = None
     """
     The name of the relation option
@@ -156,7 +157,7 @@ class RelationOption:
         ----------
             mongo
                 The mongo database
-            tag_ref
+            name
                 The name to be searched by
 
         Returns
@@ -198,6 +199,7 @@ class Relation:
 
     option_id: ObjectId = None
     """
+    The relation option
     """
 
     relation_type: RelationType = RelationType.Invalid
@@ -443,7 +445,7 @@ class Relation:
         ----------
             mongo
                 The mongo database
-            user_id
+            item_id
                 The item id to be searched by
 
         Returns
@@ -465,7 +467,7 @@ class Relation:
         ----------
             mongo
                 The mongo database
-            user_id
+            instance_id
                 The instance id to be searched by
 
         Returns
