@@ -13,14 +13,50 @@ from app.database_impl.roles import Role
 
 
 class User:
+    """
+    A class to represent users of the webapp
+    """
+
     id: ObjectId
+    """
+    User id
+    """
+
     display_name: str
+    """
+    User's display name
+    """
+    
     role_ids: List[ObjectId]
+    """
+    List of roles the user has
+    """
+    
     rolename: str
+    """
+    The name of the role of the user
+    """
+    
     email: str
+    """
+    User's email
+    """
+    
     password: str
+    """
+    User's password
+    """
+    
     first_name: str
+    """
+    User's first name
+    """
+    
     last_name: str
+    """
+    User's last name
+    """
+    
     temp: bool
 
     @staticmethod
@@ -61,9 +97,30 @@ class User:
         
     @staticmethod
     def check_password(password_hash, password):
+        """
+        Checks the entered password against the known actual password
+
+        Parameters
+        ----------
+            password_hash
+                The user password in the database
+            password
+                The password to check
+
+        Returns
+        -------
+            True if the password's match, else False
+        """
         return check_password_hash(password_hash, password)
 
     def to_dict(self) -> Dict:
+        """
+	    Serialising the data structure into a MongoDB compliant dictionary for use in PyMongo functions
+
+        Returns
+        -------
+            The MongoDB compliant data structure
+        """
         result = {
             "display_name": self.display_name, 
             "role_ids": [r for r in self.role_ids], 
@@ -80,6 +137,18 @@ class User:
 
     @staticmethod
     def from_dict(value_dict: Dict) -> 'User':
+        """
+	    Deserialising a MongoDB compliant dictionary into a data structure for use in python functions
+
+        Parameters
+        ----------
+            value_dict
+                The dictionary to be deserialised
+
+        Returns
+        -------
+            The deserialised data structure
+        """
         cls = User("", [], "", "", "", "")
 
         if "_id" in value_dict:
@@ -109,6 +178,30 @@ class User:
         
     @classmethod
     def register(cls, mongo: PyMongo, display_name, email, password, first_name, last_name, role = "everyone", temp = False):
+        """
+        Create a new user
+
+        Parameters
+        ----------
+            mongo
+                The mongo database
+            display_name
+                The user's display name
+            email
+                The user's email
+            password
+                The user's password
+            first_name
+                The user's first name
+            last_name
+                The user's last name
+
+        Returns
+        -------
+            True if the user has been created
+            False if a user already exists with the specified email
+            
+        """
         user = cls.search_for_by_email(mongo, email)
         if user is None:
             roleid = Role.search_for_by_name(mongo, role).id
@@ -121,6 +214,15 @@ class User:
             return False
 
     def write_to_db(self, mongo: PyMongo):
+        """
+        Writes the user to the database if it's `id` doesn't exist, 
+        otherwise it will overwrite the user with the same `id`
+
+        Parameters
+        ----------
+            mongo
+                The mongo database
+        """
         if self.id is None:
             self.id = mongo.db.users.insert_one(self.to_dict()).inserted_id
         else:
@@ -128,6 +230,19 @@ class User:
 
     # Returns True if the update worked, else False, usually meaning it's no longer there
     def update_from_db(self, mongo: PyMongo) -> bool:
+        """
+        Updates the user in the database
+
+        Parameters
+        ----------
+            mongo
+                The mongo database
+
+        Returns
+        -------
+            False if the user's id is None
+            False if the user does not exist in the database
+        """
         if self.id is None:
             return False
 
@@ -146,6 +261,19 @@ class User:
         self.last_name = new_user.last_name
 
     def delete_from_db(self, mongo: PyMongo) -> bool:
+        """
+        Removes the user from the database
+
+        Parameters
+        ----------
+            mongo
+                The mongo database
+
+        Returns
+        -------
+            False if the user does not exist, or has not been deleted
+            True if the user has been deleted
+        """
         if self.id is None:
             return False
 
@@ -153,6 +281,21 @@ class User:
 
     @staticmethod
     def search_for_by_display_name(mongo: PyMongo, display_name: str) -> Optional['User']:
+        """
+        Finds a user in the database with the specified display name
+
+        Parameters
+        ----------
+            mongo
+                The mongo database
+            display_name
+                The name to be searched by
+
+        Returns
+        -------
+            None if a user has not been found
+            The user if it exists in the database
+        """
         result = mongo.db.users.find_one({"display_name": display_name})
         if result is None:
             return None
@@ -161,6 +304,21 @@ class User:
         
     @staticmethod
     def search_for_by_email(mongo: PyMongo, email: str) -> Optional['User']:
+        """
+        Finds a user in the database with the specified email
+
+        Parameters
+        ----------
+            mongo
+                The mongo database
+            email
+                The email to be searched by
+
+        Returns
+        -------
+            None if a user has not been found
+            The user if it exists in the database
+        """
         result = mongo.db.users.find_one({"email": email})
         if result is None:
             return None
@@ -169,6 +327,21 @@ class User:
         
     @staticmethod
     def get_by_id(mongo:PyMongo, id):
+        """
+        Finds a user in the database with the specified id
+
+        Parameters
+        ----------
+            mongo
+                The mongo database
+            id
+                The id to be searched by
+
+        Returns
+        -------
+            None if a user has not been found
+            The user if it exists in the database
+        """
         result = mongo.db.users.find_one({"_id": id})
         if result is None:
             return None
