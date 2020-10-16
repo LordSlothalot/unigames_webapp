@@ -122,12 +122,10 @@ class Role:
         Writes the role to the database if it's `id` doesn't exist, 
         otherwise it will overwrite the role with the same `id`
 
-        Attributes
+        Parameters
         ----------
-            self
-                the role to be updated
             mongo
-                the database
+                the mongo database
         """
         if self.id is None:
             self.id = mongo.db.roles.insert_one(self.to_dict()).inserted_id
@@ -139,12 +137,10 @@ class Role:
         """
         Updates a role in the database
 
-        Attributes
+        Parameters
         ----------
-            self
-                the role to be updated
             mongo
-                the database
+                The mongo database
 
         Returns
         -------
@@ -169,12 +165,10 @@ class Role:
         """
         Removes a role from the database
 
-        Attributes
+        Parameters
         ----------
-            self
-                the role to be deleted
             mongo
-                the database
+                The database
 
         Returns
         -------
@@ -191,12 +185,12 @@ class Role:
         """
         Finds a role in the database with the specified name
 
-        Attributes
+        Parameters
         ----------
             mongo
-                the database
+                The mongo database
             tag_ref
-                the name to be searched by
+                The name to be searched by
 
         Returns
         -------
@@ -214,14 +208,14 @@ class Role:
         """
         Create a new role and inserts it into the database
 
-        Attributes
+        Parameters
         ----------
             mongo
-                the database
+                The mongo database
             name
-                the name of the role
+                The name of the role
             priority
-                the role priority
+                The role priority
             can_view_hidden
                 Users with this role can view hidden items
             can_edit_users

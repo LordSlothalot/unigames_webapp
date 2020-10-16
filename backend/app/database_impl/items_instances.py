@@ -92,10 +92,10 @@ class Item:
         """
         Removes a tag from an item
 
-        Attributes
+        Parameters
         ----------
             tag
-                the tag to be removed
+                The tag to be removed
 
         Returns
         -------
@@ -147,10 +147,10 @@ class Item:
         Writes the item to the database if it's `id` doesn't exist, 
         otherwise it will overwrite the item with the same `id`
 
-        Attributes
+        Parameters
         ----------
             mongo
-                the mongo database
+                The mongo database
         """
         if self.id is None:
             self.id = mongo.db.items.insert_one(self.to_dict()).inserted_id
@@ -162,10 +162,10 @@ class Item:
         """
         Updates an item in the database
 
-        Attributes
+        Parameters
         ----------
             mongo
-                the mongo database
+                The mongo database
 
         Returns
         -------
@@ -195,14 +195,14 @@ class Item:
         """
         Recalculates the implied tags
 
-        Attributes
+        Parameters
         ----------
             mongo
-                the mongo database
+                The mongo database
             instances
-                if true, then also recalculate the implied of all the instances
+                If true, then also recalculate the implied of all the instances
             inherit
-                if true and a tag is on all instances of an object it will be implied on the item
+                If true and a tag is on all instances of an object it will be implied on the item
 
         Returns
         -------
@@ -259,10 +259,10 @@ class Item:
         """
         Recalculates the implied tags for instances
 
-        Attributes
+        Parameters
         ----------
             mongo
-                the mongo database
+                The mongo database
             index
 
         Returns
@@ -317,10 +317,10 @@ class Item:
         """
         Removes an item from the database
 
-        Attributes
+        Parameters
         ----------
             mongo
-                the mongo database
+                The mongo database
 
         Returns
         -------
@@ -338,10 +338,8 @@ class Item:
 
         Attributes
         ----------
-            self
-                the item to be hidden or made visible
             mongo
-                the database
+                The mongo database
         """
         if self.hidden is True:
             self.hidden = False
@@ -354,12 +352,12 @@ class Item:
         """
         Finds all items with a specific tag
 
-        Attributes
+        Parameters
         ----------
             mongo
-                the mongo database
+                The mongo database
             tag_ref
-                the tag to be searched by
+                The tag to be searched by
 
         Returns
         -------
@@ -380,12 +378,12 @@ class Item:
         """
         Finds all items with a specific attribute
 
-        Attributes
+        Parameters
         ----------
             mongo
-                the mongo database
+                The mongo database
             attrib_option
-                the attribute to be searched by
+                The attribute to be searched by
 
         Returns
         -------

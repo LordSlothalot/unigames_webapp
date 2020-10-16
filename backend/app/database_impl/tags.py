@@ -68,7 +68,7 @@ class Tag:
         Attribute
         ---------
             tag
-                the implied tag to be removed
+                The implied tag to be removed
 
         Returns
         -------
@@ -92,7 +92,7 @@ class Tag:
 
         Returns
         -------
-            The MongoDB compliant data structure
+            The deserialised data structure
         """
         cls = Tag("", [])
 
@@ -114,10 +114,10 @@ class Tag:
         Writes the tag to the database if it's `id` doesn't exist, 
         otherwise it will overwrite the tag with the same `id`
 
-        Attributes
+        Parameters
         ----------
             mongo
-                the mongo database
+                The mongo database
         """
         if self.id is None:
             self.id = mongo.db.tags.insert_one(self.to_dict()).inserted_id
@@ -129,10 +129,10 @@ class Tag:
         """
         Updates a tag in the database
 
-        Attributes
+        Parameters
         ----------
             mongo
-                the mongo database
+                The mongo database
 
         Returns
         -------
@@ -156,10 +156,10 @@ class Tag:
         """
         Removes a tag from the database
 
-        Attributes
+        Parameters
         ----------
             mongo
-                the mongo database
+                The mongo database
 
         Returns
         -------
@@ -176,12 +176,12 @@ class Tag:
         """
         Finds a tag in the database with the specified name
 
-        Attributes
+        Parameters
         ----------
             mongo
-                the mongo database
+                The mongo database
             tag_ref
-                the tag to be searched by
+                The tag to be searched by
 
         Returns
         -------
