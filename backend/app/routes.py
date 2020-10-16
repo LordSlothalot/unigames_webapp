@@ -60,6 +60,21 @@ def home():
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
+    """
+    Login route endpoint. 
+    This allows users to login to their account.
+
+    Parameters
+    ----------
+        GET:/login
+        POST:/login
+
+    Returns
+    -------
+        Redirects to the admin dashboard if the user is authenticated
+        Redirects to the change password page if the user has a temporary password
+        Redirects to the login page if the login was unsuccessful
+    """
     if current_user.is_authenticated:
         return redirect(url_for('admin'))
     form = LoginForm()
@@ -85,6 +100,14 @@ def login():
 
 @app.route('/logout')
 def logout():
+    """
+    Logout route endpoint. 
+    This allows users to logout of their account
+
+    Returns
+    -------
+        Redirects to the login page
+    """
     logout_user()
     flash('You have been logged out')
     return redirect(url_for('login'))
@@ -92,6 +115,20 @@ def logout():
 @app.route('/changepw', methods=['GET', 'POST'])
 @login_required
 def changepw():
+    """
+    Change password route endpoint. 
+    This allows users to change their password
+
+    Parameters
+    ----------
+        GET:/changepw
+        POST:/changepw
+
+    Returns
+    -------
+        Redirects to the home page if the password was changed successfully
+        Redirects to the password change page if unsuccessful
+    """
     form = UpdatePasswordForm()
     if form.validate_on_submit():
         id = current_user.id
@@ -109,6 +146,20 @@ def changepw():
 
 @app.route("/register", methods=['GET', 'POST'])
 def register():
+    """
+    User registration route endpoint. 
+    This allows users create a new account
+
+    Parameters
+    ----------
+        GET:/register
+        POST:/register
+
+    Returns
+    -------
+        Redirects to the home page if the account was created successfully
+        Redirects to the register page if registration failed
+    """
     form = RegistrationForm()
     if form.validate_on_submit():
         email = form.email.data
@@ -131,6 +182,13 @@ def register():
 
 @app.route('/library')
 def library():
+    """
+    Item library route endpoint.
+
+    Returns
+    -------
+        Renders the library page 
+    """
     items = db_manager.mongo.db.items.find()
     items = [Item.from_dict(i) for i in items]
 
@@ -152,6 +210,19 @@ def library():
 
 @app.route('/libarary/item_detail/<item_id>', methods=['GET', 'POST'])
 def item_detail(item_id):
+    """
+    Item detail route endpoint. 
+    This allows users to view the page for a specific item
+
+    Parameters
+    ----------
+        GET:/item_detail/<item_id>
+        POST:/item_detail/<item_id>
+
+    Returns
+    -------
+        Renders the page for the item specified by `item_id`
+    """
     item = db_manager.mongo.db.items.find_one({"_id": ObjectId(item_id)})
     if item is None:
         return page_not_found(404)
@@ -168,41 +239,105 @@ def item_detail(item_id):
 
 @app.route('/events')
 def events():
+    """
+    Events route endpoint. 
+    This allows users to see the Unigames events
+
+    Returns
+    -------
+        Renders the page for the Unigames events
+    """
     return render_template('user-pages/events.html')
 
 # Roleplaying page
 @app.route('/roleplaying')
 def roleplaying():
+    """
+    Roleplaying route endpoint. 
+    This allows users to find imformation on roleplaying 
+
+    Returns
+    -------
+        Renders the page for roleplaying
+    """
     return render_template('user-pages/roleplaying.html')
 
 
 @app.route('/committee')
 def committee():
+    """
+    Committee route endpoint. 
+    This allows users to see the Unigames committee members
+
+    Returns
+    -------
+        Renders the page for the Unigames committee
+    """
     return render_template('user-pages/committee.html')
 
 # Lif members page
 @app.route('/lifeMembers')
 def lifeMembers():
+    """
+    Life members route endpoint. 
+    This allows users to see members awarded with a life membership
+
+    Returns
+    -------
+        Renders the page for the Unigames life members
+    """
     return render_template('user-pages/lifeMembers.html')
 
 # FAQ page
-@app.route('/lifeMembers')
+@app.route('/faq')
 def faq():
+    """
+    FAQ route endpoint. 
+    This allows users to see the Unigames frequently asked questions
+
+    Returns
+    -------
+        Renders the page for the Unigames FAQ
+    """
     return render_template('user-pages/faq.html')
 
 # Constitution page
 @app.route('/constitution')
 def constitution():
+    """
+    Constitution route endpoint. 
+    This allows users to see the Unigames constitution
+
+    Returns
+    -------
+        Renders the page for the Unigames constitution
+    """
     return render_template('user-pages/constitution.html')
 
 
 @app.route('/operations')
 def operations():
+    """
+    Operations route endpoint. 
+    This allows users to see the Unigames operations, which contains information for the use of future and current committees
+
+    Returns
+    -------
+        Renders the page for the Unigames operations
+    """
     return render_template('user-pages/operations.html')
 
 # needs to be implemented or deleted
 @app.route('/forbidden')
 def forbidden():
+    """
+    Forbidden route endpoint. 
+    This page is rendered when unauthenticated users attempt to access restricted pages
+
+    Returns
+    -------
+        Renders the forbidden page
+    """
     return render_template('user-pages/forbidden.html')
 
 
