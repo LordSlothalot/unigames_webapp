@@ -1,6 +1,8 @@
 {% extends "final-admin-layout.html" %}
 
+{% block head%}
 
+{% endblock %}
 
 {% block body %}
 <div class="pb-3 text-center">
@@ -14,17 +16,35 @@
 
         <div class="row">
             <div class="col-sm text-center">
-                {% for tag in tags_collection.find() %}
+
+                {% for tag in tags %}
                 <form action="{{ url_for('edit_tag', tag_name = tag['name']) }}" style="display:inline">
                     <button type="button m-2" style="margin-bottom: 7px; margin-right: 5px;"
-                    class="btn btn-outline-dark shadow-sm"> {{ tag['name'] }}</button>
+                        class="btn btn-outline-dark shadow-sm"> {{ tag['name'] }}</button>
                 </form>
-
                 {% endfor %}
 
             </div>
+
         </div>
     </div>
-</div>
 
+</div>
+<br>
+<br>
+<hr>
+<div class="pb-3 text-center">
+
+    {{ pagination.info }}
+</div>
+<div class="row">
+    <div class="col-lg-5">
+    </div>
+    <div class="col-lg-1">
+        {{ pagination.links }}
+    </div>
+    <div class="col-lg-5">
+
+    </div>
+</div>
 {% endblock %}
