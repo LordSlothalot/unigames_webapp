@@ -333,7 +333,7 @@ def admin():
         recent_tags.append(tag)
         if tag['implies']:
             tag_impl_count += 1
-    for user in db_manager.mongo.db.Users.find():
+    for user in db_manager.mongo.db.users.find():
         user_count +=1
     recent_items.reverse()
     recent_items = recent_items[:6]
@@ -530,6 +530,7 @@ def get_tags(tags, offset=0, per_page=10):
     return tags[offset: offset + per_page]
 
 # Page for showing all tags
+'''
 @app.route('/admin/lib-man/tag-man/all-tags')
 @login_required(perm="can_view_hidden")
 def all_tags():
@@ -540,6 +541,7 @@ def all_tags():
     pagination_tags = get_tags(tags, offset=offset, per_page=per_page)
     pagination = Pagination(page=page, per_page=per_page, total=total, css_framework='bootstrap4')
     return render_template('admin-pages/lib-man/tag-man/all-tags.html', tags=tags, pagination=pagination)
+'''
 
 # Page for tag search
 @app.route('/admin/lib-man/search-item', methods=['GET', 'POST'])
@@ -579,7 +581,7 @@ def create_impl():
         parent_tag = Tag.search_for_by_name(db_manager.mongo, form.parent.data)
         child_tag  = Tag.search_for_by_name(db_manager.mongo, form.child.data)
         if form.parent.data == form.child.data:
-            flash('A tag cannot imply to itself')
+            flash('A tag cannot imply itself')
             return redirect(url_for('create_impl'))
         if parent_tag.implies:
             flash('This parent tag already exists as a parent')

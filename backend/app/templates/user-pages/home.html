@@ -66,7 +66,7 @@
                 <div class="card-body d-flex flex-column align-items-start" style="border-radius: 1rem">
                     <strong class="d-inline-block mb-2 text-primary">Play</strong>
                     <h3 class="mb-0">
-                        <a class="text-dark" href="{{ url_for('library') }}">Drop by and play</a>
+                        <a class="text-dark" href="https://www.google.com/maps/place/University+Computer+Club/@-31.9810547,115.8195858,19.75z/data=!4m8!1m2!2m1!1suwa+unigame+location!3m4!1s0x2a32a4ec331747bb:0xae602699978add54!8m2!3d-31.980983!4d115.819754">Drop by and play</a>
                     </h3>
                     <div class="mb-1 text-muted">with your favourite friends</div>
                     <p class="card-text mb-2">For a start, Unigames is located above the UWA Tavern. If you don't know
@@ -93,7 +93,7 @@
                     <p class="card-text mb-2">One of the benefits of Unigames membership is a 10% discount on all
                         materials at
                         Tactics, Perth's premier gaming supply store. </p>
-                    <a href="#">Find out more >></a>
+                    <a href="{{ url_for('operations') }}">Find out more >></a>
                 </div>
                 <img class="card-img-right flex-auto d-none d-lg-block"
                     src="{{ url_for('static', filename='img/join.jpeg', _external=True) }}" alt="Thumbnail [200x250]"
@@ -123,10 +123,11 @@
                         </thead>
                         <tbody>
                             {% for item in recent_items %}
+                            {% if not item.hidden %}
                             <tr>
                                 <td>
                                     <a
-                                        href="{{ url_for('edit_item', item_id = item['_id']) }}">{{ Item.from_dict(item).get_attributes_by_option(name_attrib_option)[0].value }}</a>
+                                        href="{{ url_for('item_detail', item_id = item['_id']) }}">{{ Item.from_dict(item).get_attributes_by_option(name_attrib_option)[0].value }}</a>
                                 </td>
 
                                 <td>
@@ -145,9 +146,10 @@
                                     {% endfor %}
                                 </td>
 
-                                <td><a href="{{ url_for('edit_item', item_id = item['_id']) }}">Click for detail >></a>
+                                <td><a href="{{ url_for('item_detail', item_id = item['_id']) }}">Click for detail >></a>
                                 </td>
                             </tr>
+                            {% endif %}
                             {% endfor %}
 
                         </tbody>

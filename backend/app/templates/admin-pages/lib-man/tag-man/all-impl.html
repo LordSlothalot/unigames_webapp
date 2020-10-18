@@ -15,15 +15,15 @@
   <!-- Page Heading -->
   <div class="pb-3 text-center">
     <br>
-    <h3>Tag Implications</h3>
-    <p class="mb-4">This page shows all existing tag implications.</p>
+    <h3>Tags and Implications</h3>
+    <p class="mb-4">This page shows all existing tags and their implications.</p>
 </div>
 
 
   <!-- DataTales Example -->
   <div class="card shadow mb-4">
     <div class="card-header py-3">
-      <h6 class="m-0 font-weight-bold text-primary">Tag implications</h6>
+      <h6 class="m-0 font-weight-bold text-primary">Tags and implications</h6>
     </div>
     <div class="card-body">
       <div class="table-responsive">
@@ -44,7 +44,6 @@
           </tfoot>
           <tbody>
             {% for tag in tags_collection.find() %}
-            {% if tag['implies'] %}
             <tr>
 
               <td>
@@ -66,7 +65,6 @@
                 <a href="{{ url_for('impl_delete', tag_name=tag['name']) }}">Delete</a>
               </td>
             </tr>
-            {% endif %}
             {% endfor %}
 
           </tbody>
@@ -77,9 +75,13 @@
 
   </div>
   <div class="row">
-    <div class="col-md-9">
+    <div class="col-md-8">
     </div>
-    <div class="col-md-3">
+    <div class="col-md-2">
+      <a href="{{ url_for('create_tag') }}" class="btn btn-primary btn-user btn-block">
+        Create a tag
+      </a></div>
+    <div class="col-md-2">
       <a href="{{ url_for('create_impl') }}" class="btn btn-primary btn-user btn-block">
         Create an implication
       </a></div>
@@ -87,7 +89,8 @@
 </div>
 
 
-
+<br>
+<br>
 
 
 
