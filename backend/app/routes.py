@@ -180,7 +180,7 @@ def lifeMembers():
     return render_template('user-pages/lifeMembers.html')
 
 # FAQ page
-@app.route('/lifeMembers')
+@app.route('/faq')
 def faq():
     return render_template('user-pages/faq.html')
 
@@ -193,6 +193,14 @@ def constitution():
 @app.route('/operations')
 def operations():
     return render_template('user-pages/operations.html')
+
+@app.route('/regulations')
+def regulations():
+    return render_template('user-pages/regulations.html')
+
+@app.route('/contact')
+def contact():
+    return render_template('user-pages/contact.html')
 
 # needs to be implemented or deleted
 @app.route('/forbidden')

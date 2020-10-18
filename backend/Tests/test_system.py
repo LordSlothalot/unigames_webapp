@@ -123,7 +123,7 @@ class SystemTest(unittest.TestCase):
 
         search.send_keys('aaa')
 
-        search_identifier = self.driver.find_element_by_tag_id('dataTable_info')
+        search_identifier = self.driver.find_element_by_id('dataTable_info')
         self.assertEqual(search_identifier, 'Showing 1 to 1 of 1 entries')
 
 
@@ -135,7 +135,7 @@ class SystemTest(unittest.TestCase):
         time.sleep(1)
 
         search = self.driver.find_element_by_name('tagSearchInput')
-        submit = self.driver.find_element_by_type('submit')
+        #submit = self.driver.find_element_by_type('submit')
 
         search.send_keys('book')
         submit.click()
@@ -191,7 +191,7 @@ class SystemTest(unittest.TestCase):
         delete.click()
         time.sleep(1)
 
-        alert = self.driver.switchTo().alert()
+        alert = self.driver.switch_to.alert
         alert.accept()
         time.sleep(1)
 
