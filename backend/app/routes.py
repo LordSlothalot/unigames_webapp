@@ -542,9 +542,10 @@ def all_tags():
     return render_template('admin-pages/lib-man/tag-man/all-tags.html', tags=tags, pagination=pagination)
 
 # Page for tag search
-@app.route('/admin/lib-man/tag-man/search-item', methods=['GET', 'POST'])
+@app.route('/admin/lib-man/search-item', methods=['GET', 'POST'])
 @login_required(perm="can_view_hidden")
 def search_item():
+    item_names= None
     searchString = request.form.get('tagSearchInput')
     is_input = False
     is_result = False
@@ -561,7 +562,10 @@ def search_item():
             flash('Search result retrieved from the database!')
             is_result = True
             db_results = db_manager.mongo.db.items.find(result)
-    return render_template('admin-pages/lib-man/tag-man/search-item.html', is_input=is_input, is_result=is_result, result=result, searchString=searchString, db_results=db_results, tags_collection=tags_collection)
+            print(db_results)
+            #item_names = {item.id: item.get_attributes_by_option(db_manager.name_attrib)[0].value for Item.from_dict(item) in db_results}
+            #print(item_names)
+    return render_template('admin-pages/lib-man/search-item.html', is_input=is_input, is_result=is_result, item_names=item_names, result=result, searchString=searchString, db_results=db_results, tags_collection=tags_collection)
 
 
 # Page for creating an implication
