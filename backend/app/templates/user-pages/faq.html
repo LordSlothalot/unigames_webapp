@@ -19,7 +19,7 @@ FAQ
                     you like!</p>
 
                 <h2>What can I do at Unigames?</h2>
-                <p>Play games! There are many <a href="roleplaying.php">roleplaying</a> campaigns in action at the
+                <p>Play games! There are many <a href="{{ url_for('roleplaying') }}">roleplaying</a> campaigns in action at the
                     moment, held either weekly or fortnightly. Popular roleplaying systems at the moment include D&amp;D
                     (5th, 4th and Pathfinder are most common), Dark Heresy (and family), nWoD, and Ad Eva 3.5 (giant
                     robots!).</p>
@@ -42,7 +42,7 @@ FAQ
                         href="https://www.youtube.com/watch?v=V5BTEKh21mA&amp;feature=youtu.be">you can also follow this
                         handy video from our 2018 President Gavin</a>.</p>
 
-                <a href="chmap.jpg"><img src="chmap_t.gif" width="200" height="92" title="Cameron Hall Map"
+                <a href="/static/img/chmap.jpg"><img src="{{ url_for('static', filename='img/chmap_t.gif') }}" width="200" height="92" title="Cameron Hall Map"
                         alt="Cameron Hall Map Thumbnail"
                         style="float:left; border: solid 1px black; margin-right: 10px"></a>
 
