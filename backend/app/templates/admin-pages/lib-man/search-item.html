@@ -1,0 +1,205 @@
+{% extends "final-admin-layout.html" %}
+{% from "_formhelpers.html" import render_field %}
+{% import "bootstrap/wtf.html" as wtf %}
+{% block body %}
+<div class="pb-3 text-center">
+    <br>
+    <h3>Item search</h3>
+    <p class="mb-4">Find items easily via their attached/implied tags.</p>
+</div>
+<div class="row">
+    <div class="col-md-3">
+
+    </div>
+    <div class="col-md-6">
+        <div class="card shadow mb-4">
+            <div class="card-body">
+
+                <form class="navbar-search" action="{{ url_for('search_item') }}" method="post">
+                    <div class="input-group">
+                        <input type="text" class="form-control bg-light border-0 small"
+                            placeholder="Search for items using tags..." aria-label="Search"
+                            aria-describedby="basic-addon2" name="tagSearchInput">
+                        <div class="input-group-append">
+                            <button class="btn btn-primary" type="submit">
+                                <i class="fas fa-search fa-sm"></i>
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-3">
+
+    </div>
+
+</div>
+{% if is_input %}
+{% if is_result %}
+<div class="row">
+    <div class="col-md-3">
+
+    </div>
+    <div class="col-md-6">
+        <div class="card mb-4 py-3 border-left-success">
+            <div class="card-body">
+                <h5>Search results</h5>
+                <p>Showing results for search string: <b>{{ searchString}}</b> </p>
+                <table class="table table-bordered" width="100%" cellspacing="0">
+                    <thead>
+                        <tr>
+                            <th>Title</th>
+                            <th>Tags</th>
+                            <th>Implied tags</th>
+                            <th>Details</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for item in db_results %}
+                        <tr>
+                            <td>
+                                <a
+                                    href="{{ url_for('edit_item', item_id = item['_id']) }}">{{ item['attributes'][0]['value'] }}</a>
+                            </td>
+
+                            <td>
+                                {% for tag in item['tags'] %}
+                                {% for found_tag in tags_collection.find( {"_id": tag} ) %}
+                                <span class="badge badge-pill badge-info ">{{ found_tag['name'] }}</span>
+                                {% endfor %}
+                                {% endfor %}
+                            </td>
+
+                            <td>
+                                {% for tag in item['implied_tags'] %}
+                                {% for found_tag in tags_collection.find( {"_id": tag} ) %}
+                                <span class="badge badge-pill badge-info ">{{ found_tag['name'] }}</span>
+                                {% endfor %}
+                                {% endfor %}
+                            </td>
+
+                            <td><a href="{{ url_for('edit_item', item_id = item['_id']) }}">Edit</a>
+                                <a>/</a>
+                                <a href="{{ url_for('lib_delete', item_id = item['_id']) }}">Delete</a>
+                            </td>
+                        </tr>
+                        {% endfor %}
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="col-md-3">
+
+        </div>
+    </div>
+</div>
+
+{% else%}
+<div class="row">
+    <div class="col-md-3">
+    </div>
+    <div class="col-md-6">
+        <div class="card mb-4 py-3 border-left-warning">
+            <div class="card-body">
+                <h5>Error</h5>
+                {{result}}
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+    </div>
+</div>
+{% endif %}
+{% endif %}
+
+
+<div class="row">
+
+    <div class="col-md-2">
+
+    </div>
+    <div class="col-md-8">
+        <div class="card mb-4">
+            <div class="card-header">
+                <b>Search syntaxes</b>
+            </div>
+            <div class="card-body text-gray-800">
+                <div class="media">
+                    <p class="media-body pb-3 mb-0 small lh-125 border-bottom border-gray">
+                        <strong class="d-block text-gray-dark">tagA, tagB, tagC</strong>
+                        A comma separated list of tags is logical equivalent to:
+                        has_tag(tagA) && has_tag(tagB) && has_tag(tagC)
+                    </p>
+                </div>
+                <div class="media pt-3">
+                    <p class="media-body pb-3 mb-0 small lh-125 border-bottom border-gray">
+                        <strong class="d-block text-gray-dark">A really long tag, short, another tag</strong>
+                        Tags can freely have spaces in them, but are always trimmed, that is no preceding or leading
+                        tags
+                    </p>
+                </div>
+                <div class="media pt-3">
+                    <p class="media-body pb-3 mb-0 small lh-125 border-bottom border-gray">
+                        <strong class="d-block text-gray-dark">ThIs Is A LogIcAL tAG</strong>
+                        Tags are all converted to lower case, so casing doesn't matter
+                    </p>
+                </div>
+                <div class="media pt-3">
+                    <p class="media-body pb-3 mb-0 small lh-125 border-bottom border-gray">
+                        <strong class="d-block text-gray-dark">{tagA,B}, tagB</strong>
+                        If a tag's name contains a comma, to correctly search it you must surround the tag in {}
+                        There for: NO TAGS CAN CONTAINS '{' or '}'
+                        I believe this restriction to be reasonable, and allows for greater control
+                    </p>
+                </div>
+                <div class="media pt-3">
+                    <p class="media-body pb-3 mb-0 small lh-125 border-bottom border-gray">
+                        <strong class="d-block text-gray-dark">tagA ::and tagB</strong>
+                        Explict && (and) operator instead of the implicit and of commas
+                        '::' will be the start of numerous operators, therefore:
+                        '::' SHOULD BE AVOIDED IN TAGS
+                        However if needed see:
+                    </p>
+                </div>
+                <div class="media pt-3">
+                    <p class="media-body pb-3 mb-0 small lh-125 border-bottom border-gray">
+                        <strong class="d-block text-gray-dark">{tagA::B} ::and tagB</strong>
+                        If your tag contains '::', then you need to wrap it in {}, note
+                        if you tag contains ':::', that is 3 or more ':' in a row, then this doesn't matter
+                    </p>
+                </div>
+                <div class="media pt-3">
+                    <p class="media-body pb-3 mb-0 small lh-125 border-bottom border-gray">
+                        <strong class="d-block text-gray-dark">tagA ::or tagB</strong>
+                        ::or is A logical || (or) operator
+                    </p>
+                </div>
+                <div class="media pt-3">
+                    <p class="media-body pb-3 mb-0 small lh-125 border-bottom border-gray">
+                        <strong class="d-block text-gray-dark">tagA ::and ::not tagB</strong>
+                        ::not is the unitary ! (not) operator
+
+                    </p>
+                </div>
+                <div class="media pt-3">
+                    <p class="media-body pb-3 mb-0 small lh-125 border-bottom border-gray">
+                        <strong class="d-block text-gray-dark">tagA ::& (tagB ::| ::! tagC)</strong>
+                        Alternate forms of operators
+                    </p>
+                </div>
+                <small class="d-block text-right mt-3">
+                    <a href="#">All syntaxes</a>
+                </small>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-2">
+
+    </div>
+
+
+
+{% endblock %}
