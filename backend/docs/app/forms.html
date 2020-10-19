@@ -1,0 +1,1283 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
+<meta name="generator" content="pdoc 0.9.1" />
+<title>app.forms API documentation</title>
+<meta name="description" content="" />
+<link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/sanitize.min.css" integrity="sha256-PK9q560IAAa6WVRRh76LtCaI8pjTJ2z11v0miyNNjrs=" crossorigin>
+<link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/typography.min.css" integrity="sha256-7l/o7C8jubJiy74VsKTidCy1yBkRtiUGbVkYBylBqUg=" crossorigin>
+<link rel="stylesheet preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/styles/github.min.css" crossorigin>
+<style>:root{--highlight-color:#fe9}.flex{display:flex !important}body{line-height:1.5em}#content{padding:20px}#sidebar{padding:30px;overflow:hidden}#sidebar > *:last-child{margin-bottom:2cm}.http-server-breadcrumbs{font-size:130%;margin:0 0 15px 0}#footer{font-size:.75em;padding:5px 30px;border-top:1px solid #ddd;text-align:right}#footer p{margin:0 0 0 1em;display:inline-block}#footer p:last-child{margin-right:30px}h1,h2,h3,h4,h5{font-weight:300}h1{font-size:2.5em;line-height:1.1em}h2{font-size:1.75em;margin:1em 0 .50em 0}h3{font-size:1.4em;margin:25px 0 10px 0}h4{margin:0;font-size:105%}h1:target,h2:target,h3:target,h4:target,h5:target,h6:target{background:var(--highlight-color);padding:.2em 0}a{color:#058;text-decoration:none;transition:color .3s ease-in-out}a:hover{color:#e82}.title code{font-weight:bold}h2[id^="header-"]{margin-top:2em}.ident{color:#900}pre code{background:#f8f8f8;font-size:.8em;line-height:1.4em}code{background:#f2f2f1;padding:1px 4px;overflow-wrap:break-word}h1 code{background:transparent}pre{background:#f8f8f8;border:0;border-top:1px solid #ccc;border-bottom:1px solid #ccc;margin:1em 0;padding:1ex}#http-server-module-list{display:flex;flex-flow:column}#http-server-module-list div{display:flex}#http-server-module-list dt{min-width:10%}#http-server-module-list p{margin-top:0}.toc ul,#index{list-style-type:none;margin:0;padding:0}#index code{background:transparent}#index h3{border-bottom:1px solid #ddd}#index ul{padding:0}#index h4{margin-top:.6em;font-weight:bold}@media (min-width:200ex){#index .two-column{column-count:2}}@media (min-width:300ex){#index .two-column{column-count:3}}dl{margin-bottom:2em}dl dl:last-child{margin-bottom:4em}dd{margin:0 0 1em 3em}#header-classes + dl > dd{margin-bottom:3em}dd dd{margin-left:2em}dd p{margin:10px 0}.name{background:#eee;font-weight:bold;font-size:.85em;padding:5px 10px;display:inline-block;min-width:40%}.name:hover{background:#e0e0e0}dt:target .name{background:var(--highlight-color)}.name > span:first-child{white-space:nowrap}.name.class > span:nth-child(2){margin-left:.4em}.inherited{color:#999;border-left:5px solid #eee;padding-left:1em}.inheritance em{font-style:normal;font-weight:bold}.desc h2{font-weight:400;font-size:1.25em}.desc h3{font-size:1em}.desc dt code{background:inherit}.source summary,.git-link-div{color:#666;text-align:right;font-weight:400;font-size:.8em;text-transform:uppercase}.source summary > *{white-space:nowrap;cursor:pointer}.git-link{color:inherit;margin-left:1em}.source pre{max-height:500px;overflow:auto;margin:0}.source pre code{font-size:12px;overflow:visible}.hlist{list-style:none}.hlist li{display:inline}.hlist li:after{content:',\2002'}.hlist li:last-child:after{content:none}.hlist .hlist{display:inline;padding-left:1em}img{max-width:100%}td{padding:0 .5em}.admonition{padding:.1em .5em;margin-bottom:1em}.admonition-title{font-weight:bold}.admonition.note,.admonition.info,.admonition.important{background:#aef}.admonition.todo,.admonition.versionadded,.admonition.tip,.admonition.hint{background:#dfd}.admonition.warning,.admonition.versionchanged,.admonition.deprecated{background:#fd4}.admonition.error,.admonition.danger,.admonition.caution{background:lightpink}</style>
+<style media="screen and (min-width: 700px)">@media screen and (min-width:700px){#sidebar{width:30%;height:100vh;overflow:auto;position:sticky;top:0}#content{width:70%;max-width:100ch;padding:3em 4em;border-left:1px solid #ddd}pre code{font-size:1em}.item .name{font-size:1em}main{display:flex;flex-direction:row-reverse;justify-content:flex-end}.toc ul ul,#index ul{padding-left:1.5em}.toc > ul > li{margin-top:.5em}}</style>
+<style media="print">@media print{#sidebar h1{page-break-before:always}.source{display:none}}@media print{*{background:transparent !important;color:#000 !important;box-shadow:none !important;text-shadow:none !important}a[href]:after{content:" (" attr(href) ")";font-size:90%}a[href][title]:after{content:none}abbr[title]:after{content:" (" attr(title) ")"}.ir a:after,a[href^="javascript:"]:after,a[href^="#"]:after{content:""}pre,blockquote{border:1px solid #999;page-break-inside:avoid}thead{display:table-header-group}tr,img{page-break-inside:avoid}img{max-width:100% !important}@page{margin:0.5cm}p,h2,h3{orphans:3;widows:3}h1,h2,h3,h4,h5,h6{page-break-after:avoid}}</style>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/highlight.min.js" integrity="sha256-Uv3H6lx7dJmRfRvH8TH6kJD1TSK1aFcwgx+mdg3epi8=" crossorigin></script>
+<script>window.addEventListener('DOMContentLoaded', () => hljs.initHighlighting())</script>
+</head>
+<body>
+<main>
+<article id="content">
+<header>
+<h1 class="title">Module <code>app.forms</code></h1>
+</header>
+<section id="section-intro">
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">#This file is for specifying forms
+from app import db_manager
+from flask_wtf import FlaskForm
+from wtforms import StringField, PasswordField, SubmitField, BooleanField, SelectField, TextField, validators, TextAreaField, SelectMultipleField, widgets
+from wtforms.validators import DataRequired, Length, EqualTo, Email
+from wtforms.fields.html5 import EmailField
+# from app.routes import User
+
+import pdoc
+
+#get all tags from the db
+all_roles = db_manager.mongo.db.roles.find()
+#get all tag parameters
+#all_tag_params = db_manager.mongo.db.
+#get all attributes
+all_attirb = db_manager.mongo.db.attrib_options.find()
+
+#login form
+class LoginForm(FlaskForm):
+    &#34;&#34;&#34;
+    Form for user login
+    &#34;&#34;&#34;
+
+    email = EmailField(&#39;Email&#39;, validators = [DataRequired(), Email()])
+    password = PasswordField(&#34;Password&#34;, validators = [DataRequired()])
+    remember_me = BooleanField(&#34;Remember Me&#34;)
+    submit = SubmitField(&#34;Login&#34;)
+
+
+class RegistrationForm(FlaskForm):
+    &#34;&#34;&#34;
+    Form for user registration
+    &#34;&#34;&#34;
+
+    display_name = TextField(&#39;Display Name&#39;, validators = [DataRequired()])
+    first_name = TextField(&#39;First Name&#39;)
+    last_name = TextField(&#39;Last Name&#39;)
+    email = EmailField(&#39;Email&#39;, validators = [DataRequired(), Email()])
+    password = PasswordField(&#34;Password&#34;, validators = [DataRequired()])
+    password2 = PasswordField(&#34;Repeat Password&#34;, validators=[DataRequired(), EqualTo(&#34;password&#34;)])
+    submit = SubmitField(&#39;Register&#39;)
+    
+    
+class UpdatePasswordForm(FlaskForm):
+    &#34;&#34;&#34;
+    Form for user password reset
+    &#34;&#34;&#34;
+    password = PasswordField(&#34;Password&#34;, validators = [DataRequired()])
+    password2 = PasswordField(&#34;Repeat Password&#34;, validators=[DataRequired(), EqualTo(&#34;password&#34;)])
+    submit = SubmitField(&#39;Register&#39;)
+
+    # def validate_username(self, username):
+    #     User.objects()
+        
+class UpdateForm(FlaskForm):
+    &#34;&#34;&#34;
+    Form for users to update their details
+    &#34;&#34;&#34;
+    display_name = TextField(&#39;Display Name&#39;, validators = [DataRequired()]) 
+    first_name = TextField(&#39;First Name&#39;)
+    last_name = TextField(&#39;Last Name&#39;)
+    email = EmailField(&#39;Email&#39;, validators = [DataRequired(), Email()])
+    role = SelectField(&#39;Role&#39;, choices=[(role[&#39;name&#39;], role[&#39;name&#39;]) for role in all_roles])
+    submit = SubmitField(&#39;Update&#39;)
+    delete = SubmitField(&#39;Delete&#39;)
+    
+class CreateUserForm(FlaskForm):
+    &#34;&#34;&#34;
+    Form to create a new user account
+    &#34;&#34;&#34;
+    display_name = TextField(&#39;Display Name&#39;, validators = [DataRequired()])
+    first_name = TextField(&#39;First Name&#39;)
+    last_name = TextField(&#39;Last Name&#39;)
+    email = EmailField(&#39;Email&#39;, validators = [DataRequired(), Email()])
+    password = PasswordField(&#34;Password&#34;, validators = [DataRequired()])
+    password2 = PasswordField(&#34;Repeat Password&#34;, validators=[DataRequired(), EqualTo(&#34;password&#34;)])
+    role = SelectField(&#39;Role&#39;, choices=[(role[&#39;name&#39;], role[&#39;name&#39;]) for role in all_roles])
+    submit = SubmitField(&#39;Register&#39;)
+    
+class UpdateRoleForm(FlaskForm):
+    &#34;&#34;&#34;
+    Form to update a user role
+    &#34;&#34;&#34;
+    name = TextField(&#39;Name&#39;, validators = [DataRequired()]) 
+    priority = TextField(&#39;Priority&#39;, validators = [DataRequired()])
+    can_view_hidden = BooleanField(&#39;Can View Hidden&#39;)
+    can_edit_items = BooleanField(&#39;Can Edit Items&#39;)
+    can_edit_users = BooleanField(&#39;Can Edit Users&#39;)
+    submit = SubmitField(&#39;Update&#39;)
+    delete = SubmitField(&#39;Delete&#39;)
+
+#new entry form
+class newEntryForm(FlaskForm):
+    title = StringField(&#39;Title&#39;,[validators.DataRequired()])
+    description = TextAreaField(&#39;Description&#39;)
+    selection = SelectMultipleField(&#39;Attach multiple tags&#39;)
+    submit = SubmitField(&#39;Save&#39;)
+
+#add a tag form
+class addTagForm(FlaskForm):
+    selection = SelectField(&#39;Add a tag&#39;)
+    submit = SubmitField(&#39;Save&#39;)
+
+#create a tag form
+class createTagForm(FlaskForm):
+    name = StringField(&#39;New tag&#39;, [validators.DataRequired()])
+    #paramValue = StringField(&#39;Tag paramter value (corresponds with the parameter type above)&#39;)
+    submit = SubmitField(&#39;Add&#39;)
+
+#add tag&#39;s implications form
+class addTagParentImplForm(FlaskForm):
+    select_parent = SelectField(&#39;Select its parent tag&#39;)
+    submit = SubmitField(&#39;Add implying tag&#39;)
+
+#add tag&#39;s implications form
+class addTagSiblingImplForm(FlaskForm):
+    select_sibling = SelectField(&#39;Select its sibling tag&#39;)
+    submit = SubmitField(&#39;Add implied tag&#39;)
+
+#add tag&#39;s implications form
+class addTagImplForm(FlaskForm):
+    select_child = SelectField(&#39;Select its child tag&#39;)
+    submit = SubmitField(&#39;Add implied tag&#39;)
+
+#update attribute for an item form
+class updateAttribForm(FlaskForm):
+    attrib_value = TextAreaField(&#39;New attribute value&#39;)
+    submit = SubmitField(&#39;Update&#39;)
+
+
+#add an implication rul
+class addRuleForm(FlaskForm):
+    parent = SelectField(&#39;Parent tag&#39;)
+    child = SelectField(&#39;Child tag&#39;)
+    submit = SubmitField(&#39;Save implication&#39;)</code></pre>
+</details>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+<h2 class="section-title" id="header-classes">Classes</h2>
+<dl>
+<dt id="app.forms.CreateUserForm"><code class="flex name class">
+<span>class <span class="ident">CreateUserForm</span></span>
+<span>(</span><span>formdata=&lt;object object&gt;, **kwargs)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Form to create a new user account</p>
+<p>:param formdata:
+Used to pass data coming from the enduser, usually <code>request.POST</code> or
+equivalent. formdata should be some sort of request-data wrapper which
+can get multiple parameters from the form input, and values are unicode
+strings, e.g. a Werkzeug/Django/WebOb MultiDict
+:param obj:
+If <code>formdata</code> is empty or not provided, this object is checked for
+attributes matching form field names, which will be used for field
+values.
+:param prefix:
+If provided, all fields will have their name prefixed with the
+value.
+:param data:
+Accept a dictionary of data. This is only used if <code>formdata</code> and
+<code>obj</code> are not present.
+:param meta:
+If provided, this is a dictionary of values to override attributes
+on this form's meta instance.
+:param <code>**kwargs</code>:
+If <code>formdata</code> is empty or not provided and <code>obj</code> does not contain
+an attribute named the same as a field, form will assign the value
+of a matching keyword argument to the field, if one exists.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class CreateUserForm(FlaskForm):
+    &#34;&#34;&#34;
+    Form to create a new user account
+    &#34;&#34;&#34;
+    display_name = TextField(&#39;Display Name&#39;, validators = [DataRequired()])
+    first_name = TextField(&#39;First Name&#39;)
+    last_name = TextField(&#39;Last Name&#39;)
+    email = EmailField(&#39;Email&#39;, validators = [DataRequired(), Email()])
+    password = PasswordField(&#34;Password&#34;, validators = [DataRequired()])
+    password2 = PasswordField(&#34;Repeat Password&#34;, validators=[DataRequired(), EqualTo(&#34;password&#34;)])
+    role = SelectField(&#39;Role&#39;, choices=[(role[&#39;name&#39;], role[&#39;name&#39;]) for role in all_roles])
+    submit = SubmitField(&#39;Register&#39;)</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li>flask_wtf.form.FlaskForm</li>
+<li>wtforms.form.Form</li>
+<li>wtforms.compat.NewBase</li>
+<li>wtforms.form.BaseForm</li>
+</ul>
+<h3>Class variables</h3>
+<dl>
+<dt id="app.forms.CreateUserForm.display_name"><code class="name">var <span class="ident">display_name</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="app.forms.CreateUserForm.email"><code class="name">var <span class="ident">email</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="app.forms.CreateUserForm.first_name"><code class="name">var <span class="ident">first_name</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="app.forms.CreateUserForm.last_name"><code class="name">var <span class="ident">last_name</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="app.forms.CreateUserForm.password"><code class="name">var <span class="ident">password</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="app.forms.CreateUserForm.password2"><code class="name">var <span class="ident">password2</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="app.forms.CreateUserForm.role"><code class="name">var <span class="ident">role</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="app.forms.CreateUserForm.submit"><code class="name">var <span class="ident">submit</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+</dl>
+</dd>
+<dt id="app.forms.LoginForm"><code class="flex name class">
+<span>class <span class="ident">LoginForm</span></span>
+<span>(</span><span>formdata=&lt;object object&gt;, **kwargs)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Form for user login</p>
+<p>:param formdata:
+Used to pass data coming from the enduser, usually <code>request.POST</code> or
+equivalent. formdata should be some sort of request-data wrapper which
+can get multiple parameters from the form input, and values are unicode
+strings, e.g. a Werkzeug/Django/WebOb MultiDict
+:param obj:
+If <code>formdata</code> is empty or not provided, this object is checked for
+attributes matching form field names, which will be used for field
+values.
+:param prefix:
+If provided, all fields will have their name prefixed with the
+value.
+:param data:
+Accept a dictionary of data. This is only used if <code>formdata</code> and
+<code>obj</code> are not present.
+:param meta:
+If provided, this is a dictionary of values to override attributes
+on this form's meta instance.
+:param <code>**kwargs</code>:
+If <code>formdata</code> is empty or not provided and <code>obj</code> does not contain
+an attribute named the same as a field, form will assign the value
+of a matching keyword argument to the field, if one exists.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class LoginForm(FlaskForm):
+    &#34;&#34;&#34;
+    Form for user login
+    &#34;&#34;&#34;
+
+    email = EmailField(&#39;Email&#39;, validators = [DataRequired(), Email()])
+    password = PasswordField(&#34;Password&#34;, validators = [DataRequired()])
+    remember_me = BooleanField(&#34;Remember Me&#34;)
+    submit = SubmitField(&#34;Login&#34;)</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li>flask_wtf.form.FlaskForm</li>
+<li>wtforms.form.Form</li>
+<li>wtforms.compat.NewBase</li>
+<li>wtforms.form.BaseForm</li>
+</ul>
+<h3>Class variables</h3>
+<dl>
+<dt id="app.forms.LoginForm.email"><code class="name">var <span class="ident">email</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="app.forms.LoginForm.password"><code class="name">var <span class="ident">password</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="app.forms.LoginForm.remember_me"><code class="name">var <span class="ident">remember_me</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="app.forms.LoginForm.submit"><code class="name">var <span class="ident">submit</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+</dl>
+</dd>
+<dt id="app.forms.RegistrationForm"><code class="flex name class">
+<span>class <span class="ident">RegistrationForm</span></span>
+<span>(</span><span>formdata=&lt;object object&gt;, **kwargs)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Form for user registration</p>
+<p>:param formdata:
+Used to pass data coming from the enduser, usually <code>request.POST</code> or
+equivalent. formdata should be some sort of request-data wrapper which
+can get multiple parameters from the form input, and values are unicode
+strings, e.g. a Werkzeug/Django/WebOb MultiDict
+:param obj:
+If <code>formdata</code> is empty or not provided, this object is checked for
+attributes matching form field names, which will be used for field
+values.
+:param prefix:
+If provided, all fields will have their name prefixed with the
+value.
+:param data:
+Accept a dictionary of data. This is only used if <code>formdata</code> and
+<code>obj</code> are not present.
+:param meta:
+If provided, this is a dictionary of values to override attributes
+on this form's meta instance.
+:param <code>**kwargs</code>:
+If <code>formdata</code> is empty or not provided and <code>obj</code> does not contain
+an attribute named the same as a field, form will assign the value
+of a matching keyword argument to the field, if one exists.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class RegistrationForm(FlaskForm):
+    &#34;&#34;&#34;
+    Form for user registration
+    &#34;&#34;&#34;
+
+    display_name = TextField(&#39;Display Name&#39;, validators = [DataRequired()])
+    first_name = TextField(&#39;First Name&#39;)
+    last_name = TextField(&#39;Last Name&#39;)
+    email = EmailField(&#39;Email&#39;, validators = [DataRequired(), Email()])
+    password = PasswordField(&#34;Password&#34;, validators = [DataRequired()])
+    password2 = PasswordField(&#34;Repeat Password&#34;, validators=[DataRequired(), EqualTo(&#34;password&#34;)])
+    submit = SubmitField(&#39;Register&#39;)</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li>flask_wtf.form.FlaskForm</li>
+<li>wtforms.form.Form</li>
+<li>wtforms.compat.NewBase</li>
+<li>wtforms.form.BaseForm</li>
+</ul>
+<h3>Class variables</h3>
+<dl>
+<dt id="app.forms.RegistrationForm.display_name"><code class="name">var <span class="ident">display_name</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="app.forms.RegistrationForm.email"><code class="name">var <span class="ident">email</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="app.forms.RegistrationForm.first_name"><code class="name">var <span class="ident">first_name</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="app.forms.RegistrationForm.last_name"><code class="name">var <span class="ident">last_name</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="app.forms.RegistrationForm.password"><code class="name">var <span class="ident">password</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="app.forms.RegistrationForm.password2"><code class="name">var <span class="ident">password2</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="app.forms.RegistrationForm.submit"><code class="name">var <span class="ident">submit</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+</dl>
+</dd>
+<dt id="app.forms.UpdateForm"><code class="flex name class">
+<span>class <span class="ident">UpdateForm</span></span>
+<span>(</span><span>formdata=&lt;object object&gt;, **kwargs)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Form for users to update their details</p>
+<p>:param formdata:
+Used to pass data coming from the enduser, usually <code>request.POST</code> or
+equivalent. formdata should be some sort of request-data wrapper which
+can get multiple parameters from the form input, and values are unicode
+strings, e.g. a Werkzeug/Django/WebOb MultiDict
+:param obj:
+If <code>formdata</code> is empty or not provided, this object is checked for
+attributes matching form field names, which will be used for field
+values.
+:param prefix:
+If provided, all fields will have their name prefixed with the
+value.
+:param data:
+Accept a dictionary of data. This is only used if <code>formdata</code> and
+<code>obj</code> are not present.
+:param meta:
+If provided, this is a dictionary of values to override attributes
+on this form's meta instance.
+:param <code>**kwargs</code>:
+If <code>formdata</code> is empty or not provided and <code>obj</code> does not contain
+an attribute named the same as a field, form will assign the value
+of a matching keyword argument to the field, if one exists.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class UpdateForm(FlaskForm):
+    &#34;&#34;&#34;
+    Form for users to update their details
+    &#34;&#34;&#34;
+    display_name = TextField(&#39;Display Name&#39;, validators = [DataRequired()]) 
+    first_name = TextField(&#39;First Name&#39;)
+    last_name = TextField(&#39;Last Name&#39;)
+    email = EmailField(&#39;Email&#39;, validators = [DataRequired(), Email()])
+    role = SelectField(&#39;Role&#39;, choices=[(role[&#39;name&#39;], role[&#39;name&#39;]) for role in all_roles])
+    submit = SubmitField(&#39;Update&#39;)
+    delete = SubmitField(&#39;Delete&#39;)</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li>flask_wtf.form.FlaskForm</li>
+<li>wtforms.form.Form</li>
+<li>wtforms.compat.NewBase</li>
+<li>wtforms.form.BaseForm</li>
+</ul>
+<h3>Class variables</h3>
+<dl>
+<dt id="app.forms.UpdateForm.delete"><code class="name">var <span class="ident">delete</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="app.forms.UpdateForm.display_name"><code class="name">var <span class="ident">display_name</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="app.forms.UpdateForm.email"><code class="name">var <span class="ident">email</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="app.forms.UpdateForm.first_name"><code class="name">var <span class="ident">first_name</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="app.forms.UpdateForm.last_name"><code class="name">var <span class="ident">last_name</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="app.forms.UpdateForm.role"><code class="name">var <span class="ident">role</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="app.forms.UpdateForm.submit"><code class="name">var <span class="ident">submit</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+</dl>
+</dd>
+<dt id="app.forms.UpdatePasswordForm"><code class="flex name class">
+<span>class <span class="ident">UpdatePasswordForm</span></span>
+<span>(</span><span>formdata=&lt;object object&gt;, **kwargs)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Form for user password reset</p>
+<p>:param formdata:
+Used to pass data coming from the enduser, usually <code>request.POST</code> or
+equivalent. formdata should be some sort of request-data wrapper which
+can get multiple parameters from the form input, and values are unicode
+strings, e.g. a Werkzeug/Django/WebOb MultiDict
+:param obj:
+If <code>formdata</code> is empty or not provided, this object is checked for
+attributes matching form field names, which will be used for field
+values.
+:param prefix:
+If provided, all fields will have their name prefixed with the
+value.
+:param data:
+Accept a dictionary of data. This is only used if <code>formdata</code> and
+<code>obj</code> are not present.
+:param meta:
+If provided, this is a dictionary of values to override attributes
+on this form's meta instance.
+:param <code>**kwargs</code>:
+If <code>formdata</code> is empty or not provided and <code>obj</code> does not contain
+an attribute named the same as a field, form will assign the value
+of a matching keyword argument to the field, if one exists.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class UpdatePasswordForm(FlaskForm):
+    &#34;&#34;&#34;
+    Form for user password reset
+    &#34;&#34;&#34;
+    password = PasswordField(&#34;Password&#34;, validators = [DataRequired()])
+    password2 = PasswordField(&#34;Repeat Password&#34;, validators=[DataRequired(), EqualTo(&#34;password&#34;)])
+    submit = SubmitField(&#39;Register&#39;)</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li>flask_wtf.form.FlaskForm</li>
+<li>wtforms.form.Form</li>
+<li>wtforms.compat.NewBase</li>
+<li>wtforms.form.BaseForm</li>
+</ul>
+<h3>Class variables</h3>
+<dl>
+<dt id="app.forms.UpdatePasswordForm.password"><code class="name">var <span class="ident">password</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="app.forms.UpdatePasswordForm.password2"><code class="name">var <span class="ident">password2</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="app.forms.UpdatePasswordForm.submit"><code class="name">var <span class="ident">submit</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+</dl>
+</dd>
+<dt id="app.forms.UpdateRoleForm"><code class="flex name class">
+<span>class <span class="ident">UpdateRoleForm</span></span>
+<span>(</span><span>formdata=&lt;object object&gt;, **kwargs)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Form to update a user role</p>
+<p>:param formdata:
+Used to pass data coming from the enduser, usually <code>request.POST</code> or
+equivalent. formdata should be some sort of request-data wrapper which
+can get multiple parameters from the form input, and values are unicode
+strings, e.g. a Werkzeug/Django/WebOb MultiDict
+:param obj:
+If <code>formdata</code> is empty or not provided, this object is checked for
+attributes matching form field names, which will be used for field
+values.
+:param prefix:
+If provided, all fields will have their name prefixed with the
+value.
+:param data:
+Accept a dictionary of data. This is only used if <code>formdata</code> and
+<code>obj</code> are not present.
+:param meta:
+If provided, this is a dictionary of values to override attributes
+on this form's meta instance.
+:param <code>**kwargs</code>:
+If <code>formdata</code> is empty or not provided and <code>obj</code> does not contain
+an attribute named the same as a field, form will assign the value
+of a matching keyword argument to the field, if one exists.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class UpdateRoleForm(FlaskForm):
+    &#34;&#34;&#34;
+    Form to update a user role
+    &#34;&#34;&#34;
+    name = TextField(&#39;Name&#39;, validators = [DataRequired()]) 
+    priority = TextField(&#39;Priority&#39;, validators = [DataRequired()])
+    can_view_hidden = BooleanField(&#39;Can View Hidden&#39;)
+    can_edit_items = BooleanField(&#39;Can Edit Items&#39;)
+    can_edit_users = BooleanField(&#39;Can Edit Users&#39;)
+    submit = SubmitField(&#39;Update&#39;)
+    delete = SubmitField(&#39;Delete&#39;)</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li>flask_wtf.form.FlaskForm</li>
+<li>wtforms.form.Form</li>
+<li>wtforms.compat.NewBase</li>
+<li>wtforms.form.BaseForm</li>
+</ul>
+<h3>Class variables</h3>
+<dl>
+<dt id="app.forms.UpdateRoleForm.can_edit_items"><code class="name">var <span class="ident">can_edit_items</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="app.forms.UpdateRoleForm.can_edit_users"><code class="name">var <span class="ident">can_edit_users</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="app.forms.UpdateRoleForm.can_view_hidden"><code class="name">var <span class="ident">can_view_hidden</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="app.forms.UpdateRoleForm.delete"><code class="name">var <span class="ident">delete</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="app.forms.UpdateRoleForm.name"><code class="name">var <span class="ident">name</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="app.forms.UpdateRoleForm.priority"><code class="name">var <span class="ident">priority</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="app.forms.UpdateRoleForm.submit"><code class="name">var <span class="ident">submit</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+</dl>
+</dd>
+<dt id="app.forms.addRuleForm"><code class="flex name class">
+<span>class <span class="ident">addRuleForm</span></span>
+<span>(</span><span>formdata=&lt;object object&gt;, **kwargs)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Flask-specific subclass of WTForms :class:<code>~wtforms.form.Form</code>.</p>
+<p>If <code>formdata</code> is not specified, this will use :attr:<code>flask.request.form</code>
+and :attr:<code>flask.request.files</code>.
+Explicitly pass <code>formdata=None</code> to
+prevent this.</p>
+<p>:param formdata:
+Used to pass data coming from the enduser, usually <code>request.POST</code> or
+equivalent. formdata should be some sort of request-data wrapper which
+can get multiple parameters from the form input, and values are unicode
+strings, e.g. a Werkzeug/Django/WebOb MultiDict
+:param obj:
+If <code>formdata</code> is empty or not provided, this object is checked for
+attributes matching form field names, which will be used for field
+values.
+:param prefix:
+If provided, all fields will have their name prefixed with the
+value.
+:param data:
+Accept a dictionary of data. This is only used if <code>formdata</code> and
+<code>obj</code> are not present.
+:param meta:
+If provided, this is a dictionary of values to override attributes
+on this form's meta instance.
+:param <code>**kwargs</code>:
+If <code>formdata</code> is empty or not provided and <code>obj</code> does not contain
+an attribute named the same as a field, form will assign the value
+of a matching keyword argument to the field, if one exists.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class addRuleForm(FlaskForm):
+    parent = SelectField(&#39;Parent tag&#39;)
+    child = SelectField(&#39;Child tag&#39;)
+    submit = SubmitField(&#39;Save implication&#39;)</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li>flask_wtf.form.FlaskForm</li>
+<li>wtforms.form.Form</li>
+<li>wtforms.compat.NewBase</li>
+<li>wtforms.form.BaseForm</li>
+</ul>
+<h3>Class variables</h3>
+<dl>
+<dt id="app.forms.addRuleForm.child"><code class="name">var <span class="ident">child</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="app.forms.addRuleForm.parent"><code class="name">var <span class="ident">parent</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="app.forms.addRuleForm.submit"><code class="name">var <span class="ident">submit</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+</dl>
+</dd>
+<dt id="app.forms.addTagForm"><code class="flex name class">
+<span>class <span class="ident">addTagForm</span></span>
+<span>(</span><span>formdata=&lt;object object&gt;, **kwargs)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Flask-specific subclass of WTForms :class:<code>~wtforms.form.Form</code>.</p>
+<p>If <code>formdata</code> is not specified, this will use :attr:<code>flask.request.form</code>
+and :attr:<code>flask.request.files</code>.
+Explicitly pass <code>formdata=None</code> to
+prevent this.</p>
+<p>:param formdata:
+Used to pass data coming from the enduser, usually <code>request.POST</code> or
+equivalent. formdata should be some sort of request-data wrapper which
+can get multiple parameters from the form input, and values are unicode
+strings, e.g. a Werkzeug/Django/WebOb MultiDict
+:param obj:
+If <code>formdata</code> is empty or not provided, this object is checked for
+attributes matching form field names, which will be used for field
+values.
+:param prefix:
+If provided, all fields will have their name prefixed with the
+value.
+:param data:
+Accept a dictionary of data. This is only used if <code>formdata</code> and
+<code>obj</code> are not present.
+:param meta:
+If provided, this is a dictionary of values to override attributes
+on this form's meta instance.
+:param <code>**kwargs</code>:
+If <code>formdata</code> is empty or not provided and <code>obj</code> does not contain
+an attribute named the same as a field, form will assign the value
+of a matching keyword argument to the field, if one exists.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class addTagForm(FlaskForm):
+    selection = SelectField(&#39;Add a tag&#39;)
+    submit = SubmitField(&#39;Save&#39;)</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li>flask_wtf.form.FlaskForm</li>
+<li>wtforms.form.Form</li>
+<li>wtforms.compat.NewBase</li>
+<li>wtforms.form.BaseForm</li>
+</ul>
+<h3>Class variables</h3>
+<dl>
+<dt id="app.forms.addTagForm.selection"><code class="name">var <span class="ident">selection</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="app.forms.addTagForm.submit"><code class="name">var <span class="ident">submit</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+</dl>
+</dd>
+<dt id="app.forms.addTagImplForm"><code class="flex name class">
+<span>class <span class="ident">addTagImplForm</span></span>
+<span>(</span><span>formdata=&lt;object object&gt;, **kwargs)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Flask-specific subclass of WTForms :class:<code>~wtforms.form.Form</code>.</p>
+<p>If <code>formdata</code> is not specified, this will use :attr:<code>flask.request.form</code>
+and :attr:<code>flask.request.files</code>.
+Explicitly pass <code>formdata=None</code> to
+prevent this.</p>
+<p>:param formdata:
+Used to pass data coming from the enduser, usually <code>request.POST</code> or
+equivalent. formdata should be some sort of request-data wrapper which
+can get multiple parameters from the form input, and values are unicode
+strings, e.g. a Werkzeug/Django/WebOb MultiDict
+:param obj:
+If <code>formdata</code> is empty or not provided, this object is checked for
+attributes matching form field names, which will be used for field
+values.
+:param prefix:
+If provided, all fields will have their name prefixed with the
+value.
+:param data:
+Accept a dictionary of data. This is only used if <code>formdata</code> and
+<code>obj</code> are not present.
+:param meta:
+If provided, this is a dictionary of values to override attributes
+on this form's meta instance.
+:param <code>**kwargs</code>:
+If <code>formdata</code> is empty or not provided and <code>obj</code> does not contain
+an attribute named the same as a field, form will assign the value
+of a matching keyword argument to the field, if one exists.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class addTagImplForm(FlaskForm):
+    select_child = SelectField(&#39;Select its child tag&#39;)
+    submit = SubmitField(&#39;Add implied tag&#39;)</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li>flask_wtf.form.FlaskForm</li>
+<li>wtforms.form.Form</li>
+<li>wtforms.compat.NewBase</li>
+<li>wtforms.form.BaseForm</li>
+</ul>
+<h3>Class variables</h3>
+<dl>
+<dt id="app.forms.addTagImplForm.select_child"><code class="name">var <span class="ident">select_child</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="app.forms.addTagImplForm.submit"><code class="name">var <span class="ident">submit</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+</dl>
+</dd>
+<dt id="app.forms.addTagParentImplForm"><code class="flex name class">
+<span>class <span class="ident">addTagParentImplForm</span></span>
+<span>(</span><span>formdata=&lt;object object&gt;, **kwargs)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Flask-specific subclass of WTForms :class:<code>~wtforms.form.Form</code>.</p>
+<p>If <code>formdata</code> is not specified, this will use :attr:<code>flask.request.form</code>
+and :attr:<code>flask.request.files</code>.
+Explicitly pass <code>formdata=None</code> to
+prevent this.</p>
+<p>:param formdata:
+Used to pass data coming from the enduser, usually <code>request.POST</code> or
+equivalent. formdata should be some sort of request-data wrapper which
+can get multiple parameters from the form input, and values are unicode
+strings, e.g. a Werkzeug/Django/WebOb MultiDict
+:param obj:
+If <code>formdata</code> is empty or not provided, this object is checked for
+attributes matching form field names, which will be used for field
+values.
+:param prefix:
+If provided, all fields will have their name prefixed with the
+value.
+:param data:
+Accept a dictionary of data. This is only used if <code>formdata</code> and
+<code>obj</code> are not present.
+:param meta:
+If provided, this is a dictionary of values to override attributes
+on this form's meta instance.
+:param <code>**kwargs</code>:
+If <code>formdata</code> is empty or not provided and <code>obj</code> does not contain
+an attribute named the same as a field, form will assign the value
+of a matching keyword argument to the field, if one exists.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class addTagParentImplForm(FlaskForm):
+    select_parent = SelectField(&#39;Select its parent tag&#39;)
+    submit = SubmitField(&#39;Add implying tag&#39;)</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li>flask_wtf.form.FlaskForm</li>
+<li>wtforms.form.Form</li>
+<li>wtforms.compat.NewBase</li>
+<li>wtforms.form.BaseForm</li>
+</ul>
+<h3>Class variables</h3>
+<dl>
+<dt id="app.forms.addTagParentImplForm.select_parent"><code class="name">var <span class="ident">select_parent</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="app.forms.addTagParentImplForm.submit"><code class="name">var <span class="ident">submit</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+</dl>
+</dd>
+<dt id="app.forms.addTagSiblingImplForm"><code class="flex name class">
+<span>class <span class="ident">addTagSiblingImplForm</span></span>
+<span>(</span><span>formdata=&lt;object object&gt;, **kwargs)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Flask-specific subclass of WTForms :class:<code>~wtforms.form.Form</code>.</p>
+<p>If <code>formdata</code> is not specified, this will use :attr:<code>flask.request.form</code>
+and :attr:<code>flask.request.files</code>.
+Explicitly pass <code>formdata=None</code> to
+prevent this.</p>
+<p>:param formdata:
+Used to pass data coming from the enduser, usually <code>request.POST</code> or
+equivalent. formdata should be some sort of request-data wrapper which
+can get multiple parameters from the form input, and values are unicode
+strings, e.g. a Werkzeug/Django/WebOb MultiDict
+:param obj:
+If <code>formdata</code> is empty or not provided, this object is checked for
+attributes matching form field names, which will be used for field
+values.
+:param prefix:
+If provided, all fields will have their name prefixed with the
+value.
+:param data:
+Accept a dictionary of data. This is only used if <code>formdata</code> and
+<code>obj</code> are not present.
+:param meta:
+If provided, this is a dictionary of values to override attributes
+on this form's meta instance.
+:param <code>**kwargs</code>:
+If <code>formdata</code> is empty or not provided and <code>obj</code> does not contain
+an attribute named the same as a field, form will assign the value
+of a matching keyword argument to the field, if one exists.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class addTagSiblingImplForm(FlaskForm):
+    select_sibling = SelectField(&#39;Select its sibling tag&#39;)
+    submit = SubmitField(&#39;Add implied tag&#39;)</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li>flask_wtf.form.FlaskForm</li>
+<li>wtforms.form.Form</li>
+<li>wtforms.compat.NewBase</li>
+<li>wtforms.form.BaseForm</li>
+</ul>
+<h3>Class variables</h3>
+<dl>
+<dt id="app.forms.addTagSiblingImplForm.select_sibling"><code class="name">var <span class="ident">select_sibling</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="app.forms.addTagSiblingImplForm.submit"><code class="name">var <span class="ident">submit</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+</dl>
+</dd>
+<dt id="app.forms.createTagForm"><code class="flex name class">
+<span>class <span class="ident">createTagForm</span></span>
+<span>(</span><span>formdata=&lt;object object&gt;, **kwargs)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Flask-specific subclass of WTForms :class:<code>~wtforms.form.Form</code>.</p>
+<p>If <code>formdata</code> is not specified, this will use :attr:<code>flask.request.form</code>
+and :attr:<code>flask.request.files</code>.
+Explicitly pass <code>formdata=None</code> to
+prevent this.</p>
+<p>:param formdata:
+Used to pass data coming from the enduser, usually <code>request.POST</code> or
+equivalent. formdata should be some sort of request-data wrapper which
+can get multiple parameters from the form input, and values are unicode
+strings, e.g. a Werkzeug/Django/WebOb MultiDict
+:param obj:
+If <code>formdata</code> is empty or not provided, this object is checked for
+attributes matching form field names, which will be used for field
+values.
+:param prefix:
+If provided, all fields will have their name prefixed with the
+value.
+:param data:
+Accept a dictionary of data. This is only used if <code>formdata</code> and
+<code>obj</code> are not present.
+:param meta:
+If provided, this is a dictionary of values to override attributes
+on this form's meta instance.
+:param <code>**kwargs</code>:
+If <code>formdata</code> is empty or not provided and <code>obj</code> does not contain
+an attribute named the same as a field, form will assign the value
+of a matching keyword argument to the field, if one exists.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class createTagForm(FlaskForm):
+    name = StringField(&#39;New tag&#39;, [validators.DataRequired()])
+    #paramValue = StringField(&#39;Tag paramter value (corresponds with the parameter type above)&#39;)
+    submit = SubmitField(&#39;Add&#39;)</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li>flask_wtf.form.FlaskForm</li>
+<li>wtforms.form.Form</li>
+<li>wtforms.compat.NewBase</li>
+<li>wtforms.form.BaseForm</li>
+</ul>
+<h3>Class variables</h3>
+<dl>
+<dt id="app.forms.createTagForm.name"><code class="name">var <span class="ident">name</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="app.forms.createTagForm.submit"><code class="name">var <span class="ident">submit</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+</dl>
+</dd>
+<dt id="app.forms.newEntryForm"><code class="flex name class">
+<span>class <span class="ident">newEntryForm</span></span>
+<span>(</span><span>formdata=&lt;object object&gt;, **kwargs)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Flask-specific subclass of WTForms :class:<code>~wtforms.form.Form</code>.</p>
+<p>If <code>formdata</code> is not specified, this will use :attr:<code>flask.request.form</code>
+and :attr:<code>flask.request.files</code>.
+Explicitly pass <code>formdata=None</code> to
+prevent this.</p>
+<p>:param formdata:
+Used to pass data coming from the enduser, usually <code>request.POST</code> or
+equivalent. formdata should be some sort of request-data wrapper which
+can get multiple parameters from the form input, and values are unicode
+strings, e.g. a Werkzeug/Django/WebOb MultiDict
+:param obj:
+If <code>formdata</code> is empty or not provided, this object is checked for
+attributes matching form field names, which will be used for field
+values.
+:param prefix:
+If provided, all fields will have their name prefixed with the
+value.
+:param data:
+Accept a dictionary of data. This is only used if <code>formdata</code> and
+<code>obj</code> are not present.
+:param meta:
+If provided, this is a dictionary of values to override attributes
+on this form's meta instance.
+:param <code>**kwargs</code>:
+If <code>formdata</code> is empty or not provided and <code>obj</code> does not contain
+an attribute named the same as a field, form will assign the value
+of a matching keyword argument to the field, if one exists.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class newEntryForm(FlaskForm):
+    title = StringField(&#39;Title&#39;,[validators.DataRequired()])
+    description = TextAreaField(&#39;Description&#39;)
+    selection = SelectMultipleField(&#39;Attach multiple tags&#39;)
+    submit = SubmitField(&#39;Save&#39;)</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li>flask_wtf.form.FlaskForm</li>
+<li>wtforms.form.Form</li>
+<li>wtforms.compat.NewBase</li>
+<li>wtforms.form.BaseForm</li>
+</ul>
+<h3>Class variables</h3>
+<dl>
+<dt id="app.forms.newEntryForm.description"><code class="name">var <span class="ident">description</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="app.forms.newEntryForm.selection"><code class="name">var <span class="ident">selection</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="app.forms.newEntryForm.submit"><code class="name">var <span class="ident">submit</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="app.forms.newEntryForm.title"><code class="name">var <span class="ident">title</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+</dl>
+</dd>
+<dt id="app.forms.updateAttribForm"><code class="flex name class">
+<span>class <span class="ident">updateAttribForm</span></span>
+<span>(</span><span>formdata=&lt;object object&gt;, **kwargs)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Flask-specific subclass of WTForms :class:<code>~wtforms.form.Form</code>.</p>
+<p>If <code>formdata</code> is not specified, this will use :attr:<code>flask.request.form</code>
+and :attr:<code>flask.request.files</code>.
+Explicitly pass <code>formdata=None</code> to
+prevent this.</p>
+<p>:param formdata:
+Used to pass data coming from the enduser, usually <code>request.POST</code> or
+equivalent. formdata should be some sort of request-data wrapper which
+can get multiple parameters from the form input, and values are unicode
+strings, e.g. a Werkzeug/Django/WebOb MultiDict
+:param obj:
+If <code>formdata</code> is empty or not provided, this object is checked for
+attributes matching form field names, which will be used for field
+values.
+:param prefix:
+If provided, all fields will have their name prefixed with the
+value.
+:param data:
+Accept a dictionary of data. This is only used if <code>formdata</code> and
+<code>obj</code> are not present.
+:param meta:
+If provided, this is a dictionary of values to override attributes
+on this form's meta instance.
+:param <code>**kwargs</code>:
+If <code>formdata</code> is empty or not provided and <code>obj</code> does not contain
+an attribute named the same as a field, form will assign the value
+of a matching keyword argument to the field, if one exists.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class updateAttribForm(FlaskForm):
+    attrib_value = TextAreaField(&#39;New attribute value&#39;)
+    submit = SubmitField(&#39;Update&#39;)</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li>flask_wtf.form.FlaskForm</li>
+<li>wtforms.form.Form</li>
+<li>wtforms.compat.NewBase</li>
+<li>wtforms.form.BaseForm</li>
+</ul>
+<h3>Class variables</h3>
+<dl>
+<dt id="app.forms.updateAttribForm.attrib_value"><code class="name">var <span class="ident">attrib_value</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="app.forms.updateAttribForm.submit"><code class="name">var <span class="ident">submit</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+</dl>
+</dd>
+</dl>
+</section>
+</article>
+<nav id="sidebar">
+<h1>Index</h1>
+<div class="toc">
+<ul></ul>
+</div>
+<ul id="index">
+<li><h3>Super-module</h3>
+<ul>
+<li><code><a title="app" href="index.html">app</a></code></li>
+</ul>
+</li>
+<li><h3><a href="#header-classes">Classes</a></h3>
+<ul>
+<li>
+<h4><code><a title="app.forms.CreateUserForm" href="#app.forms.CreateUserForm">CreateUserForm</a></code></h4>
+<ul class="two-column">
+<li><code><a title="app.forms.CreateUserForm.display_name" href="#app.forms.CreateUserForm.display_name">display_name</a></code></li>
+<li><code><a title="app.forms.CreateUserForm.email" href="#app.forms.CreateUserForm.email">email</a></code></li>
+<li><code><a title="app.forms.CreateUserForm.first_name" href="#app.forms.CreateUserForm.first_name">first_name</a></code></li>
+<li><code><a title="app.forms.CreateUserForm.last_name" href="#app.forms.CreateUserForm.last_name">last_name</a></code></li>
+<li><code><a title="app.forms.CreateUserForm.password" href="#app.forms.CreateUserForm.password">password</a></code></li>
+<li><code><a title="app.forms.CreateUserForm.password2" href="#app.forms.CreateUserForm.password2">password2</a></code></li>
+<li><code><a title="app.forms.CreateUserForm.role" href="#app.forms.CreateUserForm.role">role</a></code></li>
+<li><code><a title="app.forms.CreateUserForm.submit" href="#app.forms.CreateUserForm.submit">submit</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="app.forms.LoginForm" href="#app.forms.LoginForm">LoginForm</a></code></h4>
+<ul class="">
+<li><code><a title="app.forms.LoginForm.email" href="#app.forms.LoginForm.email">email</a></code></li>
+<li><code><a title="app.forms.LoginForm.password" href="#app.forms.LoginForm.password">password</a></code></li>
+<li><code><a title="app.forms.LoginForm.remember_me" href="#app.forms.LoginForm.remember_me">remember_me</a></code></li>
+<li><code><a title="app.forms.LoginForm.submit" href="#app.forms.LoginForm.submit">submit</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="app.forms.RegistrationForm" href="#app.forms.RegistrationForm">RegistrationForm</a></code></h4>
+<ul class="two-column">
+<li><code><a title="app.forms.RegistrationForm.display_name" href="#app.forms.RegistrationForm.display_name">display_name</a></code></li>
+<li><code><a title="app.forms.RegistrationForm.email" href="#app.forms.RegistrationForm.email">email</a></code></li>
+<li><code><a title="app.forms.RegistrationForm.first_name" href="#app.forms.RegistrationForm.first_name">first_name</a></code></li>
+<li><code><a title="app.forms.RegistrationForm.last_name" href="#app.forms.RegistrationForm.last_name">last_name</a></code></li>
+<li><code><a title="app.forms.RegistrationForm.password" href="#app.forms.RegistrationForm.password">password</a></code></li>
+<li><code><a title="app.forms.RegistrationForm.password2" href="#app.forms.RegistrationForm.password2">password2</a></code></li>
+<li><code><a title="app.forms.RegistrationForm.submit" href="#app.forms.RegistrationForm.submit">submit</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="app.forms.UpdateForm" href="#app.forms.UpdateForm">UpdateForm</a></code></h4>
+<ul class="two-column">
+<li><code><a title="app.forms.UpdateForm.delete" href="#app.forms.UpdateForm.delete">delete</a></code></li>
+<li><code><a title="app.forms.UpdateForm.display_name" href="#app.forms.UpdateForm.display_name">display_name</a></code></li>
+<li><code><a title="app.forms.UpdateForm.email" href="#app.forms.UpdateForm.email">email</a></code></li>
+<li><code><a title="app.forms.UpdateForm.first_name" href="#app.forms.UpdateForm.first_name">first_name</a></code></li>
+<li><code><a title="app.forms.UpdateForm.last_name" href="#app.forms.UpdateForm.last_name">last_name</a></code></li>
+<li><code><a title="app.forms.UpdateForm.role" href="#app.forms.UpdateForm.role">role</a></code></li>
+<li><code><a title="app.forms.UpdateForm.submit" href="#app.forms.UpdateForm.submit">submit</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="app.forms.UpdatePasswordForm" href="#app.forms.UpdatePasswordForm">UpdatePasswordForm</a></code></h4>
+<ul class="">
+<li><code><a title="app.forms.UpdatePasswordForm.password" href="#app.forms.UpdatePasswordForm.password">password</a></code></li>
+<li><code><a title="app.forms.UpdatePasswordForm.password2" href="#app.forms.UpdatePasswordForm.password2">password2</a></code></li>
+<li><code><a title="app.forms.UpdatePasswordForm.submit" href="#app.forms.UpdatePasswordForm.submit">submit</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="app.forms.UpdateRoleForm" href="#app.forms.UpdateRoleForm">UpdateRoleForm</a></code></h4>
+<ul class="two-column">
+<li><code><a title="app.forms.UpdateRoleForm.can_edit_items" href="#app.forms.UpdateRoleForm.can_edit_items">can_edit_items</a></code></li>
+<li><code><a title="app.forms.UpdateRoleForm.can_edit_users" href="#app.forms.UpdateRoleForm.can_edit_users">can_edit_users</a></code></li>
+<li><code><a title="app.forms.UpdateRoleForm.can_view_hidden" href="#app.forms.UpdateRoleForm.can_view_hidden">can_view_hidden</a></code></li>
+<li><code><a title="app.forms.UpdateRoleForm.delete" href="#app.forms.UpdateRoleForm.delete">delete</a></code></li>
+<li><code><a title="app.forms.UpdateRoleForm.name" href="#app.forms.UpdateRoleForm.name">name</a></code></li>
+<li><code><a title="app.forms.UpdateRoleForm.priority" href="#app.forms.UpdateRoleForm.priority">priority</a></code></li>
+<li><code><a title="app.forms.UpdateRoleForm.submit" href="#app.forms.UpdateRoleForm.submit">submit</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="app.forms.addRuleForm" href="#app.forms.addRuleForm">addRuleForm</a></code></h4>
+<ul class="">
+<li><code><a title="app.forms.addRuleForm.child" href="#app.forms.addRuleForm.child">child</a></code></li>
+<li><code><a title="app.forms.addRuleForm.parent" href="#app.forms.addRuleForm.parent">parent</a></code></li>
+<li><code><a title="app.forms.addRuleForm.submit" href="#app.forms.addRuleForm.submit">submit</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="app.forms.addTagForm" href="#app.forms.addTagForm">addTagForm</a></code></h4>
+<ul class="">
+<li><code><a title="app.forms.addTagForm.selection" href="#app.forms.addTagForm.selection">selection</a></code></li>
+<li><code><a title="app.forms.addTagForm.submit" href="#app.forms.addTagForm.submit">submit</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="app.forms.addTagImplForm" href="#app.forms.addTagImplForm">addTagImplForm</a></code></h4>
+<ul class="">
+<li><code><a title="app.forms.addTagImplForm.select_child" href="#app.forms.addTagImplForm.select_child">select_child</a></code></li>
+<li><code><a title="app.forms.addTagImplForm.submit" href="#app.forms.addTagImplForm.submit">submit</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="app.forms.addTagParentImplForm" href="#app.forms.addTagParentImplForm">addTagParentImplForm</a></code></h4>
+<ul class="">
+<li><code><a title="app.forms.addTagParentImplForm.select_parent" href="#app.forms.addTagParentImplForm.select_parent">select_parent</a></code></li>
+<li><code><a title="app.forms.addTagParentImplForm.submit" href="#app.forms.addTagParentImplForm.submit">submit</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="app.forms.addTagSiblingImplForm" href="#app.forms.addTagSiblingImplForm">addTagSiblingImplForm</a></code></h4>
+<ul class="">
+<li><code><a title="app.forms.addTagSiblingImplForm.select_sibling" href="#app.forms.addTagSiblingImplForm.select_sibling">select_sibling</a></code></li>
+<li><code><a title="app.forms.addTagSiblingImplForm.submit" href="#app.forms.addTagSiblingImplForm.submit">submit</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="app.forms.createTagForm" href="#app.forms.createTagForm">createTagForm</a></code></h4>
+<ul class="">
+<li><code><a title="app.forms.createTagForm.name" href="#app.forms.createTagForm.name">name</a></code></li>
+<li><code><a title="app.forms.createTagForm.submit" href="#app.forms.createTagForm.submit">submit</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="app.forms.newEntryForm" href="#app.forms.newEntryForm">newEntryForm</a></code></h4>
+<ul class="">
+<li><code><a title="app.forms.newEntryForm.description" href="#app.forms.newEntryForm.description">description</a></code></li>
+<li><code><a title="app.forms.newEntryForm.selection" href="#app.forms.newEntryForm.selection">selection</a></code></li>
+<li><code><a title="app.forms.newEntryForm.submit" href="#app.forms.newEntryForm.submit">submit</a></code></li>
+<li><code><a title="app.forms.newEntryForm.title" href="#app.forms.newEntryForm.title">title</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="app.forms.updateAttribForm" href="#app.forms.updateAttribForm">updateAttribForm</a></code></h4>
+<ul class="">
+<li><code><a title="app.forms.updateAttribForm.attrib_value" href="#app.forms.updateAttribForm.attrib_value">attrib_value</a></code></li>
+<li><code><a title="app.forms.updateAttribForm.submit" href="#app.forms.updateAttribForm.submit">submit</a></code></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</nav>
+</main>
+<footer id="footer">
+<p>Generated by <a href="https://pdoc3.github.io/pdoc"><cite>pdoc</cite> 0.9.1</a>.</p>
+</footer>
+</body>
+</html>

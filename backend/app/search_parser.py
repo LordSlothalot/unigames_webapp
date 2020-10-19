@@ -10,11 +10,21 @@ from app.database_impl.tags import Tag
 
 
 class Brackets(Enum):
+    """
+    An enum class used to enumerate the two types of parthenthsis 
+    and to be able to just lookup their character representations
+    """
+
     Parentheses = ["Parentheses", '(', ')']
     Curly = ["Curly", '{', '}']
 
 
 class SearchStringParseError:
+    """
+    A base class used to repersent the a general error that might 
+    be returned by the parser
+    """
+
     def __str__(self) -> str:
         return "SearchStringParseError: "
 
@@ -23,6 +33,12 @@ class SearchStringParseError:
 
 
 class UnexpectedCloseBracket(SearchStringParseError):
+    """
+    A subclass of SearchStringParseError, for the specific instance 
+    where a close baracket (either } or )) was encountered in an 
+    illegal/unexpected position such as '(a ::and b))'
+    """
+
     def __init__(self, index: int, bracket: Brackets):
         self.index = index
         self.bracket = bracket
@@ -32,6 +48,11 @@ class UnexpectedCloseBracket(SearchStringParseError):
 
 
 class MissingCloseBracket(SearchStringParseError):
+    """
+    A subclass of SearchStringParseError, for the specific instance 
+    where a close baracket (either } or )) was missing, where is 
+    was required such as '(a :: and b'
+    """
 
     def __init__(self, bracket: Brackets):
         self.bracket = bracket
@@ -41,6 +62,11 @@ class MissingCloseBracket(SearchStringParseError):
 
 
 class UnexpectedOperator(SearchStringParseError):
+    """
+    A subclass of SearchStringParseError, for the specific instance 
+    where an operator such as ::and occurs in an unexpected locations 
+    such as: 'a ::and ::and b'
+    """
 
     def __init__(self, index: int, operator: 'OperatorTypes', alias=None):
         self.index = index
@@ -54,6 +80,10 @@ class UnexpectedOperator(SearchStringParseError):
 
 
 class UnexpectedTag(SearchStringParseError):
+    """
+    A subclass of SearchStringParseError, for the specific instance 
+    where a tag appears in the wrong spot such as: 'a ::not b'
+    """
 
     def __init__(self, index: int, string: str):
         self.index = index
@@ -64,6 +94,10 @@ class UnexpectedTag(SearchStringParseError):
 
 
 class NonexistentTag(SearchStringParseError):
+    """
+    A subclass of SearchStringParseError, for the specific instance 
+    where a tag does not exisit in the DB
+    """
 
     def __init__(self, string: str):
         self.string = string
@@ -73,6 +107,12 @@ class NonexistentTag(SearchStringParseError):
 
 
 class NonexistentAttribute(SearchStringParseError):
+    """
+    A subclass of SearchStringParseError, for the specific instance 
+    where an attribute does not exisit in the DBA subclass of 
+    SearchStringParseError, for the specific instance where an attribute 
+    does not exisit in the DB
+    """
 
     def __init__(self, string: str):
         self.string = string
@@ -82,11 +122,21 @@ class NonexistentAttribute(SearchStringParseError):
 
 
 class Value:
+    """
+    An general 'atom' of an expression, such as 'a' or 
+    '::instance::uuid::equals::10202901'
+    """
+
     string: str
     not_value: bool = False
 
     @staticmethod
     def parse(value: str) -> Union['Value', SearchStringParseError]:
+        """
+        Given a string, that is suppose to figure out which kind 
+        of atom/value it is and parse that into it's types
+        """
+
         if value.lstrip().startswith("::"):
 
             if value.lstrip().startswith("::has::"):
@@ -163,11 +213,18 @@ class Value:
             return cls
 
     def __str__(self) -> str:
+        """
+        Convert the atom back into a string, for testing
+        """
         if self.not_value:
             return "!"
         return ""
 
     def to_search_query(self) -> Dict:
+        """
+        Take the value/atom and convert it into a MongoDB search 
+        query for that specific information
+        """
         if isinstance(self, ItemTagValue):
             if self.not_value:
                 inner = {"$ne": self.tag_id}
@@ -227,6 +284,10 @@ class Value:
 
 
 class TagValue(Value):
+    """
+    A subclass of Value, for the specific case where the atom is 
+    a tag, like 'a'
+    """
     stripped_name: str
     tag_id: Optional[ObjectId] = None
 
@@ -235,16 +296,31 @@ class TagValue(Value):
 
 
 class ItemTagValue(TagValue):
+    """
+    A subclass of TagValue, for the specific case where the tag is 
+    for a tag attached to an item, like 'a'  
+    """
+
     def __str__(self) -> str:
         return super().__str__() + "Tag: '" + self.stripped_name + "'"
 
 
 class InstanceTagValue(TagValue):
+    """
+    A subclass of TagValue, for the specific case where the tag is 
+    for a tag attached to an instance, like 'instance::a'
+    """
+
     def __str__(self) -> str:
         return super().__str__() + "InstanceTag: '" + self.stripped_name + "'"
 
 
 class AttributeValue(Value):
+    """
+    A subclass of Value, for the specific case where we are looking 
+    for an attribute
+    """
+
     attribute_name: str
     attribute_option_id: Optional[ObjectId] = None
 
@@ -253,22 +329,41 @@ class AttributeValue(Value):
 
 
 class HasItemAttributeValue(AttributeValue):
+    """
+    A subclass of AttributeValue, for when we are looking for an item 
+    to have an attribute, like: 'has::name'
+    """
+
     def __str__(self) -> str:
         return super().__str__() + "HasItemAttribute: '" + self.attribute_name + "'"
 
 
 class HasInstanceAttributeValue(AttributeValue):
+    """
+    A subclass of AttributeValue, for when we are looking for an instance 
+    to have an attribute, like: 'instance::has::name'
+    """
+
     def __str__(self) -> str:
         return super().__str__() + "HasInstanceAttribute: '" + self.attribute_name + "'"
 
 
 class CheckMode(Enum):
+    """
+    For the value checks below, enumerates whether it is 'equals' or 'contains'
+    """
+
     Equals = 0,
     Contains = 1
     # TODO add more options? such as starts with/ends with, or case sensitive/case insensitive
 
 
 class CheckItemAttributeValue(AttributeValue):
+    """
+    A subclass of AttributeValue, for when checking for a specific 
+    value of an item's attribute, like 'name::equals::Bob' or 'name::contains::Bob'
+    """
+
     check_mode: CheckMode
     value: str
 
@@ -278,6 +373,12 @@ class CheckItemAttributeValue(AttributeValue):
 
 
 class CheckInstanceAttributeValue(AttributeValue):
+    """
+    A subclass of AttributeValue, for when checking for a specific 
+    value of an instance's attribute, like 'name::equals::Bob' or 
+    'name::contains::Bob'
+    """
+
     check_mode: CheckMode
     value: str
 
@@ -287,12 +388,20 @@ class CheckInstanceAttributeValue(AttributeValue):
 
 
 class VisibleItemValue(Value):
+    """
+    A special subclass of Value, used internally to tell the DB to only 
+    provide visible visible items/instances from the DB
+    """
 
     def __str__(self) -> str:
         return "VisibleItem"
 
 
 class OperatorTypes(Enum):
+    """
+    An enum to enumerate the different types of operator
+    """
+
     Identity = "identity"
     Not = "not"
     And = "and"
@@ -300,6 +409,11 @@ class OperatorTypes(Enum):
 
 
 class Operator(metaclass=abc.ABCMeta):
+    """
+    A general base class for the two types of operator (unitary, binary) 
+    as a node in a abstact symbol tree of operators and values on the leafs
+    """
+
     op_type: OperatorTypes = None
 
     def __init__(self, op_type: OperatorTypes):
@@ -307,30 +421,52 @@ class Operator(metaclass=abc.ABCMeta):
 
     @abc.abstractmethod
     def get_left_most(self) -> Union['Operator', Value]:
+        """
+        Get the left most child of this node
+        """
         pass
 
     @abc.abstractmethod
     def get_right_most(self) -> Union['Operator', Value]:
+        """
+        Get the right most child of this node
+        """
         pass
 
     @abc.abstractmethod
     def set_left_most(self, value: Union['Operator', Value]):
+        """
+        Set the left most child of this node
+        """
         pass
 
     @abc.abstractmethod
     def set_right_most(self, value: Union['Operator', Value]):
+        """
+        Set the right most child of this node
+        """
         pass
 
     @abc.abstractmethod
     def __str__(self) -> str:
+        """
+    	Convert back to string for debugging
+        """ 
         pass
 
     @abc.abstractmethod
     def to_search_query(self) -> Dict:
+        """
+    	Recursively convert this node and it's children to a MongoDB query
+        """
         pass
 
 
 class UnitaryOperator(Operator):
+    """
+    A subclass of Operator for the specific instance of an operator 
+    that takes in one value, such as 'not' or the unity operator '()'
+    """
     value: Union[Operator, Value]
 
     def __init__(self, op_type: OperatorTypes, value: Union[Operator, Value]):
@@ -339,24 +475,42 @@ class UnitaryOperator(Operator):
         self.value = value
 
     def get_left_most(self) -> Union[Operator, Value]:
+        """
+        Get the left most child of this node
+        """
         return self.value
 
     def get_right_most(self) -> Union[Operator, Value]:
+        """
+        Get the right most child of this node
+        """
         return self.value
 
     def set_left_most(self, value: Union[Operator, Value]):
+        """
+        Set the left most child of this node
+        """
         self.value = value
 
     def set_right_most(self, value: Union[Operator, Value]):
+        """
+        Set the right most child of this node
+        """
         self.value = value
 
     def __str__(self) -> str:
+        """
+    	Convert back to string for debugging
+        """
         if self.op_type == OperatorTypes.Identity:
             return "(" + str(self.value) + ")"
         else:
             return "::not " + str(self.value)
 
     def to_search_query(self) -> Dict:
+        """
+    	Recursively convert this node and it's children to a MongoDB query
+        """
         if self.op_type == OperatorTypes.Identity:
             return self.value.to_search_query()
         else:
@@ -364,6 +518,11 @@ class UnitaryOperator(Operator):
 
 
 class BinaryOperator(Operator):
+    """
+    A subclass of Operator for the specific instance of an operator 
+    that takes in two values, such as 'and' or 'or'
+    """
+
     left_value: Union[Operator, Value]
     right_value: Union[Operator, Value]
 
@@ -374,24 +533,42 @@ class BinaryOperator(Operator):
         self.right_value = right_value
 
     def get_left_most(self) -> Union[Operator, Value]:
+        """
+        Get the left most child of this node
+        """
         return self.left_value
 
     def get_right_most(self) -> Union[Operator, Value]:
+        """
+        Get the right most child of this node
+        """
         return self.right_value
 
     def set_left_most(self, value: Union[Operator, Value]):
+        """
+        Set the left most child of this node
+        """
         self.left_value = value
 
     def set_right_most(self, value: Union[Operator, Value]):
+        """
+        Set the right most child of this node
+        """
         self.right_value = value
 
     def __str__(self) -> str:
+        """
+        Convert back to string for debugging
+        """
         if self.op_type == OperatorTypes.And:
             return "(" + str(self.left_value) + " ::and " + str(self.right_value) + ")"
         else:
             return "(" + str(self.left_value) + " ::or " + str(self.right_value) + ")"
 
     def to_search_query(self) -> Dict:
+        """
+    	Recursively convert this node and it's children to a MongoDB query
+        """
         if self.op_type == OperatorTypes.And:
             return {"$and": [self.left_value.to_search_query(), self.right_value.to_search_query()]}
         else:
@@ -423,6 +600,12 @@ class Parentheses:
 
 
 class LexerSymbolTypes(Enum):
+    """
+    An enum used to represent all the different symbols that the lexer 
+    must proccess, along with their character representations, and array
+    of string represents an alias
+    """
+
     # Operators
     AND = ["::and", ',']
     OR = "::or"
@@ -438,6 +621,10 @@ class LexerSymbolTypes(Enum):
 
     @staticmethod
     def from_str(value: str) -> 'LexerSymbolTypes':
+        """
+        Convert a string into a lexer symbol type based on theirt string representations
+        """
+
         for option in LexerSymbolTypes:
             if isinstance(option.value, list):
                 for o in option.value:
@@ -450,6 +637,10 @@ class LexerSymbolTypes(Enum):
 
 
 class LexerSymbol:
+    """
+    A class used by the lexer to store the symbols it extracts
+    """
+
     symbol_type: LexerSymbolTypes
     start_index: int
     end_index: int
@@ -472,6 +663,10 @@ class LexerSymbol:
 
 #  a lexer to turn the string into an array of symbols
 def search_string_lexer(search_string: str) -> Union[List[LexerSymbol], SearchStringParseError]:
+    """
+    Takes in a search string and converts it intl an array of lexer symbols
+    """
+
     result = []
 
     escape_depth = 0
@@ -570,6 +765,10 @@ def search_string_lexer(search_string: str) -> Union[List[LexerSymbol], SearchSt
 
 
 class AST:
+    """
+    Used to store the abstract symbol tree
+    """
+
     base_operator: Operator
     tag_values: List[TagValue] = []
     attribute_values: List[AttributeValue] = []
@@ -585,6 +784,12 @@ class AST:
 
 #  a parser to turn the symbols from the lexer into an AST, or in this case a tree of operators
 def search_string_parser(search_string: Union[str, List[LexerSymbol]]) -> Union[AST, SearchStringParseError]:
+    """
+    Takes in a search string, or array of lexer symbols, converts 
+    the string into an array of lexer symbols if needed, then converts 
+    that into the abstract symbol tree
+    """
+
     if isinstance(search_string, str):
         lex_symbols = search_string_lexer(search_string)
         if isinstance(lex_symbols, SearchStringParseError):
@@ -697,6 +902,12 @@ def search_string_parser(search_string: Union[str, List[LexerSymbol]]) -> Union[
 
 
 def search_string_to_mongodb_query(mongo: PyMongo, search_string: Union[str, AST], include_hidden: bool = False) -> Union[Dict, List[SearchStringParseError]]:
+    """
+    Takes in a search string, or AST and converts the search string 
+    into an AST if neededed, then does all the processing needed to 
+    convert that AST into a query that MongoDB understands
+    """
+
     if isinstance(search_string, str):
         ast: AST = search_string_parser(search_string)
         if isinstance(ast, SearchStringParseError):

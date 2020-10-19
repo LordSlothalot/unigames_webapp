@@ -1,0 +1,774 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
+<meta name="generator" content="pdoc 0.9.1" />
+<title>app.database_impl.manager API documentation</title>
+<meta name="description" content="" />
+<link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/sanitize.min.css" integrity="sha256-PK9q560IAAa6WVRRh76LtCaI8pjTJ2z11v0miyNNjrs=" crossorigin>
+<link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/typography.min.css" integrity="sha256-7l/o7C8jubJiy74VsKTidCy1yBkRtiUGbVkYBylBqUg=" crossorigin>
+<link rel="stylesheet preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/styles/github.min.css" crossorigin>
+<style>:root{--highlight-color:#fe9}.flex{display:flex !important}body{line-height:1.5em}#content{padding:20px}#sidebar{padding:30px;overflow:hidden}#sidebar > *:last-child{margin-bottom:2cm}.http-server-breadcrumbs{font-size:130%;margin:0 0 15px 0}#footer{font-size:.75em;padding:5px 30px;border-top:1px solid #ddd;text-align:right}#footer p{margin:0 0 0 1em;display:inline-block}#footer p:last-child{margin-right:30px}h1,h2,h3,h4,h5{font-weight:300}h1{font-size:2.5em;line-height:1.1em}h2{font-size:1.75em;margin:1em 0 .50em 0}h3{font-size:1.4em;margin:25px 0 10px 0}h4{margin:0;font-size:105%}h1:target,h2:target,h3:target,h4:target,h5:target,h6:target{background:var(--highlight-color);padding:.2em 0}a{color:#058;text-decoration:none;transition:color .3s ease-in-out}a:hover{color:#e82}.title code{font-weight:bold}h2[id^="header-"]{margin-top:2em}.ident{color:#900}pre code{background:#f8f8f8;font-size:.8em;line-height:1.4em}code{background:#f2f2f1;padding:1px 4px;overflow-wrap:break-word}h1 code{background:transparent}pre{background:#f8f8f8;border:0;border-top:1px solid #ccc;border-bottom:1px solid #ccc;margin:1em 0;padding:1ex}#http-server-module-list{display:flex;flex-flow:column}#http-server-module-list div{display:flex}#http-server-module-list dt{min-width:10%}#http-server-module-list p{margin-top:0}.toc ul,#index{list-style-type:none;margin:0;padding:0}#index code{background:transparent}#index h3{border-bottom:1px solid #ddd}#index ul{padding:0}#index h4{margin-top:.6em;font-weight:bold}@media (min-width:200ex){#index .two-column{column-count:2}}@media (min-width:300ex){#index .two-column{column-count:3}}dl{margin-bottom:2em}dl dl:last-child{margin-bottom:4em}dd{margin:0 0 1em 3em}#header-classes + dl > dd{margin-bottom:3em}dd dd{margin-left:2em}dd p{margin:10px 0}.name{background:#eee;font-weight:bold;font-size:.85em;padding:5px 10px;display:inline-block;min-width:40%}.name:hover{background:#e0e0e0}dt:target .name{background:var(--highlight-color)}.name > span:first-child{white-space:nowrap}.name.class > span:nth-child(2){margin-left:.4em}.inherited{color:#999;border-left:5px solid #eee;padding-left:1em}.inheritance em{font-style:normal;font-weight:bold}.desc h2{font-weight:400;font-size:1.25em}.desc h3{font-size:1em}.desc dt code{background:inherit}.source summary,.git-link-div{color:#666;text-align:right;font-weight:400;font-size:.8em;text-transform:uppercase}.source summary > *{white-space:nowrap;cursor:pointer}.git-link{color:inherit;margin-left:1em}.source pre{max-height:500px;overflow:auto;margin:0}.source pre code{font-size:12px;overflow:visible}.hlist{list-style:none}.hlist li{display:inline}.hlist li:after{content:',\2002'}.hlist li:last-child:after{content:none}.hlist .hlist{display:inline;padding-left:1em}img{max-width:100%}td{padding:0 .5em}.admonition{padding:.1em .5em;margin-bottom:1em}.admonition-title{font-weight:bold}.admonition.note,.admonition.info,.admonition.important{background:#aef}.admonition.todo,.admonition.versionadded,.admonition.tip,.admonition.hint{background:#dfd}.admonition.warning,.admonition.versionchanged,.admonition.deprecated{background:#fd4}.admonition.error,.admonition.danger,.admonition.caution{background:lightpink}</style>
+<style media="screen and (min-width: 700px)">@media screen and (min-width:700px){#sidebar{width:30%;height:100vh;overflow:auto;position:sticky;top:0}#content{width:70%;max-width:100ch;padding:3em 4em;border-left:1px solid #ddd}pre code{font-size:1em}.item .name{font-size:1em}main{display:flex;flex-direction:row-reverse;justify-content:flex-end}.toc ul ul,#index ul{padding-left:1.5em}.toc > ul > li{margin-top:.5em}}</style>
+<style media="print">@media print{#sidebar h1{page-break-before:always}.source{display:none}}@media print{*{background:transparent !important;color:#000 !important;box-shadow:none !important;text-shadow:none !important}a[href]:after{content:" (" attr(href) ")";font-size:90%}a[href][title]:after{content:none}abbr[title]:after{content:" (" attr(title) ")"}.ir a:after,a[href^="javascript:"]:after,a[href^="#"]:after{content:""}pre,blockquote{border:1px solid #999;page-break-inside:avoid}thead{display:table-header-group}tr,img{page-break-inside:avoid}img{max-width:100% !important}@page{margin:0.5cm}p,h2,h3{orphans:3;widows:3}h1,h2,h3,h4,h5,h6{page-break-after:avoid}}</style>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/highlight.min.js" integrity="sha256-Uv3H6lx7dJmRfRvH8TH6kJD1TSK1aFcwgx+mdg3epi8=" crossorigin></script>
+<script>window.addEventListener('DOMContentLoaded', () => hljs.initHighlighting())</script>
+</head>
+<body>
+<main>
+<article id="content">
+<header>
+<h1 class="title">Module <code>app.database_impl.manager</code></h1>
+</header>
+<section id="section-intro">
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python"># client = MongoClient(&#34;localhost&#34;)
+# db = client[&#34;unigames_webapp_db&#34;]
+# collection = db[&#34;Items&#34;]
+#
+# collection.insert_one({&#34;test&#34;: &#34;test&#34;})
+
+from flask import Flask
+from flask_pymongo import PyMongo
+from gridfs import GridFS
+
+from app.database_impl.attrib_options import AttributeOption, AttributeTypes, SingleLineStringAttribute, \
+    MultiLineStringAttribute, PictureAttribute
+from app.database_impl.items_instances import Item, Instance
+from app.database_impl.relations import RelationOption, Relation
+from app.database_impl.roles import Role, Permissions
+from app.database_impl.tags import Tag, TagReference
+from app.database_impl.users import User
+from werkzeug.security import generate_password_hash
+from werkzeug.utils import secure_filename
+
+
+class DatabaseManager:
+    &#34;&#34;&#34;
+    A class to set up the backend
+    &#34;&#34;&#34;
+
+    mongo: PyMongo
+    fs: GridFS
+
+    def __init__(self, app: Flask):
+        app.config[&#34;MONGO_URI&#34;] = &#34;mongodb://localhost:27017/unigames_webapp_db&#34;
+
+        self.mongo = PyMongo(app)
+        self.fs = GridFS(self.mongo.db, &#39;fs&#39;)
+
+        Tag.init_indices(self.mongo)
+        AttributeOption.init_indices(self.mongo)
+        Item.init_indices(self.mongo)
+        Instance.init_indices(self.mongo)
+        Role.init_indices(self.mongo)
+        RelationOption.init_indices(self.mongo)
+        Relation.init_indices(self.mongo)
+        User.init_indices(self.mongo)
+
+        # For actual production, to ensure certain attributes exist
+
+        # create an attribute for a name
+        self.name_attrib = AttributeOption.search_for_by_name(self.mongo, &#34;name&#34;)
+        if self.name_attrib is None:
+            self.name_attrib = AttributeOption(&#34;name&#34;, AttributeTypes.SingleLineString)
+            self.name_attrib.write_to_db(self.mongo)
+
+        # create an attribute for a description
+        self.description_attrib = AttributeOption.search_for_by_name(self.mongo, &#34;description&#34;)
+        if self.description_attrib is None:
+            self.description_attrib = AttributeOption(&#34;description&#34;, AttributeTypes.MultiLineString)
+            self.description_attrib.write_to_db(self.mongo)
+
+        # create an attribute for a hidden description
+        self.hidden_description_attrib = AttributeOption.search_for_by_name(self.mongo, &#34;hidden_description&#34;)
+        if self.hidden_description_attrib is None:
+            self.hidden_description_attrib = AttributeOption(&#34;hidden_description&#34;, AttributeTypes.MultiLineString, True)
+            self.hidden_description_attrib.write_to_db(self.mongo)
+
+        # create an attribute for the main picture on an item/instance
+        self.main_picture = AttributeOption.search_for_by_name(self.mongo, &#34;main_picture&#34;)
+        if self.main_picture is None:
+            self.main_picture = AttributeOption(&#34;main_picture&#34;, AttributeTypes.Picture, True)
+            self.main_picture.write_to_db(self.mongo)
+
+        self.everyone_role = Role.search_for_by_name(self.mongo, &#34;everyone&#34;)
+        if self.everyone_role is None:  # -1 is overridden by everything, &#39;everyone&#39; is required for sake of a default
+            self.everyone_role = Role(&#34;everyone&#34;, -1, {Permissions.CanEditItems: False, Permissions.CanEditUsers: False,
+                                                       Permissions.CanViewHidden: False})
+            self.everyone_role.write_to_db(self.mongo)
+
+        self.admin_role = Role.search_for_by_name(self.mongo, &#34;admin&#34;)
+        if self.admin_role is None:  # 0 overrides everything
+            self.admin_role = Role(&#34;admin&#34;, 0, {Permissions.CanEditItems: True, Permissions.CanEditUsers: True,
+                                                Permissions.CanViewHidden: True})
+            self.admin_role.write_to_db(self.mongo)
+            
+        self.test_role = Role.search_for_by_name(self.mongo, &#34;testing&#34;)
+        if self.test_role is None:  # 0 overrides everything
+            self.test_role = Role(&#34;testing&#34;, 0, {Permissions.CanEditItems: True, Permissions.CanEditUsers: True,
+                                                Permissions.CanViewHidden: True})
+            self.test_role.write_to_db(self.mongo)
+
+    # To only be called for the sake of testing
+    def test(self):
+        # create a book tag
+        book_tag = Tag.search_for_by_name(self.mongo, &#34;Book&#34;)
+        if book_tag is None:
+            book_tag = Tag(&#34;Book&#34;, [])
+            book_tag.write_to_db(self.mongo)
+
+        # create a multiplayer tag
+        multiplayer_tag = Tag.search_for_by_name(self.mongo, &#34;Multiplayer&#34;)
+        if multiplayer_tag is None:
+            multiplayer_tag = Tag(&#34;Multiplayer&#34;, [])
+            multiplayer_tag.write_to_db(self.mongo)
+
+        # create a player 1 tag
+        players_tag_1 = Tag.search_for_by_name(self.mongo, &#34;Players: 1&#34;)
+        if players_tag_1 is None:
+            players_tag_1 = Tag(&#34;Players: 1&#34;, [])
+            players_tag_1.write_to_db(self.mongo)
+
+        # create a player 2 tag
+        players_tag_2 = Tag.search_for_by_name(self.mongo, &#34;Players: 2&#34;)
+        if players_tag_2 is None:
+            players_tag_2 = Tag(&#34;Players: 2&#34;, [TagReference(multiplayer_tag)])
+            players_tag_2.write_to_db(self.mongo)
+
+        # create a player 3 tag
+        players_tag_3 = Tag.search_for_by_name(self.mongo, &#34;Players: 3&#34;)
+        if players_tag_3 is None:
+            players_tag_3 = Tag(&#34;Players: 3&#34;, [TagReference(multiplayer_tag)])
+            players_tag_3.write_to_db(self.mongo)
+
+        # create a player 4 tag
+        players_tag_4 = Tag.search_for_by_name(self.mongo, &#34;Players: 4&#34;)
+        if players_tag_4 is None:
+            players_tag_4 = Tag(&#34;Players: 4&#34;, [TagReference(multiplayer_tag)])
+            players_tag_4.write_to_db(self.mongo)
+
+        # create a player 5 tag
+        players_tag_5 = Tag.search_for_by_name(self.mongo, &#34;Players: 5&#34;)
+        if players_tag_5 is None:
+            players_tag_5 = Tag(&#34;Players: 5&#34;, [TagReference(multiplayer_tag)])
+            players_tag_5.write_to_db(self.mongo)
+
+        # create a player 6 tag
+        players_tag_6 = Tag.search_for_by_name(self.mongo, &#34;Players: 6&#34;)
+        if players_tag_6 is None:
+            players_tag_6 = Tag(&#34;Players: 6&#34;, [TagReference(multiplayer_tag)])
+            players_tag_6.write_to_db(self.mongo)
+
+        # create a damaged tag
+        damaged_tag = Tag.search_for_by_name(self.mongo, &#34;Damaged&#34;)
+        if damaged_tag is None:
+            damaged_tag = Tag(&#34;Damaged&#34;, [])
+            damaged_tag.write_to_db(self.mongo)
+
+        # create a borrowed out tag
+        borrowed_out_tag = Tag.search_for_by_name(self.mongo, &#34;Borrowed Out&#34;)
+        if borrowed_out_tag is None:
+            borrowed_out_tag = Tag(&#34;Borrowed Out&#34;, [])
+            borrowed_out_tag.write_to_db(self.mongo)
+
+
+
+        # create a None tag (all root tags point to this tag for easier management)
+        root_tag = Tag.search_for_by_name(self.mongo, &#34;None&#34;)
+        if root_tag is None:
+            root_tag = Tag(&#34;None&#34;, [])
+            root_tag.write_to_db(self.mongo)
+
+        # load image from disk, normally one would upload it from the website
+        test_image = self.fs.find_one({&#34;filename&#34;: &#34;dungeons.jpg&#34;})
+        if test_image is None:
+            with open(&#34;../frontend/games-img/dungeons.jpg&#34;, &#34;rb&#34;) as f:
+                test_image = self.fs.put(f, filename=&#34;dungeons.jpg&#34;, content_type=&#39;image/jpg&#39;)
+        else:
+            test_image = test_image._id
+
+        # search for item by its name attribute
+        bob_book_item = Item.search_for_by_attribute(self.mongo, self.name_attrib, &#34;Bob&#39;s Grand Adventure&#34;)
+        # create a new item if no search result returned
+        if not bob_book_item:
+            bob_book_item = Item([SingleLineStringAttribute(self.name_attrib, &#34;Bob&#39;s Grand Adventure&#34;),
+                                  MultiLineStringAttribute(self.description_attrib, [&#34;No Description&#34;]),
+                                  PictureAttribute(self.main_picture, test_image)],
+                                 [
+                                     TagReference(book_tag), TagReference(players_tag_3), TagReference(players_tag_4),
+                                     TagReference(players_tag_5)
+                                 ], [])
+
+            bob_book_item.instances.append(Instance([MultiLineStringAttribute(self.description_attrib, [&#34;No Description&#34;, &#34;uuid: 109358180&#34;]),
+                                                     MultiLineStringAttribute(self.hidden_description_attrib, [&#34;Damage Report: (4/5/2017): Page 57 has a small section of the top right corner torn off, no text missing, still serviceable&#34;])],
+                                                    [TagReference(damaged_tag)], True))
+            bob_book_item.instances.append(Instance([MultiLineStringAttribute(self.description_attrib, [&#34;No Description&#34;, &#34;uuid: 109358181&#34;])], []))
+
+            bob_book_item.write_to_db(self.mongo)
+        else:
+            bob_book_item = bob_book_item[0]
+
+        # search for item by its name attribute
+        steve_hidden_book_item = Item.search_for_by_attribute(self.mongo, self.name_attrib, &#34;Steve&#39;s Grand Adventure&#34;)
+        # create a new item if no search result returned
+        if not steve_hidden_book_item:
+            steve_hidden_book_item = Item([SingleLineStringAttribute(self.name_attrib, &#34;Steve&#39;s Grand Adventure&#34;)],
+                                          [
+                                              TagReference(book_tag), TagReference(players_tag_4)
+                                          ], [], True)
+
+            steve_hidden_book_item.instances.append(Instance([MultiLineStringAttribute(self.description_attrib, [&#34;No Description&#34;, &#34;uuid: 109354180&#34;])], []))
+            steve_hidden_book_item.instances.append(Instance([MultiLineStringAttribute(self.description_attrib, [&#34;No Description&#34;, &#34;uuid: 109354181&#34;])], []))
+
+            steve_hidden_book_item.write_to_db(self.mongo)
+        else:
+            steve_hidden_book_item = steve_hidden_book_item[0]
+
+        # recalculates all implied tags for the item and instances
+        bob_book_item.recalculate_implied_tags(self.mongo, True)
+
+        borrowing_item_relation = RelationOption.search_for_by_name(self.mongo, &#34;Borrowing&#34;)
+        if borrowing_item_relation is None:
+            borrowing_item_relation = RelationOption(&#34;Borrowing&#34;, [TagReference(borrowed_out_tag)])
+            borrowing_item_relation.write_to_db(self.mongo)
+
+        emptycheck = self.mongo.db.users.count()
+        default_user = User.search_for_by_display_name(self.mongo, &#34;DefaultAdmin&#34;)
+        if emptycheck == 0:
+            default_user = User(&#34;DefaultAdmin&#34;, [self.admin_role.id], &#34;default@test.com&#34;, generate_password_hash(&#34;password&#34;), &#34;Test&#34;, &#34;LastTest&#34;)
+            default_user.write_to_db(self.mongo)
+
+        # this code should never be needed normally, this is modeling a human performing this action, if you want to automate this properlly then properlly add a uuid attribute
+        inst_0_id = [inst for inst in bob_book_item.instances if len([a for a in inst.attributes if isinstance(a, MultiLineStringAttribute) and len([line for line in a.value if line.find(&#34;uuid: 109358180&#34;) != -1]) != 0]) != 0][0].id
+        inst_1_id = [inst for inst in bob_book_item.instances if len([a for a in inst.attributes if isinstance(a, MultiLineStringAttribute) and len([line for line in a.value if line.find(&#34;uuid: 109358181&#34;) != -1]) != 0]) != 0][0].id
+
+        matthew_bob_borrow_relation = Relation.search_for_by_instance_id(self.mongo, inst_1_id)
+        if not matthew_bob_borrow_relation:
+            matthew_bob_borrow_relation = Relation.new_instance(default_user.id, borrowing_item_relation.id, inst_1_id)
+            matthew_bob_borrow_relation.write_to_db(self.mongo)
+        else:
+            matthew_bob_borrow_relation = matthew_bob_borrow_relation[0]
+
+        bob_book_item.recalculate_implied_tags(self.mongo, True)
+
+
+        #Page load testing
+        &#39;&#39;&#39;
+        #1000 tags
+        DO_NOT_DELETE_tag = Tag.search_for_by_name(self.mongo, &#34;DO NOT DELETE ME&#34;)
+        if DO_NOT_DELETE_tag is None:
+            DO_NOT_DELETE_tag = Tag(&#34;DO NOT DELETE ME&#34;, [])
+            DO_NOT_DELETE_tag.write_to_db(self.mongo)
+            for i in range(1000):
+                new_tag = Tag(&#34;tag&#34;+str(i), [])
+                new_tag.write_to_db(self.mongo)
+        
+        #1000 items
+        DO_NOT_DELETE_item = Item.search_for_by_attribute(self.mongo, item_name_attrib, &#34;DO NOT DELETE ME&#34;)
+        if not DO_NOT_DELETE_item:
+            DO_NOT_DELETE_item = Item({&#34;name&#34;: &#34;DO NOT DELETE ME&#34;, &#34;description&#34;: &#34;No description&#34;},[], [])
+            for i in range(1000):
+                new_item = Item({&#34;name&#34;: &#34;item&#34;+str(i), &#34;description&#34;: &#34;No description&#34;},[], [])
+                new_item.write_to_db(self.mongo)
+        &#39;&#39;&#39;
+
+        # print(&#34;Search &#39;book, players: 4&#39;: &#34; + str(search_string_to_mongodb_query(self.mongo, &#34;book, players: 4&#34;)))
+        # print(&#34;Search &#39;book, players: (4)&#39;: &#34; + str(search_string_to_mongodb_query(self.mongo, &#34;book, players: (4)&#34;)))
+        # print(&#34;Search &#39;book, players: (4), test&#39;: &#34; + str(search_string_to_mongodb_query(self.mongo, &#34;book, players: (4), test&#34;)))
+        # print(&#34;Search &#39;(interesting), book, players: (4), test&#39;: &#34; + str(search_string_to_mongodb_query(self.mongo, &#34;(interesting), book, players: (4), test&#34;)))
+        # print(&#34;Search &#39;(help)&#39;: &#34; + str(search_string_to_mongodb_query(self.mongo, &#34;(help)&#34;)))
+        # print(&#34;Search &#39;book, players - 4&#39;: &#34; + str(search_string_to_mongodb_query(self.mongo, &#34;book, players - 4&#34;)))
+        # print(&#34;Search &#39;book, {players: (4)}&#39;: &#34; + str(search_string_to_mongodb_query(self.mongo, &#34;book, {players: (4)}&#34;)))
+        # print(&#34;Search &#39;book, players: 4, -borrowed out&#39;: &#34; + str(search_string_to_mongodb_query(self.mongo, &#34;book, players: 4, -borrowed out&#34;)))
+        # print(&#34;Search &#39;book, players: 4 ::or -borrowed out&#39;: &#34; + str(search_string_to_mongodb_query(self.mongo, &#34;book, players: 4 ::or -borrowed out&#34;)))
+        # print(&#34;Search &#39;book, (players: 4 ::or -borrowed out)&#39;: &#34; + str(search_string_to_mongodb_query(self.mongo, &#34;book, (players: 4 ::or -borrowed out)&#34;)))
+        # print(&#34;Search &#39;book, players: 4, -borrowed out, ::name::contains::Bob&#39;: &#34; + str(search_string_to_mongodb_query(self.mongo, &#34;book, players: 4, -borrowed out, ::name::contains::Bob&#34;)))
+        # print(&#34;Search &#39;book, players: 4, -borrowed out, ::has::author&#39;: &#34; + str(search_string_to_mongodb_query(self.mongo, &#34;book, players: 4, -borrowed out, ::has::author&#34;)))
+        # print(&#34;Search &#39;book, players: 4, -borrowed out, -::has::author&#39;: &#34; + str(search_string_to_mongodb_query(self.mongo, &#34;book, players: 4, -borrowed out, -::has::author&#34;)))
+        #
+        # print(&#34;Search &#39;book, players: 4, -borrowed out, -::instance::damaged, ::has::author, ::name::contains::Bob&#39;: &#34; + str(search_string_to_mongodb_query(self.mongo, &#34;book, players: 4, -borrowed out, -::instance::damaged, ::has::author, ::name::contains::Bob&#34;)))
+        # print(&#34;Search &#39;book, players: 4, -borrowed out, ::instance::damaged, ::has::author, ::name::contains::Bob&#39;: &#34; + str(search_string_to_mongodb_query(self.mongo, &#34;book, players: 4, -borrowed out, ::instance::damaged, ::has::author, ::name::contains::Bob&#34;)))
+        # print(&#34;Search &#39;book, players: 4, -borrowed out, ::instance::uuid::equals::109358181, ::has::author, ::name::contains::Bob&#39;: &#34; + str(search_string_to_mongodb_query(self.mongo, &#34;book, players: 4, -borrowed out, ::instance::uuid::equals::109358181, ::has::author, ::name::contains::Bob&#34;)))
+        # print(&#34;Search &#39;book, players: 4, -borrowed out, ::instance::uuid::equals::109358182, ::has::author, ::name::contains::Bob&#39;: &#34; + str(search_string_to_mongodb_query(self.mongo, &#34;book, players: 4, -borrowed out, ::instance::uuid::equals::109358182, ::has::author, ::name::contains::Bob&#34;)))
+        # print(&#34;Search &#39;book, players: 4, -borrowed out, -::instance::uuid::equals::109358181, ::has::author, ::name::contains::Bob&#39;: &#34; + str(search_string_to_mongodb_query(self.mongo, &#34;book, players: 4, -borrowed out, -::instance::uuid::equals::109358181, ::has::author, ::name::contains::Bob&#34;)))
+        #
+        # print(&#34;Search &#39;book, players: 4, borrowed out, players: 3, players: 5&#39;: &#34; + str(search_string_to_mongodb_query(self.mongo, &#34;book, players: 4, borrowed out, players: 3, players: 5&#34;)))
+        # print(&#34;Search &#39;book, players: 4, -borrowed out, players: 3, players: 5&#39;: &#34; + str(search_string_to_mongodb_query(self.mongo, &#34;book, players: 4, -borrowed out, players: 3, players: 5&#34;)))
+        # print(&#34;Search &#39;players: 3, -book, players: 4&#39;: &#34; + str(search_string_to_mongodb_query(self.mongo, &#34;players: 3, -book, players: 4&#34;)))</code></pre>
+</details>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+<h2 class="section-title" id="header-classes">Classes</h2>
+<dl>
+<dt id="app.database_impl.manager.DatabaseManager"><code class="flex name class">
+<span>class <span class="ident">DatabaseManager</span></span>
+<span>(</span><span>app: flask.app.Flask)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>A class to set up the backend</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class DatabaseManager:
+    &#34;&#34;&#34;
+    A class to set up the backend
+    &#34;&#34;&#34;
+
+    mongo: PyMongo
+    fs: GridFS
+
+    def __init__(self, app: Flask):
+        app.config[&#34;MONGO_URI&#34;] = &#34;mongodb://localhost:27017/unigames_webapp_db&#34;
+
+        self.mongo = PyMongo(app)
+        self.fs = GridFS(self.mongo.db, &#39;fs&#39;)
+
+        Tag.init_indices(self.mongo)
+        AttributeOption.init_indices(self.mongo)
+        Item.init_indices(self.mongo)
+        Instance.init_indices(self.mongo)
+        Role.init_indices(self.mongo)
+        RelationOption.init_indices(self.mongo)
+        Relation.init_indices(self.mongo)
+        User.init_indices(self.mongo)
+
+        # For actual production, to ensure certain attributes exist
+
+        # create an attribute for a name
+        self.name_attrib = AttributeOption.search_for_by_name(self.mongo, &#34;name&#34;)
+        if self.name_attrib is None:
+            self.name_attrib = AttributeOption(&#34;name&#34;, AttributeTypes.SingleLineString)
+            self.name_attrib.write_to_db(self.mongo)
+
+        # create an attribute for a description
+        self.description_attrib = AttributeOption.search_for_by_name(self.mongo, &#34;description&#34;)
+        if self.description_attrib is None:
+            self.description_attrib = AttributeOption(&#34;description&#34;, AttributeTypes.MultiLineString)
+            self.description_attrib.write_to_db(self.mongo)
+
+        # create an attribute for a hidden description
+        self.hidden_description_attrib = AttributeOption.search_for_by_name(self.mongo, &#34;hidden_description&#34;)
+        if self.hidden_description_attrib is None:
+            self.hidden_description_attrib = AttributeOption(&#34;hidden_description&#34;, AttributeTypes.MultiLineString, True)
+            self.hidden_description_attrib.write_to_db(self.mongo)
+
+        # create an attribute for the main picture on an item/instance
+        self.main_picture = AttributeOption.search_for_by_name(self.mongo, &#34;main_picture&#34;)
+        if self.main_picture is None:
+            self.main_picture = AttributeOption(&#34;main_picture&#34;, AttributeTypes.Picture, True)
+            self.main_picture.write_to_db(self.mongo)
+
+        self.everyone_role = Role.search_for_by_name(self.mongo, &#34;everyone&#34;)
+        if self.everyone_role is None:  # -1 is overridden by everything, &#39;everyone&#39; is required for sake of a default
+            self.everyone_role = Role(&#34;everyone&#34;, -1, {Permissions.CanEditItems: False, Permissions.CanEditUsers: False,
+                                                       Permissions.CanViewHidden: False})
+            self.everyone_role.write_to_db(self.mongo)
+
+        self.admin_role = Role.search_for_by_name(self.mongo, &#34;admin&#34;)
+        if self.admin_role is None:  # 0 overrides everything
+            self.admin_role = Role(&#34;admin&#34;, 0, {Permissions.CanEditItems: True, Permissions.CanEditUsers: True,
+                                                Permissions.CanViewHidden: True})
+            self.admin_role.write_to_db(self.mongo)
+            
+        self.test_role = Role.search_for_by_name(self.mongo, &#34;testing&#34;)
+        if self.test_role is None:  # 0 overrides everything
+            self.test_role = Role(&#34;testing&#34;, 0, {Permissions.CanEditItems: True, Permissions.CanEditUsers: True,
+                                                Permissions.CanViewHidden: True})
+            self.test_role.write_to_db(self.mongo)
+
+    # To only be called for the sake of testing
+    def test(self):
+        # create a book tag
+        book_tag = Tag.search_for_by_name(self.mongo, &#34;Book&#34;)
+        if book_tag is None:
+            book_tag = Tag(&#34;Book&#34;, [])
+            book_tag.write_to_db(self.mongo)
+
+        # create a multiplayer tag
+        multiplayer_tag = Tag.search_for_by_name(self.mongo, &#34;Multiplayer&#34;)
+        if multiplayer_tag is None:
+            multiplayer_tag = Tag(&#34;Multiplayer&#34;, [])
+            multiplayer_tag.write_to_db(self.mongo)
+
+        # create a player 1 tag
+        players_tag_1 = Tag.search_for_by_name(self.mongo, &#34;Players: 1&#34;)
+        if players_tag_1 is None:
+            players_tag_1 = Tag(&#34;Players: 1&#34;, [])
+            players_tag_1.write_to_db(self.mongo)
+
+        # create a player 2 tag
+        players_tag_2 = Tag.search_for_by_name(self.mongo, &#34;Players: 2&#34;)
+        if players_tag_2 is None:
+            players_tag_2 = Tag(&#34;Players: 2&#34;, [TagReference(multiplayer_tag)])
+            players_tag_2.write_to_db(self.mongo)
+
+        # create a player 3 tag
+        players_tag_3 = Tag.search_for_by_name(self.mongo, &#34;Players: 3&#34;)
+        if players_tag_3 is None:
+            players_tag_3 = Tag(&#34;Players: 3&#34;, [TagReference(multiplayer_tag)])
+            players_tag_3.write_to_db(self.mongo)
+
+        # create a player 4 tag
+        players_tag_4 = Tag.search_for_by_name(self.mongo, &#34;Players: 4&#34;)
+        if players_tag_4 is None:
+            players_tag_4 = Tag(&#34;Players: 4&#34;, [TagReference(multiplayer_tag)])
+            players_tag_4.write_to_db(self.mongo)
+
+        # create a player 5 tag
+        players_tag_5 = Tag.search_for_by_name(self.mongo, &#34;Players: 5&#34;)
+        if players_tag_5 is None:
+            players_tag_5 = Tag(&#34;Players: 5&#34;, [TagReference(multiplayer_tag)])
+            players_tag_5.write_to_db(self.mongo)
+
+        # create a player 6 tag
+        players_tag_6 = Tag.search_for_by_name(self.mongo, &#34;Players: 6&#34;)
+        if players_tag_6 is None:
+            players_tag_6 = Tag(&#34;Players: 6&#34;, [TagReference(multiplayer_tag)])
+            players_tag_6.write_to_db(self.mongo)
+
+        # create a damaged tag
+        damaged_tag = Tag.search_for_by_name(self.mongo, &#34;Damaged&#34;)
+        if damaged_tag is None:
+            damaged_tag = Tag(&#34;Damaged&#34;, [])
+            damaged_tag.write_to_db(self.mongo)
+
+        # create a borrowed out tag
+        borrowed_out_tag = Tag.search_for_by_name(self.mongo, &#34;Borrowed Out&#34;)
+        if borrowed_out_tag is None:
+            borrowed_out_tag = Tag(&#34;Borrowed Out&#34;, [])
+            borrowed_out_tag.write_to_db(self.mongo)
+
+
+
+        # create a None tag (all root tags point to this tag for easier management)
+        root_tag = Tag.search_for_by_name(self.mongo, &#34;None&#34;)
+        if root_tag is None:
+            root_tag = Tag(&#34;None&#34;, [])
+            root_tag.write_to_db(self.mongo)
+
+        # load image from disk, normally one would upload it from the website
+        test_image = self.fs.find_one({&#34;filename&#34;: &#34;dungeons.jpg&#34;})
+        if test_image is None:
+            with open(&#34;../frontend/games-img/dungeons.jpg&#34;, &#34;rb&#34;) as f:
+                test_image = self.fs.put(f, filename=&#34;dungeons.jpg&#34;, content_type=&#39;image/jpg&#39;)
+        else:
+            test_image = test_image._id
+
+        # search for item by its name attribute
+        bob_book_item = Item.search_for_by_attribute(self.mongo, self.name_attrib, &#34;Bob&#39;s Grand Adventure&#34;)
+        # create a new item if no search result returned
+        if not bob_book_item:
+            bob_book_item = Item([SingleLineStringAttribute(self.name_attrib, &#34;Bob&#39;s Grand Adventure&#34;),
+                                  MultiLineStringAttribute(self.description_attrib, [&#34;No Description&#34;]),
+                                  PictureAttribute(self.main_picture, test_image)],
+                                 [
+                                     TagReference(book_tag), TagReference(players_tag_3), TagReference(players_tag_4),
+                                     TagReference(players_tag_5)
+                                 ], [])
+
+            bob_book_item.instances.append(Instance([MultiLineStringAttribute(self.description_attrib, [&#34;No Description&#34;, &#34;uuid: 109358180&#34;]),
+                                                     MultiLineStringAttribute(self.hidden_description_attrib, [&#34;Damage Report: (4/5/2017): Page 57 has a small section of the top right corner torn off, no text missing, still serviceable&#34;])],
+                                                    [TagReference(damaged_tag)], True))
+            bob_book_item.instances.append(Instance([MultiLineStringAttribute(self.description_attrib, [&#34;No Description&#34;, &#34;uuid: 109358181&#34;])], []))
+
+            bob_book_item.write_to_db(self.mongo)
+        else:
+            bob_book_item = bob_book_item[0]
+
+        # search for item by its name attribute
+        steve_hidden_book_item = Item.search_for_by_attribute(self.mongo, self.name_attrib, &#34;Steve&#39;s Grand Adventure&#34;)
+        # create a new item if no search result returned
+        if not steve_hidden_book_item:
+            steve_hidden_book_item = Item([SingleLineStringAttribute(self.name_attrib, &#34;Steve&#39;s Grand Adventure&#34;)],
+                                          [
+                                              TagReference(book_tag), TagReference(players_tag_4)
+                                          ], [], True)
+
+            steve_hidden_book_item.instances.append(Instance([MultiLineStringAttribute(self.description_attrib, [&#34;No Description&#34;, &#34;uuid: 109354180&#34;])], []))
+            steve_hidden_book_item.instances.append(Instance([MultiLineStringAttribute(self.description_attrib, [&#34;No Description&#34;, &#34;uuid: 109354181&#34;])], []))
+
+            steve_hidden_book_item.write_to_db(self.mongo)
+        else:
+            steve_hidden_book_item = steve_hidden_book_item[0]
+
+        # recalculates all implied tags for the item and instances
+        bob_book_item.recalculate_implied_tags(self.mongo, True)
+
+        borrowing_item_relation = RelationOption.search_for_by_name(self.mongo, &#34;Borrowing&#34;)
+        if borrowing_item_relation is None:
+            borrowing_item_relation = RelationOption(&#34;Borrowing&#34;, [TagReference(borrowed_out_tag)])
+            borrowing_item_relation.write_to_db(self.mongo)
+
+        emptycheck = self.mongo.db.users.count()
+        default_user = User.search_for_by_display_name(self.mongo, &#34;DefaultAdmin&#34;)
+        if emptycheck == 0:
+            default_user = User(&#34;DefaultAdmin&#34;, [self.admin_role.id], &#34;default@test.com&#34;, generate_password_hash(&#34;password&#34;), &#34;Test&#34;, &#34;LastTest&#34;)
+            default_user.write_to_db(self.mongo)
+
+        # this code should never be needed normally, this is modeling a human performing this action, if you want to automate this properlly then properlly add a uuid attribute
+        inst_0_id = [inst for inst in bob_book_item.instances if len([a for a in inst.attributes if isinstance(a, MultiLineStringAttribute) and len([line for line in a.value if line.find(&#34;uuid: 109358180&#34;) != -1]) != 0]) != 0][0].id
+        inst_1_id = [inst for inst in bob_book_item.instances if len([a for a in inst.attributes if isinstance(a, MultiLineStringAttribute) and len([line for line in a.value if line.find(&#34;uuid: 109358181&#34;) != -1]) != 0]) != 0][0].id
+
+        matthew_bob_borrow_relation = Relation.search_for_by_instance_id(self.mongo, inst_1_id)
+        if not matthew_bob_borrow_relation:
+            matthew_bob_borrow_relation = Relation.new_instance(default_user.id, borrowing_item_relation.id, inst_1_id)
+            matthew_bob_borrow_relation.write_to_db(self.mongo)
+        else:
+            matthew_bob_borrow_relation = matthew_bob_borrow_relation[0]
+
+        bob_book_item.recalculate_implied_tags(self.mongo, True)
+
+
+        #Page load testing
+        &#39;&#39;&#39;
+        #1000 tags
+        DO_NOT_DELETE_tag = Tag.search_for_by_name(self.mongo, &#34;DO NOT DELETE ME&#34;)
+        if DO_NOT_DELETE_tag is None:
+            DO_NOT_DELETE_tag = Tag(&#34;DO NOT DELETE ME&#34;, [])
+            DO_NOT_DELETE_tag.write_to_db(self.mongo)
+            for i in range(1000):
+                new_tag = Tag(&#34;tag&#34;+str(i), [])
+                new_tag.write_to_db(self.mongo)
+        
+        #1000 items
+        DO_NOT_DELETE_item = Item.search_for_by_attribute(self.mongo, item_name_attrib, &#34;DO NOT DELETE ME&#34;)
+        if not DO_NOT_DELETE_item:
+            DO_NOT_DELETE_item = Item({&#34;name&#34;: &#34;DO NOT DELETE ME&#34;, &#34;description&#34;: &#34;No description&#34;},[], [])
+            for i in range(1000):
+                new_item = Item({&#34;name&#34;: &#34;item&#34;+str(i), &#34;description&#34;: &#34;No description&#34;},[], [])
+                new_item.write_to_db(self.mongo)
+        &#39;&#39;&#39;</code></pre>
+</details>
+<h3>Class variables</h3>
+<dl>
+<dt id="app.database_impl.manager.DatabaseManager.fs"><code class="name">var <span class="ident">fs</span> : gridfs.GridFS</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="app.database_impl.manager.DatabaseManager.mongo"><code class="name">var <span class="ident">mongo</span> : flask_pymongo.PyMongo</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+</dl>
+<h3>Methods</h3>
+<dl>
+<dt id="app.database_impl.manager.DatabaseManager.test"><code class="name flex">
+<span>def <span class="ident">test</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def test(self):
+    # create a book tag
+    book_tag = Tag.search_for_by_name(self.mongo, &#34;Book&#34;)
+    if book_tag is None:
+        book_tag = Tag(&#34;Book&#34;, [])
+        book_tag.write_to_db(self.mongo)
+
+    # create a multiplayer tag
+    multiplayer_tag = Tag.search_for_by_name(self.mongo, &#34;Multiplayer&#34;)
+    if multiplayer_tag is None:
+        multiplayer_tag = Tag(&#34;Multiplayer&#34;, [])
+        multiplayer_tag.write_to_db(self.mongo)
+
+    # create a player 1 tag
+    players_tag_1 = Tag.search_for_by_name(self.mongo, &#34;Players: 1&#34;)
+    if players_tag_1 is None:
+        players_tag_1 = Tag(&#34;Players: 1&#34;, [])
+        players_tag_1.write_to_db(self.mongo)
+
+    # create a player 2 tag
+    players_tag_2 = Tag.search_for_by_name(self.mongo, &#34;Players: 2&#34;)
+    if players_tag_2 is None:
+        players_tag_2 = Tag(&#34;Players: 2&#34;, [TagReference(multiplayer_tag)])
+        players_tag_2.write_to_db(self.mongo)
+
+    # create a player 3 tag
+    players_tag_3 = Tag.search_for_by_name(self.mongo, &#34;Players: 3&#34;)
+    if players_tag_3 is None:
+        players_tag_3 = Tag(&#34;Players: 3&#34;, [TagReference(multiplayer_tag)])
+        players_tag_3.write_to_db(self.mongo)
+
+    # create a player 4 tag
+    players_tag_4 = Tag.search_for_by_name(self.mongo, &#34;Players: 4&#34;)
+    if players_tag_4 is None:
+        players_tag_4 = Tag(&#34;Players: 4&#34;, [TagReference(multiplayer_tag)])
+        players_tag_4.write_to_db(self.mongo)
+
+    # create a player 5 tag
+    players_tag_5 = Tag.search_for_by_name(self.mongo, &#34;Players: 5&#34;)
+    if players_tag_5 is None:
+        players_tag_5 = Tag(&#34;Players: 5&#34;, [TagReference(multiplayer_tag)])
+        players_tag_5.write_to_db(self.mongo)
+
+    # create a player 6 tag
+    players_tag_6 = Tag.search_for_by_name(self.mongo, &#34;Players: 6&#34;)
+    if players_tag_6 is None:
+        players_tag_6 = Tag(&#34;Players: 6&#34;, [TagReference(multiplayer_tag)])
+        players_tag_6.write_to_db(self.mongo)
+
+    # create a damaged tag
+    damaged_tag = Tag.search_for_by_name(self.mongo, &#34;Damaged&#34;)
+    if damaged_tag is None:
+        damaged_tag = Tag(&#34;Damaged&#34;, [])
+        damaged_tag.write_to_db(self.mongo)
+
+    # create a borrowed out tag
+    borrowed_out_tag = Tag.search_for_by_name(self.mongo, &#34;Borrowed Out&#34;)
+    if borrowed_out_tag is None:
+        borrowed_out_tag = Tag(&#34;Borrowed Out&#34;, [])
+        borrowed_out_tag.write_to_db(self.mongo)
+
+
+
+    # create a None tag (all root tags point to this tag for easier management)
+    root_tag = Tag.search_for_by_name(self.mongo, &#34;None&#34;)
+    if root_tag is None:
+        root_tag = Tag(&#34;None&#34;, [])
+        root_tag.write_to_db(self.mongo)
+
+    # load image from disk, normally one would upload it from the website
+    test_image = self.fs.find_one({&#34;filename&#34;: &#34;dungeons.jpg&#34;})
+    if test_image is None:
+        with open(&#34;../frontend/games-img/dungeons.jpg&#34;, &#34;rb&#34;) as f:
+            test_image = self.fs.put(f, filename=&#34;dungeons.jpg&#34;, content_type=&#39;image/jpg&#39;)
+    else:
+        test_image = test_image._id
+
+    # search for item by its name attribute
+    bob_book_item = Item.search_for_by_attribute(self.mongo, self.name_attrib, &#34;Bob&#39;s Grand Adventure&#34;)
+    # create a new item if no search result returned
+    if not bob_book_item:
+        bob_book_item = Item([SingleLineStringAttribute(self.name_attrib, &#34;Bob&#39;s Grand Adventure&#34;),
+                              MultiLineStringAttribute(self.description_attrib, [&#34;No Description&#34;]),
+                              PictureAttribute(self.main_picture, test_image)],
+                             [
+                                 TagReference(book_tag), TagReference(players_tag_3), TagReference(players_tag_4),
+                                 TagReference(players_tag_5)
+                             ], [])
+
+        bob_book_item.instances.append(Instance([MultiLineStringAttribute(self.description_attrib, [&#34;No Description&#34;, &#34;uuid: 109358180&#34;]),
+                                                 MultiLineStringAttribute(self.hidden_description_attrib, [&#34;Damage Report: (4/5/2017): Page 57 has a small section of the top right corner torn off, no text missing, still serviceable&#34;])],
+                                                [TagReference(damaged_tag)], True))
+        bob_book_item.instances.append(Instance([MultiLineStringAttribute(self.description_attrib, [&#34;No Description&#34;, &#34;uuid: 109358181&#34;])], []))
+
+        bob_book_item.write_to_db(self.mongo)
+    else:
+        bob_book_item = bob_book_item[0]
+
+    # search for item by its name attribute
+    steve_hidden_book_item = Item.search_for_by_attribute(self.mongo, self.name_attrib, &#34;Steve&#39;s Grand Adventure&#34;)
+    # create a new item if no search result returned
+    if not steve_hidden_book_item:
+        steve_hidden_book_item = Item([SingleLineStringAttribute(self.name_attrib, &#34;Steve&#39;s Grand Adventure&#34;)],
+                                      [
+                                          TagReference(book_tag), TagReference(players_tag_4)
+                                      ], [], True)
+
+        steve_hidden_book_item.instances.append(Instance([MultiLineStringAttribute(self.description_attrib, [&#34;No Description&#34;, &#34;uuid: 109354180&#34;])], []))
+        steve_hidden_book_item.instances.append(Instance([MultiLineStringAttribute(self.description_attrib, [&#34;No Description&#34;, &#34;uuid: 109354181&#34;])], []))
+
+        steve_hidden_book_item.write_to_db(self.mongo)
+    else:
+        steve_hidden_book_item = steve_hidden_book_item[0]
+
+    # recalculates all implied tags for the item and instances
+    bob_book_item.recalculate_implied_tags(self.mongo, True)
+
+    borrowing_item_relation = RelationOption.search_for_by_name(self.mongo, &#34;Borrowing&#34;)
+    if borrowing_item_relation is None:
+        borrowing_item_relation = RelationOption(&#34;Borrowing&#34;, [TagReference(borrowed_out_tag)])
+        borrowing_item_relation.write_to_db(self.mongo)
+
+    emptycheck = self.mongo.db.users.count()
+    default_user = User.search_for_by_display_name(self.mongo, &#34;DefaultAdmin&#34;)
+    if emptycheck == 0:
+        default_user = User(&#34;DefaultAdmin&#34;, [self.admin_role.id], &#34;default@test.com&#34;, generate_password_hash(&#34;password&#34;), &#34;Test&#34;, &#34;LastTest&#34;)
+        default_user.write_to_db(self.mongo)
+
+    # this code should never be needed normally, this is modeling a human performing this action, if you want to automate this properlly then properlly add a uuid attribute
+    inst_0_id = [inst for inst in bob_book_item.instances if len([a for a in inst.attributes if isinstance(a, MultiLineStringAttribute) and len([line for line in a.value if line.find(&#34;uuid: 109358180&#34;) != -1]) != 0]) != 0][0].id
+    inst_1_id = [inst for inst in bob_book_item.instances if len([a for a in inst.attributes if isinstance(a, MultiLineStringAttribute) and len([line for line in a.value if line.find(&#34;uuid: 109358181&#34;) != -1]) != 0]) != 0][0].id
+
+    matthew_bob_borrow_relation = Relation.search_for_by_instance_id(self.mongo, inst_1_id)
+    if not matthew_bob_borrow_relation:
+        matthew_bob_borrow_relation = Relation.new_instance(default_user.id, borrowing_item_relation.id, inst_1_id)
+        matthew_bob_borrow_relation.write_to_db(self.mongo)
+    else:
+        matthew_bob_borrow_relation = matthew_bob_borrow_relation[0]
+
+    bob_book_item.recalculate_implied_tags(self.mongo, True)
+
+
+    #Page load testing
+    &#39;&#39;&#39;
+    #1000 tags
+    DO_NOT_DELETE_tag = Tag.search_for_by_name(self.mongo, &#34;DO NOT DELETE ME&#34;)
+    if DO_NOT_DELETE_tag is None:
+        DO_NOT_DELETE_tag = Tag(&#34;DO NOT DELETE ME&#34;, [])
+        DO_NOT_DELETE_tag.write_to_db(self.mongo)
+        for i in range(1000):
+            new_tag = Tag(&#34;tag&#34;+str(i), [])
+            new_tag.write_to_db(self.mongo)
+    
+    #1000 items
+    DO_NOT_DELETE_item = Item.search_for_by_attribute(self.mongo, item_name_attrib, &#34;DO NOT DELETE ME&#34;)
+    if not DO_NOT_DELETE_item:
+        DO_NOT_DELETE_item = Item({&#34;name&#34;: &#34;DO NOT DELETE ME&#34;, &#34;description&#34;: &#34;No description&#34;},[], [])
+        for i in range(1000):
+            new_item = Item({&#34;name&#34;: &#34;item&#34;+str(i), &#34;description&#34;: &#34;No description&#34;},[], [])
+            new_item.write_to_db(self.mongo)
+    &#39;&#39;&#39;</code></pre>
+</details>
+</dd>
+</dl>
+</dd>
+</dl>
+</section>
+</article>
+<nav id="sidebar">
+<h1>Index</h1>
+<div class="toc">
+<ul></ul>
+</div>
+<ul id="index">
+<li><h3>Super-module</h3>
+<ul>
+<li><code><a title="app.database_impl" href="index.html">app.database_impl</a></code></li>
+</ul>
+</li>
+<li><h3><a href="#header-classes">Classes</a></h3>
+<ul>
+<li>
+<h4><code><a title="app.database_impl.manager.DatabaseManager" href="#app.database_impl.manager.DatabaseManager">DatabaseManager</a></code></h4>
+<ul class="">
+<li><code><a title="app.database_impl.manager.DatabaseManager.fs" href="#app.database_impl.manager.DatabaseManager.fs">fs</a></code></li>
+<li><code><a title="app.database_impl.manager.DatabaseManager.mongo" href="#app.database_impl.manager.DatabaseManager.mongo">mongo</a></code></li>
+<li><code><a title="app.database_impl.manager.DatabaseManager.test" href="#app.database_impl.manager.DatabaseManager.test">test</a></code></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</nav>
+</main>
+<footer id="footer">
+<p>Generated by <a href="https://pdoc3.github.io/pdoc"><cite>pdoc</cite> 0.9.1</a>.</p>
+</footer>
+</body>
+</html>

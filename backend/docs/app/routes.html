@@ -1,0 +1,4329 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
+<meta name="generator" content="pdoc 0.9.1" />
+<title>app.routes API documentation</title>
+<meta name="description" content="" />
+<link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/sanitize.min.css" integrity="sha256-PK9q560IAAa6WVRRh76LtCaI8pjTJ2z11v0miyNNjrs=" crossorigin>
+<link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/typography.min.css" integrity="sha256-7l/o7C8jubJiy74VsKTidCy1yBkRtiUGbVkYBylBqUg=" crossorigin>
+<link rel="stylesheet preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/styles/github.min.css" crossorigin>
+<style>:root{--highlight-color:#fe9}.flex{display:flex !important}body{line-height:1.5em}#content{padding:20px}#sidebar{padding:30px;overflow:hidden}#sidebar > *:last-child{margin-bottom:2cm}.http-server-breadcrumbs{font-size:130%;margin:0 0 15px 0}#footer{font-size:.75em;padding:5px 30px;border-top:1px solid #ddd;text-align:right}#footer p{margin:0 0 0 1em;display:inline-block}#footer p:last-child{margin-right:30px}h1,h2,h3,h4,h5{font-weight:300}h1{font-size:2.5em;line-height:1.1em}h2{font-size:1.75em;margin:1em 0 .50em 0}h3{font-size:1.4em;margin:25px 0 10px 0}h4{margin:0;font-size:105%}h1:target,h2:target,h3:target,h4:target,h5:target,h6:target{background:var(--highlight-color);padding:.2em 0}a{color:#058;text-decoration:none;transition:color .3s ease-in-out}a:hover{color:#e82}.title code{font-weight:bold}h2[id^="header-"]{margin-top:2em}.ident{color:#900}pre code{background:#f8f8f8;font-size:.8em;line-height:1.4em}code{background:#f2f2f1;padding:1px 4px;overflow-wrap:break-word}h1 code{background:transparent}pre{background:#f8f8f8;border:0;border-top:1px solid #ccc;border-bottom:1px solid #ccc;margin:1em 0;padding:1ex}#http-server-module-list{display:flex;flex-flow:column}#http-server-module-list div{display:flex}#http-server-module-list dt{min-width:10%}#http-server-module-list p{margin-top:0}.toc ul,#index{list-style-type:none;margin:0;padding:0}#index code{background:transparent}#index h3{border-bottom:1px solid #ddd}#index ul{padding:0}#index h4{margin-top:.6em;font-weight:bold}@media (min-width:200ex){#index .two-column{column-count:2}}@media (min-width:300ex){#index .two-column{column-count:3}}dl{margin-bottom:2em}dl dl:last-child{margin-bottom:4em}dd{margin:0 0 1em 3em}#header-classes + dl > dd{margin-bottom:3em}dd dd{margin-left:2em}dd p{margin:10px 0}.name{background:#eee;font-weight:bold;font-size:.85em;padding:5px 10px;display:inline-block;min-width:40%}.name:hover{background:#e0e0e0}dt:target .name{background:var(--highlight-color)}.name > span:first-child{white-space:nowrap}.name.class > span:nth-child(2){margin-left:.4em}.inherited{color:#999;border-left:5px solid #eee;padding-left:1em}.inheritance em{font-style:normal;font-weight:bold}.desc h2{font-weight:400;font-size:1.25em}.desc h3{font-size:1em}.desc dt code{background:inherit}.source summary,.git-link-div{color:#666;text-align:right;font-weight:400;font-size:.8em;text-transform:uppercase}.source summary > *{white-space:nowrap;cursor:pointer}.git-link{color:inherit;margin-left:1em}.source pre{max-height:500px;overflow:auto;margin:0}.source pre code{font-size:12px;overflow:visible}.hlist{list-style:none}.hlist li{display:inline}.hlist li:after{content:',\2002'}.hlist li:last-child:after{content:none}.hlist .hlist{display:inline;padding-left:1em}img{max-width:100%}td{padding:0 .5em}.admonition{padding:.1em .5em;margin-bottom:1em}.admonition-title{font-weight:bold}.admonition.note,.admonition.info,.admonition.important{background:#aef}.admonition.todo,.admonition.versionadded,.admonition.tip,.admonition.hint{background:#dfd}.admonition.warning,.admonition.versionchanged,.admonition.deprecated{background:#fd4}.admonition.error,.admonition.danger,.admonition.caution{background:lightpink}</style>
+<style media="screen and (min-width: 700px)">@media screen and (min-width:700px){#sidebar{width:30%;height:100vh;overflow:auto;position:sticky;top:0}#content{width:70%;max-width:100ch;padding:3em 4em;border-left:1px solid #ddd}pre code{font-size:1em}.item .name{font-size:1em}main{display:flex;flex-direction:row-reverse;justify-content:flex-end}.toc ul ul,#index ul{padding-left:1.5em}.toc > ul > li{margin-top:.5em}}</style>
+<style media="print">@media print{#sidebar h1{page-break-before:always}.source{display:none}}@media print{*{background:transparent !important;color:#000 !important;box-shadow:none !important;text-shadow:none !important}a[href]:after{content:" (" attr(href) ")";font-size:90%}a[href][title]:after{content:none}abbr[title]:after{content:" (" attr(title) ")"}.ir a:after,a[href^="javascript:"]:after,a[href^="#"]:after{content:""}pre,blockquote{border:1px solid #999;page-break-inside:avoid}thead{display:table-header-group}tr,img{page-break-inside:avoid}img{max-width:100% !important}@page{margin:0.5cm}p,h2,h3{orphans:3;widows:3}h1,h2,h3,h4,h5,h6{page-break-after:avoid}}</style>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/highlight.min.js" integrity="sha256-Uv3H6lx7dJmRfRvH8TH6kJD1TSK1aFcwgx+mdg3epi8=" crossorigin></script>
+<script>window.addEventListener('DOMContentLoaded', () => hljs.initHighlighting())</script>
+</head>
+<body>
+<main>
+<article id="content">
+<header>
+<h1 class="title">Module <code>app.routes</code></h1>
+</header>
+<section id="section-intro">
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">from functools import wraps
+
+import json
+from bson.errors import InvalidId
+from bson.objectid import ObjectId
+from flask import render_template, url_for, redirect, request, flash, Response
+from flask_login import current_user, login_user, logout_user
+from gridfs import NoFile
+from werkzeug.security import generate_password_hash
+from werkzeug.utils import secure_filename
+
+from app import app, db_manager, login_manager
+from app.database_impl.attrib_options import AttributeOption, PictureAttribute, SingleLineStringAttribute, \
+    MultiLineStringAttribute
+from app.database_impl.items_instances import Item, Instance
+from app.database_impl.tags import Tag, TagReference
+
+from bson.objectid import ObjectId
+from app.forms import newEntryForm, addTagForm, createTagForm, addTagImplForm, \
+    updateAttribForm, LoginForm, RegistrationForm, UpdateForm, addRuleForm, \
+    addTagParentImplForm, addTagSiblingImplForm, UpdateRoleForm, CreateUserForm, UpdatePasswordForm
+
+from app.search_parser import search_string_to_mongodb_query, SearchStringParseError
+from flask_pymongo import PyMongo
+from flask_login import LoginManager, current_user, login_user, logout_user, login_required
+from werkzeug.security import generate_password_hash
+from functools import wraps
+
+from app.tables import UserTable
+from app.database_impl.users import User
+from app.database_impl.roles import Role
+
+from flask_paginate import Pagination, get_page_parameter, get_page_args
+tags_collection = db_manager.mongo.db.tags
+attrib_collection = db_manager.mongo.db.attrib_options
+mongo = db_manager.mongo
+
+
+
+
+# -------------------------------------------
+#     Public pages
+# -------------------------------------------
+@app.route(&#39;/&#39;)
+@app.route(&#39;/home&#39;)
+def home():
+    &#34;&#34;&#34;
+    Home route endpoint
+
+    Returns:
+        Renders the home.html user page template
+    &#34;&#34;&#34;
+    recent_items = []
+    for item in db_manager.mongo.db.items.find():
+        recent_items.append(item)
+    recent_items.reverse()
+    recent_items = recent_items[:6]
+    return render_template(&#39;user-pages/home.html&#39;, recent_items=recent_items, Item=Item, name_attrib_option=db_manager.name_attrib, tags_collection=tags_collection)
+
+
+@app.route(&#39;/login&#39;, methods=[&#39;GET&#39;, &#39;POST&#39;])
+def login():
+    &#34;&#34;&#34;
+    Login route endpoint. 
+    This allows users to login to their account.
+
+    Parameters
+    ----------
+        GET:/login
+        POST:/login
+
+    Returns
+    -------
+        Redirects to the admin dashboard if the user is authenticated
+        Redirects to the change password page if the user has a temporary password
+        Redirects to the login page if the login was unsuccessful
+    &#34;&#34;&#34;
+    if current_user.is_authenticated:
+        return redirect(url_for(&#39;admin&#39;))
+    form = LoginForm()
+    if form.validate_on_submit():
+        email = form.email.data
+        password = form.password.data
+        find_user = mongo.db.users.find_one({&#34;email&#34;: email})
+        print(&#34;find_user: &#34;, find_user)
+        if User.login_valid(db_manager.mongo, email, password):
+            loguser = User.from_dict(find_user)
+            login_user(loguser, remember=form.remember_me.data)
+            flash(&#39;You have been logged in!&#39;, &#39;success&#39;)
+            if loguser.temp:
+                flash(&#39;You have a temporary password, please update it.&#39;)
+                return redirect(url_for(&#39;changepw&#39;))
+            else:
+                return redirect(url_for(&#39;admin&#39;))
+        else:
+            flash(&#39;Login Unsuccessful. Please check email and password&#39;, &#39;danger&#39;)
+            return redirect(url_for(&#39;login&#39;))
+    return render_template(&#39;user-pages/login.html&#39;, form=form)
+
+
+@app.route(&#39;/logout&#39;)
+def logout():
+    &#34;&#34;&#34;
+    Logout route endpoint. 
+    This allows users to logout of their account
+
+    Returns
+    -------
+        Redirects to the login page
+    &#34;&#34;&#34;
+    logout_user()
+    flash(&#39;You have been logged out&#39;)
+    return redirect(url_for(&#39;login&#39;))
+
+@app.route(&#39;/changepw&#39;, methods=[&#39;GET&#39;, &#39;POST&#39;])
+@login_required
+def changepw():
+    &#34;&#34;&#34;
+    Change password route endpoint. 
+    This allows users to change their password
+
+    Parameters
+    ----------
+        GET:/changepw
+        POST:/changepw
+
+    Returns
+    -------
+        Redirects to the home page if the password was changed successfully
+        Redirects to the password change page if unsuccessful
+    &#34;&#34;&#34;
+    form = UpdatePasswordForm()
+    if form.validate_on_submit():
+        id = current_user.id
+        password = generate_password_hash(form.password.data)
+        mongo.db.users.update_one({&#39;_id&#39;: ObjectId(id)},
+                                      {&#34;$set&#34;: {
+                                            &#39;password&#39;: password,
+                                            &#39;temp&#39;: False
+                                      }
+                                      })
+        flash(&#34;Password updated successfully!&#34;)
+        return redirect(url_for(&#39;home&#39;))
+    return render_template(&#39;user-pages/changepw.html&#39;, form=form)
+
+
+@app.route(&#34;/register&#34;, methods=[&#39;GET&#39;, &#39;POST&#39;])
+def register():
+    &#34;&#34;&#34;
+    User registration route endpoint. 
+    This allows users create a new account
+
+    Parameters
+    ----------
+        GET:/register
+        POST:/register
+
+    Returns
+    -------
+        Redirects to the home page if the account was created successfully
+        Redirects to the register page if registration failed
+    &#34;&#34;&#34;
+    form = RegistrationForm()
+    if form.validate_on_submit():
+        email = form.email.data
+        display_name = form.display_name.data
+        first_name = form.first_name.data
+        last_name = form.last_name.data
+        password = generate_password_hash(form.password.data)
+        find_by_email = User.search_for_by_email(db_manager.mongo, email)
+        find_by_name = User.search_for_by_display_name(db_manager.mongo, display_name)
+        if find_by_email is None and find_by_name is None:
+            User.register(db_manager.mongo, display_name, email, password, first_name, last_name)
+            flash(f&#39;Account created for {form.email.data}!&#39;, &#39;success&#39;)
+            return redirect(url_for(&#39;home&#39;))
+        else:
+            if find_by_name is None: 
+                flash(f&#39;Account already exists for {form.email.data}!&#39;, &#39;success&#39;)
+            else:
+                flash(f&#39;Account already exists for {form.display_name.data}!&#39;, &#39;success&#39;)
+    return render_template(&#39;user-pages/register.html&#39;, title=&#39;Register&#39;, form=form)
+
+@app.route(&#39;/library&#39;)
+def library():
+    &#34;&#34;&#34;
+    Item library route endpoint.
+
+    Returns
+    -------
+        Renders the library page 
+    &#34;&#34;&#34;
+    items = db_manager.mongo.db.items.find()
+    items = [Item.from_dict(i) for i in items]
+
+    for item in items:
+        item.recalculate_implied_tags(db_manager.mongo)  # Again, thia is NOT be needed
+
+    item_names = {item.id: item.get_attributes_by_option(db_manager.name_attrib)[0].value for item in items}
+    item_images = {}
+    for item in items:
+        picture = item.get_attributes_by_option(db_manager.main_picture)
+        if picture:
+            item_images[item.id] = url_for(&#39;image&#39;, oid=str(picture[0].value))
+        else:
+            item_images[item.id] = url_for(&#39;static&#39;, filename=&#39;img/logo.png&#39;)  # TODO supply &#39;no-image&#39; image?
+
+    return render_template(&#39;user-pages/new-library.html&#39;, items=items, tags_collection=tags_collection,
+                           item_names=item_names, item_images=item_images)
+
+
+@app.route(&#39;/libarary/item_detail/&lt;item_id&gt;&#39;, methods=[&#39;GET&#39;, &#39;POST&#39;])
+def item_detail(item_id):
+    &#34;&#34;&#34;
+    Item detail route endpoint. 
+    This allows users to view the page for a specific item
+
+    Parameters
+    ----------
+        GET:/item_detail/&lt;item_id&gt;
+        POST:/item_detail/&lt;item_id&gt;
+
+    Returns
+    -------
+        Renders the page for the item specified by `item_id`
+    &#34;&#34;&#34;
+    item = db_manager.mongo.db.items.find_one({&#34;_id&#34;: ObjectId(item_id)})
+    if item is None:
+        return page_not_found(404)
+    item = Item.from_dict(item)
+
+    if item.get_attributes_by_option(db_manager.main_picture):
+        image_url = url_for(&#39;image&#39;, oid=str(item.get_attributes_by_option(db_manager.main_picture)[0].value))
+    else:
+        image_url = url_for(&#39;static&#39;, filename=&#39;img/logo.png&#39;)  # TODO supply &#39;no-image&#39; image?
+
+    return render_template(&#39;user-pages/item-detail.html&#39;, image_url=image_url, item=item, tags_collection=tags_collection, 
+                                name_attribute=db_manager.name_attrib, description_attribute = db_manager.description_attrib)
+
+
+@app.route(&#39;/events&#39;)
+def events():
+    &#34;&#34;&#34;
+    Events route endpoint. 
+    This allows users to see the Unigames events
+
+    Returns
+    -------
+        Renders the page for the Unigames events
+    &#34;&#34;&#34;
+    return render_template(&#39;user-pages/events.html&#39;)
+
+# Roleplaying page
+@app.route(&#39;/roleplaying&#39;)
+def roleplaying():
+    &#34;&#34;&#34;
+    Roleplaying route endpoint. 
+    This allows users to find imformation on roleplaying 
+
+    Returns
+    -------
+        Renders the page for roleplaying
+    &#34;&#34;&#34;
+    return render_template(&#39;user-pages/roleplaying.html&#39;)
+
+
+@app.route(&#39;/committee&#39;)
+def committee():
+    &#34;&#34;&#34;
+    Committee route endpoint. 
+    This allows users to see the Unigames committee members
+
+    Returns
+    -------
+        Renders the page for the Unigames committee
+    &#34;&#34;&#34;
+    return render_template(&#39;user-pages/committee.html&#39;)
+
+# Lif members page
+@app.route(&#39;/lifeMembers&#39;)
+def lifeMembers():
+    &#34;&#34;&#34;
+    Life members route endpoint. 
+    This allows users to see members awarded with a life membership
+
+    Returns
+    -------
+        Renders the page for the Unigames life members
+    &#34;&#34;&#34;
+    return render_template(&#39;user-pages/lifeMembers.html&#39;)
+
+# FAQ page
+@app.route(&#39;/faq&#39;)
+def faq():
+    &#34;&#34;&#34;
+    FAQ route endpoint. 
+    This allows users to see the Unigames frequently asked questions
+
+    Returns
+    -------
+        Renders the page for the Unigames FAQ
+    &#34;&#34;&#34;
+    return render_template(&#39;user-pages/faq.html&#39;)
+
+# Constitution page
+@app.route(&#39;/constitution&#39;)
+def constitution():
+    &#34;&#34;&#34;
+    Constitution route endpoint. 
+    This allows users to see the Unigames constitution
+
+    Returns
+    -------
+        Renders the page for the Unigames constitution
+    &#34;&#34;&#34;
+    return render_template(&#39;user-pages/constitution.html&#39;)
+
+
+@app.route(&#39;/operations&#39;)
+def operations():
+    &#34;&#34;&#34;
+    Operations route endpoint. 
+    This allows users to see the Unigames operations, which contains information for the use of future and current committees
+
+    Returns
+    -------
+        Renders the page for the Unigames operations
+    &#34;&#34;&#34;
+    return render_template(&#39;user-pages/operations.html&#39;)
+
+# needs to be implemented or deleted
+@app.route(&#39;/forbidden&#39;)
+def forbidden():
+    &#34;&#34;&#34;
+    Forbidden route endpoint. 
+    This page is rendered when unauthenticated users attempt to access restricted pages
+
+    Returns
+    -------
+        Renders the forbidden page
+    &#34;&#34;&#34;
+    return render_template(&#39;user-pages/forbidden.html&#39;)
+
+
+@login_manager.unauthorized_handler
+def unauthorized():
+    &#34;&#34;&#34;
+    Handles unauthorised access to pages
+
+    Returns
+    -------
+        Redirects to the login page if the user is not authenticated else, redirects to the forbidden page
+    &#34;&#34;&#34;
+    if not current_user.is_authenticated:
+        return redirect(url_for(&#39;login&#39;))
+    else:
+        return redirect(url_for(&#39;forbidden&#39;))
+    return &#39;Page not found r.&#39;
+
+    
+def login_required(perm=&#34;ANY&#34;):
+    &#34;&#34;&#34;
+    Ensures users can only access pages when logged in
+    &#34;&#34;&#34;
+    def wrapper(fn):
+        @wraps(fn)
+        def decorated_view(*args, **kwargs):
+            if not current_user.is_authenticated:
+                return login_manager.unauthorized()
+            if (perm != &#34;ANY&#34;):
+                hasperm = False
+                for r in current_user.role_ids:
+                    roleperms = db_manager.mongo.db.roles.find_one({&#34;_id&#34;: r})[&#39;permissions&#39;]
+                    print(roleperms)
+                    if roleperms[perm]:
+                        hasperm = True
+                if not hasperm:
+                    return login_manager.unauthorized()
+            return fn(*args, **kwargs)
+
+        return decorated_view
+
+    return wrapper
+
+# -------------------------------------------
+#     File and Image processing
+# -------------------------------------------
+
+# upload and view code taken and modified from here: https://gist.github.com/artisonian/492713
+# needs refinement from here, but this is to give those who need it a head start
+@app.route(&#39;/image/&lt;oid&gt;&#39;)
+def image(oid):
+    &#34;&#34;&#34;
+    Title: A simple GridFS server built with Flask
+    Author: Leroy Campbell
+    Date: 2010
+    Availability: https://gist.github.com/artisonian/492713
+    &#34;&#34;&#34;
+    try:
+        file = db_manager.fs.get(ObjectId(oid))
+        return Response(file, mimetype=file.content_type, direct_passthrough=True)
+    except NoFile or InvalidId:
+        return page_not_found(404)
+
+
+ALLOWED_EXTENSIONS = {&#39;png&#39;, &#39;jpg&#39;, &#39;jpeg&#39;, &#39;gif&#39;}
+
+
+def allowed_file(filename):
+    &#34;&#34;&#34;
+    Title: A simple GridFS server built with Flask
+    Author: Leroy Campbell
+    Date: 2010
+    Availability: https://gist.github.com/artisonian/492713
+    &#34;&#34;&#34;
+    return &#39;.&#39; in filename and \
+           filename.rsplit(&#39;.&#39;, 1)[1] in ALLOWED_EXTENSIONS
+
+
+@app.route(&#39;/upload_image&#39;, methods=[&#39;GET&#39;, &#39;POST&#39;])
+def upload_image(): 
+    &#34;&#34;&#34;
+    Title: A simple GridFS server built with Flask
+    Author: Leroy Campbell
+    Date: 2010
+    Availability: https://gist.github.com/artisonian/492713
+    &#34;&#34;&#34;
+    if request.method == &#39;POST&#39;:
+        file = request.files[&#39;file&#39;]
+        if file and allowed_file(file.filename):
+            filename = secure_filename(file.filename)
+            oid = db_manager.fs.put(file, content_type=file.content_type, filename=filename)
+            return redirect(url_for(&#39;image&#39;, oid=str(oid)))
+    return &#39;&#39;&#39;
+        &lt;!DOCTYPE html&gt;
+        &lt;html&gt;
+        &lt;head&gt;
+        &lt;title&gt;Upload new file&lt;/title&gt;
+        &lt;/head&gt;
+        &lt;body&gt;
+        &lt;h1&gt;Upload new file&lt;/h1&gt;
+        &lt;form action=&#34;&#34; method=&#34;post&#34; enctype=&#34;multipart/form-data&#34;&gt;
+        &lt;p&gt;&lt;input type=&#34;file&#34; name=&#34;file&#34;&gt;&lt;/p&gt;
+        &lt;p&gt;&lt;input type=&#34;submit&#34; value=&#34;Upload&#34;&gt;&lt;/p&gt;
+        &lt;/form&gt;
+        &lt;a href=&#34;%s&#34;&gt;All files&lt;/a&gt;
+        &lt;/body&gt;
+        &lt;/html&gt;
+        &#39;&#39;&#39; % url_for(&#39;images&#39;)
+
+
+@app.route(&#39;/images&#39;)
+def images():
+    &#34;&#34;&#34;
+    Title: A simple GridFS server built with Flask
+    Author: Leroy Campbell
+    Date: 2010
+    Availability: https://gist.github.com/artisonian/492713
+    &#34;&#34;&#34;
+    files = db_manager.fs.find()
+    file_list = &#34;\n&#34;.join([&#39;&lt;li&gt;&lt;a href=&#34;%s&#34;&gt;%s&lt;/a&gt;&lt;/li&gt;&#39; % \
+                           (url_for(&#39;image&#39;, oid=str(file._id)), file.name) \
+                           for file in files])
+    return &#39;&#39;&#39;
+    &lt;!DOCTYPE html&gt;
+    &lt;html&gt;
+    &lt;head&gt;
+    &lt;title&gt;Files&lt;/title&gt;
+    &lt;/head&gt;
+    &lt;body&gt;
+    &lt;h1&gt;Files&lt;/h1&gt;
+    &lt;ul&gt;
+    %s
+    &lt;/ul&gt;
+    &lt;a href=&#34;%s&#34;&gt;Upload new file&lt;/a&gt;
+    &lt;/body&gt;
+    &lt;/html&gt;
+    &#39;&#39;&#39; % (file_list, url_for(&#39;upload_image&#39;))
+
+
+
+# -------------------------------------------
+#     Admin pages
+# -------------------------------------------
+
+@app.route(&#39;/admin&#39;, methods=[&#39;GET&#39;, &#39;POST&#39;])
+@login_required(perm=&#34;can_view_hidden&#34;)
+def admin():
+    &#34;&#34;&#34;
+    Admin route endpoint. 
+    This allows users who have logged in to view the admin page
+
+    Parameters
+    ----------
+        GET:/admin
+        POST:/admin
+
+    Returns
+    -------
+        Renders the admin home page
+    &#34;&#34;&#34;
+    item_count = 0
+    tag_count = 0
+    user_count = 0
+    tag_impl_count = 0
+    recent_items = []
+    for item in db_manager.mongo.db.items.find():
+        item_count += 1
+        recent_items.append(item)
+    tags = db_manager.mongo.db.tags.find()
+    recent_tags = []
+    for tag in tags:
+        tag_count += 1
+        recent_tags.append(tag)
+        if tag[&#39;implies&#39;]:
+            tag_impl_count += 1
+    for user in db_manager.mongo.db.Users.find():
+        user_count +=1
+    recent_items.reverse()
+    recent_items = recent_items[:6]
+    recent_tags.reverse()
+    recent_tags = recent_tags[:6]
+    return render_template(&#39;admin-pages/new-home.html&#39;, tags_collection=tags_collection, user_count=user_count, recent_items=recent_items, recent_tags=recent_tags,item_count=item_count, tag_count=tag_count, tag_impl_count=tag_impl_count, name_attrib_option=db_manager.name_attrib, Item=Item)
+
+#### Following pages for User Management ####
+
+@app.route(&#39;/admin/users&#39;, methods=[&#39;GET&#39;, &#39;POST&#39;])
+@login_required(perm=&#34;can_view_hidden&#34;)
+def adminusers():
+    &#34;&#34;&#34;
+    Admin users route endpoint. 
+    This allows authenticated users to view all users
+
+    Parameters
+    ----------
+        GET:/admin/users
+        POST:/admin/users
+
+    Returns
+    -------
+        Renders the admin users home page
+    &#34;&#34;&#34;
+    users = mongo.db.users.find()
+    rolescursor = mongo.db.roles.find()
+    rolesdic = {}
+    for r in rolescursor:
+        rolesdic[r[&#39;_id&#39;]] = r[&#39;name&#39;]
+    return render_template(&#39;admin-pages/user-man/users.html&#39;, users=users, rolesdic=rolesdic)
+
+
+@app.route(&#39;/admin/users/edit/&lt;id&gt;&#39;, methods=[&#39;GET&#39;, &#39;POST&#39;])
+@login_required(perm=&#34;can_view_hidden&#34;)
+def edit(id):
+    &#34;&#34;&#34;
+    Admin user edit route endpoint. 
+    This allows authenticated users edit users
+
+    Parameters
+    ----------
+        GET:/admin/users/edit/&lt;id&gt;
+        POST:/admin/users/edit/&lt;id&gt;
+
+    Returns
+    -------
+        Renders the user edit page
+    &#34;&#34;&#34;
+    searcheduser = mongo.db.users.find_one({&#39;_id&#39;: ObjectId(id)})
+    rid = mongo.db.roles.find_one(searcheduser[&#39;role_ids&#39;][0])
+    rolename = rid[&#39;name&#39;]
+    searcheduser[&#39;role&#39;] = rolename
+
+    if searcheduser:
+        form = UpdateForm(**searcheduser)
+        form.role.choices = [(role[&#39;name&#39;], role[&#39;name&#39;]) for role in db_manager.mongo.db.roles.find()]
+        if form.validate_on_submit():
+            if form.delete.data:
+                return redirect(url_for(&#39;deleteuser&#39;, id=id))
+            print(Role.search_for_by_name(db_manager.mongo, form.role.data).id)
+            mongo.db.users.update_one({&#39;_id&#39;: ObjectId(id)},
+                                      {&#34;$set&#34;: {
+                                          &#39;display_name&#39;: form.display_name.data,
+                                          &#39;first_name&#39;: form.first_name.data,
+                                          &#39;last_name&#39;: form.last_name.data,
+                                          &#39;email&#39;: form.email.data,
+                                          &#39;role_ids&#39;: [Role.search_for_by_name(db_manager.mongo, form.role.data).id]
+                                      }
+                                      })
+            flash(&#39;User updated successfully!&#39;)
+            return redirect(url_for(&#39;adminusers&#39;))
+        return render_template(&#39;admin-pages/user-man/edit.html&#39;, form=form)
+    else:
+        return &#39;Error loading #{id}&#39;.format(id=id)
+    return render_template(&#39;admin-pages/user-man/edit.html&#39;, form=form)
+    
+    
+@app.route(&#39;/admin/users/createuser&#39;, methods=[&#39;GET&#39;, &#39;POST&#39;])
+@login_required(perm=&#34;can_edit_users&#34;)
+def createuser():
+    &#34;&#34;&#34;
+    Admin create user route endpoint. 
+    This allows users with the `can_edit_users` permission to create new users
+
+    Parameters
+    ----------
+        GET:/admin/users/createuser
+        POST:/admin/users/createuser
+
+    Returns
+    -------
+        Renders the create user page
+    &#34;&#34;&#34;
+    form = CreateUserForm()
+    form.role.choices = [(role[&#39;name&#39;], role[&#39;name&#39;]) for role in db_manager.mongo.db.roles.find()]
+    if form.validate_on_submit():
+        email = form.email.data
+        display_name = form.display_name.data
+        first_name = form.first_name.data
+        last_name = form.last_name.data
+        password = generate_password_hash(form.password.data)
+        role = form.role.data
+        find_by_email = User.search_for_by_email(db_manager.mongo, email)
+        find_by_name = User.search_for_by_display_name(db_manager.mongo, display_name)
+        if find_by_email is None and find_by_name is None:
+            User.register(db_manager.mongo, display_name, email, password, first_name, last_name, role, True)
+            flash(f&#39;Account created for {form.email.data}!&#39;, &#39;success&#39;)
+            return redirect(url_for(&#39;adminusers&#39;))
+        else:
+            if find_by_name is None: 
+                flash(f&#39;Account already exists for {form.email.data}!&#39;, &#39;success&#39;)
+            else:
+                flash(f&#39;Account already exists for {form.display_name.data}!&#39;, &#39;success&#39;)
+        return render_template(&#39;admin-pages/user-man/createuser.html&#39;, form=form)
+    return render_template(&#39;admin-pages/user-man/createuser.html&#39;, form=form) 
+ 
+@app.route(&#39;/admin/users/delete/&lt;string:id&gt;&#39;)
+@login_required(perm=&#34;can_edit_users&#34;)
+def deleteuser(id):
+    &#34;&#34;&#34;
+    Delete user route endpoint. 
+    This allows users with the `can_edit_users` permission to delete users
+
+    Parameters
+    ----------
+        GET:/admin/users/delete/&lt;string:id&gt;
+        POST:/admin/users/delete/&lt;string:id&gt;
+
+    Returns
+    -------
+        Redirects to the admin user page if the user is deleted successfully, else return an error
+    &#34;&#34;&#34;
+    searcheduser = mongo.db.users.find_one({&#39;_id&#39;: ObjectId(id)})
+    if searcheduser:
+        mongo.db.users.delete_one({&#39;_id&#39;: ObjectId(id)})
+        flash(&#39;User deleted successfully!&#39;)
+        return redirect(url_for(&#39;adminusers&#39;))
+    else:
+        return &#39;Error loading #{id}&#39;.format(id=id)
+    
+@app.route(&#39;/admin/users/roles&#39;)
+@login_required(perm=&#34;can_view_hidden&#34;)
+def roles():
+    &#34;&#34;&#34;
+    User role route endpoint. 
+    This allows users with the `can_view_hidden` permission to view user roles
+
+    Parameters
+    ----------
+        GET:/admin/users/roles
+        POST:/admin/users/roles
+
+    Returns
+    -------
+        Renders the roles page
+    &#34;&#34;&#34;
+    roles = mongo.db.roles.find()
+    return render_template(&#39;admin-pages/user-man/roles.html&#39;, roles=roles)
+    
+@app.route(&#39;/admin/users/editrole/&lt;id&gt;&#39;, methods=[&#39;GET&#39;, &#39;POST&#39;])
+@login_required(perm=&#34;can_edit_users&#34;)
+def editrole(id):
+    &#34;&#34;&#34;
+    Edit role route endpoint. 
+    This allows users with the `can_edit_users` permission to edit user roles
+
+    Parameters
+    ----------
+        GET:/admin/users/editrole/&lt;id&gt;
+        POST:/admin/users/editrole/&lt;id&gt;
+
+    Returns
+    -------
+        Renders the edit roles page
+    &#34;&#34;&#34;
+    searchedrole = mongo.db.roles.find_one({&#39;_id&#39;: ObjectId(id)})
+    print(searchedrole)
+    for key in searchedrole[&#39;permissions&#39;]:
+        searchedrole[key] = searchedrole[&#39;permissions&#39;][key]
+    print(searchedrole)
+
+    if searchedrole:
+        if searchedrole[&#39;name&#39;] == &#39;admin&#39; or searchedrole[&#39;name&#39;] == &#39;everyone&#39;:
+            flash(&#39;Error: Cannot edit default roles&#39;)
+            return redirect(url_for(&#39;roles&#39;))
+        form = UpdateRoleForm(**searchedrole)
+        if form.validate_on_submit():
+            if form.delete.data:
+                return redirect(url_for(&#39;deleterole&#39;, id=id))
+            mongo.db.roles.update_one({&#39;_id&#39;: ObjectId(id)},
+                                      {&#34;$set&#34;: {
+                                          &#39;name&#39;: form.name.data,
+                                          &#39;priority&#39;: form.priority.data,
+                                          &#39;permissions.can_edit_items&#39;: form.can_edit_items.data,
+                                          &#39;permissions.can_edit_users&#39;: form.can_edit_users.data,
+                                          &#39;permissions.can_view_hidden&#39;: form.can_view_hidden.data
+                                      }
+                                      })
+            flash(&#39;Role updated successfully!&#39;)
+            return redirect(url_for(&#39;roles&#39;))
+        return render_template(&#39;admin-pages/user-man/editrole.html&#39;, form=form)
+    else:
+        return &#39;Error loading #{id}&#39;.format(id=id)
+    return render_template(&#39;admin-pages/user-man/editrole.html&#39;, form=form)
+    
+@app.route(&#39;/admin/users/deleterole/&lt;string:id&gt;&#39;)
+@login_required(perm=&#34;can_edit_users&#34;)
+def deleterole(id):
+    &#34;&#34;&#34;
+    Delete role route endpoint. 
+    This allows users with the `can_edit_users` permission to delete user roles
+
+    Parameters
+    ----------
+        GET:/admin/users/deleterole/&lt;string:id&gt;
+        POST:/admin/users/deleterole/&lt;string:id&gt;
+
+    Returns
+    -------
+        Redirects to the roles page if the role was deleted successfully, else return an error
+    &#34;&#34;&#34;
+    searchedrole = mongo.db.roles.find_one({&#39;_id&#39;: ObjectId(id)})
+    if searchedrole:
+        if searchedrole[&#39;name&#39;] == &#39;admin&#39; or searchedrole[&#39;name&#39;] == &#39;everyone&#39;:
+            flash(&#39;Error: Cannot delete default roles&#39;)
+            return redirect(url_for(&#39;roles&#39;))
+        mongo.db.roles.delete_one({&#39;_id&#39;: ObjectId(id)})
+        flash(&#39;User deleted successfully!&#39;)
+        return redirect(url_for(&#39;roles&#39;))
+    else:
+        return &#39;Error loading #{id}&#39;.format(id=id)
+        
+@app.route(&#39;/admin/users/createrole/&#39;, methods=[&#39;GET&#39;, &#39;POST&#39;])
+@login_required(perm=&#34;can_edit_users&#34;)
+def createrole():
+    &#34;&#34;&#34;
+    Create role route endpoint. 
+    This allows users with the `can_edit_users` permission to create user roles
+
+    Parameters
+    ----------
+        GET:/admin/users/createrole
+        POST:/admin/users/createrole
+
+    Returns
+    -------
+        Redirects to the roles page if the role was created successfully
+        Redirects to the create role page if a role with the specified name already exists
+    &#34;&#34;&#34;
+    form = UpdateRoleForm()
+    if form.validate_on_submit():
+        if(Role.search_for_by_name(db_manager.mongo, form.name.data) is None):
+            Role.create_new(db_manager.mongo, form.name.data, form.priority.data, form.can_edit_items.data, form.can_edit_users.data, form.can_view_hidden.data)
+            flash(&#39;Role updated successfully!&#39;)
+            return redirect(url_for(&#39;roles&#39;))
+        else:
+            flash(&#39;A role with that name already exists&#39;)
+            return redirect(url_for(&#39;createrole&#39;))
+    return render_template(&#39;admin-pages/user-man/createrole.html&#39;, form=form)
+
+@app.route(&#39;/admin/test&#39;)
+@login_required(perm=&#34;can_view_hidden&#34;)
+def testing():
+    return render_template(&#39;admin-pages/test.html&#39;)
+
+
+#### Following pages for Tag and Implication Management ####
+
+
+
+
+# Page for creating a tag
+@app.route(&#39;/admin/lib-man/tag-man/create-a-tag&#39;, methods=[&#39;POST&#39;,&#39;GET&#39;])
+@login_required(perm=&#34;can_edit_items&#34;)
+def create_tag():
+    &#34;&#34;&#34;
+    Create tag route endpoint. 
+    This allows users with the `can_edit_items` permission to create a new tag
+
+    Parameters
+    ----------
+        GET:/admin/lib-man/tag-man/create-a-tag
+        POST:/admin/lib-man/tag-man/create-a-tag
+
+    Returns
+    -------
+        Redirects to the tags pags if the tag is created successfully
+        &#39;you cannot create an empty tag&#39; if the tag name is empty
+        &#39;the tag already exists&#39; if the tag already exists
+    &#34;&#34;&#34;
+    form = createTagForm()
+    if form.validate_on_submit():
+        if form.name.data.isspace() or form.name.data is &#39;&#39;:
+            return &#39;you cannot create an empty tag&#39;
+        tag_exists = Tag.search_for_by_name(db_manager.mongo, form.name.data)
+        if tag_exists is None:
+            new_tag = Tag(form.name.data, [])
+            new_tag.write_to_db(db_manager.mongo)
+            return redirect(url_for(&#39;all_tags&#39;))
+        else:
+            return &#39;the tag already exists&#39;
+    return render_template(&#39;admin-pages/lib-man/tag-man/create-tag.html&#39;, form=form)
+
+
+# Page for showing all implications
+@app.route(&#39;/admin/tag-man/all-impl&#39;)
+@login_required(perm=&#34;can_view_hidden&#34;)
+def all_impl():
+    &#34;&#34;&#34;
+    Show implication route endpoint. 
+    This allows users with the `can_view_hidden` permission to view all implications
+
+    Parameters
+    ----------
+        GET:/admin/tag-man/all-impl
+        POST:/admin/tag-man/all-impl
+
+    Returns
+    -------
+        Renders the implications page
+    &#34;&#34;&#34;
+    return render_template(&#39;admin-pages/lib-man/tag-man/all-impl.html&#39;,  tags_collection=tags_collection)
+
+
+def get_tags(tags, offset=0, per_page=10):
+    &#34;&#34;&#34;
+    Function to get the tags for pagination
+
+    Parameters
+    ----------
+        tags
+            List of all tags in the database
+        offset
+            The offset number of tags
+        per_page
+            the number of tags to show per page
+
+    Returns
+    -------
+        A list of tags
+    &#34;&#34;&#34;
+    return tags[offset: offset + per_page]
+
+# Page for showing all tags
+@app.route(&#39;/admin/lib-man/tag-man/all-tags&#39;)
+@login_required(perm=&#34;can_view_hidden&#34;)
+def all_tags():
+    &#34;&#34;&#34;
+    Show tags route endpoint. 
+    This allows users with the `can_view_hidden` permission to view all tags
+
+    Parameters
+    ----------
+        GET:/admin/tag-man/all-tags
+        POST:/admin/tag-man/all-tags
+
+    Returns
+    -------
+        Renders the tags page
+    &#34;&#34;&#34;
+    tags = tags_collection.find()
+    page, per_page, offset = get_page_args(page_parameter=&#39;page&#39;, per_page_parameter=&#39;per_page&#39;)
+    total = tags_collection.count()
+    page = request.args.get(get_page_parameter(), type=int, default=1)
+    pagination_tags = get_tags(tags, offset=offset, per_page=per_page)
+    pagination = Pagination(page=page, per_page=per_page, total=total, css_framework=&#39;bootstrap4&#39;)
+    return render_template(&#39;admin-pages/lib-man/tag-man/all-tags.html&#39;, tags=tags, pagination=pagination)
+
+# Page for tag search
+@app.route(&#39;/admin/lib-man/tag-man/search-item&#39;, methods=[&#39;GET&#39;, &#39;POST&#39;])
+@login_required(perm=&#34;can_view_hidden&#34;)
+def search_item():
+    &#34;&#34;&#34;
+    Item search route endpoint. 
+    This allows users with the `can_view_hidden` permission to search for items in the admin item library
+
+    Parameters
+    ----------
+        GET:/admin/lib-man/tag-man/search-item
+        POST:/admin/lib-man/tag-man/search-item
+
+    Returns
+    -------
+        Renders the item search page
+    &#34;&#34;&#34;
+    searchString = request.form.get(&#39;tagSearchInput&#39;)
+    is_input = False
+    is_result = False
+    result = []
+    db_results =[]
+    print(searchString)
+    if searchString is not None and searchString is not &#39;&#39;:
+        result = search_string_to_mongodb_query(db_manager.mongo, searchString)
+        is_input = True
+        if isinstance(result,list) :
+            is_result=False
+            result = str(result[0])[23:]
+        else:
+            flash(&#39;Search result retrieved from the database!&#39;)
+            is_result = True
+            db_results = db_manager.mongo.db.items.find(result)
+    return render_template(&#39;admin-pages/lib-man/tag-man/search-item.html&#39;, is_input=is_input, is_result=is_result, result=result, searchString=searchString, db_results=db_results, tags_collection=tags_collection)
+
+
+# Page for creating an implication
+@app.route(&#39;/admin/lib-man/tag-man/create-impl&#39;, methods=[&#39;GET&#39;, &#39;POST&#39;])
+@login_required(perm=&#34;can_edit_items&#34;)
+def create_impl():
+    &#34;&#34;&#34;
+    Create implication route endpoint. 
+    This allows users with the `can_edit_items` permission to create implications
+
+    Parameters
+    ----------
+        GET:/admin/lib-man/tag-man/create-impl
+        POST:/admin/lib-man/tag-man/create-impl
+
+    Returns
+    -------
+        Redirects to the create implication page if the parent tag is the same as the child tag
+        Redirects to the create implication page if the parent tag already exists as a parent
+        Redirects to the all implications page if the implication was created successfully
+    &#34;&#34;&#34;
+    form = addRuleForm()
+    form.parent.choices=[(tag[&#39;name&#39;], tag[&#39;name&#39;]) for tag in db_manager.mongo.db.tags.find()]
+    form.child.choices=[(tag[&#39;name&#39;], tag[&#39;name&#39;]) for tag in db_manager.mongo.db.tags.find()]
+    if form.validate_on_submit():
+        parent_tag = Tag.search_for_by_name(db_manager.mongo, form.parent.data)
+        child_tag  = Tag.search_for_by_name(db_manager.mongo, form.child.data)
+        if form.parent.data == form.child.data:
+            flash(&#39;A tag cannot imply to itself&#39;)
+            return redirect(url_for(&#39;create_impl&#39;))
+        if parent_tag.implies:
+            flash(&#39;This parent tag already exists as a parent&#39;)
+            return redirect(url_for(&#39;create_impl&#39;))
+        parent_tag.implies.append(TagReference(child_tag))
+        parent_tag.write_to_db(db_manager.mongo)
+        for item in db_manager.mongo.db.items.find():
+            this_item = Item.from_dict(item)
+            this_item.recalculate_implied_tags(db_manager.mongo)
+        flash(&#39;Implication added successfully, all items implication are updated&#39;)
+        return redirect(url_for(&#39;all_impl&#39;))
+    return render_template(&#39;admin-pages/lib-man/tag-man/create-implication.html&#39;, form=form)
+
+# Page for editing a tag and it&#39;s implications
+@app.route(&#39;/admin/lib-man/tag-man/edit-tag/&lt;tag_name&gt;&#39;)
+@login_required(perm=&#34;can_edit_items&#34;)
+def edit_tag(tag_name):
+    &#34;&#34;&#34;
+    Edit tag route endpoint. 
+    This allows users with the `can_edit_items` permission to edit tags
+
+    Parameters
+    ----------
+        GET:/admin/lib-man/tag-man/edit-tag/&lt;tag_name&gt;
+        POST:/admin/lib-man/tag-man/edit-tag/&lt;tag_name&gt;
+
+    Returns
+    -------
+        Renders the edit tag page
+    &#34;&#34;&#34;
+    this_tag = Tag.search_for_by_name(db_manager.mongo, tag_name)
+    sibling_list = [Tag.from_dict(t) for t in tags_collection.find({&#34;$and&#34;: [{&#34;implies&#34;: this_tag.id}, {&#34;_id&#34;: {&#34;$in&#34;: [t.tag_id for t in this_tag.implies]}}]})]
+    implied_by_list = [Tag.from_dict(t) for t in tags_collection.find({&#34;$and&#34;: [{&#34;implies&#34;: this_tag.id}, {&#34;_id&#34;: {&#34;$not&#34;: {&#34;$in&#34;: [t.tag_id for t in this_tag.implies]}}}]})]
+    implied_list = [t for t in this_tag.implies if t.tag_id not in [it.id for it in sibling_list]]
+    add_parent_implication_form = addTagParentImplForm()
+    add_parent_implication_form.select_parent.choices=[(tag[&#39;_id&#39;], tag[&#39;name&#39;]) for tag in db_manager.mongo.db.tags.find({&#34;$and&#34;: [{&#34;_id&#34;: {&#34;$ne&#34;: this_tag.id}}, {&#34;_id&#34;: {&#34;$not&#34;: {&#34;$in&#34;: [t.id for t in implied_by_list]}}}]})]
+    add_sibling_implication_form = addTagSiblingImplForm()
+    add_sibling_implication_form.select_sibling.choices=[(tag[&#39;_id&#39;], tag[&#39;name&#39;]) for tag in db_manager.mongo.db.tags.find({&#34;$and&#34;: [{&#34;_id&#34;: {&#34;$ne&#34;: this_tag.id}}, {&#34;_id&#34;: {&#34;$not&#34;: {&#34;$in&#34;: [t.id for t in sibling_list]}}}]})]
+    add_implication_form = addTagImplForm()
+    add_implication_form.select_child.choices=[(tag[&#39;_id&#39;], tag[&#39;name&#39;]) for tag in db_manager.mongo.db.tags.find({&#34;$and&#34;: [{&#34;_id&#34;: {&#34;$ne&#34;: this_tag.id}}, {&#34;_id&#34;: {&#34;$not&#34;: {&#34;$in&#34;: [t.tag_id for t in this_tag.implies]}}}]})]
+    return render_template(&#39;admin-pages/lib-man/tag-man/edit-tag.html&#39;, add_implication_form=add_implication_form,add_parent_implication_form=add_parent_implication_form,add_sibling_implication_form=add_sibling_implication_form, tag=this_tag, tags_collection=tags_collection,sibling_list=sibling_list,implied_by_list=implied_by_list,implied_list=implied_list, Tag=Tag)
+
+
+#### Following pages for Item Management ####
+
+# Page for showing all library items
+@app.route(&#39;/admin/all-items&#39;)
+@login_required(perm=&#34;can_view_hidden&#34;)
+def all_items():
+    &#34;&#34;&#34;
+    View all items route endpoint. 
+    This allows users with the `can_view_hidden` permission to view all items
+
+    Parameters
+    ----------
+        GET:/admin/all-items
+        POST:/admin/all-items
+
+    Returns
+    -------
+        Renders the all items page
+    &#34;&#34;&#34;
+    items = db_manager.mongo.db.items.find()
+    items = [Item.from_dict(i) for i in items]
+    for item in items:
+        item.recalculate_implied_tags(db_manager.mongo)  # Again, thia is NOT be needed
+    item_names = {item.id: item.get_attributes_by_option(db_manager.name_attrib)[0].value for item in items}
+    item_images = {}
+    for item in items:
+        picture = item.get_attributes_by_option(db_manager.main_picture)
+        if picture:
+            item_images[item.id] = url_for(&#39;image&#39;, oid=str(picture[0].value))
+        else:
+            item_images[item.id] = url_for(&#39;static&#39;, filename=&#39;img/logo.png&#39;)  # TODO supply &#39;no-image&#39; image?
+    return render_template(&#39;admin-pages/lib-man/all-items.html&#39;, items=items, tags_collection=tags_collection,
+                           item_names=item_names, item_images=item_images)
+
+# Page for creating an item
+@app.route(&#39;/admin/lib-man/create-item&#39;, methods=[&#39;GET&#39;, &#39;POST&#39;])
+@login_required(perm=&#34;can_edit_items&#34;)
+def create_item():
+    &#34;&#34;&#34;
+    Create item route endpoint. 
+    This allows users with the `can_edit_items` permission to create items
+
+    Parameters
+    ----------
+        GET:/admin/lib-man/create-item
+        POST:/admin/lib-man/create-item
+
+    Returns
+    -------
+        Redirects to the create item page if the item already exists
+        Redirects to the all items page if the implication was created successfully
+    &#34;&#34;&#34;
+    form = newEntryForm()
+    form.selection.choices=[(tag[&#39;name&#39;], tag[&#39;name&#39;]) for tag in db_manager.mongo.db.tags.find()]
+    all_tags = db_manager.mongo.db.tags.find()
+    if form.validate_on_submit():
+        # search for an item with the same title
+        # TODO: Ask client: Do we really care if things have the same name?
+        item_exists = Item.search_for_by_attribute(db_manager.mongo, db_manager.name_attrib, form.title.data)
+        if not item_exists:
+            # find the matching tag
+            tags = []
+            for tag in form.selection.data:
+                found_tag = Tag.search_for_by_name(db_manager.mongo, tag)
+                tags.append(TagReference(found_tag.id))
+            description = form.description.data.split(&#39;\r\n&#39;)
+            new_item = Item([SingleLineStringAttribute(db_manager.name_attrib, form.title.data),
+                             MultiLineStringAttribute(db_manager.description_attrib, description)],
+                            tags, [])
+            new_item.write_to_db(db_manager.mongo)
+            new_item.recalculate_implied_tags(db_manager.mongo)
+            return redirect(url_for(&#39;all_items&#39;))
+        else:
+            flash(&#39;the item: &#39; + form.title.data + &#39; already exists&#39;)
+            return redirect(url_for(&#39;create_item&#39;))
+    return render_template(&#39;admin-pages/lib-man/create-item.html&#39;, form=form)
+
+# Library item edit page
+@app.route(&#39;/admin/lib-man/lib-edit/&lt;item_id&gt;&#39;, methods=[&#39;GET&#39;, &#39;POST&#39;])
+@login_required(perm=&#34;can_edit_items&#34;)
+def lib_edit(item_id):
+    item = Item.from_dict(db_manager.mongo.db.items.find({&#34;_id&#34;: ObjectId(item_id)})[0])
+    item.recalculate_implied_tags(db_manager.mongo)
+    attributes = item.attributes
+    form = addTagForm()
+    form.selection.choices=[(tag[&#39;name&#39;], tag[&#39;name&#39;]) for tag in db_manager.mongo.db.tags.find()]
+    if form.validate_on_submit():
+        tag_to_attach = Tag.search_for_by_name(db_manager.mongo, form.selection.data)
+        for tag_ref in item.tags:
+            if str(tag_ref.tag_id) == str(tag_to_attach.id):
+                flash(&#39;This tag already attached to the item!&#39;)
+        item.tags.append(TagReference(tag_to_attach))
+        item.write_to_db(db_manager.mongo)
+    return render_template(&#39;admin-pages/lib-man/lib-edit.html&#39;, attributes=attributes, form=form, item=item, item_id=item_id,
+                           Tag=Tag, tags_collection=tags_collection)
+
+
+# Page for editing an item and it&#39;s tags
+@app.route(&#39;/admin/lib-man/&lt;item_id&gt;&#39;, methods=[&#39;GET&#39;, &#39;POST&#39;])
+@login_required(perm=&#34;can_edit_items&#34;)
+def edit_item(item_id):
+    &#34;&#34;&#34;
+    Item edit route endpoint. 
+    This allows users with the `can_edit_items` permission to edit items
+
+    Parameters
+    ----------
+        GET:/admin/lib-man/&lt;item_id&gt;
+        POST:/admin/lib-man/&lt;item_id&gt;
+
+    Returns
+    -------
+        Redirects to the edit item page if the item was updated successfully
+    &#34;&#34;&#34;
+    item = db_manager.mongo.db.items.find_one({&#34;_id&#34;: ObjectId(item_id)})
+    if item is None:
+        return page_not_found(404)
+    item = Item.from_dict(item)
+    item.recalculate_implied_tags(db_manager.mongo)
+    attributes = [a for a in item.attributes if a.option_id != db_manager.main_picture.id]
+    attribute_options = db_manager.mongo.db.attrib_options.find({&#34;_id&#34;: {&#34;$in&#34;: [a.option_id for a in attributes]}})
+    attribute_options = {a.id: a for a in [AttributeOption.from_dict(a) for a in attribute_options]}
+    if item.get_attributes_by_option(db_manager.main_picture):
+        image_url = url_for(&#39;image&#39;, oid=str(item.get_attributes_by_option(db_manager.main_picture)[0].value))
+    else:
+        image_url = url_for(&#39;static&#39;, filename=&#39;img/logo.png&#39;)  # TODO supply &#39;no-image&#39; image?
+    form = addTagForm()
+    form.selection.choices=[(tag[&#39;name&#39;], tag[&#39;name&#39;]) for tag in db_manager.mongo.db.tags.find()]
+    if form.validate_on_submit():
+        tag_to_attach = Tag.search_for_by_name(db_manager.mongo, form.selection.data)
+        for tag_ref in item.tags:
+            if str(tag_ref.tag_id) == str(tag_to_attach.id):
+                flash(&#39;this tag already attached to the item!&#39;)
+                return redirect(url_for(&#39;edit_item&#39;, item_id=item_id))
+        item.tags.append(TagReference(tag_to_attach))
+        item.write_to_db(db_manager.mongo)
+        item.recalculate_implied_tags(db_manager.mongo)
+        flash(&#39;Tag added successfully! Tag implications have been recalculated.&#39;)
+        return redirect(url_for(&#39;edit_item&#39;, item_id=item_id))
+    return render_template(&#39;admin-pages/lib-man/edit-item.html&#39;, attribute_options=attribute_options, form=form, item=item,
+                           item_id=item_id, tags_collection=tags_collection, image_url=image_url, name_attribute=db_manager.name_attrib)
+
+# Page for updating Name or Description of an item
+@app.route(&#39;/admin/lib-man/item-update-attrib/&lt;item_id&gt;/&lt;attrib_option_id&gt;&#39;, methods=[&#39;GET&#39;, &#39;POST&#39;])
+@login_required(perm=&#34;can_edit_items&#34;)
+def item_update_attrib(item_id, attrib_option_id):
+    &#34;&#34;&#34;
+    Item attribute update route endpoint. 
+    This allows users with the `can_edit_items` permission to update the attributes of an item
+
+    Parameters
+    ----------
+        GET:/admin/lib-man/item-update-attrib/&lt;item_id&gt;/&lt;attrib_option_id&gt;
+        POST:/admin/lib-man/item-update-attrib/&lt;item_id&gt;/&lt;attrib_option_id&gt;
+
+    Returns
+    -------
+        Redirects to the edit item page if the attribute was updated successfully
+    &#34;&#34;&#34;
+    form = updateAttribForm()
+    item = db_manager.mongo.db.items.find_one({&#34;_id&#34;: ObjectId(item_id)})
+    if item is None:
+        return page_not_found(404)
+    item = Item.from_dict(item)
+    attribute_option = db_manager.mongo.db.attrib_options.find_one({&#34;_id&#34;: ObjectId(attrib_option_id)})
+    if attribute_option is None:
+        return page_not_found(404)
+    attribute_option = AttributeOption.from_dict(attribute_option)
+    if form.validate_on_submit():
+        if ObjectId(attrib_option_id) == db_manager.name_attrib:
+            item_name_attrib = AttributeOption.search_for_by_name(db_manager.mongo, &#34;name&#34;)
+            item_exists = Item.search_for_by_attribute(db_manager.mongo, item_name_attrib, form.attrib_value.data)
+            if item_exists:
+                flash(&#39;An item with the same name already exists!&#39;)
+                return redirect(url_for(&#39;item_update_attrib&#39;, item_id=item_id, attrib_option_id=attrib_option_id))
+        if not item.get_attributes_by_option(ObjectId(attrib_option_id)):
+            return page_not_found(404)
+
+        attribute = item.get_attributes_by_option(ObjectId(attrib_option_id))[0]
+        if attribute:
+            listOfString = form.attrib_value.data.split(&#39;\r\n&#39;)
+            attribute.value = listOfString
+            print(listOfString)
+            item.write_to_db(db_manager.mongo)
+            flash(&#39;Item updated&#39;)
+            return redirect(url_for(&#39;edit_item&#39;, item_id=item_id))
+        else:
+            return page_not_found(404)
+    return render_template(&#39;admin-pages/lib-man/item-add-attrib.html&#39;, form=form, attrib_name=attribute_option.attribute_name)
+
+
+#---------------------------
+#  All functions
+#---------------------------
+
+# Function for editing item image
+@app.route(&#39;/admin/lib-man/image-edit/&lt;item_id&gt;&#39;, methods=[&#39;POST&#39;])
+@login_required(perm=&#34;can_edit_items&#34;)
+def lib_item_image_edit(item_id):
+    &#34;&#34;&#34;
+    Item image edit route endpoint. 
+    This allows users with the `can_edit_items` permission to update the image of an item
+
+    Parameters
+    ----------
+        GET:/admin/lib-man/image-edit/&lt;item_id&gt;
+        POST:/admin/lib-man/image-edit/&lt;item_id&gt;
+
+    Returns
+    -------
+        Redirects to the edit item page if the image was updated successfully
+    &#34;&#34;&#34;
+    item = db_manager.mongo.db.items.find_one({&#34;_id&#34;: ObjectId(item_id)})
+    if item is None:
+        return page_not_found(404)
+    item = Item.from_dict(item)
+    file = request.files[&#39;file&#39;]
+    if file and allowed_file(file.filename):
+        filename = secure_filename(file.filename)
+        oid = db_manager.fs.put(file, content_type=file.content_type, filename=filename)
+        attribute = item.get_attributes_by_option(db_manager.main_picture)
+        if attribute:
+            attribute = attribute[0]
+            db_manager.fs.delete(attribute.value)
+            attribute.value = oid
+        else:
+            item.attributes.append(PictureAttribute(db_manager.main_picture, oid))
+        item.write_to_db(db_manager.mongo)
+    return redirect(url_for(&#39;edit_item&#39;, item_id=str(item_id)))
+
+
+# Function for adding an implicaiton to a tag
+@app.route(&#39;/admin/lib-man/tag-man/parent-implication-add/&lt;child_tag_id&gt;&#39;, methods=[&#39;GET&#39;, &#39;POST&#39;])
+@login_required(perm=&#34;can_edit_items&#34;)
+def parent_implication_add(child_tag_id):
+    &#34;&#34;&#34;
+    Tag implication add route endpoint. 
+    This allows users with the `can_edit_items` permission to add an implication to a tag
+
+    Parameters
+    ----------
+        GET:/admin/lib-man/parent-implication-add/&lt;child_tag_id&gt;
+        POST:/admin/lib-man/parent-implication-add/&lt;child_tag_id&gt;
+
+    Returns
+    -------
+        Redirects to the tag edit page if the parent tag is the same as the child tag
+        Redirects to the tag edit page if the implication already exists
+        Redirects to the tag edit page if the implication was created successfully
+    &#34;&#34;&#34;
+    add_implication_form = addTagParentImplForm()
+    child_tag = db_manager.mongo.db.tags.find_one({&#34;_id&#34;: ObjectId(child_tag_id)})
+    if child_tag is None:
+        return page_not_found(404)
+    child_tag = Tag.from_dict(child_tag)
+
+    parent_tag = db_manager.mongo.db.tags.find_one({&#34;_id&#34;: ObjectId(add_implication_form.select_parent.data)})
+    if parent_tag is None:
+        return page_not_found(404)
+    parent_tag = Tag.from_dict(parent_tag)
+
+    if parent_tag.id == child_tag.id:
+        flash(&#34;A tag cannot imply itself!&#34;)
+        return redirect(url_for(&#39;edit_tag&#39;, tag_name=parent_tag.name))
+    elif child_tag.id in [t.tag_id for t in parent_tag.implies]:
+        flash(&#34;This implication already exists!&#34;)
+        return redirect(url_for(&#39;edit_tag&#39;, tag_name=child_tag.name))
+    else:
+        tag_ref = TagReference(child_tag.id)
+        parent_tag.implies.append(tag_ref)
+        parent_tag.write_to_db(db_manager.mongo)
+        return redirect(url_for(&#39;edit_tag&#39;, tag_name=child_tag.name))
+
+
+# function for removing a tag from an item
+@app.route(&#39;/admin/lib-man/item-remove-tag/&lt;item_id&gt;/&lt;tag_name&gt;&#39;,methods=[&#39;GET&#39;, &#39;POST&#39;])
+@login_required(perm=&#34;can_edit_items&#34;)
+def item_remove_tag(item_id, tag_name):
+    &#34;&#34;&#34;
+    Item tag remove route endpoint. 
+    This allows users with the `can_edit_items` permission to remove a tag from an item
+
+    Parameters
+    ----------
+        GET:/admin/lib-man/item-remove-tag/&lt;item_id&gt;/&lt;tag_name&gt;
+        POST:/admin/lib-man/item-remove-tag/&lt;item_id&gt;/&lt;tag_name&gt;
+
+    Returns
+    -------
+        Redirects to the tag edit page if the tag was removed successfully
+    &#34;&#34;&#34;
+    tag = Tag.search_for_by_name(db_manager.mongo, tag_name)
+    item = Item.from_dict(db_manager.mongo.db.items.find({&#34;_id&#34;: ObjectId(item_id)})[0])
+    for tag_ref in item.tags:
+        if tag_ref.tag_id == tag.id:
+            item.remove_tag(tag_ref)
+            item.write_to_db(db_manager.mongo)
+            item.recalculate_implied_tags(db_manager.mongo)
+            flash(&#39;Tag deleted successfully! Tag implications has been recalculated.&#39;)
+    return redirect(url_for(&#39;edit_item&#39;, item_id=item_id))
+
+# Function for hiding an item
+@app.route(&#39;/admin/lib-man/item_hide/&lt;item_id&gt;&#39;)
+@login_required(perm=&#34;can_edit_items&#34;)
+def item_hide(item_id):
+    &#34;&#34;&#34;
+    Item hide route endpoint. 
+    This allows users with the `can_edit_items` permission to hide items from users who cannot view hidden items
+
+    Parameters
+    ----------
+        GET:/admin/lib-man/item_hide/&lt;item_id&gt;
+        POST:/admin/lib-man/item_hide/&lt;item_id&gt;
+
+    Returns
+    -------
+        Redirects to the tag edit page
+    &#34;&#34;&#34;
+    item = Item.from_dict(db_manager.mongo.db.items.find({&#34;_id&#34; : ObjectId(item_id)})[0])
+    item.hide(db_manager.mongo)
+    return redirect(url_for(&#39;edit_item&#39;, item_id=item_id))
+
+# Function for removing an item from the library
+@app.route(&#39;/admin/lib-man/image-remove/&lt;item_id&gt;&#39;, methods=[&#39;POST&#39;])
+@login_required(perm=&#34;can_edit_items&#34;)
+def lib_item_image_remove(item_id):
+    &#34;&#34;&#34;
+    Item image remove route endpoint. 
+    This allows users with the `can_edit_items` permission to remove the image from an item
+
+    Parameters
+    ----------
+        GET:/admin/lib-man/image-remove/&lt;item_id&gt;
+        POST:/admin/lib-man/image-remove/&lt;item_id&gt;
+
+    Returns
+    -------
+        Redirects to the item edit page
+    &#34;&#34;&#34;
+    item = db_manager.mongo.db.items.find_one({&#34;_id&#34;: ObjectId(item_id)})
+    if item is None:
+        return page_not_found(404)
+    item = Item.from_dict(item)
+    attribute = item.get_attributes_by_option(db_manager.main_picture)
+    if attribute:
+        attribute = attribute[0]
+        db_manager.fs.delete(attribute.value)
+        item.attributes = [a for a in item.attributes if a.option_id != db_manager.main_picture.id]
+        item.write_to_db(db_manager.mongo)
+    return redirect(url_for(&#39;edit_item&#39;, item_id=str(item_id)))
+
+# Funciton for deleting an implication rule on Tag&#39;s detail page
+@app.route(&#39;/admin/lib-man/tag-man/parent-rule-delete/&lt;tag_name&gt;&#39;)
+@login_required(perm=&#34;can_edit_items&#34;)
+def parent_rule_delete(tag_name):
+    &#34;&#34;&#34;
+    Implication remove route endpoint. 
+    This allows users with the `can_edit_items` permission to remove an implication rule from a tag
+
+    Parameters
+    ----------
+        GET:/admin/lib-man/parent-rule-delete/&lt;tag_name&gt;
+        POST:/admin/lib-man/parent-rule-delete/&lt;tag_name&gt;
+
+    Returns
+    -------
+        Redirects to the tag edit page
+    &#34;&#34;&#34;
+    child_tag = Tag.search_for_by_name(db_manager.mongo, tag_name)
+    tags = db_manager.mongo.db.tags.find({&#34;implies&#34;: child_tag.id})
+    for tag in tags:
+        tag = Tag.from_dict(tag)
+        tag.implies = [tag for tag in tag.implies if tag.tag_id != child_tag.id]
+        tag.write_to_db(db_manager.mongo)
+    flash(&#39;The parent implications for tag &#39;+ tag_name + &#39; has been cleared&#39;)
+    return redirect(url_for(&#39;edit_tag&#39;,tag_name=tag_name))
+
+# Funciton for deleting an implication rule on Tag&#39;s detail page
+@app.route(&#39;/admin/lib-man/tag-man/sibling-rule-delete/&lt;tag_name&gt;&#39;)
+@login_required(perm=&#34;can_edit_items&#34;)
+def sibling_rule_delete(tag_name):
+    &#34;&#34;&#34;
+    Bi-implication remove route endpoint. 
+    This allows users with the `can_edit_items` permission to remove a bi-implication rule from a tag
+
+    Parameters
+    ----------
+        GET:/admin/lib-man/tag-man/sibling-rule-delete/&lt;tag_name&gt;
+        POST:/admin/lib-man/tag-man/sibling-rule-delete/&lt;tag_name&gt;
+
+    Returns
+    -------
+        Redirects to the tag edit page
+    &#34;&#34;&#34;
+    tag = Tag.search_for_by_name(db_manager.mongo, tag_name)
+    to_remove = []
+    for implied in tag.implies:
+        implied = Tag.from_dict(db_manager.mongo.db.tags.find_one({&#34;_id&#34;: implied.tag_id}))
+        if tag.id in [t.tag_id for t in implied.implies]:
+            to_remove.append(implied.id)
+            implied.implies = [i for i in implied.implies if i.tag_id != tag.id]
+            implied.write_to_db(db_manager.mongo)
+    tag.implies = [i for i in tag.implies if i.tag_id not in to_remove]
+    tag.write_to_db(db_manager.mongo)
+    flash(&#39;The Bi-implications for tag &#39;+ tag_name + &#39; has been cleared&#39;)
+    return redirect(url_for(&#39;edit_tag&#39;,tag_name=tag_name))
+
+# Function for adding an implicaiton to a tag
+@app.route(&#39;/admin/lib-man/tag-man/sibling-implication-add/&lt;parent_tag_id&gt;&#39;, methods=[&#39;GET&#39;, &#39;POST&#39;])
+@login_required(perm=&#34;can_edit_items&#34;)
+def sibling_implication_add(parent_tag_id):
+    &#34;&#34;&#34;
+    Bi-implication add route endpoint. 
+    This allows users with the `can_edit_items` permission to add a bi-implication rule for a tag
+
+    Parameters
+    ----------
+        GET:/admin/lib-man/tag-man/sibling-rule-add/&lt;parent_tag_id&gt;
+        POST:/admin/lib-man/tag-man/sibling-rule-add/&lt;parent_tag_id&gt;
+
+    Returns
+    -------
+        Redirects to the tag edit page
+    &#34;&#34;&#34;
+    add_sibling_implication_form = addTagSiblingImplForm()
+    parent_tag = db_manager.mongo.db.tags.find_one({&#34;_id&#34;: ObjectId(parent_tag_id)})
+    if parent_tag is None:
+        return page_not_found(404)
+    parent_tag = Tag.from_dict(parent_tag)
+    child_tag = db_manager.mongo.db.tags.find_one({&#34;_id&#34;: ObjectId(add_sibling_implication_form.select_sibling.data)})
+    if child_tag is None:
+        return page_not_found(404)
+    child_tag = Tag.from_dict(child_tag)
+    if parent_tag.id == child_tag.id:
+        flash(&#34;A tag cannot imply itself!&#34;)
+        return redirect(url_for(&#39;edit_tag&#39;, tag_name=parent_tag.name))
+    elif child_tag.id in [t.tag_id for t in parent_tag.implies] and parent_tag.id in [t.tag_id for t in child_tag.implies]:
+        flash(&#34;This implication already exists!&#34;)
+        return redirect(url_for(&#39;edit_tag&#39;, tag_name=parent_tag.name))
+    else:
+        if child_tag.id not in [t.tag_id for t in parent_tag.implies]:
+            child_tag_ref = TagReference(child_tag.id)
+            parent_tag.implies.append(child_tag_ref)
+            parent_tag.write_to_db(db_manager.mongo)
+        if parent_tag.id not in [t.tag_id for t in child_tag.implies]:
+            parent_tag_ref = TagReference(parent_tag.id)
+            child_tag.implies.append(parent_tag_ref)
+            child_tag.write_to_db(db_manager.mongo)
+        return redirect(url_for(&#39;edit_tag&#39;, tag_name=parent_tag.name))
+
+# Function for  deleting a tag compeltely
+@app.route(&#39;/admin/lib-man/tag-man/tag-delete/&lt;tag_name&gt;&#39;)
+@login_required(perm=&#34;can_edit_items&#34;)
+def tag_delete(tag_name):
+    &#34;&#34;&#34;
+    Tag delete route endpoint. 
+    This allows users with the `can_edit_items` permission to delete a tag
+
+    Parameters
+    ----------
+        GET:/admin/lib-man/tag-man/tag-delete/&lt;tag_name&gt;
+        POST:/admin/lib-man/tag-man/tag-delete/&lt;tag_name&gt;
+
+    Returns
+    -------
+        Redirects to the tags page
+    &#34;&#34;&#34;
+    tag_to_delete = Tag.search_for_by_name(db_manager.mongo, tag_name)
+    tag_to_delete.delete_from_db(db_manager.mongo)
+    implication_dropped = 0
+    for tag in tags_collection.find():
+        for implication in tag[&#39;implies&#39;]:
+            if str(implication) == str(tag_to_delete.id):
+                tag[&#39;implies&#39;].remove(implication)
+                Tag.from_dict(tag).write_to_db(db_manager.mongo)
+                implication_dropped += 1        # need to add user notification
+    flash(&#39;Tag: &#39; + str(tag_name) + &#39; dropped, &#39; + str(implication_dropped) + &#39; implications are affected.&#39;)
+    return redirect(url_for(&#39;all_tags&#39;))
+
+# Funciton for deleting an implication rule on Tag&#39;s detail page
+@app.route(&#39;/admin/lib-man/tag-man/rule-delete/&lt;tag_name&gt;&#39;)
+@login_required(perm=&#34;can_edit_items&#34;)
+def rule_delete(tag_name):
+    &#34;&#34;&#34;
+    Rule delete route endpoint. 
+    This allows users with the `can_edit_items` permission to delete an implication rule from a tag
+
+    Parameters
+    ----------
+        GET:/admin/lib-man/tag-man/rule-delete/&lt;tag_name&gt;
+        POST:/admin/lib-man/tag-man/rule-delete/&lt;tag_name&gt;
+
+    Returns
+    -------
+        Redirects to the edit tag page
+    &#34;&#34;&#34;
+    tag = Tag.search_for_by_name(db_manager.mongo, tag_name)
+    tag.implies = []
+    tag.write_to_db(db_manager.mongo)
+    flash(&#39;The implications for tag &#39;+ tag_name + &#39; has been cleared&#39;)
+    return redirect(url_for(&#39;edit_tag&#39;,tag_name=tag_name))
+
+# Funciton for deleting an implication rule on Tag Implication page
+@app.route(&#39;/admin/lib-man/tag-man/impl_delete/&lt;tag_name&gt;&#39;)
+@login_required(perm=&#34;can_edit_items&#34;)
+def impl_delete(tag_name):
+    &#34;&#34;&#34;
+    Implication delete route endpoint. 
+    This allows users with the `can_edit_items` permission to delete an implication rule from the implication page
+
+    Parameters
+    ----------
+        GET:/admin/lib-man/tag-man/impl_delete/&lt;tag_name&gt;
+        POST:/admin/lib-man/tag-man/impl_delete/&lt;tag_name&gt;
+
+    Returns
+    -------
+        Redirects to the implications page
+    &#34;&#34;&#34;
+    tag = Tag.search_for_by_name(db_manager.mongo, tag_name)
+    tag.implies = []
+    tag.write_to_db(db_manager.mongo)
+    flash(&#39;The implications for tag &#39;+ tag_name + &#39; has been deleted&#39;)
+    return render_template(&#39;admin-pages/lib-man/tag-man/all-impl.html&#39;,  tags_collection=tags_collection)
+
+#  Function for removing an implication from a parent tag
+@app.route(&#39;/admin/lib-man/implication-remove/&lt;tag_name&gt;/&lt;implied_id&gt;&#39;, methods=[&#39;GET&#39;, &#39;POST&#39;])
+@login_required(perm=&#34;can_edit_items&#34;)
+def parent_implication_remove(tag_name, implied_id):
+    &#34;&#34;&#34;
+    Parent implication delete route endpoint. 
+    This allows users with the `can_edit_items` permission to delete an implication from a parent tag
+
+    Parameters
+    ----------
+        GET:/admin/lib-man/tag-man/implication-remove/&lt;tag_name&gt;/&lt;implied_id&gt;
+        POST:/admin/lib-man/tag-man/implication-remove/&lt;tag_name&gt;/&lt;implied_id&gt;
+
+    Returns
+    -------
+        Redirects to the tag edit page
+    &#34;&#34;&#34;
+    tag = Tag.from_dict(db_manager.mongo.db.tags.find({&#34;name&#34;: tag_name})[0])
+    implied_tag = Tag.from_dict(db_manager.mongo.db.tags.find({&#34;_id&#34;: ObjectId(implied_id)})[0])
+    for tag_ref in tag.implies:
+        if tag_ref.tag_id == implied_tag.id:
+            tag.remove_implied_tag(tag_ref)
+            tag.write_to_db(db_manager.mongo)
+    return redirect(url_for(&#39;edit_tag&#39;, tag_name=implied_tag.name))
+
+@app.route(&#39;/admin/lib-man/sibling-implication-remove/&lt;tag_name&gt;/&lt;sibling_id&gt;&#39;, methods=[&#39;GET&#39;, &#39;POST&#39;])
+@login_required(perm=&#34;can_edit_items&#34;)
+def sibling_implication_remove(tag_name, sibling_id):
+    &#34;&#34;&#34;
+    Bi-implication delete route endpoint. 
+    This allows users with the `can_edit_items` permission to delete a Bi-implication from a parent tag
+
+    Parameters
+    ----------
+        GET:/admin/lib-man/sibling-implication-remove/&lt;tag_name&gt;/&lt;sibling_id&gt;
+        POST:/admin/lib-man/sibling-implication-remove/&lt;tag_name&gt;/&lt;sibling_id&gt;
+
+    Returns
+    -------
+        Redirects to the tag edit page
+    &#34;&#34;&#34;
+    tag = Tag.from_dict(db_manager.mongo.db.tags.find({&#34;name&#34;: tag_name})[0])
+    sibling_tag = Tag.from_dict(db_manager.mongo.db.tags.find_one({&#34;_id&#34;: ObjectId(sibling_id)}))
+    tag.implies = [i for i in tag.implies if i.tag_id != sibling_tag.id]
+    sibling_tag.implies = [i for i in sibling_tag.implies if i.tag_id != tag.id]
+    tag.write_to_db(db_manager.mongo)
+    sibling_tag.write_to_db(db_manager.mongo)
+    return redirect(url_for(&#39;edit_tag&#39;, tag_name=tag_name))
+
+# Function for adding an implicaiton to a tag
+@app.route(&#39;/admin/lib-man/tag-man/implication-add/&lt;parent_tag_id&gt;&#39;, methods=[&#39;GET&#39;, &#39;POST&#39;])
+@login_required(perm=&#34;can_edit_items&#34;)
+def implication_add(parent_tag_id):
+    &#34;&#34;&#34;
+    Implication add route endpoint. 
+    This allows users with the `can_edit_items` permission to add an implication to a tag
+
+    Parameters
+    ----------
+        GET:/admin/lib-man/tag-man/implication-add/&lt;parent_tag_id&gt;
+        POST:/admin/lib-man/tag-man/implication-add/&lt;parent_tag_id&gt;
+
+    Returns
+    -------
+        Redirects to the tag edit page
+    &#34;&#34;&#34;
+    add_implication_form = addTagImplForm()
+    parent_tag = db_manager.mongo.db.tags.find_one({&#34;_id&#34;: ObjectId(parent_tag_id)})
+    if parent_tag is None:
+        return page_not_found(404)
+    parent_tag = Tag.from_dict(parent_tag)
+
+    child_tag = db_manager.mongo.db.tags.find_one({&#34;_id&#34;: ObjectId(add_implication_form.select_child.data)})
+    if child_tag is None:
+        return page_not_found(404)
+    child_tag = Tag.from_dict(child_tag)
+
+    if parent_tag.id == child_tag.id:
+        flash(&#34;A tag cannot imply itself!&#34;)
+        return redirect(url_for(&#39;edit_tag&#39;, tag_name=parent_tag.name))
+    elif child_tag.id in [t.tag_id for t in parent_tag.implies]:
+        flash(&#34;This implication already exists!&#34;)
+        return redirect(url_for(&#39;edit_tag&#39;, tag_name=parent_tag.name))
+    else:
+        tag_ref = TagReference(child_tag.id)
+        parent_tag.implies.append(tag_ref)
+        parent_tag.write_to_db(db_manager.mongo)
+        return redirect(url_for(&#39;edit_tag&#39;, tag_name=parent_tag.name))
+
+#Function for removing an implication from a tag
+@app.route(&#39;/admin/lib-man/implication-remove/&lt;tag_name&gt;/&lt;implied_id&gt;&#39;, methods=[&#39;GET&#39;, &#39;POST&#39;])
+@login_required(perm=&#34;can_edit_items&#34;)
+def implication_remove(tag_name, implied_id):
+    &#34;&#34;&#34;
+    Implication delete route endpoint. 
+    This allows users with the `can_edit_items` permission to remove an implication from a tag
+
+    Parameters
+    ----------
+        GET:/admin/lib-man/implication-remove/&lt;tag_name&gt;/&lt;implied_id&gt;
+        POST:/admin/lib-man/implication-remove/&lt;tag_name&gt;/&lt;implied_id&gt;
+
+    Returns
+    -------
+        Redirects to the tag edit page
+    &#34;&#34;&#34;
+    tag = Tag.from_dict(db_manager.mongo.db.tags.find({&#34;name&#34;: tag_name})[0])
+    implied_tag = Tag.from_dict(db_manager.mongo.db.tags.find({&#34;_id&#34;: ObjectId(implied_id)})[0])
+    for tag_ref in tag.implies:
+        if tag_ref.tag_id == implied_tag.id:
+            tag.remove_implied_tag(tag_ref)
+            tag.write_to_db(db_manager.mongo)
+    return redirect(url_for(&#39;edit_tag&#39;, tag_name=tag_name))
+
+# Function for delete an item
+@app.route(&#39;/admin/lib-man/lib-delete/&lt;item_id&gt;&#39;)
+@login_required(perm=&#34;can_edit_items&#34;)
+def lib_delete(item_id):
+    &#34;&#34;&#34;
+    Item delete route endpoint. 
+    This allows users with the `can_edit_items` permission to delete an item
+
+    Parameters
+    ----------
+        GET:/admin/lib-man/lib-delete/&lt;item_id&gt;
+        POST:/admin/lib-man/lib-delete/&lt;item_id&gt;
+
+    Returns
+    -------
+        Redirects to the items page
+    &#34;&#34;&#34;
+    item = Item.from_dict(db_manager.mongo.db.items.find({&#34;_id&#34; : ObjectId(item_id)})[0])
+    item.delete_from_db(db_manager.mongo)
+    flash(&#39;Item has been deleted successfully&#39;)
+    return redirect(url_for(&#39;all_items&#39;))
+
+# -------------------------------------------
+#   Error pages 
+# -------------------------------------------
+@app.errorhandler(404)
+def page_not_found(e):
+    return render_template(&#39;admin-pages/error.html&#39;)
+
+@app.errorhandler(500)
+def page_not_found(e):
+    return render_template(&#39;admin-pages/error.html&#39;)
+
+@login_manager.user_loader
+def load_user(did):
+    return User.search_for_by_display_name(db_manager.mongo, did)
+    </code></pre>
+</details>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+<h2 class="section-title" id="header-functions">Functions</h2>
+<dl>
+<dt id="app.routes.admin"><code class="name flex">
+<span>def <span class="ident">admin</span></span>(<span>)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Admin route endpoint.
+This allows users who have logged in to view the admin page</p>
+<h2 id="parameters">Parameters</h2>
+<pre><code>GET:/admin
+POST:/admin
+</code></pre>
+<h2 id="returns">Returns</h2>
+<pre><code>Renders the admin home page
+</code></pre></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@app.route(&#39;/admin&#39;, methods=[&#39;GET&#39;, &#39;POST&#39;])
+@login_required(perm=&#34;can_view_hidden&#34;)
+def admin():
+    &#34;&#34;&#34;
+    Admin route endpoint. 
+    This allows users who have logged in to view the admin page
+
+    Parameters
+    ----------
+        GET:/admin
+        POST:/admin
+
+    Returns
+    -------
+        Renders the admin home page
+    &#34;&#34;&#34;
+    item_count = 0
+    tag_count = 0
+    user_count = 0
+    tag_impl_count = 0
+    recent_items = []
+    for item in db_manager.mongo.db.items.find():
+        item_count += 1
+        recent_items.append(item)
+    tags = db_manager.mongo.db.tags.find()
+    recent_tags = []
+    for tag in tags:
+        tag_count += 1
+        recent_tags.append(tag)
+        if tag[&#39;implies&#39;]:
+            tag_impl_count += 1
+    for user in db_manager.mongo.db.Users.find():
+        user_count +=1
+    recent_items.reverse()
+    recent_items = recent_items[:6]
+    recent_tags.reverse()
+    recent_tags = recent_tags[:6]
+    return render_template(&#39;admin-pages/new-home.html&#39;, tags_collection=tags_collection, user_count=user_count, recent_items=recent_items, recent_tags=recent_tags,item_count=item_count, tag_count=tag_count, tag_impl_count=tag_impl_count, name_attrib_option=db_manager.name_attrib, Item=Item)</code></pre>
+</details>
+</dd>
+<dt id="app.routes.adminusers"><code class="name flex">
+<span>def <span class="ident">adminusers</span></span>(<span>)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Admin users route endpoint.
+This allows authenticated users to view all users</p>
+<h2 id="parameters">Parameters</h2>
+<pre><code>GET:/admin/users
+POST:/admin/users
+</code></pre>
+<h2 id="returns">Returns</h2>
+<pre><code>Renders the admin users home page
+</code></pre></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@app.route(&#39;/admin/users&#39;, methods=[&#39;GET&#39;, &#39;POST&#39;])
+@login_required(perm=&#34;can_view_hidden&#34;)
+def adminusers():
+    &#34;&#34;&#34;
+    Admin users route endpoint. 
+    This allows authenticated users to view all users
+
+    Parameters
+    ----------
+        GET:/admin/users
+        POST:/admin/users
+
+    Returns
+    -------
+        Renders the admin users home page
+    &#34;&#34;&#34;
+    users = mongo.db.users.find()
+    rolescursor = mongo.db.roles.find()
+    rolesdic = {}
+    for r in rolescursor:
+        rolesdic[r[&#39;_id&#39;]] = r[&#39;name&#39;]
+    return render_template(&#39;admin-pages/user-man/users.html&#39;, users=users, rolesdic=rolesdic)</code></pre>
+</details>
+</dd>
+<dt id="app.routes.all_impl"><code class="name flex">
+<span>def <span class="ident">all_impl</span></span>(<span>)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Show implication route endpoint.
+This allows users with the <code>can_view_hidden</code> permission to view all implications</p>
+<h2 id="parameters">Parameters</h2>
+<pre><code>GET:/admin/tag-man/all-impl
+POST:/admin/tag-man/all-impl
+</code></pre>
+<h2 id="returns">Returns</h2>
+<pre><code>Renders the implications page
+</code></pre></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@app.route(&#39;/admin/tag-man/all-impl&#39;)
+@login_required(perm=&#34;can_view_hidden&#34;)
+def all_impl():
+    &#34;&#34;&#34;
+    Show implication route endpoint. 
+    This allows users with the `can_view_hidden` permission to view all implications
+
+    Parameters
+    ----------
+        GET:/admin/tag-man/all-impl
+        POST:/admin/tag-man/all-impl
+
+    Returns
+    -------
+        Renders the implications page
+    &#34;&#34;&#34;
+    return render_template(&#39;admin-pages/lib-man/tag-man/all-impl.html&#39;,  tags_collection=tags_collection)</code></pre>
+</details>
+</dd>
+<dt id="app.routes.all_items"><code class="name flex">
+<span>def <span class="ident">all_items</span></span>(<span>)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>View all items route endpoint.
+This allows users with the <code>can_view_hidden</code> permission to view all items</p>
+<h2 id="parameters">Parameters</h2>
+<pre><code>GET:/admin/all-items
+POST:/admin/all-items
+</code></pre>
+<h2 id="returns">Returns</h2>
+<pre><code>Renders the all items page
+</code></pre></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@app.route(&#39;/admin/all-items&#39;)
+@login_required(perm=&#34;can_view_hidden&#34;)
+def all_items():
+    &#34;&#34;&#34;
+    View all items route endpoint. 
+    This allows users with the `can_view_hidden` permission to view all items
+
+    Parameters
+    ----------
+        GET:/admin/all-items
+        POST:/admin/all-items
+
+    Returns
+    -------
+        Renders the all items page
+    &#34;&#34;&#34;
+    items = db_manager.mongo.db.items.find()
+    items = [Item.from_dict(i) for i in items]
+    for item in items:
+        item.recalculate_implied_tags(db_manager.mongo)  # Again, thia is NOT be needed
+    item_names = {item.id: item.get_attributes_by_option(db_manager.name_attrib)[0].value for item in items}
+    item_images = {}
+    for item in items:
+        picture = item.get_attributes_by_option(db_manager.main_picture)
+        if picture:
+            item_images[item.id] = url_for(&#39;image&#39;, oid=str(picture[0].value))
+        else:
+            item_images[item.id] = url_for(&#39;static&#39;, filename=&#39;img/logo.png&#39;)  # TODO supply &#39;no-image&#39; image?
+    return render_template(&#39;admin-pages/lib-man/all-items.html&#39;, items=items, tags_collection=tags_collection,
+                           item_names=item_names, item_images=item_images)</code></pre>
+</details>
+</dd>
+<dt id="app.routes.all_tags"><code class="name flex">
+<span>def <span class="ident">all_tags</span></span>(<span>)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Show tags route endpoint.
+This allows users with the <code>can_view_hidden</code> permission to view all tags</p>
+<h2 id="parameters">Parameters</h2>
+<pre><code>GET:/admin/tag-man/all-tags
+POST:/admin/tag-man/all-tags
+</code></pre>
+<h2 id="returns">Returns</h2>
+<pre><code>Renders the tags page
+</code></pre></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@app.route(&#39;/admin/lib-man/tag-man/all-tags&#39;)
+@login_required(perm=&#34;can_view_hidden&#34;)
+def all_tags():
+    &#34;&#34;&#34;
+    Show tags route endpoint. 
+    This allows users with the `can_view_hidden` permission to view all tags
+
+    Parameters
+    ----------
+        GET:/admin/tag-man/all-tags
+        POST:/admin/tag-man/all-tags
+
+    Returns
+    -------
+        Renders the tags page
+    &#34;&#34;&#34;
+    tags = tags_collection.find()
+    page, per_page, offset = get_page_args(page_parameter=&#39;page&#39;, per_page_parameter=&#39;per_page&#39;)
+    total = tags_collection.count()
+    page = request.args.get(get_page_parameter(), type=int, default=1)
+    pagination_tags = get_tags(tags, offset=offset, per_page=per_page)
+    pagination = Pagination(page=page, per_page=per_page, total=total, css_framework=&#39;bootstrap4&#39;)
+    return render_template(&#39;admin-pages/lib-man/tag-man/all-tags.html&#39;, tags=tags, pagination=pagination)</code></pre>
+</details>
+</dd>
+<dt id="app.routes.allowed_file"><code class="name flex">
+<span>def <span class="ident">allowed_file</span></span>(<span>filename)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Title: A simple GridFS server built with Flask
+Author: Leroy Campbell
+Date: 2010
+Availability: <a href="https://gist.github.com/artisonian/492713">https://gist.github.com/artisonian/492713</a></p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def allowed_file(filename):
+    &#34;&#34;&#34;
+    Title: A simple GridFS server built with Flask
+    Author: Leroy Campbell
+    Date: 2010
+    Availability: https://gist.github.com/artisonian/492713
+    &#34;&#34;&#34;
+    return &#39;.&#39; in filename and \
+           filename.rsplit(&#39;.&#39;, 1)[1] in ALLOWED_EXTENSIONS</code></pre>
+</details>
+</dd>
+<dt id="app.routes.changepw"><code class="name flex">
+<span>def <span class="ident">changepw</span></span>(<span>)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Change password route endpoint.
+This allows users to change their password</p>
+<h2 id="parameters">Parameters</h2>
+<pre><code>GET:/changepw
+POST:/changepw
+</code></pre>
+<h2 id="returns">Returns</h2>
+<pre><code>Redirects to the home page if the password was changed successfully
+Redirects to the password change page if unsuccessful
+</code></pre></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@app.route(&#39;/changepw&#39;, methods=[&#39;GET&#39;, &#39;POST&#39;])
+@login_required
+def changepw():
+    &#34;&#34;&#34;
+    Change password route endpoint. 
+    This allows users to change their password
+
+    Parameters
+    ----------
+        GET:/changepw
+        POST:/changepw
+
+    Returns
+    -------
+        Redirects to the home page if the password was changed successfully
+        Redirects to the password change page if unsuccessful
+    &#34;&#34;&#34;
+    form = UpdatePasswordForm()
+    if form.validate_on_submit():
+        id = current_user.id
+        password = generate_password_hash(form.password.data)
+        mongo.db.users.update_one({&#39;_id&#39;: ObjectId(id)},
+                                      {&#34;$set&#34;: {
+                                            &#39;password&#39;: password,
+                                            &#39;temp&#39;: False
+                                      }
+                                      })
+        flash(&#34;Password updated successfully!&#34;)
+        return redirect(url_for(&#39;home&#39;))
+    return render_template(&#39;user-pages/changepw.html&#39;, form=form)</code></pre>
+</details>
+</dd>
+<dt id="app.routes.committee"><code class="name flex">
+<span>def <span class="ident">committee</span></span>(<span>)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Committee route endpoint.
+This allows users to see the Unigames committee members</p>
+<h2 id="returns">Returns</h2>
+<pre><code>Renders the page for the Unigames committee
+</code></pre></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@app.route(&#39;/committee&#39;)
+def committee():
+    &#34;&#34;&#34;
+    Committee route endpoint. 
+    This allows users to see the Unigames committee members
+
+    Returns
+    -------
+        Renders the page for the Unigames committee
+    &#34;&#34;&#34;
+    return render_template(&#39;user-pages/committee.html&#39;)</code></pre>
+</details>
+</dd>
+<dt id="app.routes.constitution"><code class="name flex">
+<span>def <span class="ident">constitution</span></span>(<span>)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Constitution route endpoint.
+This allows users to see the Unigames constitution</p>
+<h2 id="returns">Returns</h2>
+<pre><code>Renders the page for the Unigames constitution
+</code></pre></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@app.route(&#39;/constitution&#39;)
+def constitution():
+    &#34;&#34;&#34;
+    Constitution route endpoint. 
+    This allows users to see the Unigames constitution
+
+    Returns
+    -------
+        Renders the page for the Unigames constitution
+    &#34;&#34;&#34;
+    return render_template(&#39;user-pages/constitution.html&#39;)</code></pre>
+</details>
+</dd>
+<dt id="app.routes.create_impl"><code class="name flex">
+<span>def <span class="ident">create_impl</span></span>(<span>)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Create implication route endpoint.
+This allows users with the <code>can_edit_items</code> permission to create implications</p>
+<h2 id="parameters">Parameters</h2>
+<pre><code>GET:/admin/lib-man/tag-man/create-impl
+POST:/admin/lib-man/tag-man/create-impl
+</code></pre>
+<h2 id="returns">Returns</h2>
+<pre><code>Redirects to the create implication page if the parent tag is the same as the child tag
+Redirects to the create implication page if the parent tag already exists as a parent
+Redirects to the all implications page if the implication was created successfully
+</code></pre></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@app.route(&#39;/admin/lib-man/tag-man/create-impl&#39;, methods=[&#39;GET&#39;, &#39;POST&#39;])
+@login_required(perm=&#34;can_edit_items&#34;)
+def create_impl():
+    &#34;&#34;&#34;
+    Create implication route endpoint. 
+    This allows users with the `can_edit_items` permission to create implications
+
+    Parameters
+    ----------
+        GET:/admin/lib-man/tag-man/create-impl
+        POST:/admin/lib-man/tag-man/create-impl
+
+    Returns
+    -------
+        Redirects to the create implication page if the parent tag is the same as the child tag
+        Redirects to the create implication page if the parent tag already exists as a parent
+        Redirects to the all implications page if the implication was created successfully
+    &#34;&#34;&#34;
+    form = addRuleForm()
+    form.parent.choices=[(tag[&#39;name&#39;], tag[&#39;name&#39;]) for tag in db_manager.mongo.db.tags.find()]
+    form.child.choices=[(tag[&#39;name&#39;], tag[&#39;name&#39;]) for tag in db_manager.mongo.db.tags.find()]
+    if form.validate_on_submit():
+        parent_tag = Tag.search_for_by_name(db_manager.mongo, form.parent.data)
+        child_tag  = Tag.search_for_by_name(db_manager.mongo, form.child.data)
+        if form.parent.data == form.child.data:
+            flash(&#39;A tag cannot imply to itself&#39;)
+            return redirect(url_for(&#39;create_impl&#39;))
+        if parent_tag.implies:
+            flash(&#39;This parent tag already exists as a parent&#39;)
+            return redirect(url_for(&#39;create_impl&#39;))
+        parent_tag.implies.append(TagReference(child_tag))
+        parent_tag.write_to_db(db_manager.mongo)
+        for item in db_manager.mongo.db.items.find():
+            this_item = Item.from_dict(item)
+            this_item.recalculate_implied_tags(db_manager.mongo)
+        flash(&#39;Implication added successfully, all items implication are updated&#39;)
+        return redirect(url_for(&#39;all_impl&#39;))
+    return render_template(&#39;admin-pages/lib-man/tag-man/create-implication.html&#39;, form=form)</code></pre>
+</details>
+</dd>
+<dt id="app.routes.create_item"><code class="name flex">
+<span>def <span class="ident">create_item</span></span>(<span>)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Create item route endpoint.
+This allows users with the <code>can_edit_items</code> permission to create items</p>
+<h2 id="parameters">Parameters</h2>
+<pre><code>GET:/admin/lib-man/create-item
+POST:/admin/lib-man/create-item
+</code></pre>
+<h2 id="returns">Returns</h2>
+<pre><code>Redirects to the create item page if the item already exists
+Redirects to the all items page if the implication was created successfully
+</code></pre></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@app.route(&#39;/admin/lib-man/create-item&#39;, methods=[&#39;GET&#39;, &#39;POST&#39;])
+@login_required(perm=&#34;can_edit_items&#34;)
+def create_item():
+    &#34;&#34;&#34;
+    Create item route endpoint. 
+    This allows users with the `can_edit_items` permission to create items
+
+    Parameters
+    ----------
+        GET:/admin/lib-man/create-item
+        POST:/admin/lib-man/create-item
+
+    Returns
+    -------
+        Redirects to the create item page if the item already exists
+        Redirects to the all items page if the implication was created successfully
+    &#34;&#34;&#34;
+    form = newEntryForm()
+    form.selection.choices=[(tag[&#39;name&#39;], tag[&#39;name&#39;]) for tag in db_manager.mongo.db.tags.find()]
+    all_tags = db_manager.mongo.db.tags.find()
+    if form.validate_on_submit():
+        # search for an item with the same title
+        # TODO: Ask client: Do we really care if things have the same name?
+        item_exists = Item.search_for_by_attribute(db_manager.mongo, db_manager.name_attrib, form.title.data)
+        if not item_exists:
+            # find the matching tag
+            tags = []
+            for tag in form.selection.data:
+                found_tag = Tag.search_for_by_name(db_manager.mongo, tag)
+                tags.append(TagReference(found_tag.id))
+            description = form.description.data.split(&#39;\r\n&#39;)
+            new_item = Item([SingleLineStringAttribute(db_manager.name_attrib, form.title.data),
+                             MultiLineStringAttribute(db_manager.description_attrib, description)],
+                            tags, [])
+            new_item.write_to_db(db_manager.mongo)
+            new_item.recalculate_implied_tags(db_manager.mongo)
+            return redirect(url_for(&#39;all_items&#39;))
+        else:
+            flash(&#39;the item: &#39; + form.title.data + &#39; already exists&#39;)
+            return redirect(url_for(&#39;create_item&#39;))
+    return render_template(&#39;admin-pages/lib-man/create-item.html&#39;, form=form)</code></pre>
+</details>
+</dd>
+<dt id="app.routes.create_tag"><code class="name flex">
+<span>def <span class="ident">create_tag</span></span>(<span>)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Create tag route endpoint.
+This allows users with the <code>can_edit_items</code> permission to create a new tag</p>
+<h2 id="parameters">Parameters</h2>
+<pre><code>GET:/admin/lib-man/tag-man/create-a-tag
+POST:/admin/lib-man/tag-man/create-a-tag
+</code></pre>
+<h2 id="returns">Returns</h2>
+<pre><code>Redirects to the tags pags if the tag is created successfully
+'you cannot create an empty tag' if the tag name is empty
+'the tag already exists' if the tag already exists
+</code></pre></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@app.route(&#39;/admin/lib-man/tag-man/create-a-tag&#39;, methods=[&#39;POST&#39;,&#39;GET&#39;])
+@login_required(perm=&#34;can_edit_items&#34;)
+def create_tag():
+    &#34;&#34;&#34;
+    Create tag route endpoint. 
+    This allows users with the `can_edit_items` permission to create a new tag
+
+    Parameters
+    ----------
+        GET:/admin/lib-man/tag-man/create-a-tag
+        POST:/admin/lib-man/tag-man/create-a-tag
+
+    Returns
+    -------
+        Redirects to the tags pags if the tag is created successfully
+        &#39;you cannot create an empty tag&#39; if the tag name is empty
+        &#39;the tag already exists&#39; if the tag already exists
+    &#34;&#34;&#34;
+    form = createTagForm()
+    if form.validate_on_submit():
+        if form.name.data.isspace() or form.name.data is &#39;&#39;:
+            return &#39;you cannot create an empty tag&#39;
+        tag_exists = Tag.search_for_by_name(db_manager.mongo, form.name.data)
+        if tag_exists is None:
+            new_tag = Tag(form.name.data, [])
+            new_tag.write_to_db(db_manager.mongo)
+            return redirect(url_for(&#39;all_tags&#39;))
+        else:
+            return &#39;the tag already exists&#39;
+    return render_template(&#39;admin-pages/lib-man/tag-man/create-tag.html&#39;, form=form)</code></pre>
+</details>
+</dd>
+<dt id="app.routes.createrole"><code class="name flex">
+<span>def <span class="ident">createrole</span></span>(<span>)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Create role route endpoint.
+This allows users with the <code>can_edit_users</code> permission to create user roles</p>
+<h2 id="parameters">Parameters</h2>
+<pre><code>GET:/admin/users/createrole
+POST:/admin/users/createrole
+</code></pre>
+<h2 id="returns">Returns</h2>
+<pre><code>Redirects to the roles page if the role was created successfully
+Redirects to the create role page if a role with the specified name already exists
+</code></pre></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@app.route(&#39;/admin/users/createrole/&#39;, methods=[&#39;GET&#39;, &#39;POST&#39;])
+@login_required(perm=&#34;can_edit_users&#34;)
+def createrole():
+    &#34;&#34;&#34;
+    Create role route endpoint. 
+    This allows users with the `can_edit_users` permission to create user roles
+
+    Parameters
+    ----------
+        GET:/admin/users/createrole
+        POST:/admin/users/createrole
+
+    Returns
+    -------
+        Redirects to the roles page if the role was created successfully
+        Redirects to the create role page if a role with the specified name already exists
+    &#34;&#34;&#34;
+    form = UpdateRoleForm()
+    if form.validate_on_submit():
+        if(Role.search_for_by_name(db_manager.mongo, form.name.data) is None):
+            Role.create_new(db_manager.mongo, form.name.data, form.priority.data, form.can_edit_items.data, form.can_edit_users.data, form.can_view_hidden.data)
+            flash(&#39;Role updated successfully!&#39;)
+            return redirect(url_for(&#39;roles&#39;))
+        else:
+            flash(&#39;A role with that name already exists&#39;)
+            return redirect(url_for(&#39;createrole&#39;))
+    return render_template(&#39;admin-pages/user-man/createrole.html&#39;, form=form)</code></pre>
+</details>
+</dd>
+<dt id="app.routes.createuser"><code class="name flex">
+<span>def <span class="ident">createuser</span></span>(<span>)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Admin create user route endpoint.
+This allows users with the <code>can_edit_users</code> permission to create new users</p>
+<h2 id="parameters">Parameters</h2>
+<pre><code>GET:/admin/users/createuser
+POST:/admin/users/createuser
+</code></pre>
+<h2 id="returns">Returns</h2>
+<pre><code>Renders the create user page
+</code></pre></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@app.route(&#39;/admin/users/createuser&#39;, methods=[&#39;GET&#39;, &#39;POST&#39;])
+@login_required(perm=&#34;can_edit_users&#34;)
+def createuser():
+    &#34;&#34;&#34;
+    Admin create user route endpoint. 
+    This allows users with the `can_edit_users` permission to create new users
+
+    Parameters
+    ----------
+        GET:/admin/users/createuser
+        POST:/admin/users/createuser
+
+    Returns
+    -------
+        Renders the create user page
+    &#34;&#34;&#34;
+    form = CreateUserForm()
+    form.role.choices = [(role[&#39;name&#39;], role[&#39;name&#39;]) for role in db_manager.mongo.db.roles.find()]
+    if form.validate_on_submit():
+        email = form.email.data
+        display_name = form.display_name.data
+        first_name = form.first_name.data
+        last_name = form.last_name.data
+        password = generate_password_hash(form.password.data)
+        role = form.role.data
+        find_by_email = User.search_for_by_email(db_manager.mongo, email)
+        find_by_name = User.search_for_by_display_name(db_manager.mongo, display_name)
+        if find_by_email is None and find_by_name is None:
+            User.register(db_manager.mongo, display_name, email, password, first_name, last_name, role, True)
+            flash(f&#39;Account created for {form.email.data}!&#39;, &#39;success&#39;)
+            return redirect(url_for(&#39;adminusers&#39;))
+        else:
+            if find_by_name is None: 
+                flash(f&#39;Account already exists for {form.email.data}!&#39;, &#39;success&#39;)
+            else:
+                flash(f&#39;Account already exists for {form.display_name.data}!&#39;, &#39;success&#39;)
+        return render_template(&#39;admin-pages/user-man/createuser.html&#39;, form=form)
+    return render_template(&#39;admin-pages/user-man/createuser.html&#39;, form=form) </code></pre>
+</details>
+</dd>
+<dt id="app.routes.deleterole"><code class="name flex">
+<span>def <span class="ident">deleterole</span></span>(<span>id)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Delete role route endpoint.
+This allows users with the <code>can_edit_users</code> permission to delete user roles</p>
+<h2 id="parameters">Parameters</h2>
+<pre><code>GET:/admin/users/deleterole/&lt;string:id&gt;
+POST:/admin/users/deleterole/&lt;string:id&gt;
+</code></pre>
+<h2 id="returns">Returns</h2>
+<pre><code>Redirects to the roles page if the role was deleted successfully, else return an error
+</code></pre></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@app.route(&#39;/admin/users/deleterole/&lt;string:id&gt;&#39;)
+@login_required(perm=&#34;can_edit_users&#34;)
+def deleterole(id):
+    &#34;&#34;&#34;
+    Delete role route endpoint. 
+    This allows users with the `can_edit_users` permission to delete user roles
+
+    Parameters
+    ----------
+        GET:/admin/users/deleterole/&lt;string:id&gt;
+        POST:/admin/users/deleterole/&lt;string:id&gt;
+
+    Returns
+    -------
+        Redirects to the roles page if the role was deleted successfully, else return an error
+    &#34;&#34;&#34;
+    searchedrole = mongo.db.roles.find_one({&#39;_id&#39;: ObjectId(id)})
+    if searchedrole:
+        if searchedrole[&#39;name&#39;] == &#39;admin&#39; or searchedrole[&#39;name&#39;] == &#39;everyone&#39;:
+            flash(&#39;Error: Cannot delete default roles&#39;)
+            return redirect(url_for(&#39;roles&#39;))
+        mongo.db.roles.delete_one({&#39;_id&#39;: ObjectId(id)})
+        flash(&#39;User deleted successfully!&#39;)
+        return redirect(url_for(&#39;roles&#39;))
+    else:
+        return &#39;Error loading #{id}&#39;.format(id=id)</code></pre>
+</details>
+</dd>
+<dt id="app.routes.deleteuser"><code class="name flex">
+<span>def <span class="ident">deleteuser</span></span>(<span>id)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Delete user route endpoint.
+This allows users with the <code>can_edit_users</code> permission to delete users</p>
+<h2 id="parameters">Parameters</h2>
+<pre><code>GET:/admin/users/delete/&lt;string:id&gt;
+POST:/admin/users/delete/&lt;string:id&gt;
+</code></pre>
+<h2 id="returns">Returns</h2>
+<pre><code>Redirects to the admin user page if the user is deleted successfully, else return an error
+</code></pre></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@app.route(&#39;/admin/users/delete/&lt;string:id&gt;&#39;)
+@login_required(perm=&#34;can_edit_users&#34;)
+def deleteuser(id):
+    &#34;&#34;&#34;
+    Delete user route endpoint. 
+    This allows users with the `can_edit_users` permission to delete users
+
+    Parameters
+    ----------
+        GET:/admin/users/delete/&lt;string:id&gt;
+        POST:/admin/users/delete/&lt;string:id&gt;
+
+    Returns
+    -------
+        Redirects to the admin user page if the user is deleted successfully, else return an error
+    &#34;&#34;&#34;
+    searcheduser = mongo.db.users.find_one({&#39;_id&#39;: ObjectId(id)})
+    if searcheduser:
+        mongo.db.users.delete_one({&#39;_id&#39;: ObjectId(id)})
+        flash(&#39;User deleted successfully!&#39;)
+        return redirect(url_for(&#39;adminusers&#39;))
+    else:
+        return &#39;Error loading #{id}&#39;.format(id=id)</code></pre>
+</details>
+</dd>
+<dt id="app.routes.edit"><code class="name flex">
+<span>def <span class="ident">edit</span></span>(<span>id)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Admin user edit route endpoint.
+This allows authenticated users edit users</p>
+<h2 id="parameters">Parameters</h2>
+<pre><code>GET:/admin/users/edit/&lt;id&gt;
+POST:/admin/users/edit/&lt;id&gt;
+</code></pre>
+<h2 id="returns">Returns</h2>
+<pre><code>Renders the user edit page
+</code></pre></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@app.route(&#39;/admin/users/edit/&lt;id&gt;&#39;, methods=[&#39;GET&#39;, &#39;POST&#39;])
+@login_required(perm=&#34;can_view_hidden&#34;)
+def edit(id):
+    &#34;&#34;&#34;
+    Admin user edit route endpoint. 
+    This allows authenticated users edit users
+
+    Parameters
+    ----------
+        GET:/admin/users/edit/&lt;id&gt;
+        POST:/admin/users/edit/&lt;id&gt;
+
+    Returns
+    -------
+        Renders the user edit page
+    &#34;&#34;&#34;
+    searcheduser = mongo.db.users.find_one({&#39;_id&#39;: ObjectId(id)})
+    rid = mongo.db.roles.find_one(searcheduser[&#39;role_ids&#39;][0])
+    rolename = rid[&#39;name&#39;]
+    searcheduser[&#39;role&#39;] = rolename
+
+    if searcheduser:
+        form = UpdateForm(**searcheduser)
+        form.role.choices = [(role[&#39;name&#39;], role[&#39;name&#39;]) for role in db_manager.mongo.db.roles.find()]
+        if form.validate_on_submit():
+            if form.delete.data:
+                return redirect(url_for(&#39;deleteuser&#39;, id=id))
+            print(Role.search_for_by_name(db_manager.mongo, form.role.data).id)
+            mongo.db.users.update_one({&#39;_id&#39;: ObjectId(id)},
+                                      {&#34;$set&#34;: {
+                                          &#39;display_name&#39;: form.display_name.data,
+                                          &#39;first_name&#39;: form.first_name.data,
+                                          &#39;last_name&#39;: form.last_name.data,
+                                          &#39;email&#39;: form.email.data,
+                                          &#39;role_ids&#39;: [Role.search_for_by_name(db_manager.mongo, form.role.data).id]
+                                      }
+                                      })
+            flash(&#39;User updated successfully!&#39;)
+            return redirect(url_for(&#39;adminusers&#39;))
+        return render_template(&#39;admin-pages/user-man/edit.html&#39;, form=form)
+    else:
+        return &#39;Error loading #{id}&#39;.format(id=id)
+    return render_template(&#39;admin-pages/user-man/edit.html&#39;, form=form)</code></pre>
+</details>
+</dd>
+<dt id="app.routes.edit_item"><code class="name flex">
+<span>def <span class="ident">edit_item</span></span>(<span>item_id)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Item edit route endpoint.
+This allows users with the <code>can_edit_items</code> permission to edit items</p>
+<h2 id="parameters">Parameters</h2>
+<pre><code>GET:/admin/lib-man/&lt;item_id&gt;
+POST:/admin/lib-man/&lt;item_id&gt;
+</code></pre>
+<h2 id="returns">Returns</h2>
+<pre><code>Redirects to the edit item page if the item was updated successfully
+</code></pre></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@app.route(&#39;/admin/lib-man/&lt;item_id&gt;&#39;, methods=[&#39;GET&#39;, &#39;POST&#39;])
+@login_required(perm=&#34;can_edit_items&#34;)
+def edit_item(item_id):
+    &#34;&#34;&#34;
+    Item edit route endpoint. 
+    This allows users with the `can_edit_items` permission to edit items
+
+    Parameters
+    ----------
+        GET:/admin/lib-man/&lt;item_id&gt;
+        POST:/admin/lib-man/&lt;item_id&gt;
+
+    Returns
+    -------
+        Redirects to the edit item page if the item was updated successfully
+    &#34;&#34;&#34;
+    item = db_manager.mongo.db.items.find_one({&#34;_id&#34;: ObjectId(item_id)})
+    if item is None:
+        return page_not_found(404)
+    item = Item.from_dict(item)
+    item.recalculate_implied_tags(db_manager.mongo)
+    attributes = [a for a in item.attributes if a.option_id != db_manager.main_picture.id]
+    attribute_options = db_manager.mongo.db.attrib_options.find({&#34;_id&#34;: {&#34;$in&#34;: [a.option_id for a in attributes]}})
+    attribute_options = {a.id: a for a in [AttributeOption.from_dict(a) for a in attribute_options]}
+    if item.get_attributes_by_option(db_manager.main_picture):
+        image_url = url_for(&#39;image&#39;, oid=str(item.get_attributes_by_option(db_manager.main_picture)[0].value))
+    else:
+        image_url = url_for(&#39;static&#39;, filename=&#39;img/logo.png&#39;)  # TODO supply &#39;no-image&#39; image?
+    form = addTagForm()
+    form.selection.choices=[(tag[&#39;name&#39;], tag[&#39;name&#39;]) for tag in db_manager.mongo.db.tags.find()]
+    if form.validate_on_submit():
+        tag_to_attach = Tag.search_for_by_name(db_manager.mongo, form.selection.data)
+        for tag_ref in item.tags:
+            if str(tag_ref.tag_id) == str(tag_to_attach.id):
+                flash(&#39;this tag already attached to the item!&#39;)
+                return redirect(url_for(&#39;edit_item&#39;, item_id=item_id))
+        item.tags.append(TagReference(tag_to_attach))
+        item.write_to_db(db_manager.mongo)
+        item.recalculate_implied_tags(db_manager.mongo)
+        flash(&#39;Tag added successfully! Tag implications have been recalculated.&#39;)
+        return redirect(url_for(&#39;edit_item&#39;, item_id=item_id))
+    return render_template(&#39;admin-pages/lib-man/edit-item.html&#39;, attribute_options=attribute_options, form=form, item=item,
+                           item_id=item_id, tags_collection=tags_collection, image_url=image_url, name_attribute=db_manager.name_attrib)</code></pre>
+</details>
+</dd>
+<dt id="app.routes.edit_tag"><code class="name flex">
+<span>def <span class="ident">edit_tag</span></span>(<span>tag_name)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Edit tag route endpoint.
+This allows users with the <code>can_edit_items</code> permission to edit tags</p>
+<h2 id="parameters">Parameters</h2>
+<pre><code>GET:/admin/lib-man/tag-man/edit-tag/&lt;tag_name&gt;
+POST:/admin/lib-man/tag-man/edit-tag/&lt;tag_name&gt;
+</code></pre>
+<h2 id="returns">Returns</h2>
+<pre><code>Renders the edit tag page
+</code></pre></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@app.route(&#39;/admin/lib-man/tag-man/edit-tag/&lt;tag_name&gt;&#39;)
+@login_required(perm=&#34;can_edit_items&#34;)
+def edit_tag(tag_name):
+    &#34;&#34;&#34;
+    Edit tag route endpoint. 
+    This allows users with the `can_edit_items` permission to edit tags
+
+    Parameters
+    ----------
+        GET:/admin/lib-man/tag-man/edit-tag/&lt;tag_name&gt;
+        POST:/admin/lib-man/tag-man/edit-tag/&lt;tag_name&gt;
+
+    Returns
+    -------
+        Renders the edit tag page
+    &#34;&#34;&#34;
+    this_tag = Tag.search_for_by_name(db_manager.mongo, tag_name)
+    sibling_list = [Tag.from_dict(t) for t in tags_collection.find({&#34;$and&#34;: [{&#34;implies&#34;: this_tag.id}, {&#34;_id&#34;: {&#34;$in&#34;: [t.tag_id for t in this_tag.implies]}}]})]
+    implied_by_list = [Tag.from_dict(t) for t in tags_collection.find({&#34;$and&#34;: [{&#34;implies&#34;: this_tag.id}, {&#34;_id&#34;: {&#34;$not&#34;: {&#34;$in&#34;: [t.tag_id for t in this_tag.implies]}}}]})]
+    implied_list = [t for t in this_tag.implies if t.tag_id not in [it.id for it in sibling_list]]
+    add_parent_implication_form = addTagParentImplForm()
+    add_parent_implication_form.select_parent.choices=[(tag[&#39;_id&#39;], tag[&#39;name&#39;]) for tag in db_manager.mongo.db.tags.find({&#34;$and&#34;: [{&#34;_id&#34;: {&#34;$ne&#34;: this_tag.id}}, {&#34;_id&#34;: {&#34;$not&#34;: {&#34;$in&#34;: [t.id for t in implied_by_list]}}}]})]
+    add_sibling_implication_form = addTagSiblingImplForm()
+    add_sibling_implication_form.select_sibling.choices=[(tag[&#39;_id&#39;], tag[&#39;name&#39;]) for tag in db_manager.mongo.db.tags.find({&#34;$and&#34;: [{&#34;_id&#34;: {&#34;$ne&#34;: this_tag.id}}, {&#34;_id&#34;: {&#34;$not&#34;: {&#34;$in&#34;: [t.id for t in sibling_list]}}}]})]
+    add_implication_form = addTagImplForm()
+    add_implication_form.select_child.choices=[(tag[&#39;_id&#39;], tag[&#39;name&#39;]) for tag in db_manager.mongo.db.tags.find({&#34;$and&#34;: [{&#34;_id&#34;: {&#34;$ne&#34;: this_tag.id}}, {&#34;_id&#34;: {&#34;$not&#34;: {&#34;$in&#34;: [t.tag_id for t in this_tag.implies]}}}]})]
+    return render_template(&#39;admin-pages/lib-man/tag-man/edit-tag.html&#39;, add_implication_form=add_implication_form,add_parent_implication_form=add_parent_implication_form,add_sibling_implication_form=add_sibling_implication_form, tag=this_tag, tags_collection=tags_collection,sibling_list=sibling_list,implied_by_list=implied_by_list,implied_list=implied_list, Tag=Tag)</code></pre>
+</details>
+</dd>
+<dt id="app.routes.editrole"><code class="name flex">
+<span>def <span class="ident">editrole</span></span>(<span>id)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Edit role route endpoint.
+This allows users with the <code>can_edit_users</code> permission to edit user roles</p>
+<h2 id="parameters">Parameters</h2>
+<pre><code>GET:/admin/users/editrole/&lt;id&gt;
+POST:/admin/users/editrole/&lt;id&gt;
+</code></pre>
+<h2 id="returns">Returns</h2>
+<pre><code>Renders the edit roles page
+</code></pre></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@app.route(&#39;/admin/users/editrole/&lt;id&gt;&#39;, methods=[&#39;GET&#39;, &#39;POST&#39;])
+@login_required(perm=&#34;can_edit_users&#34;)
+def editrole(id):
+    &#34;&#34;&#34;
+    Edit role route endpoint. 
+    This allows users with the `can_edit_users` permission to edit user roles
+
+    Parameters
+    ----------
+        GET:/admin/users/editrole/&lt;id&gt;
+        POST:/admin/users/editrole/&lt;id&gt;
+
+    Returns
+    -------
+        Renders the edit roles page
+    &#34;&#34;&#34;
+    searchedrole = mongo.db.roles.find_one({&#39;_id&#39;: ObjectId(id)})
+    print(searchedrole)
+    for key in searchedrole[&#39;permissions&#39;]:
+        searchedrole[key] = searchedrole[&#39;permissions&#39;][key]
+    print(searchedrole)
+
+    if searchedrole:
+        if searchedrole[&#39;name&#39;] == &#39;admin&#39; or searchedrole[&#39;name&#39;] == &#39;everyone&#39;:
+            flash(&#39;Error: Cannot edit default roles&#39;)
+            return redirect(url_for(&#39;roles&#39;))
+        form = UpdateRoleForm(**searchedrole)
+        if form.validate_on_submit():
+            if form.delete.data:
+                return redirect(url_for(&#39;deleterole&#39;, id=id))
+            mongo.db.roles.update_one({&#39;_id&#39;: ObjectId(id)},
+                                      {&#34;$set&#34;: {
+                                          &#39;name&#39;: form.name.data,
+                                          &#39;priority&#39;: form.priority.data,
+                                          &#39;permissions.can_edit_items&#39;: form.can_edit_items.data,
+                                          &#39;permissions.can_edit_users&#39;: form.can_edit_users.data,
+                                          &#39;permissions.can_view_hidden&#39;: form.can_view_hidden.data
+                                      }
+                                      })
+            flash(&#39;Role updated successfully!&#39;)
+            return redirect(url_for(&#39;roles&#39;))
+        return render_template(&#39;admin-pages/user-man/editrole.html&#39;, form=form)
+    else:
+        return &#39;Error loading #{id}&#39;.format(id=id)
+    return render_template(&#39;admin-pages/user-man/editrole.html&#39;, form=form)</code></pre>
+</details>
+</dd>
+<dt id="app.routes.events"><code class="name flex">
+<span>def <span class="ident">events</span></span>(<span>)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Events route endpoint.
+This allows users to see the Unigames events</p>
+<h2 id="returns">Returns</h2>
+<pre><code>Renders the page for the Unigames events
+</code></pre></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@app.route(&#39;/events&#39;)
+def events():
+    &#34;&#34;&#34;
+    Events route endpoint. 
+    This allows users to see the Unigames events
+
+    Returns
+    -------
+        Renders the page for the Unigames events
+    &#34;&#34;&#34;
+    return render_template(&#39;user-pages/events.html&#39;)</code></pre>
+</details>
+</dd>
+<dt id="app.routes.faq"><code class="name flex">
+<span>def <span class="ident">faq</span></span>(<span>)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>FAQ route endpoint.
+This allows users to see the Unigames frequently asked questions</p>
+<h2 id="returns">Returns</h2>
+<pre><code>Renders the page for the Unigames FAQ
+</code></pre></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@app.route(&#39;/faq&#39;)
+def faq():
+    &#34;&#34;&#34;
+    FAQ route endpoint. 
+    This allows users to see the Unigames frequently asked questions
+
+    Returns
+    -------
+        Renders the page for the Unigames FAQ
+    &#34;&#34;&#34;
+    return render_template(&#39;user-pages/faq.html&#39;)</code></pre>
+</details>
+</dd>
+<dt id="app.routes.forbidden"><code class="name flex">
+<span>def <span class="ident">forbidden</span></span>(<span>)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Forbidden route endpoint.
+This page is rendered when unauthenticated users attempt to access restricted pages</p>
+<h2 id="returns">Returns</h2>
+<pre><code>Renders the forbidden page
+</code></pre></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@app.route(&#39;/forbidden&#39;)
+def forbidden():
+    &#34;&#34;&#34;
+    Forbidden route endpoint. 
+    This page is rendered when unauthenticated users attempt to access restricted pages
+
+    Returns
+    -------
+        Renders the forbidden page
+    &#34;&#34;&#34;
+    return render_template(&#39;user-pages/forbidden.html&#39;)</code></pre>
+</details>
+</dd>
+<dt id="app.routes.get_tags"><code class="name flex">
+<span>def <span class="ident">get_tags</span></span>(<span>tags, offset=0, per_page=10)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Function to get the tags for pagination</p>
+<h2 id="parameters">Parameters</h2>
+<pre><code>tags
+    List of all tags in the database
+offset
+    The offset number of tags
+per_page
+    the number of tags to show per page
+</code></pre>
+<h2 id="returns">Returns</h2>
+<pre><code>A list of tags
+</code></pre></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def get_tags(tags, offset=0, per_page=10):
+    &#34;&#34;&#34;
+    Function to get the tags for pagination
+
+    Parameters
+    ----------
+        tags
+            List of all tags in the database
+        offset
+            The offset number of tags
+        per_page
+            the number of tags to show per page
+
+    Returns
+    -------
+        A list of tags
+    &#34;&#34;&#34;
+    return tags[offset: offset + per_page]</code></pre>
+</details>
+</dd>
+<dt id="app.routes.home"><code class="name flex">
+<span>def <span class="ident">home</span></span>(<span>)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Home route endpoint</p>
+<h2 id="returns">Returns</h2>
+<p>Renders the home.html user page template</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@app.route(&#39;/&#39;)
+@app.route(&#39;/home&#39;)
+def home():
+    &#34;&#34;&#34;
+    Home route endpoint
+
+    Returns:
+        Renders the home.html user page template
+    &#34;&#34;&#34;
+    recent_items = []
+    for item in db_manager.mongo.db.items.find():
+        recent_items.append(item)
+    recent_items.reverse()
+    recent_items = recent_items[:6]
+    return render_template(&#39;user-pages/home.html&#39;, recent_items=recent_items, Item=Item, name_attrib_option=db_manager.name_attrib, tags_collection=tags_collection)</code></pre>
+</details>
+</dd>
+<dt id="app.routes.image"><code class="name flex">
+<span>def <span class="ident">image</span></span>(<span>oid)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Title: A simple GridFS server built with Flask
+Author: Leroy Campbell
+Date: 2010
+Availability: <a href="https://gist.github.com/artisonian/492713">https://gist.github.com/artisonian/492713</a></p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@app.route(&#39;/image/&lt;oid&gt;&#39;)
+def image(oid):
+    &#34;&#34;&#34;
+    Title: A simple GridFS server built with Flask
+    Author: Leroy Campbell
+    Date: 2010
+    Availability: https://gist.github.com/artisonian/492713
+    &#34;&#34;&#34;
+    try:
+        file = db_manager.fs.get(ObjectId(oid))
+        return Response(file, mimetype=file.content_type, direct_passthrough=True)
+    except NoFile or InvalidId:
+        return page_not_found(404)</code></pre>
+</details>
+</dd>
+<dt id="app.routes.images"><code class="name flex">
+<span>def <span class="ident">images</span></span>(<span>)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Title: A simple GridFS server built with Flask
+Author: Leroy Campbell
+Date: 2010
+Availability: <a href="https://gist.github.com/artisonian/492713">https://gist.github.com/artisonian/492713</a></p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@app.route(&#39;/images&#39;)
+def images():
+    &#34;&#34;&#34;
+    Title: A simple GridFS server built with Flask
+    Author: Leroy Campbell
+    Date: 2010
+    Availability: https://gist.github.com/artisonian/492713
+    &#34;&#34;&#34;
+    files = db_manager.fs.find()
+    file_list = &#34;\n&#34;.join([&#39;&lt;li&gt;&lt;a href=&#34;%s&#34;&gt;%s&lt;/a&gt;&lt;/li&gt;&#39; % \
+                           (url_for(&#39;image&#39;, oid=str(file._id)), file.name) \
+                           for file in files])
+    return &#39;&#39;&#39;
+    &lt;!DOCTYPE html&gt;
+    &lt;html&gt;
+    &lt;head&gt;
+    &lt;title&gt;Files&lt;/title&gt;
+    &lt;/head&gt;
+    &lt;body&gt;
+    &lt;h1&gt;Files&lt;/h1&gt;
+    &lt;ul&gt;
+    %s
+    &lt;/ul&gt;
+    &lt;a href=&#34;%s&#34;&gt;Upload new file&lt;/a&gt;
+    &lt;/body&gt;
+    &lt;/html&gt;
+    &#39;&#39;&#39; % (file_list, url_for(&#39;upload_image&#39;))</code></pre>
+</details>
+</dd>
+<dt id="app.routes.impl_delete"><code class="name flex">
+<span>def <span class="ident">impl_delete</span></span>(<span>tag_name)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Implication delete route endpoint.
+This allows users with the <code>can_edit_items</code> permission to delete an implication rule from the implication page</p>
+<h2 id="parameters">Parameters</h2>
+<pre><code>GET:/admin/lib-man/tag-man/impl_delete/&lt;tag_name&gt;
+POST:/admin/lib-man/tag-man/impl_delete/&lt;tag_name&gt;
+</code></pre>
+<h2 id="returns">Returns</h2>
+<pre><code>Redirects to the implications page
+</code></pre></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@app.route(&#39;/admin/lib-man/tag-man/impl_delete/&lt;tag_name&gt;&#39;)
+@login_required(perm=&#34;can_edit_items&#34;)
+def impl_delete(tag_name):
+    &#34;&#34;&#34;
+    Implication delete route endpoint. 
+    This allows users with the `can_edit_items` permission to delete an implication rule from the implication page
+
+    Parameters
+    ----------
+        GET:/admin/lib-man/tag-man/impl_delete/&lt;tag_name&gt;
+        POST:/admin/lib-man/tag-man/impl_delete/&lt;tag_name&gt;
+
+    Returns
+    -------
+        Redirects to the implications page
+    &#34;&#34;&#34;
+    tag = Tag.search_for_by_name(db_manager.mongo, tag_name)
+    tag.implies = []
+    tag.write_to_db(db_manager.mongo)
+    flash(&#39;The implications for tag &#39;+ tag_name + &#39; has been deleted&#39;)
+    return render_template(&#39;admin-pages/lib-man/tag-man/all-impl.html&#39;,  tags_collection=tags_collection)</code></pre>
+</details>
+</dd>
+<dt id="app.routes.implication_add"><code class="name flex">
+<span>def <span class="ident">implication_add</span></span>(<span>parent_tag_id)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Implication add route endpoint.
+This allows users with the <code>can_edit_items</code> permission to add an implication to a tag</p>
+<h2 id="parameters">Parameters</h2>
+<pre><code>GET:/admin/lib-man/tag-man/implication-add/&lt;parent_tag_id&gt;
+POST:/admin/lib-man/tag-man/implication-add/&lt;parent_tag_id&gt;
+</code></pre>
+<h2 id="returns">Returns</h2>
+<pre><code>Redirects to the tag edit page
+</code></pre></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@app.route(&#39;/admin/lib-man/tag-man/implication-add/&lt;parent_tag_id&gt;&#39;, methods=[&#39;GET&#39;, &#39;POST&#39;])
+@login_required(perm=&#34;can_edit_items&#34;)
+def implication_add(parent_tag_id):
+    &#34;&#34;&#34;
+    Implication add route endpoint. 
+    This allows users with the `can_edit_items` permission to add an implication to a tag
+
+    Parameters
+    ----------
+        GET:/admin/lib-man/tag-man/implication-add/&lt;parent_tag_id&gt;
+        POST:/admin/lib-man/tag-man/implication-add/&lt;parent_tag_id&gt;
+
+    Returns
+    -------
+        Redirects to the tag edit page
+    &#34;&#34;&#34;
+    add_implication_form = addTagImplForm()
+    parent_tag = db_manager.mongo.db.tags.find_one({&#34;_id&#34;: ObjectId(parent_tag_id)})
+    if parent_tag is None:
+        return page_not_found(404)
+    parent_tag = Tag.from_dict(parent_tag)
+
+    child_tag = db_manager.mongo.db.tags.find_one({&#34;_id&#34;: ObjectId(add_implication_form.select_child.data)})
+    if child_tag is None:
+        return page_not_found(404)
+    child_tag = Tag.from_dict(child_tag)
+
+    if parent_tag.id == child_tag.id:
+        flash(&#34;A tag cannot imply itself!&#34;)
+        return redirect(url_for(&#39;edit_tag&#39;, tag_name=parent_tag.name))
+    elif child_tag.id in [t.tag_id for t in parent_tag.implies]:
+        flash(&#34;This implication already exists!&#34;)
+        return redirect(url_for(&#39;edit_tag&#39;, tag_name=parent_tag.name))
+    else:
+        tag_ref = TagReference(child_tag.id)
+        parent_tag.implies.append(tag_ref)
+        parent_tag.write_to_db(db_manager.mongo)
+        return redirect(url_for(&#39;edit_tag&#39;, tag_name=parent_tag.name))</code></pre>
+</details>
+</dd>
+<dt id="app.routes.implication_remove"><code class="name flex">
+<span>def <span class="ident">implication_remove</span></span>(<span>tag_name, implied_id)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Implication delete route endpoint.
+This allows users with the <code>can_edit_items</code> permission to remove an implication from a tag</p>
+<h2 id="parameters">Parameters</h2>
+<pre><code>GET:/admin/lib-man/implication-remove/&lt;tag_name&gt;/&lt;implied_id&gt;
+POST:/admin/lib-man/implication-remove/&lt;tag_name&gt;/&lt;implied_id&gt;
+</code></pre>
+<h2 id="returns">Returns</h2>
+<pre><code>Redirects to the tag edit page
+</code></pre></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@app.route(&#39;/admin/lib-man/implication-remove/&lt;tag_name&gt;/&lt;implied_id&gt;&#39;, methods=[&#39;GET&#39;, &#39;POST&#39;])
+@login_required(perm=&#34;can_edit_items&#34;)
+def implication_remove(tag_name, implied_id):
+    &#34;&#34;&#34;
+    Implication delete route endpoint. 
+    This allows users with the `can_edit_items` permission to remove an implication from a tag
+
+    Parameters
+    ----------
+        GET:/admin/lib-man/implication-remove/&lt;tag_name&gt;/&lt;implied_id&gt;
+        POST:/admin/lib-man/implication-remove/&lt;tag_name&gt;/&lt;implied_id&gt;
+
+    Returns
+    -------
+        Redirects to the tag edit page
+    &#34;&#34;&#34;
+    tag = Tag.from_dict(db_manager.mongo.db.tags.find({&#34;name&#34;: tag_name})[0])
+    implied_tag = Tag.from_dict(db_manager.mongo.db.tags.find({&#34;_id&#34;: ObjectId(implied_id)})[0])
+    for tag_ref in tag.implies:
+        if tag_ref.tag_id == implied_tag.id:
+            tag.remove_implied_tag(tag_ref)
+            tag.write_to_db(db_manager.mongo)
+    return redirect(url_for(&#39;edit_tag&#39;, tag_name=tag_name))</code></pre>
+</details>
+</dd>
+<dt id="app.routes.item_detail"><code class="name flex">
+<span>def <span class="ident">item_detail</span></span>(<span>item_id)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Item detail route endpoint.
+This allows users to view the page for a specific item</p>
+<h2 id="parameters">Parameters</h2>
+<pre><code>GET:/item_detail/&lt;item_id&gt;
+POST:/item_detail/&lt;item_id&gt;
+</code></pre>
+<h2 id="returns">Returns</h2>
+<pre><code>Renders the page for the item specified by &lt;code&gt;item\_id&lt;/code&gt;
+</code></pre></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@app.route(&#39;/libarary/item_detail/&lt;item_id&gt;&#39;, methods=[&#39;GET&#39;, &#39;POST&#39;])
+def item_detail(item_id):
+    &#34;&#34;&#34;
+    Item detail route endpoint. 
+    This allows users to view the page for a specific item
+
+    Parameters
+    ----------
+        GET:/item_detail/&lt;item_id&gt;
+        POST:/item_detail/&lt;item_id&gt;
+
+    Returns
+    -------
+        Renders the page for the item specified by `item_id`
+    &#34;&#34;&#34;
+    item = db_manager.mongo.db.items.find_one({&#34;_id&#34;: ObjectId(item_id)})
+    if item is None:
+        return page_not_found(404)
+    item = Item.from_dict(item)
+
+    if item.get_attributes_by_option(db_manager.main_picture):
+        image_url = url_for(&#39;image&#39;, oid=str(item.get_attributes_by_option(db_manager.main_picture)[0].value))
+    else:
+        image_url = url_for(&#39;static&#39;, filename=&#39;img/logo.png&#39;)  # TODO supply &#39;no-image&#39; image?
+
+    return render_template(&#39;user-pages/item-detail.html&#39;, image_url=image_url, item=item, tags_collection=tags_collection, 
+                                name_attribute=db_manager.name_attrib, description_attribute = db_manager.description_attrib)</code></pre>
+</details>
+</dd>
+<dt id="app.routes.item_hide"><code class="name flex">
+<span>def <span class="ident">item_hide</span></span>(<span>item_id)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Item hide route endpoint.
+This allows users with the <code>can_edit_items</code> permission to hide items from users who cannot view hidden items</p>
+<h2 id="parameters">Parameters</h2>
+<pre><code>GET:/admin/lib-man/item_hide/&lt;item_id&gt;
+POST:/admin/lib-man/item_hide/&lt;item_id&gt;
+</code></pre>
+<h2 id="returns">Returns</h2>
+<pre><code>Redirects to the tag edit page
+</code></pre></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@app.route(&#39;/admin/lib-man/item_hide/&lt;item_id&gt;&#39;)
+@login_required(perm=&#34;can_edit_items&#34;)
+def item_hide(item_id):
+    &#34;&#34;&#34;
+    Item hide route endpoint. 
+    This allows users with the `can_edit_items` permission to hide items from users who cannot view hidden items
+
+    Parameters
+    ----------
+        GET:/admin/lib-man/item_hide/&lt;item_id&gt;
+        POST:/admin/lib-man/item_hide/&lt;item_id&gt;
+
+    Returns
+    -------
+        Redirects to the tag edit page
+    &#34;&#34;&#34;
+    item = Item.from_dict(db_manager.mongo.db.items.find({&#34;_id&#34; : ObjectId(item_id)})[0])
+    item.hide(db_manager.mongo)
+    return redirect(url_for(&#39;edit_item&#39;, item_id=item_id))</code></pre>
+</details>
+</dd>
+<dt id="app.routes.item_remove_tag"><code class="name flex">
+<span>def <span class="ident">item_remove_tag</span></span>(<span>item_id, tag_name)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Item tag remove route endpoint.
+This allows users with the <code>can_edit_items</code> permission to remove a tag from an item</p>
+<h2 id="parameters">Parameters</h2>
+<pre><code>GET:/admin/lib-man/item-remove-tag/&lt;item_id&gt;/&lt;tag_name&gt;
+POST:/admin/lib-man/item-remove-tag/&lt;item_id&gt;/&lt;tag_name&gt;
+</code></pre>
+<h2 id="returns">Returns</h2>
+<pre><code>Redirects to the tag edit page if the tag was removed successfully
+</code></pre></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@app.route(&#39;/admin/lib-man/item-remove-tag/&lt;item_id&gt;/&lt;tag_name&gt;&#39;,methods=[&#39;GET&#39;, &#39;POST&#39;])
+@login_required(perm=&#34;can_edit_items&#34;)
+def item_remove_tag(item_id, tag_name):
+    &#34;&#34;&#34;
+    Item tag remove route endpoint. 
+    This allows users with the `can_edit_items` permission to remove a tag from an item
+
+    Parameters
+    ----------
+        GET:/admin/lib-man/item-remove-tag/&lt;item_id&gt;/&lt;tag_name&gt;
+        POST:/admin/lib-man/item-remove-tag/&lt;item_id&gt;/&lt;tag_name&gt;
+
+    Returns
+    -------
+        Redirects to the tag edit page if the tag was removed successfully
+    &#34;&#34;&#34;
+    tag = Tag.search_for_by_name(db_manager.mongo, tag_name)
+    item = Item.from_dict(db_manager.mongo.db.items.find({&#34;_id&#34;: ObjectId(item_id)})[0])
+    for tag_ref in item.tags:
+        if tag_ref.tag_id == tag.id:
+            item.remove_tag(tag_ref)
+            item.write_to_db(db_manager.mongo)
+            item.recalculate_implied_tags(db_manager.mongo)
+            flash(&#39;Tag deleted successfully! Tag implications has been recalculated.&#39;)
+    return redirect(url_for(&#39;edit_item&#39;, item_id=item_id))</code></pre>
+</details>
+</dd>
+<dt id="app.routes.item_update_attrib"><code class="name flex">
+<span>def <span class="ident">item_update_attrib</span></span>(<span>item_id, attrib_option_id)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Item attribute update route endpoint.
+This allows users with the <code>can_edit_items</code> permission to update the attributes of an item</p>
+<h2 id="parameters">Parameters</h2>
+<pre><code>GET:/admin/lib-man/item-update-attrib/&lt;item_id&gt;/&lt;attrib_option_id&gt;
+POST:/admin/lib-man/item-update-attrib/&lt;item_id&gt;/&lt;attrib_option_id&gt;
+</code></pre>
+<h2 id="returns">Returns</h2>
+<pre><code>Redirects to the edit item page if the attribute was updated successfully
+</code></pre></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@app.route(&#39;/admin/lib-man/item-update-attrib/&lt;item_id&gt;/&lt;attrib_option_id&gt;&#39;, methods=[&#39;GET&#39;, &#39;POST&#39;])
+@login_required(perm=&#34;can_edit_items&#34;)
+def item_update_attrib(item_id, attrib_option_id):
+    &#34;&#34;&#34;
+    Item attribute update route endpoint. 
+    This allows users with the `can_edit_items` permission to update the attributes of an item
+
+    Parameters
+    ----------
+        GET:/admin/lib-man/item-update-attrib/&lt;item_id&gt;/&lt;attrib_option_id&gt;
+        POST:/admin/lib-man/item-update-attrib/&lt;item_id&gt;/&lt;attrib_option_id&gt;
+
+    Returns
+    -------
+        Redirects to the edit item page if the attribute was updated successfully
+    &#34;&#34;&#34;
+    form = updateAttribForm()
+    item = db_manager.mongo.db.items.find_one({&#34;_id&#34;: ObjectId(item_id)})
+    if item is None:
+        return page_not_found(404)
+    item = Item.from_dict(item)
+    attribute_option = db_manager.mongo.db.attrib_options.find_one({&#34;_id&#34;: ObjectId(attrib_option_id)})
+    if attribute_option is None:
+        return page_not_found(404)
+    attribute_option = AttributeOption.from_dict(attribute_option)
+    if form.validate_on_submit():
+        if ObjectId(attrib_option_id) == db_manager.name_attrib:
+            item_name_attrib = AttributeOption.search_for_by_name(db_manager.mongo, &#34;name&#34;)
+            item_exists = Item.search_for_by_attribute(db_manager.mongo, item_name_attrib, form.attrib_value.data)
+            if item_exists:
+                flash(&#39;An item with the same name already exists!&#39;)
+                return redirect(url_for(&#39;item_update_attrib&#39;, item_id=item_id, attrib_option_id=attrib_option_id))
+        if not item.get_attributes_by_option(ObjectId(attrib_option_id)):
+            return page_not_found(404)
+
+        attribute = item.get_attributes_by_option(ObjectId(attrib_option_id))[0]
+        if attribute:
+            listOfString = form.attrib_value.data.split(&#39;\r\n&#39;)
+            attribute.value = listOfString
+            print(listOfString)
+            item.write_to_db(db_manager.mongo)
+            flash(&#39;Item updated&#39;)
+            return redirect(url_for(&#39;edit_item&#39;, item_id=item_id))
+        else:
+            return page_not_found(404)
+    return render_template(&#39;admin-pages/lib-man/item-add-attrib.html&#39;, form=form, attrib_name=attribute_option.attribute_name)</code></pre>
+</details>
+</dd>
+<dt id="app.routes.lib_delete"><code class="name flex">
+<span>def <span class="ident">lib_delete</span></span>(<span>item_id)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Item delete route endpoint.
+This allows users with the <code>can_edit_items</code> permission to delete an item</p>
+<h2 id="parameters">Parameters</h2>
+<pre><code>GET:/admin/lib-man/lib-delete/&lt;item_id&gt;
+POST:/admin/lib-man/lib-delete/&lt;item_id&gt;
+</code></pre>
+<h2 id="returns">Returns</h2>
+<pre><code>Redirects to the items page
+</code></pre></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@app.route(&#39;/admin/lib-man/lib-delete/&lt;item_id&gt;&#39;)
+@login_required(perm=&#34;can_edit_items&#34;)
+def lib_delete(item_id):
+    &#34;&#34;&#34;
+    Item delete route endpoint. 
+    This allows users with the `can_edit_items` permission to delete an item
+
+    Parameters
+    ----------
+        GET:/admin/lib-man/lib-delete/&lt;item_id&gt;
+        POST:/admin/lib-man/lib-delete/&lt;item_id&gt;
+
+    Returns
+    -------
+        Redirects to the items page
+    &#34;&#34;&#34;
+    item = Item.from_dict(db_manager.mongo.db.items.find({&#34;_id&#34; : ObjectId(item_id)})[0])
+    item.delete_from_db(db_manager.mongo)
+    flash(&#39;Item has been deleted successfully&#39;)
+    return redirect(url_for(&#39;all_items&#39;))</code></pre>
+</details>
+</dd>
+<dt id="app.routes.lib_edit"><code class="name flex">
+<span>def <span class="ident">lib_edit</span></span>(<span>item_id)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@app.route(&#39;/admin/lib-man/lib-edit/&lt;item_id&gt;&#39;, methods=[&#39;GET&#39;, &#39;POST&#39;])
+@login_required(perm=&#34;can_edit_items&#34;)
+def lib_edit(item_id):
+    item = Item.from_dict(db_manager.mongo.db.items.find({&#34;_id&#34;: ObjectId(item_id)})[0])
+    item.recalculate_implied_tags(db_manager.mongo)
+    attributes = item.attributes
+    form = addTagForm()
+    form.selection.choices=[(tag[&#39;name&#39;], tag[&#39;name&#39;]) for tag in db_manager.mongo.db.tags.find()]
+    if form.validate_on_submit():
+        tag_to_attach = Tag.search_for_by_name(db_manager.mongo, form.selection.data)
+        for tag_ref in item.tags:
+            if str(tag_ref.tag_id) == str(tag_to_attach.id):
+                flash(&#39;This tag already attached to the item!&#39;)
+        item.tags.append(TagReference(tag_to_attach))
+        item.write_to_db(db_manager.mongo)
+    return render_template(&#39;admin-pages/lib-man/lib-edit.html&#39;, attributes=attributes, form=form, item=item, item_id=item_id,
+                           Tag=Tag, tags_collection=tags_collection)</code></pre>
+</details>
+</dd>
+<dt id="app.routes.lib_item_image_edit"><code class="name flex">
+<span>def <span class="ident">lib_item_image_edit</span></span>(<span>item_id)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Item image edit route endpoint.
+This allows users with the <code>can_edit_items</code> permission to update the image of an item</p>
+<h2 id="parameters">Parameters</h2>
+<pre><code>GET:/admin/lib-man/image-edit/&lt;item_id&gt;
+POST:/admin/lib-man/image-edit/&lt;item_id&gt;
+</code></pre>
+<h2 id="returns">Returns</h2>
+<pre><code>Redirects to the edit item page if the image was updated successfully
+</code></pre></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@app.route(&#39;/admin/lib-man/image-edit/&lt;item_id&gt;&#39;, methods=[&#39;POST&#39;])
+@login_required(perm=&#34;can_edit_items&#34;)
+def lib_item_image_edit(item_id):
+    &#34;&#34;&#34;
+    Item image edit route endpoint. 
+    This allows users with the `can_edit_items` permission to update the image of an item
+
+    Parameters
+    ----------
+        GET:/admin/lib-man/image-edit/&lt;item_id&gt;
+        POST:/admin/lib-man/image-edit/&lt;item_id&gt;
+
+    Returns
+    -------
+        Redirects to the edit item page if the image was updated successfully
+    &#34;&#34;&#34;
+    item = db_manager.mongo.db.items.find_one({&#34;_id&#34;: ObjectId(item_id)})
+    if item is None:
+        return page_not_found(404)
+    item = Item.from_dict(item)
+    file = request.files[&#39;file&#39;]
+    if file and allowed_file(file.filename):
+        filename = secure_filename(file.filename)
+        oid = db_manager.fs.put(file, content_type=file.content_type, filename=filename)
+        attribute = item.get_attributes_by_option(db_manager.main_picture)
+        if attribute:
+            attribute = attribute[0]
+            db_manager.fs.delete(attribute.value)
+            attribute.value = oid
+        else:
+            item.attributes.append(PictureAttribute(db_manager.main_picture, oid))
+        item.write_to_db(db_manager.mongo)
+    return redirect(url_for(&#39;edit_item&#39;, item_id=str(item_id)))</code></pre>
+</details>
+</dd>
+<dt id="app.routes.lib_item_image_remove"><code class="name flex">
+<span>def <span class="ident">lib_item_image_remove</span></span>(<span>item_id)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Item image remove route endpoint.
+This allows users with the <code>can_edit_items</code> permission to remove the image from an item</p>
+<h2 id="parameters">Parameters</h2>
+<pre><code>GET:/admin/lib-man/image-remove/&lt;item_id&gt;
+POST:/admin/lib-man/image-remove/&lt;item_id&gt;
+</code></pre>
+<h2 id="returns">Returns</h2>
+<pre><code>Redirects to the item edit page
+</code></pre></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@app.route(&#39;/admin/lib-man/image-remove/&lt;item_id&gt;&#39;, methods=[&#39;POST&#39;])
+@login_required(perm=&#34;can_edit_items&#34;)
+def lib_item_image_remove(item_id):
+    &#34;&#34;&#34;
+    Item image remove route endpoint. 
+    This allows users with the `can_edit_items` permission to remove the image from an item
+
+    Parameters
+    ----------
+        GET:/admin/lib-man/image-remove/&lt;item_id&gt;
+        POST:/admin/lib-man/image-remove/&lt;item_id&gt;
+
+    Returns
+    -------
+        Redirects to the item edit page
+    &#34;&#34;&#34;
+    item = db_manager.mongo.db.items.find_one({&#34;_id&#34;: ObjectId(item_id)})
+    if item is None:
+        return page_not_found(404)
+    item = Item.from_dict(item)
+    attribute = item.get_attributes_by_option(db_manager.main_picture)
+    if attribute:
+        attribute = attribute[0]
+        db_manager.fs.delete(attribute.value)
+        item.attributes = [a for a in item.attributes if a.option_id != db_manager.main_picture.id]
+        item.write_to_db(db_manager.mongo)
+    return redirect(url_for(&#39;edit_item&#39;, item_id=str(item_id)))</code></pre>
+</details>
+</dd>
+<dt id="app.routes.library"><code class="name flex">
+<span>def <span class="ident">library</span></span>(<span>)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Item library route endpoint.</p>
+<h2 id="returns">Returns</h2>
+<pre><code>Renders the library page
+</code></pre></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@app.route(&#39;/library&#39;)
+def library():
+    &#34;&#34;&#34;
+    Item library route endpoint.
+
+    Returns
+    -------
+        Renders the library page 
+    &#34;&#34;&#34;
+    items = db_manager.mongo.db.items.find()
+    items = [Item.from_dict(i) for i in items]
+
+    for item in items:
+        item.recalculate_implied_tags(db_manager.mongo)  # Again, thia is NOT be needed
+
+    item_names = {item.id: item.get_attributes_by_option(db_manager.name_attrib)[0].value for item in items}
+    item_images = {}
+    for item in items:
+        picture = item.get_attributes_by_option(db_manager.main_picture)
+        if picture:
+            item_images[item.id] = url_for(&#39;image&#39;, oid=str(picture[0].value))
+        else:
+            item_images[item.id] = url_for(&#39;static&#39;, filename=&#39;img/logo.png&#39;)  # TODO supply &#39;no-image&#39; image?
+
+    return render_template(&#39;user-pages/new-library.html&#39;, items=items, tags_collection=tags_collection,
+                           item_names=item_names, item_images=item_images)</code></pre>
+</details>
+</dd>
+<dt id="app.routes.lifeMembers"><code class="name flex">
+<span>def <span class="ident">lifeMembers</span></span>(<span>)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Life members route endpoint.
+This allows users to see members awarded with a life membership</p>
+<h2 id="returns">Returns</h2>
+<pre><code>Renders the page for the Unigames life members
+</code></pre></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@app.route(&#39;/lifeMembers&#39;)
+def lifeMembers():
+    &#34;&#34;&#34;
+    Life members route endpoint. 
+    This allows users to see members awarded with a life membership
+
+    Returns
+    -------
+        Renders the page for the Unigames life members
+    &#34;&#34;&#34;
+    return render_template(&#39;user-pages/lifeMembers.html&#39;)</code></pre>
+</details>
+</dd>
+<dt id="app.routes.load_user"><code class="name flex">
+<span>def <span class="ident">load_user</span></span>(<span>did)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@login_manager.user_loader
+def load_user(did):
+    return User.search_for_by_display_name(db_manager.mongo, did)</code></pre>
+</details>
+</dd>
+<dt id="app.routes.login"><code class="name flex">
+<span>def <span class="ident">login</span></span>(<span>)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Login route endpoint.
+This allows users to login to their account.</p>
+<h2 id="parameters">Parameters</h2>
+<pre><code>GET:/login
+POST:/login
+</code></pre>
+<h2 id="returns">Returns</h2>
+<pre><code>Redirects to the admin dashboard if the user is authenticated
+Redirects to the change password page if the user has a temporary password
+Redirects to the login page if the login was unsuccessful
+</code></pre></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@app.route(&#39;/login&#39;, methods=[&#39;GET&#39;, &#39;POST&#39;])
+def login():
+    &#34;&#34;&#34;
+    Login route endpoint. 
+    This allows users to login to their account.
+
+    Parameters
+    ----------
+        GET:/login
+        POST:/login
+
+    Returns
+    -------
+        Redirects to the admin dashboard if the user is authenticated
+        Redirects to the change password page if the user has a temporary password
+        Redirects to the login page if the login was unsuccessful
+    &#34;&#34;&#34;
+    if current_user.is_authenticated:
+        return redirect(url_for(&#39;admin&#39;))
+    form = LoginForm()
+    if form.validate_on_submit():
+        email = form.email.data
+        password = form.password.data
+        find_user = mongo.db.users.find_one({&#34;email&#34;: email})
+        print(&#34;find_user: &#34;, find_user)
+        if User.login_valid(db_manager.mongo, email, password):
+            loguser = User.from_dict(find_user)
+            login_user(loguser, remember=form.remember_me.data)
+            flash(&#39;You have been logged in!&#39;, &#39;success&#39;)
+            if loguser.temp:
+                flash(&#39;You have a temporary password, please update it.&#39;)
+                return redirect(url_for(&#39;changepw&#39;))
+            else:
+                return redirect(url_for(&#39;admin&#39;))
+        else:
+            flash(&#39;Login Unsuccessful. Please check email and password&#39;, &#39;danger&#39;)
+            return redirect(url_for(&#39;login&#39;))
+    return render_template(&#39;user-pages/login.html&#39;, form=form)</code></pre>
+</details>
+</dd>
+<dt id="app.routes.login_required"><code class="name flex">
+<span>def <span class="ident">login_required</span></span>(<span>perm='ANY')</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Ensures users can only access pages when logged in</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def login_required(perm=&#34;ANY&#34;):
+    &#34;&#34;&#34;
+    Ensures users can only access pages when logged in
+    &#34;&#34;&#34;
+    def wrapper(fn):
+        @wraps(fn)
+        def decorated_view(*args, **kwargs):
+            if not current_user.is_authenticated:
+                return login_manager.unauthorized()
+            if (perm != &#34;ANY&#34;):
+                hasperm = False
+                for r in current_user.role_ids:
+                    roleperms = db_manager.mongo.db.roles.find_one({&#34;_id&#34;: r})[&#39;permissions&#39;]
+                    print(roleperms)
+                    if roleperms[perm]:
+                        hasperm = True
+                if not hasperm:
+                    return login_manager.unauthorized()
+            return fn(*args, **kwargs)
+
+        return decorated_view
+
+    return wrapper</code></pre>
+</details>
+</dd>
+<dt id="app.routes.logout"><code class="name flex">
+<span>def <span class="ident">logout</span></span>(<span>)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Logout route endpoint.
+This allows users to logout of their account</p>
+<h2 id="returns">Returns</h2>
+<pre><code>Redirects to the login page
+</code></pre></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@app.route(&#39;/logout&#39;)
+def logout():
+    &#34;&#34;&#34;
+    Logout route endpoint. 
+    This allows users to logout of their account
+
+    Returns
+    -------
+        Redirects to the login page
+    &#34;&#34;&#34;
+    logout_user()
+    flash(&#39;You have been logged out&#39;)
+    return redirect(url_for(&#39;login&#39;))</code></pre>
+</details>
+</dd>
+<dt id="app.routes.operations"><code class="name flex">
+<span>def <span class="ident">operations</span></span>(<span>)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Operations route endpoint.
+This allows users to see the Unigames operations, which contains information for the use of future and current committees</p>
+<h2 id="returns">Returns</h2>
+<pre><code>Renders the page for the Unigames operations
+</code></pre></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@app.route(&#39;/operations&#39;)
+def operations():
+    &#34;&#34;&#34;
+    Operations route endpoint. 
+    This allows users to see the Unigames operations, which contains information for the use of future and current committees
+
+    Returns
+    -------
+        Renders the page for the Unigames operations
+    &#34;&#34;&#34;
+    return render_template(&#39;user-pages/operations.html&#39;)</code></pre>
+</details>
+</dd>
+<dt id="app.routes.page_not_found"><code class="name flex">
+<span>def <span class="ident">page_not_found</span></span>(<span>e)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@app.errorhandler(500)
+def page_not_found(e):
+    return render_template(&#39;admin-pages/error.html&#39;)</code></pre>
+</details>
+</dd>
+<dt id="app.routes.parent_implication_add"><code class="name flex">
+<span>def <span class="ident">parent_implication_add</span></span>(<span>child_tag_id)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Tag implication add route endpoint.
+This allows users with the <code>can_edit_items</code> permission to add an implication to a tag</p>
+<h2 id="parameters">Parameters</h2>
+<pre><code>GET:/admin/lib-man/parent-implication-add/&lt;child_tag_id&gt;
+POST:/admin/lib-man/parent-implication-add/&lt;child_tag_id&gt;
+</code></pre>
+<h2 id="returns">Returns</h2>
+<pre><code>Redirects to the tag edit page if the parent tag is the same as the child tag
+Redirects to the tag edit page if the implication already exists
+Redirects to the tag edit page if the implication was created successfully
+</code></pre></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@app.route(&#39;/admin/lib-man/tag-man/parent-implication-add/&lt;child_tag_id&gt;&#39;, methods=[&#39;GET&#39;, &#39;POST&#39;])
+@login_required(perm=&#34;can_edit_items&#34;)
+def parent_implication_add(child_tag_id):
+    &#34;&#34;&#34;
+    Tag implication add route endpoint. 
+    This allows users with the `can_edit_items` permission to add an implication to a tag
+
+    Parameters
+    ----------
+        GET:/admin/lib-man/parent-implication-add/&lt;child_tag_id&gt;
+        POST:/admin/lib-man/parent-implication-add/&lt;child_tag_id&gt;
+
+    Returns
+    -------
+        Redirects to the tag edit page if the parent tag is the same as the child tag
+        Redirects to the tag edit page if the implication already exists
+        Redirects to the tag edit page if the implication was created successfully
+    &#34;&#34;&#34;
+    add_implication_form = addTagParentImplForm()
+    child_tag = db_manager.mongo.db.tags.find_one({&#34;_id&#34;: ObjectId(child_tag_id)})
+    if child_tag is None:
+        return page_not_found(404)
+    child_tag = Tag.from_dict(child_tag)
+
+    parent_tag = db_manager.mongo.db.tags.find_one({&#34;_id&#34;: ObjectId(add_implication_form.select_parent.data)})
+    if parent_tag is None:
+        return page_not_found(404)
+    parent_tag = Tag.from_dict(parent_tag)
+
+    if parent_tag.id == child_tag.id:
+        flash(&#34;A tag cannot imply itself!&#34;)
+        return redirect(url_for(&#39;edit_tag&#39;, tag_name=parent_tag.name))
+    elif child_tag.id in [t.tag_id for t in parent_tag.implies]:
+        flash(&#34;This implication already exists!&#34;)
+        return redirect(url_for(&#39;edit_tag&#39;, tag_name=child_tag.name))
+    else:
+        tag_ref = TagReference(child_tag.id)
+        parent_tag.implies.append(tag_ref)
+        parent_tag.write_to_db(db_manager.mongo)
+        return redirect(url_for(&#39;edit_tag&#39;, tag_name=child_tag.name))</code></pre>
+</details>
+</dd>
+<dt id="app.routes.parent_implication_remove"><code class="name flex">
+<span>def <span class="ident">parent_implication_remove</span></span>(<span>tag_name, implied_id)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Parent implication delete route endpoint.
+This allows users with the <code>can_edit_items</code> permission to delete an implication from a parent tag</p>
+<h2 id="parameters">Parameters</h2>
+<pre><code>GET:/admin/lib-man/tag-man/implication-remove/&lt;tag_name&gt;/&lt;implied_id&gt;
+POST:/admin/lib-man/tag-man/implication-remove/&lt;tag_name&gt;/&lt;implied_id&gt;
+</code></pre>
+<h2 id="returns">Returns</h2>
+<pre><code>Redirects to the tag edit page
+</code></pre></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@app.route(&#39;/admin/lib-man/implication-remove/&lt;tag_name&gt;/&lt;implied_id&gt;&#39;, methods=[&#39;GET&#39;, &#39;POST&#39;])
+@login_required(perm=&#34;can_edit_items&#34;)
+def parent_implication_remove(tag_name, implied_id):
+    &#34;&#34;&#34;
+    Parent implication delete route endpoint. 
+    This allows users with the `can_edit_items` permission to delete an implication from a parent tag
+
+    Parameters
+    ----------
+        GET:/admin/lib-man/tag-man/implication-remove/&lt;tag_name&gt;/&lt;implied_id&gt;
+        POST:/admin/lib-man/tag-man/implication-remove/&lt;tag_name&gt;/&lt;implied_id&gt;
+
+    Returns
+    -------
+        Redirects to the tag edit page
+    &#34;&#34;&#34;
+    tag = Tag.from_dict(db_manager.mongo.db.tags.find({&#34;name&#34;: tag_name})[0])
+    implied_tag = Tag.from_dict(db_manager.mongo.db.tags.find({&#34;_id&#34;: ObjectId(implied_id)})[0])
+    for tag_ref in tag.implies:
+        if tag_ref.tag_id == implied_tag.id:
+            tag.remove_implied_tag(tag_ref)
+            tag.write_to_db(db_manager.mongo)
+    return redirect(url_for(&#39;edit_tag&#39;, tag_name=implied_tag.name))</code></pre>
+</details>
+</dd>
+<dt id="app.routes.parent_rule_delete"><code class="name flex">
+<span>def <span class="ident">parent_rule_delete</span></span>(<span>tag_name)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Implication remove route endpoint.
+This allows users with the <code>can_edit_items</code> permission to remove an implication rule from a tag</p>
+<h2 id="parameters">Parameters</h2>
+<pre><code>GET:/admin/lib-man/parent-rule-delete/&lt;tag_name&gt;
+POST:/admin/lib-man/parent-rule-delete/&lt;tag_name&gt;
+</code></pre>
+<h2 id="returns">Returns</h2>
+<pre><code>Redirects to the tag edit page
+</code></pre></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@app.route(&#39;/admin/lib-man/tag-man/parent-rule-delete/&lt;tag_name&gt;&#39;)
+@login_required(perm=&#34;can_edit_items&#34;)
+def parent_rule_delete(tag_name):
+    &#34;&#34;&#34;
+    Implication remove route endpoint. 
+    This allows users with the `can_edit_items` permission to remove an implication rule from a tag
+
+    Parameters
+    ----------
+        GET:/admin/lib-man/parent-rule-delete/&lt;tag_name&gt;
+        POST:/admin/lib-man/parent-rule-delete/&lt;tag_name&gt;
+
+    Returns
+    -------
+        Redirects to the tag edit page
+    &#34;&#34;&#34;
+    child_tag = Tag.search_for_by_name(db_manager.mongo, tag_name)
+    tags = db_manager.mongo.db.tags.find({&#34;implies&#34;: child_tag.id})
+    for tag in tags:
+        tag = Tag.from_dict(tag)
+        tag.implies = [tag for tag in tag.implies if tag.tag_id != child_tag.id]
+        tag.write_to_db(db_manager.mongo)
+    flash(&#39;The parent implications for tag &#39;+ tag_name + &#39; has been cleared&#39;)
+    return redirect(url_for(&#39;edit_tag&#39;,tag_name=tag_name))</code></pre>
+</details>
+</dd>
+<dt id="app.routes.register"><code class="name flex">
+<span>def <span class="ident">register</span></span>(<span>)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>User registration route endpoint.
+This allows users create a new account</p>
+<h2 id="parameters">Parameters</h2>
+<pre><code>GET:/register
+POST:/register
+</code></pre>
+<h2 id="returns">Returns</h2>
+<pre><code>Redirects to the home page if the account was created successfully
+Redirects to the register page if registration failed
+</code></pre></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@app.route(&#34;/register&#34;, methods=[&#39;GET&#39;, &#39;POST&#39;])
+def register():
+    &#34;&#34;&#34;
+    User registration route endpoint. 
+    This allows users create a new account
+
+    Parameters
+    ----------
+        GET:/register
+        POST:/register
+
+    Returns
+    -------
+        Redirects to the home page if the account was created successfully
+        Redirects to the register page if registration failed
+    &#34;&#34;&#34;
+    form = RegistrationForm()
+    if form.validate_on_submit():
+        email = form.email.data
+        display_name = form.display_name.data
+        first_name = form.first_name.data
+        last_name = form.last_name.data
+        password = generate_password_hash(form.password.data)
+        find_by_email = User.search_for_by_email(db_manager.mongo, email)
+        find_by_name = User.search_for_by_display_name(db_manager.mongo, display_name)
+        if find_by_email is None and find_by_name is None:
+            User.register(db_manager.mongo, display_name, email, password, first_name, last_name)
+            flash(f&#39;Account created for {form.email.data}!&#39;, &#39;success&#39;)
+            return redirect(url_for(&#39;home&#39;))
+        else:
+            if find_by_name is None: 
+                flash(f&#39;Account already exists for {form.email.data}!&#39;, &#39;success&#39;)
+            else:
+                flash(f&#39;Account already exists for {form.display_name.data}!&#39;, &#39;success&#39;)
+    return render_template(&#39;user-pages/register.html&#39;, title=&#39;Register&#39;, form=form)</code></pre>
+</details>
+</dd>
+<dt id="app.routes.roleplaying"><code class="name flex">
+<span>def <span class="ident">roleplaying</span></span>(<span>)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Roleplaying route endpoint.
+This allows users to find imformation on roleplaying </p>
+<h2 id="returns">Returns</h2>
+<pre><code>Renders the page for roleplaying
+</code></pre></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@app.route(&#39;/roleplaying&#39;)
+def roleplaying():
+    &#34;&#34;&#34;
+    Roleplaying route endpoint. 
+    This allows users to find imformation on roleplaying 
+
+    Returns
+    -------
+        Renders the page for roleplaying
+    &#34;&#34;&#34;
+    return render_template(&#39;user-pages/roleplaying.html&#39;)</code></pre>
+</details>
+</dd>
+<dt id="app.routes.roles"><code class="name flex">
+<span>def <span class="ident">roles</span></span>(<span>)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>User role route endpoint.
+This allows users with the <code>can_view_hidden</code> permission to view user roles</p>
+<h2 id="parameters">Parameters</h2>
+<pre><code>GET:/admin/users/roles
+POST:/admin/users/roles
+</code></pre>
+<h2 id="returns">Returns</h2>
+<pre><code>Renders the roles page
+</code></pre></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@app.route(&#39;/admin/users/roles&#39;)
+@login_required(perm=&#34;can_view_hidden&#34;)
+def roles():
+    &#34;&#34;&#34;
+    User role route endpoint. 
+    This allows users with the `can_view_hidden` permission to view user roles
+
+    Parameters
+    ----------
+        GET:/admin/users/roles
+        POST:/admin/users/roles
+
+    Returns
+    -------
+        Renders the roles page
+    &#34;&#34;&#34;
+    roles = mongo.db.roles.find()
+    return render_template(&#39;admin-pages/user-man/roles.html&#39;, roles=roles)</code></pre>
+</details>
+</dd>
+<dt id="app.routes.rule_delete"><code class="name flex">
+<span>def <span class="ident">rule_delete</span></span>(<span>tag_name)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Rule delete route endpoint.
+This allows users with the <code>can_edit_items</code> permission to delete an implication rule from a tag</p>
+<h2 id="parameters">Parameters</h2>
+<pre><code>GET:/admin/lib-man/tag-man/rule-delete/&lt;tag_name&gt;
+POST:/admin/lib-man/tag-man/rule-delete/&lt;tag_name&gt;
+</code></pre>
+<h2 id="returns">Returns</h2>
+<pre><code>Redirects to the edit tag page
+</code></pre></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@app.route(&#39;/admin/lib-man/tag-man/rule-delete/&lt;tag_name&gt;&#39;)
+@login_required(perm=&#34;can_edit_items&#34;)
+def rule_delete(tag_name):
+    &#34;&#34;&#34;
+    Rule delete route endpoint. 
+    This allows users with the `can_edit_items` permission to delete an implication rule from a tag
+
+    Parameters
+    ----------
+        GET:/admin/lib-man/tag-man/rule-delete/&lt;tag_name&gt;
+        POST:/admin/lib-man/tag-man/rule-delete/&lt;tag_name&gt;
+
+    Returns
+    -------
+        Redirects to the edit tag page
+    &#34;&#34;&#34;
+    tag = Tag.search_for_by_name(db_manager.mongo, tag_name)
+    tag.implies = []
+    tag.write_to_db(db_manager.mongo)
+    flash(&#39;The implications for tag &#39;+ tag_name + &#39; has been cleared&#39;)
+    return redirect(url_for(&#39;edit_tag&#39;,tag_name=tag_name))</code></pre>
+</details>
+</dd>
+<dt id="app.routes.search_item"><code class="name flex">
+<span>def <span class="ident">search_item</span></span>(<span>)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Item search route endpoint.
+This allows users with the <code>can_view_hidden</code> permission to search for items in the admin item library</p>
+<h2 id="parameters">Parameters</h2>
+<pre><code>GET:/admin/lib-man/tag-man/search-item
+POST:/admin/lib-man/tag-man/search-item
+</code></pre>
+<h2 id="returns">Returns</h2>
+<pre><code>Renders the item search page
+</code></pre></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@app.route(&#39;/admin/lib-man/tag-man/search-item&#39;, methods=[&#39;GET&#39;, &#39;POST&#39;])
+@login_required(perm=&#34;can_view_hidden&#34;)
+def search_item():
+    &#34;&#34;&#34;
+    Item search route endpoint. 
+    This allows users with the `can_view_hidden` permission to search for items in the admin item library
+
+    Parameters
+    ----------
+        GET:/admin/lib-man/tag-man/search-item
+        POST:/admin/lib-man/tag-man/search-item
+
+    Returns
+    -------
+        Renders the item search page
+    &#34;&#34;&#34;
+    searchString = request.form.get(&#39;tagSearchInput&#39;)
+    is_input = False
+    is_result = False
+    result = []
+    db_results =[]
+    print(searchString)
+    if searchString is not None and searchString is not &#39;&#39;:
+        result = search_string_to_mongodb_query(db_manager.mongo, searchString)
+        is_input = True
+        if isinstance(result,list) :
+            is_result=False
+            result = str(result[0])[23:]
+        else:
+            flash(&#39;Search result retrieved from the database!&#39;)
+            is_result = True
+            db_results = db_manager.mongo.db.items.find(result)
+    return render_template(&#39;admin-pages/lib-man/tag-man/search-item.html&#39;, is_input=is_input, is_result=is_result, result=result, searchString=searchString, db_results=db_results, tags_collection=tags_collection)</code></pre>
+</details>
+</dd>
+<dt id="app.routes.sibling_implication_add"><code class="name flex">
+<span>def <span class="ident">sibling_implication_add</span></span>(<span>parent_tag_id)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Bi-implication add route endpoint.
+This allows users with the <code>can_edit_items</code> permission to add a bi-implication rule for a tag</p>
+<h2 id="parameters">Parameters</h2>
+<pre><code>GET:/admin/lib-man/tag-man/sibling-rule-add/&lt;parent_tag_id&gt;
+POST:/admin/lib-man/tag-man/sibling-rule-add/&lt;parent_tag_id&gt;
+</code></pre>
+<h2 id="returns">Returns</h2>
+<pre><code>Redirects to the tag edit page
+</code></pre></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@app.route(&#39;/admin/lib-man/tag-man/sibling-implication-add/&lt;parent_tag_id&gt;&#39;, methods=[&#39;GET&#39;, &#39;POST&#39;])
+@login_required(perm=&#34;can_edit_items&#34;)
+def sibling_implication_add(parent_tag_id):
+    &#34;&#34;&#34;
+    Bi-implication add route endpoint. 
+    This allows users with the `can_edit_items` permission to add a bi-implication rule for a tag
+
+    Parameters
+    ----------
+        GET:/admin/lib-man/tag-man/sibling-rule-add/&lt;parent_tag_id&gt;
+        POST:/admin/lib-man/tag-man/sibling-rule-add/&lt;parent_tag_id&gt;
+
+    Returns
+    -------
+        Redirects to the tag edit page
+    &#34;&#34;&#34;
+    add_sibling_implication_form = addTagSiblingImplForm()
+    parent_tag = db_manager.mongo.db.tags.find_one({&#34;_id&#34;: ObjectId(parent_tag_id)})
+    if parent_tag is None:
+        return page_not_found(404)
+    parent_tag = Tag.from_dict(parent_tag)
+    child_tag = db_manager.mongo.db.tags.find_one({&#34;_id&#34;: ObjectId(add_sibling_implication_form.select_sibling.data)})
+    if child_tag is None:
+        return page_not_found(404)
+    child_tag = Tag.from_dict(child_tag)
+    if parent_tag.id == child_tag.id:
+        flash(&#34;A tag cannot imply itself!&#34;)
+        return redirect(url_for(&#39;edit_tag&#39;, tag_name=parent_tag.name))
+    elif child_tag.id in [t.tag_id for t in parent_tag.implies] and parent_tag.id in [t.tag_id for t in child_tag.implies]:
+        flash(&#34;This implication already exists!&#34;)
+        return redirect(url_for(&#39;edit_tag&#39;, tag_name=parent_tag.name))
+    else:
+        if child_tag.id not in [t.tag_id for t in parent_tag.implies]:
+            child_tag_ref = TagReference(child_tag.id)
+            parent_tag.implies.append(child_tag_ref)
+            parent_tag.write_to_db(db_manager.mongo)
+        if parent_tag.id not in [t.tag_id for t in child_tag.implies]:
+            parent_tag_ref = TagReference(parent_tag.id)
+            child_tag.implies.append(parent_tag_ref)
+            child_tag.write_to_db(db_manager.mongo)
+        return redirect(url_for(&#39;edit_tag&#39;, tag_name=parent_tag.name))</code></pre>
+</details>
+</dd>
+<dt id="app.routes.sibling_implication_remove"><code class="name flex">
+<span>def <span class="ident">sibling_implication_remove</span></span>(<span>tag_name, sibling_id)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Bi-implication delete route endpoint.
+This allows users with the <code>can_edit_items</code> permission to delete a Bi-implication from a parent tag</p>
+<h2 id="parameters">Parameters</h2>
+<pre><code>GET:/admin/lib-man/sibling-implication-remove/&lt;tag_name&gt;/&lt;sibling_id&gt;
+POST:/admin/lib-man/sibling-implication-remove/&lt;tag_name&gt;/&lt;sibling_id&gt;
+</code></pre>
+<h2 id="returns">Returns</h2>
+<pre><code>Redirects to the tag edit page
+</code></pre></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@app.route(&#39;/admin/lib-man/sibling-implication-remove/&lt;tag_name&gt;/&lt;sibling_id&gt;&#39;, methods=[&#39;GET&#39;, &#39;POST&#39;])
+@login_required(perm=&#34;can_edit_items&#34;)
+def sibling_implication_remove(tag_name, sibling_id):
+    &#34;&#34;&#34;
+    Bi-implication delete route endpoint. 
+    This allows users with the `can_edit_items` permission to delete a Bi-implication from a parent tag
+
+    Parameters
+    ----------
+        GET:/admin/lib-man/sibling-implication-remove/&lt;tag_name&gt;/&lt;sibling_id&gt;
+        POST:/admin/lib-man/sibling-implication-remove/&lt;tag_name&gt;/&lt;sibling_id&gt;
+
+    Returns
+    -------
+        Redirects to the tag edit page
+    &#34;&#34;&#34;
+    tag = Tag.from_dict(db_manager.mongo.db.tags.find({&#34;name&#34;: tag_name})[0])
+    sibling_tag = Tag.from_dict(db_manager.mongo.db.tags.find_one({&#34;_id&#34;: ObjectId(sibling_id)}))
+    tag.implies = [i for i in tag.implies if i.tag_id != sibling_tag.id]
+    sibling_tag.implies = [i for i in sibling_tag.implies if i.tag_id != tag.id]
+    tag.write_to_db(db_manager.mongo)
+    sibling_tag.write_to_db(db_manager.mongo)
+    return redirect(url_for(&#39;edit_tag&#39;, tag_name=tag_name))</code></pre>
+</details>
+</dd>
+<dt id="app.routes.sibling_rule_delete"><code class="name flex">
+<span>def <span class="ident">sibling_rule_delete</span></span>(<span>tag_name)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Bi-implication remove route endpoint.
+This allows users with the <code>can_edit_items</code> permission to remove a bi-implication rule from a tag</p>
+<h2 id="parameters">Parameters</h2>
+<pre><code>GET:/admin/lib-man/tag-man/sibling-rule-delete/&lt;tag_name&gt;
+POST:/admin/lib-man/tag-man/sibling-rule-delete/&lt;tag_name&gt;
+</code></pre>
+<h2 id="returns">Returns</h2>
+<pre><code>Redirects to the tag edit page
+</code></pre></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@app.route(&#39;/admin/lib-man/tag-man/sibling-rule-delete/&lt;tag_name&gt;&#39;)
+@login_required(perm=&#34;can_edit_items&#34;)
+def sibling_rule_delete(tag_name):
+    &#34;&#34;&#34;
+    Bi-implication remove route endpoint. 
+    This allows users with the `can_edit_items` permission to remove a bi-implication rule from a tag
+
+    Parameters
+    ----------
+        GET:/admin/lib-man/tag-man/sibling-rule-delete/&lt;tag_name&gt;
+        POST:/admin/lib-man/tag-man/sibling-rule-delete/&lt;tag_name&gt;
+
+    Returns
+    -------
+        Redirects to the tag edit page
+    &#34;&#34;&#34;
+    tag = Tag.search_for_by_name(db_manager.mongo, tag_name)
+    to_remove = []
+    for implied in tag.implies:
+        implied = Tag.from_dict(db_manager.mongo.db.tags.find_one({&#34;_id&#34;: implied.tag_id}))
+        if tag.id in [t.tag_id for t in implied.implies]:
+            to_remove.append(implied.id)
+            implied.implies = [i for i in implied.implies if i.tag_id != tag.id]
+            implied.write_to_db(db_manager.mongo)
+    tag.implies = [i for i in tag.implies if i.tag_id not in to_remove]
+    tag.write_to_db(db_manager.mongo)
+    flash(&#39;The Bi-implications for tag &#39;+ tag_name + &#39; has been cleared&#39;)
+    return redirect(url_for(&#39;edit_tag&#39;,tag_name=tag_name))</code></pre>
+</details>
+</dd>
+<dt id="app.routes.tag_delete"><code class="name flex">
+<span>def <span class="ident">tag_delete</span></span>(<span>tag_name)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Tag delete route endpoint.
+This allows users with the <code>can_edit_items</code> permission to delete a tag</p>
+<h2 id="parameters">Parameters</h2>
+<pre><code>GET:/admin/lib-man/tag-man/tag-delete/&lt;tag_name&gt;
+POST:/admin/lib-man/tag-man/tag-delete/&lt;tag_name&gt;
+</code></pre>
+<h2 id="returns">Returns</h2>
+<pre><code>Redirects to the tags page
+</code></pre></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@app.route(&#39;/admin/lib-man/tag-man/tag-delete/&lt;tag_name&gt;&#39;)
+@login_required(perm=&#34;can_edit_items&#34;)
+def tag_delete(tag_name):
+    &#34;&#34;&#34;
+    Tag delete route endpoint. 
+    This allows users with the `can_edit_items` permission to delete a tag
+
+    Parameters
+    ----------
+        GET:/admin/lib-man/tag-man/tag-delete/&lt;tag_name&gt;
+        POST:/admin/lib-man/tag-man/tag-delete/&lt;tag_name&gt;
+
+    Returns
+    -------
+        Redirects to the tags page
+    &#34;&#34;&#34;
+    tag_to_delete = Tag.search_for_by_name(db_manager.mongo, tag_name)
+    tag_to_delete.delete_from_db(db_manager.mongo)
+    implication_dropped = 0
+    for tag in tags_collection.find():
+        for implication in tag[&#39;implies&#39;]:
+            if str(implication) == str(tag_to_delete.id):
+                tag[&#39;implies&#39;].remove(implication)
+                Tag.from_dict(tag).write_to_db(db_manager.mongo)
+                implication_dropped += 1        # need to add user notification
+    flash(&#39;Tag: &#39; + str(tag_name) + &#39; dropped, &#39; + str(implication_dropped) + &#39; implications are affected.&#39;)
+    return redirect(url_for(&#39;all_tags&#39;))</code></pre>
+</details>
+</dd>
+<dt id="app.routes.testing"><code class="name flex">
+<span>def <span class="ident">testing</span></span>(<span>)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@app.route(&#39;/admin/test&#39;)
+@login_required(perm=&#34;can_view_hidden&#34;)
+def testing():
+    return render_template(&#39;admin-pages/test.html&#39;)</code></pre>
+</details>
+</dd>
+<dt id="app.routes.unauthorized"><code class="name flex">
+<span>def <span class="ident">unauthorized</span></span>(<span>)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Handles unauthorised access to pages</p>
+<h2 id="returns">Returns</h2>
+<pre><code>Redirects to the login page if the user is not authenticated else, redirects to the forbidden page
+</code></pre></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@login_manager.unauthorized_handler
+def unauthorized():
+    &#34;&#34;&#34;
+    Handles unauthorised access to pages
+
+    Returns
+    -------
+        Redirects to the login page if the user is not authenticated else, redirects to the forbidden page
+    &#34;&#34;&#34;
+    if not current_user.is_authenticated:
+        return redirect(url_for(&#39;login&#39;))
+    else:
+        return redirect(url_for(&#39;forbidden&#39;))
+    return &#39;Page not found r.&#39;</code></pre>
+</details>
+</dd>
+<dt id="app.routes.upload_image"><code class="name flex">
+<span>def <span class="ident">upload_image</span></span>(<span>)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Title: A simple GridFS server built with Flask
+Author: Leroy Campbell
+Date: 2010
+Availability: <a href="https://gist.github.com/artisonian/492713">https://gist.github.com/artisonian/492713</a></p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@app.route(&#39;/upload_image&#39;, methods=[&#39;GET&#39;, &#39;POST&#39;])
+def upload_image(): 
+    &#34;&#34;&#34;
+    Title: A simple GridFS server built with Flask
+    Author: Leroy Campbell
+    Date: 2010
+    Availability: https://gist.github.com/artisonian/492713
+    &#34;&#34;&#34;
+    if request.method == &#39;POST&#39;:
+        file = request.files[&#39;file&#39;]
+        if file and allowed_file(file.filename):
+            filename = secure_filename(file.filename)
+            oid = db_manager.fs.put(file, content_type=file.content_type, filename=filename)
+            return redirect(url_for(&#39;image&#39;, oid=str(oid)))
+    return &#39;&#39;&#39;
+        &lt;!DOCTYPE html&gt;
+        &lt;html&gt;
+        &lt;head&gt;
+        &lt;title&gt;Upload new file&lt;/title&gt;
+        &lt;/head&gt;
+        &lt;body&gt;
+        &lt;h1&gt;Upload new file&lt;/h1&gt;
+        &lt;form action=&#34;&#34; method=&#34;post&#34; enctype=&#34;multipart/form-data&#34;&gt;
+        &lt;p&gt;&lt;input type=&#34;file&#34; name=&#34;file&#34;&gt;&lt;/p&gt;
+        &lt;p&gt;&lt;input type=&#34;submit&#34; value=&#34;Upload&#34;&gt;&lt;/p&gt;
+        &lt;/form&gt;
+        &lt;a href=&#34;%s&#34;&gt;All files&lt;/a&gt;
+        &lt;/body&gt;
+        &lt;/html&gt;
+        &#39;&#39;&#39; % url_for(&#39;images&#39;)</code></pre>
+</details>
+</dd>
+</dl>
+</section>
+<section>
+</section>
+</article>
+<nav id="sidebar">
+<h1>Index</h1>
+<div class="toc">
+<ul></ul>
+</div>
+<ul id="index">
+<li><h3>Super-module</h3>
+<ul>
+<li><code><a title="app" href="index.html">app</a></code></li>
+</ul>
+</li>
+<li><h3><a href="#header-functions">Functions</a></h3>
+<ul class="">
+<li><code><a title="app.routes.admin" href="#app.routes.admin">admin</a></code></li>
+<li><code><a title="app.routes.adminusers" href="#app.routes.adminusers">adminusers</a></code></li>
+<li><code><a title="app.routes.all_impl" href="#app.routes.all_impl">all_impl</a></code></li>
+<li><code><a title="app.routes.all_items" href="#app.routes.all_items">all_items</a></code></li>
+<li><code><a title="app.routes.all_tags" href="#app.routes.all_tags">all_tags</a></code></li>
+<li><code><a title="app.routes.allowed_file" href="#app.routes.allowed_file">allowed_file</a></code></li>
+<li><code><a title="app.routes.changepw" href="#app.routes.changepw">changepw</a></code></li>
+<li><code><a title="app.routes.committee" href="#app.routes.committee">committee</a></code></li>
+<li><code><a title="app.routes.constitution" href="#app.routes.constitution">constitution</a></code></li>
+<li><code><a title="app.routes.create_impl" href="#app.routes.create_impl">create_impl</a></code></li>
+<li><code><a title="app.routes.create_item" href="#app.routes.create_item">create_item</a></code></li>
+<li><code><a title="app.routes.create_tag" href="#app.routes.create_tag">create_tag</a></code></li>
+<li><code><a title="app.routes.createrole" href="#app.routes.createrole">createrole</a></code></li>
+<li><code><a title="app.routes.createuser" href="#app.routes.createuser">createuser</a></code></li>
+<li><code><a title="app.routes.deleterole" href="#app.routes.deleterole">deleterole</a></code></li>
+<li><code><a title="app.routes.deleteuser" href="#app.routes.deleteuser">deleteuser</a></code></li>
+<li><code><a title="app.routes.edit" href="#app.routes.edit">edit</a></code></li>
+<li><code><a title="app.routes.edit_item" href="#app.routes.edit_item">edit_item</a></code></li>
+<li><code><a title="app.routes.edit_tag" href="#app.routes.edit_tag">edit_tag</a></code></li>
+<li><code><a title="app.routes.editrole" href="#app.routes.editrole">editrole</a></code></li>
+<li><code><a title="app.routes.events" href="#app.routes.events">events</a></code></li>
+<li><code><a title="app.routes.faq" href="#app.routes.faq">faq</a></code></li>
+<li><code><a title="app.routes.forbidden" href="#app.routes.forbidden">forbidden</a></code></li>
+<li><code><a title="app.routes.get_tags" href="#app.routes.get_tags">get_tags</a></code></li>
+<li><code><a title="app.routes.home" href="#app.routes.home">home</a></code></li>
+<li><code><a title="app.routes.image" href="#app.routes.image">image</a></code></li>
+<li><code><a title="app.routes.images" href="#app.routes.images">images</a></code></li>
+<li><code><a title="app.routes.impl_delete" href="#app.routes.impl_delete">impl_delete</a></code></li>
+<li><code><a title="app.routes.implication_add" href="#app.routes.implication_add">implication_add</a></code></li>
+<li><code><a title="app.routes.implication_remove" href="#app.routes.implication_remove">implication_remove</a></code></li>
+<li><code><a title="app.routes.item_detail" href="#app.routes.item_detail">item_detail</a></code></li>
+<li><code><a title="app.routes.item_hide" href="#app.routes.item_hide">item_hide</a></code></li>
+<li><code><a title="app.routes.item_remove_tag" href="#app.routes.item_remove_tag">item_remove_tag</a></code></li>
+<li><code><a title="app.routes.item_update_attrib" href="#app.routes.item_update_attrib">item_update_attrib</a></code></li>
+<li><code><a title="app.routes.lib_delete" href="#app.routes.lib_delete">lib_delete</a></code></li>
+<li><code><a title="app.routes.lib_edit" href="#app.routes.lib_edit">lib_edit</a></code></li>
+<li><code><a title="app.routes.lib_item_image_edit" href="#app.routes.lib_item_image_edit">lib_item_image_edit</a></code></li>
+<li><code><a title="app.routes.lib_item_image_remove" href="#app.routes.lib_item_image_remove">lib_item_image_remove</a></code></li>
+<li><code><a title="app.routes.library" href="#app.routes.library">library</a></code></li>
+<li><code><a title="app.routes.lifeMembers" href="#app.routes.lifeMembers">lifeMembers</a></code></li>
+<li><code><a title="app.routes.load_user" href="#app.routes.load_user">load_user</a></code></li>
+<li><code><a title="app.routes.login" href="#app.routes.login">login</a></code></li>
+<li><code><a title="app.routes.login_required" href="#app.routes.login_required">login_required</a></code></li>
+<li><code><a title="app.routes.logout" href="#app.routes.logout">logout</a></code></li>
+<li><code><a title="app.routes.operations" href="#app.routes.operations">operations</a></code></li>
+<li><code><a title="app.routes.page_not_found" href="#app.routes.page_not_found">page_not_found</a></code></li>
+<li><code><a title="app.routes.parent_implication_add" href="#app.routes.parent_implication_add">parent_implication_add</a></code></li>
+<li><code><a title="app.routes.parent_implication_remove" href="#app.routes.parent_implication_remove">parent_implication_remove</a></code></li>
+<li><code><a title="app.routes.parent_rule_delete" href="#app.routes.parent_rule_delete">parent_rule_delete</a></code></li>
+<li><code><a title="app.routes.register" href="#app.routes.register">register</a></code></li>
+<li><code><a title="app.routes.roleplaying" href="#app.routes.roleplaying">roleplaying</a></code></li>
+<li><code><a title="app.routes.roles" href="#app.routes.roles">roles</a></code></li>
+<li><code><a title="app.routes.rule_delete" href="#app.routes.rule_delete">rule_delete</a></code></li>
+<li><code><a title="app.routes.search_item" href="#app.routes.search_item">search_item</a></code></li>
+<li><code><a title="app.routes.sibling_implication_add" href="#app.routes.sibling_implication_add">sibling_implication_add</a></code></li>
+<li><code><a title="app.routes.sibling_implication_remove" href="#app.routes.sibling_implication_remove">sibling_implication_remove</a></code></li>
+<li><code><a title="app.routes.sibling_rule_delete" href="#app.routes.sibling_rule_delete">sibling_rule_delete</a></code></li>
+<li><code><a title="app.routes.tag_delete" href="#app.routes.tag_delete">tag_delete</a></code></li>
+<li><code><a title="app.routes.testing" href="#app.routes.testing">testing</a></code></li>
+<li><code><a title="app.routes.unauthorized" href="#app.routes.unauthorized">unauthorized</a></code></li>
+<li><code><a title="app.routes.upload_image" href="#app.routes.upload_image">upload_image</a></code></li>
+</ul>
+</li>
+</ul>
+</nav>
+</main>
+<footer id="footer">
+<p>Generated by <a href="https://pdoc3.github.io/pdoc"><cite>pdoc</cite> 0.9.1</a>.</p>
+</footer>
+</body>
+</html>
