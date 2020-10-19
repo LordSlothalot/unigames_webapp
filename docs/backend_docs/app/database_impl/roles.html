@@ -1,0 +1,942 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
+<meta name="generator" content="pdoc 0.9.1" />
+<title>app.database_impl.roles API documentation</title>
+<meta name="description" content="" />
+<link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/sanitize.min.css" integrity="sha256-PK9q560IAAa6WVRRh76LtCaI8pjTJ2z11v0miyNNjrs=" crossorigin>
+<link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/typography.min.css" integrity="sha256-7l/o7C8jubJiy74VsKTidCy1yBkRtiUGbVkYBylBqUg=" crossorigin>
+<link rel="stylesheet preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/styles/github.min.css" crossorigin>
+<style>:root{--highlight-color:#fe9}.flex{display:flex !important}body{line-height:1.5em}#content{padding:20px}#sidebar{padding:30px;overflow:hidden}#sidebar > *:last-child{margin-bottom:2cm}.http-server-breadcrumbs{font-size:130%;margin:0 0 15px 0}#footer{font-size:.75em;padding:5px 30px;border-top:1px solid #ddd;text-align:right}#footer p{margin:0 0 0 1em;display:inline-block}#footer p:last-child{margin-right:30px}h1,h2,h3,h4,h5{font-weight:300}h1{font-size:2.5em;line-height:1.1em}h2{font-size:1.75em;margin:1em 0 .50em 0}h3{font-size:1.4em;margin:25px 0 10px 0}h4{margin:0;font-size:105%}h1:target,h2:target,h3:target,h4:target,h5:target,h6:target{background:var(--highlight-color);padding:.2em 0}a{color:#058;text-decoration:none;transition:color .3s ease-in-out}a:hover{color:#e82}.title code{font-weight:bold}h2[id^="header-"]{margin-top:2em}.ident{color:#900}pre code{background:#f8f8f8;font-size:.8em;line-height:1.4em}code{background:#f2f2f1;padding:1px 4px;overflow-wrap:break-word}h1 code{background:transparent}pre{background:#f8f8f8;border:0;border-top:1px solid #ccc;border-bottom:1px solid #ccc;margin:1em 0;padding:1ex}#http-server-module-list{display:flex;flex-flow:column}#http-server-module-list div{display:flex}#http-server-module-list dt{min-width:10%}#http-server-module-list p{margin-top:0}.toc ul,#index{list-style-type:none;margin:0;padding:0}#index code{background:transparent}#index h3{border-bottom:1px solid #ddd}#index ul{padding:0}#index h4{margin-top:.6em;font-weight:bold}@media (min-width:200ex){#index .two-column{column-count:2}}@media (min-width:300ex){#index .two-column{column-count:3}}dl{margin-bottom:2em}dl dl:last-child{margin-bottom:4em}dd{margin:0 0 1em 3em}#header-classes + dl > dd{margin-bottom:3em}dd dd{margin-left:2em}dd p{margin:10px 0}.name{background:#eee;font-weight:bold;font-size:.85em;padding:5px 10px;display:inline-block;min-width:40%}.name:hover{background:#e0e0e0}dt:target .name{background:var(--highlight-color)}.name > span:first-child{white-space:nowrap}.name.class > span:nth-child(2){margin-left:.4em}.inherited{color:#999;border-left:5px solid #eee;padding-left:1em}.inheritance em{font-style:normal;font-weight:bold}.desc h2{font-weight:400;font-size:1.25em}.desc h3{font-size:1em}.desc dt code{background:inherit}.source summary,.git-link-div{color:#666;text-align:right;font-weight:400;font-size:.8em;text-transform:uppercase}.source summary > *{white-space:nowrap;cursor:pointer}.git-link{color:inherit;margin-left:1em}.source pre{max-height:500px;overflow:auto;margin:0}.source pre code{font-size:12px;overflow:visible}.hlist{list-style:none}.hlist li{display:inline}.hlist li:after{content:',\2002'}.hlist li:last-child:after{content:none}.hlist .hlist{display:inline;padding-left:1em}img{max-width:100%}td{padding:0 .5em}.admonition{padding:.1em .5em;margin-bottom:1em}.admonition-title{font-weight:bold}.admonition.note,.admonition.info,.admonition.important{background:#aef}.admonition.todo,.admonition.versionadded,.admonition.tip,.admonition.hint{background:#dfd}.admonition.warning,.admonition.versionchanged,.admonition.deprecated{background:#fd4}.admonition.error,.admonition.danger,.admonition.caution{background:lightpink}</style>
+<style media="screen and (min-width: 700px)">@media screen and (min-width:700px){#sidebar{width:30%;height:100vh;overflow:auto;position:sticky;top:0}#content{width:70%;max-width:100ch;padding:3em 4em;border-left:1px solid #ddd}pre code{font-size:1em}.item .name{font-size:1em}main{display:flex;flex-direction:row-reverse;justify-content:flex-end}.toc ul ul,#index ul{padding-left:1.5em}.toc > ul > li{margin-top:.5em}}</style>
+<style media="print">@media print{#sidebar h1{page-break-before:always}.source{display:none}}@media print{*{background:transparent !important;color:#000 !important;box-shadow:none !important;text-shadow:none !important}a[href]:after{content:" (" attr(href) ")";font-size:90%}a[href][title]:after{content:none}abbr[title]:after{content:" (" attr(title) ")"}.ir a:after,a[href^="javascript:"]:after,a[href^="#"]:after{content:""}pre,blockquote{border:1px solid #999;page-break-inside:avoid}thead{display:table-header-group}tr,img{page-break-inside:avoid}img{max-width:100% !important}@page{margin:0.5cm}p,h2,h3{orphans:3;widows:3}h1,h2,h3,h4,h5,h6{page-break-after:avoid}}</style>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/highlight.min.js" integrity="sha256-Uv3H6lx7dJmRfRvH8TH6kJD1TSK1aFcwgx+mdg3epi8=" crossorigin></script>
+<script>window.addEventListener('DOMContentLoaded', () => hljs.initHighlighting())</script>
+</head>
+<body>
+<main>
+<article id="content">
+<header>
+<h1 class="title">Module <code>app.database_impl.roles</code></h1>
+</header>
+<section id="section-intro">
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">from enum import Enum
+from typing import Dict, Optional
+
+import pymongo
+from bson import ObjectId
+from flask_pymongo import PyMongo
+
+
+class Permissions(Enum):
+    &#34;&#34;&#34;
+    A class for permissions users hold
+    &#34;&#34;&#34;
+
+    CanEditItems = &#34;can_edit_items&#34;
+    &#34;&#34;&#34;
+    Users with this permission can edit items
+    &#34;&#34;&#34;
+
+    CanEditUsers = &#34;can_edit_users&#34;
+    &#34;&#34;&#34;
+    Users with this permission can edit other users
+    &#34;&#34;&#34;
+    
+    CanViewHidden = &#34;can_view_hidden&#34;
+    &#34;&#34;&#34;
+    Users with this permission can view hidden items
+    &#34;&#34;&#34;
+    
+
+    def __str__(self):
+        return self.value
+
+
+class Role:
+    &#34;&#34;&#34;
+    A class to represent roles of users
+    &#34;&#34;&#34;
+
+    id: ObjectId
+    &#34;&#34;&#34;
+    Role id
+    &#34;&#34;&#34;
+
+    name: str
+    &#34;&#34;&#34;
+    Role name
+    &#34;&#34;&#34;
+
+    priority: int
+    &#34;&#34;&#34;
+    Role priority. A high number is high priority
+    &#34;&#34;&#34;
+
+    permissions: Dict[Permissions, bool]
+    &#34;&#34;&#34;
+    A dictionary containing role permissions.
+    &#34;&#34;&#34;
+
+    @staticmethod
+    def init_indices(mongo: PyMongo):
+        mongo.db.roles.create_index([(&#34;name&#34;, pymongo.ASCENDING)], unique=True, sparse=False)
+
+    def __init__(self, name: str, priority: int, permissions: Dict[Permissions, bool]):
+        self.id = None
+        self.name = name
+        self.priority = priority
+        self.permissions = permissions
+
+    def to_dict(self) -&gt; Dict:
+        &#34;&#34;&#34;
+            Serialising the data structure into a MongoDB compliant dictionary for use in PyMongo functions
+
+        Returns
+        -------
+            The MongoDB compliant data structure
+        &#34;&#34;&#34;
+        result = {
+            &#34;name&#34;: self.name,
+            &#34;priority&#34;: self.priority,
+            &#34;permissions&#34;: {str(p): v for p, v in self.permissions.items()}
+        }
+
+        if self.id is not None:
+            result[&#34;_id&#34;] = self.id
+
+        return result
+
+    @staticmethod
+    def from_dict(value_dict: Dict) -&gt; &#39;Role&#39;:
+        &#34;&#34;&#34;
+            Deserialising a MongoDB compliant dictionary into a data structure for use in python functions
+
+        Parameters
+        ----------
+            value_dict
+                The dictionary to be deserialised
+
+        Returns
+        -------
+            The deserialised data structure
+        &#34;&#34;&#34;
+        cls = Role(&#34;&#34;, 0, {})
+
+        if &#34;_id&#34; in value_dict:
+            cls.id = value_dict[&#34;_id&#34;]
+
+        if &#34;name&#34; not in value_dict or value_dict[&#34;name&#34;] is None:
+            raise ValueError(&#34;Role must have name&#34;)
+        cls.name = value_dict[&#34;name&#34;]
+
+        if &#34;priority&#34; not in value_dict or value_dict[&#34;priority&#34;] is None:
+            raise ValueError(&#34;Role must have priority&#34;)
+        cls.priority = value_dict[&#34;priority&#34;]
+
+        if &#34;permissions&#34; in value_dict and value_dict[&#34;permissions&#34;] is not None:
+            cls.permissions = value_dict[&#34;permissions&#34;]
+
+        return cls
+
+    def write_to_db(self, mongo: PyMongo):
+        &#34;&#34;&#34;
+        Writes the role to the database if it&#39;s `id` doesn&#39;t exist, 
+        otherwise it will overwrite the role with the same `id`
+
+        Parameters
+        ----------
+            mongo
+                the mongo database
+        &#34;&#34;&#34;
+        if self.id is None:
+            self.id = mongo.db.roles.insert_one(self.to_dict()).inserted_id
+        else:
+            mongo.db.roles.find_one_and_replace({&#34;_id&#34;: self.id}, self.to_dict())
+
+    # Returns True if the update worked, else False, usually meaning it&#39;s no longer there
+    def update_from_db(self, mongo: PyMongo) -&gt; bool:
+        &#34;&#34;&#34;
+        Updates the role in the database
+
+        Parameters
+        ----------
+            mongo
+                The mongo database
+
+        Returns
+        -------
+            False if the role&#39;s id is None
+            False if the role does not exist in the database
+        &#34;&#34;&#34;
+        if self.id is None:
+            return False
+
+        new_data = mongo.db.roles.find_one({&#34;_id&#34;: self.id})
+
+        if new_data is None:
+            return False
+
+        new_role = Role.from_dict(new_data)
+
+        self.name = new_role.name
+        self.priority = new_role.priority
+        self.permissions = new_role.permissions
+
+    def delete_from_db(self, mongo: PyMongo) -&gt; bool:
+        &#34;&#34;&#34;
+        Removes the role from the database
+
+        Parameters
+        ----------
+            mongo
+                The database
+
+        Returns
+        -------
+            False if the role does not exist, or has not been deleted
+            True if the the role has been deleted
+        &#34;&#34;&#34;
+        if self.id is None:
+            return False
+
+        return mongo.db.roles.delete_one({&#34;_id&#34;: self.id}).deleted_count == 1
+
+    @staticmethod
+    def search_for_by_name(mongo: PyMongo, name: str) -&gt; Optional[&#39;Role&#39;]:
+        &#34;&#34;&#34;
+        Finds a role in the database with the specified name
+
+        Parameters
+        ----------
+            mongo
+                The mongo database
+            name
+                The name to be searched by
+
+        Returns
+        -------
+            None if a role has not been found
+            The role if it exists in the database
+        &#34;&#34;&#34;
+        result = mongo.db.roles.find_one({&#34;name&#34;: name})
+        if result is None:
+            return None
+
+        return Role.from_dict(result)
+    
+    @classmethod
+    def create_new(cls, mongo: PyMongo, name: str, priority: int, can_view_hidden: bool, can_edit_users: bool, can_edit_items: bool):
+        &#34;&#34;&#34;
+        Create a new role and inserts it into the database
+
+        Parameters
+        ----------
+            mongo
+                The mongo database
+            name
+                The name of the role
+            priority
+                The role priority
+            can_view_hidden
+                Users with this role can view hidden items
+            can_edit_users
+                Users with this role can edit other users
+            can_edit_items
+                Users with this role can edit items
+
+        Returns
+        -------
+            True if the role has been created, else false
+        &#34;&#34;&#34;
+        role = cls.search_for_by_name(mongo, name)
+        if role is None:
+            permissions = {}
+            permissions[&#39;can_view_hidden&#39;] = can_view_hidden
+            permissions[&#39;can_edit_users&#39;] = can_edit_users
+            permissions[&#39;can_edit_items&#39;] = can_edit_items
+            new_role = cls(name, priority, permissions)
+            new_role.id = mongo.db.roles.insert_one(new_role.to_dict()).inserted_id
+            return True
+        else:
+            return False</code></pre>
+</details>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+<h2 class="section-title" id="header-classes">Classes</h2>
+<dl>
+<dt id="app.database_impl.roles.Permissions"><code class="flex name class">
+<span>class <span class="ident">Permissions</span></span>
+<span>(</span><span>value, names=None, *, module=None, qualname=None, type=None, start=1)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>A class for permissions users hold</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class Permissions(Enum):
+    &#34;&#34;&#34;
+    A class for permissions users hold
+    &#34;&#34;&#34;
+
+    CanEditItems = &#34;can_edit_items&#34;
+    &#34;&#34;&#34;
+    Users with this permission can edit items
+    &#34;&#34;&#34;
+
+    CanEditUsers = &#34;can_edit_users&#34;
+    &#34;&#34;&#34;
+    Users with this permission can edit other users
+    &#34;&#34;&#34;
+    
+    CanViewHidden = &#34;can_view_hidden&#34;
+    &#34;&#34;&#34;
+    Users with this permission can view hidden items
+    &#34;&#34;&#34;
+    
+
+    def __str__(self):
+        return self.value</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li>enum.Enum</li>
+</ul>
+<h3>Class variables</h3>
+<dl>
+<dt id="app.database_impl.roles.Permissions.CanEditItems"><code class="name">var <span class="ident">CanEditItems</span></code></dt>
+<dd>
+<div class="desc"><p>Users with this permission can edit items</p></div>
+</dd>
+<dt id="app.database_impl.roles.Permissions.CanEditUsers"><code class="name">var <span class="ident">CanEditUsers</span></code></dt>
+<dd>
+<div class="desc"><p>Users with this permission can edit other users</p></div>
+</dd>
+<dt id="app.database_impl.roles.Permissions.CanViewHidden"><code class="name">var <span class="ident">CanViewHidden</span></code></dt>
+<dd>
+<div class="desc"><p>Users with this permission can view hidden items</p></div>
+</dd>
+</dl>
+</dd>
+<dt id="app.database_impl.roles.Role"><code class="flex name class">
+<span>class <span class="ident">Role</span></span>
+<span>(</span><span>name: str, priority: int, permissions: Dict[<a title="app.database_impl.roles.Permissions" href="#app.database_impl.roles.Permissions">Permissions</a>, bool])</span>
+</code></dt>
+<dd>
+<div class="desc"><p>A class to represent roles of users</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class Role:
+    &#34;&#34;&#34;
+    A class to represent roles of users
+    &#34;&#34;&#34;
+
+    id: ObjectId
+    &#34;&#34;&#34;
+    Role id
+    &#34;&#34;&#34;
+
+    name: str
+    &#34;&#34;&#34;
+    Role name
+    &#34;&#34;&#34;
+
+    priority: int
+    &#34;&#34;&#34;
+    Role priority. A high number is high priority
+    &#34;&#34;&#34;
+
+    permissions: Dict[Permissions, bool]
+    &#34;&#34;&#34;
+    A dictionary containing role permissions.
+    &#34;&#34;&#34;
+
+    @staticmethod
+    def init_indices(mongo: PyMongo):
+        mongo.db.roles.create_index([(&#34;name&#34;, pymongo.ASCENDING)], unique=True, sparse=False)
+
+    def __init__(self, name: str, priority: int, permissions: Dict[Permissions, bool]):
+        self.id = None
+        self.name = name
+        self.priority = priority
+        self.permissions = permissions
+
+    def to_dict(self) -&gt; Dict:
+        &#34;&#34;&#34;
+            Serialising the data structure into a MongoDB compliant dictionary for use in PyMongo functions
+
+        Returns
+        -------
+            The MongoDB compliant data structure
+        &#34;&#34;&#34;
+        result = {
+            &#34;name&#34;: self.name,
+            &#34;priority&#34;: self.priority,
+            &#34;permissions&#34;: {str(p): v for p, v in self.permissions.items()}
+        }
+
+        if self.id is not None:
+            result[&#34;_id&#34;] = self.id
+
+        return result
+
+    @staticmethod
+    def from_dict(value_dict: Dict) -&gt; &#39;Role&#39;:
+        &#34;&#34;&#34;
+            Deserialising a MongoDB compliant dictionary into a data structure for use in python functions
+
+        Parameters
+        ----------
+            value_dict
+                The dictionary to be deserialised
+
+        Returns
+        -------
+            The deserialised data structure
+        &#34;&#34;&#34;
+        cls = Role(&#34;&#34;, 0, {})
+
+        if &#34;_id&#34; in value_dict:
+            cls.id = value_dict[&#34;_id&#34;]
+
+        if &#34;name&#34; not in value_dict or value_dict[&#34;name&#34;] is None:
+            raise ValueError(&#34;Role must have name&#34;)
+        cls.name = value_dict[&#34;name&#34;]
+
+        if &#34;priority&#34; not in value_dict or value_dict[&#34;priority&#34;] is None:
+            raise ValueError(&#34;Role must have priority&#34;)
+        cls.priority = value_dict[&#34;priority&#34;]
+
+        if &#34;permissions&#34; in value_dict and value_dict[&#34;permissions&#34;] is not None:
+            cls.permissions = value_dict[&#34;permissions&#34;]
+
+        return cls
+
+    def write_to_db(self, mongo: PyMongo):
+        &#34;&#34;&#34;
+        Writes the role to the database if it&#39;s `id` doesn&#39;t exist, 
+        otherwise it will overwrite the role with the same `id`
+
+        Parameters
+        ----------
+            mongo
+                the mongo database
+        &#34;&#34;&#34;
+        if self.id is None:
+            self.id = mongo.db.roles.insert_one(self.to_dict()).inserted_id
+        else:
+            mongo.db.roles.find_one_and_replace({&#34;_id&#34;: self.id}, self.to_dict())
+
+    # Returns True if the update worked, else False, usually meaning it&#39;s no longer there
+    def update_from_db(self, mongo: PyMongo) -&gt; bool:
+        &#34;&#34;&#34;
+        Updates the role in the database
+
+        Parameters
+        ----------
+            mongo
+                The mongo database
+
+        Returns
+        -------
+            False if the role&#39;s id is None
+            False if the role does not exist in the database
+        &#34;&#34;&#34;
+        if self.id is None:
+            return False
+
+        new_data = mongo.db.roles.find_one({&#34;_id&#34;: self.id})
+
+        if new_data is None:
+            return False
+
+        new_role = Role.from_dict(new_data)
+
+        self.name = new_role.name
+        self.priority = new_role.priority
+        self.permissions = new_role.permissions
+
+    def delete_from_db(self, mongo: PyMongo) -&gt; bool:
+        &#34;&#34;&#34;
+        Removes the role from the database
+
+        Parameters
+        ----------
+            mongo
+                The database
+
+        Returns
+        -------
+            False if the role does not exist, or has not been deleted
+            True if the the role has been deleted
+        &#34;&#34;&#34;
+        if self.id is None:
+            return False
+
+        return mongo.db.roles.delete_one({&#34;_id&#34;: self.id}).deleted_count == 1
+
+    @staticmethod
+    def search_for_by_name(mongo: PyMongo, name: str) -&gt; Optional[&#39;Role&#39;]:
+        &#34;&#34;&#34;
+        Finds a role in the database with the specified name
+
+        Parameters
+        ----------
+            mongo
+                The mongo database
+            name
+                The name to be searched by
+
+        Returns
+        -------
+            None if a role has not been found
+            The role if it exists in the database
+        &#34;&#34;&#34;
+        result = mongo.db.roles.find_one({&#34;name&#34;: name})
+        if result is None:
+            return None
+
+        return Role.from_dict(result)
+    
+    @classmethod
+    def create_new(cls, mongo: PyMongo, name: str, priority: int, can_view_hidden: bool, can_edit_users: bool, can_edit_items: bool):
+        &#34;&#34;&#34;
+        Create a new role and inserts it into the database
+
+        Parameters
+        ----------
+            mongo
+                The mongo database
+            name
+                The name of the role
+            priority
+                The role priority
+            can_view_hidden
+                Users with this role can view hidden items
+            can_edit_users
+                Users with this role can edit other users
+            can_edit_items
+                Users with this role can edit items
+
+        Returns
+        -------
+            True if the role has been created, else false
+        &#34;&#34;&#34;
+        role = cls.search_for_by_name(mongo, name)
+        if role is None:
+            permissions = {}
+            permissions[&#39;can_view_hidden&#39;] = can_view_hidden
+            permissions[&#39;can_edit_users&#39;] = can_edit_users
+            permissions[&#39;can_edit_items&#39;] = can_edit_items
+            new_role = cls(name, priority, permissions)
+            new_role.id = mongo.db.roles.insert_one(new_role.to_dict()).inserted_id
+            return True
+        else:
+            return False</code></pre>
+</details>
+<h3>Class variables</h3>
+<dl>
+<dt id="app.database_impl.roles.Role.id"><code class="name">var <span class="ident">id</span> : bson.objectid.ObjectId</code></dt>
+<dd>
+<div class="desc"><p>Role id</p></div>
+</dd>
+<dt id="app.database_impl.roles.Role.name"><code class="name">var <span class="ident">name</span> : str</code></dt>
+<dd>
+<div class="desc"><p>Role name</p></div>
+</dd>
+<dt id="app.database_impl.roles.Role.permissions"><code class="name">var <span class="ident">permissions</span> : Dict[<a title="app.database_impl.roles.Permissions" href="#app.database_impl.roles.Permissions">Permissions</a>, bool]</code></dt>
+<dd>
+<div class="desc"><p>A dictionary containing role permissions.</p></div>
+</dd>
+<dt id="app.database_impl.roles.Role.priority"><code class="name">var <span class="ident">priority</span> : int</code></dt>
+<dd>
+<div class="desc"><p>Role priority. A high number is high priority</p></div>
+</dd>
+</dl>
+<h3>Static methods</h3>
+<dl>
+<dt id="app.database_impl.roles.Role.create_new"><code class="name flex">
+<span>def <span class="ident">create_new</span></span>(<span>mongo: flask_pymongo.PyMongo, name: str, priority: int, can_view_hidden: bool, can_edit_users: bool, can_edit_items: bool)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Create a new role and inserts it into the database</p>
+<h2 id="parameters">Parameters</h2>
+<pre><code>mongo
+    The mongo database
+name
+    The name of the role
+priority
+    The role priority
+can_view_hidden
+    Users with this role can view hidden items
+can_edit_users
+    Users with this role can edit other users
+can_edit_items
+    Users with this role can edit items
+</code></pre>
+<h2 id="returns">Returns</h2>
+<pre><code>True if the role has been created, else false
+</code></pre></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@classmethod
+def create_new(cls, mongo: PyMongo, name: str, priority: int, can_view_hidden: bool, can_edit_users: bool, can_edit_items: bool):
+    &#34;&#34;&#34;
+    Create a new role and inserts it into the database
+
+    Parameters
+    ----------
+        mongo
+            The mongo database
+        name
+            The name of the role
+        priority
+            The role priority
+        can_view_hidden
+            Users with this role can view hidden items
+        can_edit_users
+            Users with this role can edit other users
+        can_edit_items
+            Users with this role can edit items
+
+    Returns
+    -------
+        True if the role has been created, else false
+    &#34;&#34;&#34;
+    role = cls.search_for_by_name(mongo, name)
+    if role is None:
+        permissions = {}
+        permissions[&#39;can_view_hidden&#39;] = can_view_hidden
+        permissions[&#39;can_edit_users&#39;] = can_edit_users
+        permissions[&#39;can_edit_items&#39;] = can_edit_items
+        new_role = cls(name, priority, permissions)
+        new_role.id = mongo.db.roles.insert_one(new_role.to_dict()).inserted_id
+        return True
+    else:
+        return False</code></pre>
+</details>
+</dd>
+<dt id="app.database_impl.roles.Role.from_dict"><code class="name flex">
+<span>def <span class="ident">from_dict</span></span>(<span>value_dict: Dict) ‑> <a title="app.database_impl.roles.Role" href="#app.database_impl.roles.Role">Role</a></span>
+</code></dt>
+<dd>
+<div class="desc"><p>Deserialising a MongoDB compliant dictionary into a data structure for use in python functions</p>
+<h2 id="parameters">Parameters</h2>
+<pre><code>value_dict
+    The dictionary to be deserialised
+</code></pre>
+<h2 id="returns">Returns</h2>
+<pre><code>The deserialised data structure
+</code></pre></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@staticmethod
+def from_dict(value_dict: Dict) -&gt; &#39;Role&#39;:
+    &#34;&#34;&#34;
+        Deserialising a MongoDB compliant dictionary into a data structure for use in python functions
+
+    Parameters
+    ----------
+        value_dict
+            The dictionary to be deserialised
+
+    Returns
+    -------
+        The deserialised data structure
+    &#34;&#34;&#34;
+    cls = Role(&#34;&#34;, 0, {})
+
+    if &#34;_id&#34; in value_dict:
+        cls.id = value_dict[&#34;_id&#34;]
+
+    if &#34;name&#34; not in value_dict or value_dict[&#34;name&#34;] is None:
+        raise ValueError(&#34;Role must have name&#34;)
+    cls.name = value_dict[&#34;name&#34;]
+
+    if &#34;priority&#34; not in value_dict or value_dict[&#34;priority&#34;] is None:
+        raise ValueError(&#34;Role must have priority&#34;)
+    cls.priority = value_dict[&#34;priority&#34;]
+
+    if &#34;permissions&#34; in value_dict and value_dict[&#34;permissions&#34;] is not None:
+        cls.permissions = value_dict[&#34;permissions&#34;]
+
+    return cls</code></pre>
+</details>
+</dd>
+<dt id="app.database_impl.roles.Role.init_indices"><code class="name flex">
+<span>def <span class="ident">init_indices</span></span>(<span>mongo: flask_pymongo.PyMongo)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@staticmethod
+def init_indices(mongo: PyMongo):
+    mongo.db.roles.create_index([(&#34;name&#34;, pymongo.ASCENDING)], unique=True, sparse=False)</code></pre>
+</details>
+</dd>
+<dt id="app.database_impl.roles.Role.search_for_by_name"><code class="name flex">
+<span>def <span class="ident">search_for_by_name</span></span>(<span>mongo: flask_pymongo.PyMongo, name: str) ‑> Union[<a title="app.database_impl.roles.Role" href="#app.database_impl.roles.Role">Role</a>, NoneType]</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Finds a role in the database with the specified name</p>
+<h2 id="parameters">Parameters</h2>
+<pre><code>mongo
+    The mongo database
+name
+    The name to be searched by
+</code></pre>
+<h2 id="returns">Returns</h2>
+<pre><code>None if a role has not been found
+The role if it exists in the database
+</code></pre></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@staticmethod
+def search_for_by_name(mongo: PyMongo, name: str) -&gt; Optional[&#39;Role&#39;]:
+    &#34;&#34;&#34;
+    Finds a role in the database with the specified name
+
+    Parameters
+    ----------
+        mongo
+            The mongo database
+        name
+            The name to be searched by
+
+    Returns
+    -------
+        None if a role has not been found
+        The role if it exists in the database
+    &#34;&#34;&#34;
+    result = mongo.db.roles.find_one({&#34;name&#34;: name})
+    if result is None:
+        return None
+
+    return Role.from_dict(result)</code></pre>
+</details>
+</dd>
+</dl>
+<h3>Methods</h3>
+<dl>
+<dt id="app.database_impl.roles.Role.delete_from_db"><code class="name flex">
+<span>def <span class="ident">delete_from_db</span></span>(<span>self, mongo: flask_pymongo.PyMongo) ‑> bool</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Removes the role from the database</p>
+<h2 id="parameters">Parameters</h2>
+<pre><code>mongo
+    The database
+</code></pre>
+<h2 id="returns">Returns</h2>
+<pre><code>False if the role does not exist, or has not been deleted
+True if the the role has been deleted
+</code></pre></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def delete_from_db(self, mongo: PyMongo) -&gt; bool:
+    &#34;&#34;&#34;
+    Removes the role from the database
+
+    Parameters
+    ----------
+        mongo
+            The database
+
+    Returns
+    -------
+        False if the role does not exist, or has not been deleted
+        True if the the role has been deleted
+    &#34;&#34;&#34;
+    if self.id is None:
+        return False
+
+    return mongo.db.roles.delete_one({&#34;_id&#34;: self.id}).deleted_count == 1</code></pre>
+</details>
+</dd>
+<dt id="app.database_impl.roles.Role.to_dict"><code class="name flex">
+<span>def <span class="ident">to_dict</span></span>(<span>self) ‑> Dict</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Serialising the data structure into a MongoDB compliant dictionary for use in PyMongo functions</p>
+<h2 id="returns">Returns</h2>
+<pre><code>The MongoDB compliant data structure
+</code></pre></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def to_dict(self) -&gt; Dict:
+    &#34;&#34;&#34;
+        Serialising the data structure into a MongoDB compliant dictionary for use in PyMongo functions
+
+    Returns
+    -------
+        The MongoDB compliant data structure
+    &#34;&#34;&#34;
+    result = {
+        &#34;name&#34;: self.name,
+        &#34;priority&#34;: self.priority,
+        &#34;permissions&#34;: {str(p): v for p, v in self.permissions.items()}
+    }
+
+    if self.id is not None:
+        result[&#34;_id&#34;] = self.id
+
+    return result</code></pre>
+</details>
+</dd>
+<dt id="app.database_impl.roles.Role.update_from_db"><code class="name flex">
+<span>def <span class="ident">update_from_db</span></span>(<span>self, mongo: flask_pymongo.PyMongo) ‑> bool</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Updates the role in the database</p>
+<h2 id="parameters">Parameters</h2>
+<pre><code>mongo
+    The mongo database
+</code></pre>
+<h2 id="returns">Returns</h2>
+<pre><code>False if the role's id is None
+False if the role does not exist in the database
+</code></pre></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def update_from_db(self, mongo: PyMongo) -&gt; bool:
+    &#34;&#34;&#34;
+    Updates the role in the database
+
+    Parameters
+    ----------
+        mongo
+            The mongo database
+
+    Returns
+    -------
+        False if the role&#39;s id is None
+        False if the role does not exist in the database
+    &#34;&#34;&#34;
+    if self.id is None:
+        return False
+
+    new_data = mongo.db.roles.find_one({&#34;_id&#34;: self.id})
+
+    if new_data is None:
+        return False
+
+    new_role = Role.from_dict(new_data)
+
+    self.name = new_role.name
+    self.priority = new_role.priority
+    self.permissions = new_role.permissions</code></pre>
+</details>
+</dd>
+<dt id="app.database_impl.roles.Role.write_to_db"><code class="name flex">
+<span>def <span class="ident">write_to_db</span></span>(<span>self, mongo: flask_pymongo.PyMongo)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Writes the role to the database if it's <code>id</code> doesn't exist,
+otherwise it will overwrite the role with the same <code>id</code></p>
+<h2 id="parameters">Parameters</h2>
+<pre><code>mongo
+    the mongo database
+</code></pre></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def write_to_db(self, mongo: PyMongo):
+    &#34;&#34;&#34;
+    Writes the role to the database if it&#39;s `id` doesn&#39;t exist, 
+    otherwise it will overwrite the role with the same `id`
+
+    Parameters
+    ----------
+        mongo
+            the mongo database
+    &#34;&#34;&#34;
+    if self.id is None:
+        self.id = mongo.db.roles.insert_one(self.to_dict()).inserted_id
+    else:
+        mongo.db.roles.find_one_and_replace({&#34;_id&#34;: self.id}, self.to_dict())</code></pre>
+</details>
+</dd>
+</dl>
+</dd>
+</dl>
+</section>
+</article>
+<nav id="sidebar">
+<h1>Index</h1>
+<div class="toc">
+<ul></ul>
+</div>
+<ul id="index">
+<li><h3>Super-module</h3>
+<ul>
+<li><code><a title="app.database_impl" href="index.html">app.database_impl</a></code></li>
+</ul>
+</li>
+<li><h3><a href="#header-classes">Classes</a></h3>
+<ul>
+<li>
+<h4><code><a title="app.database_impl.roles.Permissions" href="#app.database_impl.roles.Permissions">Permissions</a></code></h4>
+<ul class="">
+<li><code><a title="app.database_impl.roles.Permissions.CanEditItems" href="#app.database_impl.roles.Permissions.CanEditItems">CanEditItems</a></code></li>
+<li><code><a title="app.database_impl.roles.Permissions.CanEditUsers" href="#app.database_impl.roles.Permissions.CanEditUsers">CanEditUsers</a></code></li>
+<li><code><a title="app.database_impl.roles.Permissions.CanViewHidden" href="#app.database_impl.roles.Permissions.CanViewHidden">CanViewHidden</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="app.database_impl.roles.Role" href="#app.database_impl.roles.Role">Role</a></code></h4>
+<ul class="two-column">
+<li><code><a title="app.database_impl.roles.Role.create_new" href="#app.database_impl.roles.Role.create_new">create_new</a></code></li>
+<li><code><a title="app.database_impl.roles.Role.delete_from_db" href="#app.database_impl.roles.Role.delete_from_db">delete_from_db</a></code></li>
+<li><code><a title="app.database_impl.roles.Role.from_dict" href="#app.database_impl.roles.Role.from_dict">from_dict</a></code></li>
+<li><code><a title="app.database_impl.roles.Role.id" href="#app.database_impl.roles.Role.id">id</a></code></li>
+<li><code><a title="app.database_impl.roles.Role.init_indices" href="#app.database_impl.roles.Role.init_indices">init_indices</a></code></li>
+<li><code><a title="app.database_impl.roles.Role.name" href="#app.database_impl.roles.Role.name">name</a></code></li>
+<li><code><a title="app.database_impl.roles.Role.permissions" href="#app.database_impl.roles.Role.permissions">permissions</a></code></li>
+<li><code><a title="app.database_impl.roles.Role.priority" href="#app.database_impl.roles.Role.priority">priority</a></code></li>
+<li><code><a title="app.database_impl.roles.Role.search_for_by_name" href="#app.database_impl.roles.Role.search_for_by_name">search_for_by_name</a></code></li>
+<li><code><a title="app.database_impl.roles.Role.to_dict" href="#app.database_impl.roles.Role.to_dict">to_dict</a></code></li>
+<li><code><a title="app.database_impl.roles.Role.update_from_db" href="#app.database_impl.roles.Role.update_from_db">update_from_db</a></code></li>
+<li><code><a title="app.database_impl.roles.Role.write_to_db" href="#app.database_impl.roles.Role.write_to_db">write_to_db</a></code></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</nav>
+</main>
+<footer id="footer">
+<p>Generated by <a href="https://pdoc3.github.io/pdoc"><cite>pdoc</cite> 0.9.1</a>.</p>
+</footer>
+</body>
+</html>

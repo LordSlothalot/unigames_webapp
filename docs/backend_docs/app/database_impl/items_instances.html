@@ -1,0 +1,1828 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
+<meta name="generator" content="pdoc 0.9.1" />
+<title>app.database_impl.items_instances API documentation</title>
+<meta name="description" content="" />
+<link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/sanitize.min.css" integrity="sha256-PK9q560IAAa6WVRRh76LtCaI8pjTJ2z11v0miyNNjrs=" crossorigin>
+<link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/typography.min.css" integrity="sha256-7l/o7C8jubJiy74VsKTidCy1yBkRtiUGbVkYBylBqUg=" crossorigin>
+<link rel="stylesheet preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/styles/github.min.css" crossorigin>
+<style>:root{--highlight-color:#fe9}.flex{display:flex !important}body{line-height:1.5em}#content{padding:20px}#sidebar{padding:30px;overflow:hidden}#sidebar > *:last-child{margin-bottom:2cm}.http-server-breadcrumbs{font-size:130%;margin:0 0 15px 0}#footer{font-size:.75em;padding:5px 30px;border-top:1px solid #ddd;text-align:right}#footer p{margin:0 0 0 1em;display:inline-block}#footer p:last-child{margin-right:30px}h1,h2,h3,h4,h5{font-weight:300}h1{font-size:2.5em;line-height:1.1em}h2{font-size:1.75em;margin:1em 0 .50em 0}h3{font-size:1.4em;margin:25px 0 10px 0}h4{margin:0;font-size:105%}h1:target,h2:target,h3:target,h4:target,h5:target,h6:target{background:var(--highlight-color);padding:.2em 0}a{color:#058;text-decoration:none;transition:color .3s ease-in-out}a:hover{color:#e82}.title code{font-weight:bold}h2[id^="header-"]{margin-top:2em}.ident{color:#900}pre code{background:#f8f8f8;font-size:.8em;line-height:1.4em}code{background:#f2f2f1;padding:1px 4px;overflow-wrap:break-word}h1 code{background:transparent}pre{background:#f8f8f8;border:0;border-top:1px solid #ccc;border-bottom:1px solid #ccc;margin:1em 0;padding:1ex}#http-server-module-list{display:flex;flex-flow:column}#http-server-module-list div{display:flex}#http-server-module-list dt{min-width:10%}#http-server-module-list p{margin-top:0}.toc ul,#index{list-style-type:none;margin:0;padding:0}#index code{background:transparent}#index h3{border-bottom:1px solid #ddd}#index ul{padding:0}#index h4{margin-top:.6em;font-weight:bold}@media (min-width:200ex){#index .two-column{column-count:2}}@media (min-width:300ex){#index .two-column{column-count:3}}dl{margin-bottom:2em}dl dl:last-child{margin-bottom:4em}dd{margin:0 0 1em 3em}#header-classes + dl > dd{margin-bottom:3em}dd dd{margin-left:2em}dd p{margin:10px 0}.name{background:#eee;font-weight:bold;font-size:.85em;padding:5px 10px;display:inline-block;min-width:40%}.name:hover{background:#e0e0e0}dt:target .name{background:var(--highlight-color)}.name > span:first-child{white-space:nowrap}.name.class > span:nth-child(2){margin-left:.4em}.inherited{color:#999;border-left:5px solid #eee;padding-left:1em}.inheritance em{font-style:normal;font-weight:bold}.desc h2{font-weight:400;font-size:1.25em}.desc h3{font-size:1em}.desc dt code{background:inherit}.source summary,.git-link-div{color:#666;text-align:right;font-weight:400;font-size:.8em;text-transform:uppercase}.source summary > *{white-space:nowrap;cursor:pointer}.git-link{color:inherit;margin-left:1em}.source pre{max-height:500px;overflow:auto;margin:0}.source pre code{font-size:12px;overflow:visible}.hlist{list-style:none}.hlist li{display:inline}.hlist li:after{content:',\2002'}.hlist li:last-child:after{content:none}.hlist .hlist{display:inline;padding-left:1em}img{max-width:100%}td{padding:0 .5em}.admonition{padding:.1em .5em;margin-bottom:1em}.admonition-title{font-weight:bold}.admonition.note,.admonition.info,.admonition.important{background:#aef}.admonition.todo,.admonition.versionadded,.admonition.tip,.admonition.hint{background:#dfd}.admonition.warning,.admonition.versionchanged,.admonition.deprecated{background:#fd4}.admonition.error,.admonition.danger,.admonition.caution{background:lightpink}</style>
+<style media="screen and (min-width: 700px)">@media screen and (min-width:700px){#sidebar{width:30%;height:100vh;overflow:auto;position:sticky;top:0}#content{width:70%;max-width:100ch;padding:3em 4em;border-left:1px solid #ddd}pre code{font-size:1em}.item .name{font-size:1em}main{display:flex;flex-direction:row-reverse;justify-content:flex-end}.toc ul ul,#index ul{padding-left:1.5em}.toc > ul > li{margin-top:.5em}}</style>
+<style media="print">@media print{#sidebar h1{page-break-before:always}.source{display:none}}@media print{*{background:transparent !important;color:#000 !important;box-shadow:none !important;text-shadow:none !important}a[href]:after{content:" (" attr(href) ")";font-size:90%}a[href][title]:after{content:none}abbr[title]:after{content:" (" attr(title) ")"}.ir a:after,a[href^="javascript:"]:after,a[href^="#"]:after{content:""}pre,blockquote{border:1px solid #999;page-break-inside:avoid}thead{display:table-header-group}tr,img{page-break-inside:avoid}img{max-width:100% !important}@page{margin:0.5cm}p,h2,h3{orphans:3;widows:3}h1,h2,h3,h4,h5,h6{page-break-after:avoid}}</style>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/highlight.min.js" integrity="sha256-Uv3H6lx7dJmRfRvH8TH6kJD1TSK1aFcwgx+mdg3epi8=" crossorigin></script>
+<script>window.addEventListener('DOMContentLoaded', () => hljs.initHighlighting())</script>
+</head>
+<body>
+<main>
+<article id="content">
+<header>
+<h1 class="title">Module <code>app.database_impl.items_instances</code></h1>
+</header>
+<section id="section-intro">
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">from typing import Dict, List, Union, Optional
+
+import pymongo
+from bson import ObjectId
+from flask_pymongo import PyMongo
+
+from app.database_impl.attrib_options import AttributeOption, Attribute
+from app.database_impl.relations import Relation, RelationOption
+from app.database_impl.tags import Tag, TagReference
+
+
+class Item:
+    &#34;&#34;&#34;
+    A class to represent an item in the library
+    &#34;&#34;&#34;
+
+    id: ObjectId = None
+    &#34;&#34;&#34;
+    The item&#39;s unique id
+    &#34;&#34;&#34;
+
+    hidden: bool = False
+    &#34;&#34;&#34;
+    Determines if the item is hidden from the user library page
+    &#34;&#34;&#34;
+
+    attributes: List[Attribute]
+    &#34;&#34;&#34;
+    A list of the item&#39;s attributes
+    &#34;&#34;&#34;
+
+    tags: List[TagReference] = []
+    &#34;&#34;&#34;
+    A list of the item&#39;s tags
+    &#34;&#34;&#34;
+
+    implied_tags: List[TagReference] = []
+    &#34;&#34;&#34;
+    A list of the item&#39;s implied tags
+    &#34;&#34;&#34;
+
+    instances: List[&#39;Instance&#39;] = []
+    &#34;&#34;&#34;
+    A list of all instances of the item
+    &#34;&#34;&#34;
+
+    @staticmethod
+    def init_indices(mongo: PyMongo):
+        mongo.db.items.create_index([(&#34;hidden&#34;, pymongo.ASCENDING)], unique=False, sparse=True)
+        mongo.db.items.create_index([(&#34;tags.tag_id&#34;, pymongo.ASCENDING)], unique=False, sparse=True)
+        mongo.db.items.create_index([(&#34;implied_tags.tag_id&#34;, pymongo.ASCENDING)], unique=False, sparse=True)
+        mongo.db.items.create_index([(&#34;attributes.option_id&#34;, pymongo.ASCENDING)], unique=False, sparse=True)
+
+    # NOTE: attributes must conform an ItemAttributeOption, however that is not checked here
+    def __init__(self, attributes: List[Attribute], tags: List[TagReference], instances: List[&#39;Instance&#39;], hidden: bool = False):
+        self.id = None
+        self.hidden = hidden
+        self.attributes = attributes
+        self.tags = tags
+        self.implied_tags = []
+        self.instances = instances
+
+    def get_attributes_by_option(self, option: Union[AttributeOption, ObjectId]) -&gt; List[Attribute]:
+        if isinstance(option, AttributeOption):
+            option = option.id
+
+        return [a for a in self.attributes if a.option_id == option]
+
+    def to_dict(self) -&gt; Dict:
+        &#34;&#34;&#34;
+            Serialising the data structure into a MongoDB compliant dictionary for use in PyMongo functions
+
+        Returns
+        -------
+            The MongoDB compliant data structure
+        &#34;&#34;&#34;
+        result = {
+            &#34;attributes&#34;: [a.to_dict() for a in self.attributes],
+            &#34;tags&#34;: [t.tag_id for t in self.tags],
+            &#34;implied_tags&#34;: [i.tag_id for i in self.implied_tags],
+            &#34;instances&#34;: [inst.to_dict() for inst in self.instances]
+        }
+        if self.hidden:
+            result[&#34;hidden&#34;] = True
+
+        if self.id is not None:
+            result[&#34;_id&#34;] = self.id
+
+        return result
+
+    def remove_tag(self, tag: TagReference):
+        &#34;&#34;&#34;
+        Removes a tag from an item
+
+        Parameters
+        ----------
+            tag
+                The tag to be removed
+
+        Returns
+        -------
+            True if the tag has been removed from the item
+        &#34;&#34;&#34;
+        if tag in self.tags:
+            self.tags.remove(tag)
+            return True
+        else:
+            return False
+
+    @staticmethod
+    def from_dict(value_dict: Dict) -&gt; &#39;Item&#39;:
+        &#34;&#34;&#34;
+            Deserialising a MongoDB compliant dictionary into a data structure for use in python functions
+
+        Parameters
+        ----------
+            value_dict
+                The dictionary to be deserialised
+
+        Returns
+        -------
+            The deserialised data structure
+        &#34;&#34;&#34;
+        cls = Item([], [], [], False)
+
+        if &#34;_id&#34; in value_dict:
+            cls.id = value_dict[&#34;_id&#34;]
+
+        cls.hidden = (&#34;hidden&#34; in value_dict and value_dict[&#34;hidden&#34;])
+
+        if &#34;attributes&#34; in value_dict and value_dict[&#34;attributes&#34;] is not None:
+            cls.attributes = [Attribute.from_dict(d) for d in value_dict[&#34;attributes&#34;]]
+
+        if &#34;tags&#34; in value_dict and value_dict[&#34;tags&#34;] is not None:
+            cls.tags = [TagReference(t) for t in value_dict[&#34;tags&#34;]]
+
+        if &#34;implied_tags&#34; in value_dict and value_dict[&#34;implied_tags&#34;] is not None:
+            cls.implied_tags = [TagReference(t) for t in value_dict[&#34;implied_tags&#34;]]
+
+        if &#34;instances&#34; in value_dict and value_dict[&#34;instances&#34;] is not None:
+            cls.instances = [Instance.from_dict(inst) for inst in value_dict[&#34;instances&#34;]]
+
+        return cls
+
+    def write_to_db(self, mongo: PyMongo):
+        &#34;&#34;&#34;
+        Writes the item to the database if it&#39;s `id` doesn&#39;t exist, 
+        otherwise it will overwrite the item with the same `id`
+
+        Parameters
+        ----------
+            mongo
+                The mongo database
+        &#34;&#34;&#34;
+        if self.id is None:
+            self.id = mongo.db.items.insert_one(self.to_dict()).inserted_id
+        else:
+            mongo.db.items.find_one_and_replace({&#34;_id&#34;: self.id}, self.to_dict())
+
+    # Returns True if the update worked, else False, usually meaning it&#39;s no longer there
+    def update_from_db(self, mongo: PyMongo) -&gt; bool:
+        &#34;&#34;&#34;
+        Updates the item in the database
+
+        Parameters
+        ----------
+            mongo
+                The mongo database
+
+        Returns
+        -------
+            False if the item&#39;s id is None
+            False if the item does not exist in the database
+            True if the item was updated
+        &#34;&#34;&#34;
+        if self.id is None:
+            return False
+
+        new_data = mongo.db.items.find_one({&#34;_id&#34;: self.id})
+
+        if new_data is None:
+            return False
+
+        new_item = Item.from_dict(new_data)
+
+        self.hidden = new_item.hidden
+        self.attributes = new_item.attributes
+        self.tags = new_item.tags
+        self.implied_tags = new_item.implied_tags
+        self.instances = new_item.instances
+
+        return True
+
+    def recalculate_implied_tags(self, mongo: PyMongo, instances: bool = False, inherit: bool = True):
+        &#34;&#34;&#34;
+        Recalculates the implied tags
+
+        Parameters
+        ----------
+            mongo
+                The mongo database
+            instances
+                If true, then also recalculate the implied of all the instances
+            inherit
+                If true and a tag is on all instances of an object it will be implied on the item
+
+        Returns
+        -------
+            True if successfull, False otherwise
+        &#34;&#34;&#34;
+        if instances:
+            self.recalculate_instance_implied_tags(mongo, None)
+        else:
+            if not self.update_from_db(mongo):
+                return False
+        self.implied_tags = []
+
+        # get implied from relations
+        relations = mongo.db.relations.find({&#34;item_id&#34;: self.id})
+        relations = [Relation.from_dict(r) for r in relations]
+
+        relation_options = mongo.db.relation_options.find({&#34;_id&#34;: {&#34;$in&#34;: [r.option_id for r in relations]}})
+        relation_options = [RelationOption.from_dict(r) for r in relation_options]
+
+        self.implied_tags = [implied for option in relation_options for implied in option.implies]
+
+        # traverse implication DAG
+        to_search = set(t.tag_id for t in self.tags).union(t.tag_id for t in self.implied_tags)
+        searched = set(to_search)
+
+        while to_search:
+            top_level = mongo.db.tags.find({&#34;_id&#34;: {&#34;$in&#34;: list(to_search)}})
+            to_search = set()
+            if top_level is None:
+                break
+
+            tags = [Tag.from_dict(tag) for tag in top_level]
+
+            for tag in tags:
+                for implied in tag.implies:
+                    if implied.tag_id not in searched:
+                        searched.add(implied.tag_id)
+                        to_search.add(implied.tag_id)
+                        self.implied_tags.append(implied)
+
+        if inherit:
+            possibilities = set()
+
+            for inst in self.instances:
+                possibilities.intersection_update(set(inst.tags).union(inst.implied_tags))
+
+            self.implied_tags.extend(possibilities)
+
+        self.write_to_db(mongo)
+        return True
+
+    # returns true if successful, false otherwise
+    def recalculate_instance_implied_tags(self, mongo: PyMongo, index: Optional[Union[int, List[int]]] = None):
+        &#34;&#34;&#34;
+        Recalculates the implied tags for instances
+
+        Parameters
+        ----------
+            mongo
+                The mongo database
+            index
+
+        Returns
+        -------
+            True if successfull, False otherwise
+        &#34;&#34;&#34;
+        if not self.update_from_db(mongo):
+            return False
+
+        if index is None:
+            to_visit = range(0, len(self.instances))
+        elif isinstance(index, int):
+            to_visit = [index]
+        else:
+            to_visit = index
+
+        for i in to_visit:
+            inst = self.instances[i]
+
+            # get implied from relations
+            relations = mongo.db.relations.find({&#34;instance_id&#34;: inst.id})
+            relations = [Relation.from_dict(r) for r in relations]
+
+            relation_options = mongo.db.relation_options.find({&#34;_id&#34;: {&#34;$in&#34;: [r.option_id for r in relations]}})
+            relation_options = [RelationOption.from_dict(r) for r in relation_options]
+
+            inst.implied_tags = [implied for option in relation_options for implied in option.implies]
+
+            # traverse implication DAG
+            to_search = set(t.tag_id for t in inst.tags).union(t.tag_id for t in inst.implied_tags)
+            searched = set(to_search)
+
+            while to_search:
+                top_level = mongo.db.tags.find({&#34;_id&#34;: {&#34;$in&#34;: list(to_search)}})
+                to_search = set()
+                if top_level is None:
+                    break
+
+                tags = [Tag.from_dict(tag) for tag in top_level]
+
+                for tag in tags:
+                    for implied in tag.implies:
+                        if implied.tag_id not in searched:
+                            searched.add(implied.tag_id)
+                            to_search.add(implied.tag_id)
+                            inst.implied_tags.append(implied)
+
+            self.write_to_db(mongo)
+            return True
+
+    def delete_from_db(self, mongo: PyMongo) -&gt; bool:
+        &#34;&#34;&#34;
+        Removes the item from the database
+
+        Parameters
+        ----------
+            mongo
+                The mongo database
+
+        Returns
+        -------
+            False if the item does not exist, or has not been deleted
+            True if the item has been deleted
+        &#34;&#34;&#34;
+        if self.id is None:
+            return False
+
+        return mongo.db.items.delete_one({&#34;_id&#34;: self.id}).deleted_count == 1
+    
+    def hide(self, mongo: PyMongo) -&gt; bool:
+        &#34;&#34;&#34;
+        A function to toggle between an item being hidden and visible in the user library
+
+        Attributes
+        ----------
+            mongo
+                The mongo database
+        &#34;&#34;&#34;
+        if self.hidden is True:
+            self.hidden = False
+        else:
+            self.hidden = True
+        self.write_to_db(mongo)
+
+    @staticmethod
+    def search_for_by_tag(mongo: PyMongo, tag_ref: Union[Tag, TagReference]) -&gt; List[&#39;Item&#39;]:
+        &#34;&#34;&#34;
+        Finds all items with a specific tag
+
+        Parameters
+        ----------
+            mongo
+                The mongo database
+            tag_ref
+                The tag to be searched by
+
+        Returns
+        -------
+            A list of all items with the specified tag
+        &#34;&#34;&#34;
+        if isinstance(tag_ref, Tag):
+            tag_ref = TagReference(tag_ref)
+
+        result = mongo.db.items.find({&#34;$or&#34;: [{&#34;tags&#34;: {&#34;$elemMatch&#34;: {&#34;$eq&#34;: tag_ref.tag_id}}},
+                                              {&#34;implied_tags&#34;: {&#34;$elemMatch&#34;: {&#34;$eq&#34;: tag_ref.tag_id}}}]})
+        if result is None:
+            return []
+
+        return [Item.from_dict(i) for i in result]
+
+    @staticmethod
+    def search_for_by_attribute(mongo: PyMongo, attrib_option: AttributeOption, value) -&gt; List[&#39;Item&#39;]:
+        &#34;&#34;&#34;
+        Finds all items with a specific attribute
+
+        Parameters
+        ----------
+            mongo
+                The mongo database
+            attrib_option
+                The attribute to be searched by
+
+        Returns
+        -------
+            A list of all items with the specified attibute
+        &#34;&#34;&#34;
+        result = mongo.db.items.find({&#34;attributes&#34;: {&#34;$elemMatch&#34;: { &#34;option_id&#34;: attrib_option.id, &#34;value&#34;: value }}})
+
+        if result is None:
+            return []
+
+        return [Item.from_dict(i) for i in result]
+
+
+class Instance:
+    &#34;&#34;&#34;
+    An item can have instances, such as a book having an instance per physical copy, or it could have none, 
+    in the case of a digital resource.
+    &#34;&#34;&#34;
+
+    id: ObjectId = None
+    &#34;&#34;&#34;
+    Unique instance id
+    &#34;&#34;&#34;
+
+    hidden: bool = False
+    &#34;&#34;&#34;
+    The instance may be hidden from users
+    &#34;&#34;&#34;
+
+    attributes: List[Attribute]
+    &#34;&#34;&#34;
+    A list of attributes associated with the instance
+    &#34;&#34;&#34;
+
+    tags: List[TagReference] = []
+    &#34;&#34;&#34;
+    A list of tags associated with the instance
+    &#34;&#34;&#34;
+
+    implied_tags: List[TagReference] = []
+    &#34;&#34;&#34;
+    A list of all the instance&#39;s implied tags
+    &#34;&#34;&#34;
+
+    @staticmethod
+    def init_indices(mongo: PyMongo):
+        mongo.db.items.create_index([(&#34;instances.hidden&#34;, pymongo.ASCENDING)], unique=False, sparse=True)
+        mongo.db.items.create_index([(&#34;instances.tags.tag_id&#34;, pymongo.ASCENDING)], unique=False, sparse=True)
+        mongo.db.items.create_index([(&#34;instances.implied_tags.tag_id&#34;, pymongo.ASCENDING)], unique=False, sparse=True)
+        mongo.db.items.create_index([(&#34;instances.attributes.option_id&#34;, pymongo.ASCENDING)], unique=False, sparse=True)
+
+    def __init__(self, attributes: List[Attribute], tags: List[TagReference], hidden: bool = False):
+        self.id = ObjectId()
+        self.hidden = hidden
+        self.attributes = attributes
+        self.tags = tags
+        self.implied_tags = []
+
+    def to_dict(self) -&gt; Dict:
+        &#34;&#34;&#34;
+            Serialising the data structure into a MongoDB compliant dictionary for use in PyMongo functions
+
+        Returns
+        -------
+            The MongoDB compliant data structure
+        &#34;&#34;&#34;
+        result = {
+            &#34;attributes&#34;: [a.to_dict() for a in self.attributes],
+            &#34;tags&#34;: [t.tag_id for t in self.tags],
+            &#34;implied_tags&#34;: [t.tag_id for t in self.implied_tags]
+        }
+
+        if self.hidden:
+            result[&#34;hidden&#34;] = True
+
+        if self.id is None:
+            self.id = ObjectId()
+
+        result[&#34;_id&#34;] = self.id
+
+        return result
+
+    @staticmethod
+    def from_dict(value_dict: Dict) -&gt; &#39;Instance&#39;:
+        &#34;&#34;&#34;
+            Deserialising a MongoDB compliant dictionary into a data structure for use in python functions
+
+        Parameters
+        ----------
+            value_dict
+                The dictionary to be deserialised
+
+        Returns
+        -------
+            The deserialised data structure
+        &#34;&#34;&#34;
+        cls = Instance([], [], False)
+
+        if &#34;_id&#34; in value_dict:
+            cls.id = value_dict[&#34;_id&#34;]
+
+        cls.hidden = (&#34;hidden&#34; in value_dict and value_dict[&#34;hidden&#34;])
+
+        if &#34;attributes&#34; in value_dict and value_dict[&#34;attributes&#34;] is not None:
+            cls.attributes = [Attribute.from_dict(a) for a in value_dict[&#34;attributes&#34;]]
+
+        if &#34;tags&#34; in value_dict and value_dict[&#34;tags&#34;] is not None:
+            cls.tags = [TagReference(t) for t in value_dict[&#34;tags&#34;]]
+
+        if &#34;implied_tags&#34; in value_dict and value_dict[&#34;implied_tags&#34;] is not None:
+            cls.implied_tags = [TagReference(t) for t in value_dict[&#34;implied_tags&#34;]]
+
+        return cls</code></pre>
+</details>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+<h2 class="section-title" id="header-classes">Classes</h2>
+<dl>
+<dt id="app.database_impl.items_instances.Instance"><code class="flex name class">
+<span>class <span class="ident">Instance</span></span>
+<span>(</span><span>attributes: List[<a title="app.database_impl.attrib_options.Attribute" href="attrib_options.html#app.database_impl.attrib_options.Attribute">Attribute</a>], tags: List[<a title="app.database_impl.tags.TagReference" href="tags.html#app.database_impl.tags.TagReference">TagReference</a>], hidden: bool = False)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>An item can have instances, such as a book having an instance per physical copy, or it could have none,
+in the case of a digital resource.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class Instance:
+    &#34;&#34;&#34;
+    An item can have instances, such as a book having an instance per physical copy, or it could have none, 
+    in the case of a digital resource.
+    &#34;&#34;&#34;
+
+    id: ObjectId = None
+    &#34;&#34;&#34;
+    Unique instance id
+    &#34;&#34;&#34;
+
+    hidden: bool = False
+    &#34;&#34;&#34;
+    The instance may be hidden from users
+    &#34;&#34;&#34;
+
+    attributes: List[Attribute]
+    &#34;&#34;&#34;
+    A list of attributes associated with the instance
+    &#34;&#34;&#34;
+
+    tags: List[TagReference] = []
+    &#34;&#34;&#34;
+    A list of tags associated with the instance
+    &#34;&#34;&#34;
+
+    implied_tags: List[TagReference] = []
+    &#34;&#34;&#34;
+    A list of all the instance&#39;s implied tags
+    &#34;&#34;&#34;
+
+    @staticmethod
+    def init_indices(mongo: PyMongo):
+        mongo.db.items.create_index([(&#34;instances.hidden&#34;, pymongo.ASCENDING)], unique=False, sparse=True)
+        mongo.db.items.create_index([(&#34;instances.tags.tag_id&#34;, pymongo.ASCENDING)], unique=False, sparse=True)
+        mongo.db.items.create_index([(&#34;instances.implied_tags.tag_id&#34;, pymongo.ASCENDING)], unique=False, sparse=True)
+        mongo.db.items.create_index([(&#34;instances.attributes.option_id&#34;, pymongo.ASCENDING)], unique=False, sparse=True)
+
+    def __init__(self, attributes: List[Attribute], tags: List[TagReference], hidden: bool = False):
+        self.id = ObjectId()
+        self.hidden = hidden
+        self.attributes = attributes
+        self.tags = tags
+        self.implied_tags = []
+
+    def to_dict(self) -&gt; Dict:
+        &#34;&#34;&#34;
+            Serialising the data structure into a MongoDB compliant dictionary for use in PyMongo functions
+
+        Returns
+        -------
+            The MongoDB compliant data structure
+        &#34;&#34;&#34;
+        result = {
+            &#34;attributes&#34;: [a.to_dict() for a in self.attributes],
+            &#34;tags&#34;: [t.tag_id for t in self.tags],
+            &#34;implied_tags&#34;: [t.tag_id for t in self.implied_tags]
+        }
+
+        if self.hidden:
+            result[&#34;hidden&#34;] = True
+
+        if self.id is None:
+            self.id = ObjectId()
+
+        result[&#34;_id&#34;] = self.id
+
+        return result
+
+    @staticmethod
+    def from_dict(value_dict: Dict) -&gt; &#39;Instance&#39;:
+        &#34;&#34;&#34;
+            Deserialising a MongoDB compliant dictionary into a data structure for use in python functions
+
+        Parameters
+        ----------
+            value_dict
+                The dictionary to be deserialised
+
+        Returns
+        -------
+            The deserialised data structure
+        &#34;&#34;&#34;
+        cls = Instance([], [], False)
+
+        if &#34;_id&#34; in value_dict:
+            cls.id = value_dict[&#34;_id&#34;]
+
+        cls.hidden = (&#34;hidden&#34; in value_dict and value_dict[&#34;hidden&#34;])
+
+        if &#34;attributes&#34; in value_dict and value_dict[&#34;attributes&#34;] is not None:
+            cls.attributes = [Attribute.from_dict(a) for a in value_dict[&#34;attributes&#34;]]
+
+        if &#34;tags&#34; in value_dict and value_dict[&#34;tags&#34;] is not None:
+            cls.tags = [TagReference(t) for t in value_dict[&#34;tags&#34;]]
+
+        if &#34;implied_tags&#34; in value_dict and value_dict[&#34;implied_tags&#34;] is not None:
+            cls.implied_tags = [TagReference(t) for t in value_dict[&#34;implied_tags&#34;]]
+
+        return cls</code></pre>
+</details>
+<h3>Class variables</h3>
+<dl>
+<dt id="app.database_impl.items_instances.Instance.attributes"><code class="name">var <span class="ident">attributes</span> : List[<a title="app.database_impl.attrib_options.Attribute" href="attrib_options.html#app.database_impl.attrib_options.Attribute">Attribute</a>]</code></dt>
+<dd>
+<div class="desc"><p>A list of attributes associated with the instance</p></div>
+</dd>
+<dt id="app.database_impl.items_instances.Instance.hidden"><code class="name">var <span class="ident">hidden</span> : bool</code></dt>
+<dd>
+<div class="desc"><p>The instance may be hidden from users</p></div>
+</dd>
+<dt id="app.database_impl.items_instances.Instance.id"><code class="name">var <span class="ident">id</span> : bson.objectid.ObjectId</code></dt>
+<dd>
+<div class="desc"><p>Unique instance id</p></div>
+</dd>
+<dt id="app.database_impl.items_instances.Instance.implied_tags"><code class="name">var <span class="ident">implied_tags</span> : List[<a title="app.database_impl.tags.TagReference" href="tags.html#app.database_impl.tags.TagReference">TagReference</a>]</code></dt>
+<dd>
+<div class="desc"><p>A list of all the instance's implied tags</p></div>
+</dd>
+<dt id="app.database_impl.items_instances.Instance.tags"><code class="name">var <span class="ident">tags</span> : List[<a title="app.database_impl.tags.TagReference" href="tags.html#app.database_impl.tags.TagReference">TagReference</a>]</code></dt>
+<dd>
+<div class="desc"><p>A list of tags associated with the instance</p></div>
+</dd>
+</dl>
+<h3>Static methods</h3>
+<dl>
+<dt id="app.database_impl.items_instances.Instance.from_dict"><code class="name flex">
+<span>def <span class="ident">from_dict</span></span>(<span>value_dict: Dict) ‑> <a title="app.database_impl.items_instances.Instance" href="#app.database_impl.items_instances.Instance">Instance</a></span>
+</code></dt>
+<dd>
+<div class="desc"><p>Deserialising a MongoDB compliant dictionary into a data structure for use in python functions</p>
+<h2 id="parameters">Parameters</h2>
+<pre><code>value_dict
+    The dictionary to be deserialised
+</code></pre>
+<h2 id="returns">Returns</h2>
+<pre><code>The deserialised data structure
+</code></pre></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@staticmethod
+def from_dict(value_dict: Dict) -&gt; &#39;Instance&#39;:
+    &#34;&#34;&#34;
+        Deserialising a MongoDB compliant dictionary into a data structure for use in python functions
+
+    Parameters
+    ----------
+        value_dict
+            The dictionary to be deserialised
+
+    Returns
+    -------
+        The deserialised data structure
+    &#34;&#34;&#34;
+    cls = Instance([], [], False)
+
+    if &#34;_id&#34; in value_dict:
+        cls.id = value_dict[&#34;_id&#34;]
+
+    cls.hidden = (&#34;hidden&#34; in value_dict and value_dict[&#34;hidden&#34;])
+
+    if &#34;attributes&#34; in value_dict and value_dict[&#34;attributes&#34;] is not None:
+        cls.attributes = [Attribute.from_dict(a) for a in value_dict[&#34;attributes&#34;]]
+
+    if &#34;tags&#34; in value_dict and value_dict[&#34;tags&#34;] is not None:
+        cls.tags = [TagReference(t) for t in value_dict[&#34;tags&#34;]]
+
+    if &#34;implied_tags&#34; in value_dict and value_dict[&#34;implied_tags&#34;] is not None:
+        cls.implied_tags = [TagReference(t) for t in value_dict[&#34;implied_tags&#34;]]
+
+    return cls</code></pre>
+</details>
+</dd>
+<dt id="app.database_impl.items_instances.Instance.init_indices"><code class="name flex">
+<span>def <span class="ident">init_indices</span></span>(<span>mongo: flask_pymongo.PyMongo)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@staticmethod
+def init_indices(mongo: PyMongo):
+    mongo.db.items.create_index([(&#34;instances.hidden&#34;, pymongo.ASCENDING)], unique=False, sparse=True)
+    mongo.db.items.create_index([(&#34;instances.tags.tag_id&#34;, pymongo.ASCENDING)], unique=False, sparse=True)
+    mongo.db.items.create_index([(&#34;instances.implied_tags.tag_id&#34;, pymongo.ASCENDING)], unique=False, sparse=True)
+    mongo.db.items.create_index([(&#34;instances.attributes.option_id&#34;, pymongo.ASCENDING)], unique=False, sparse=True)</code></pre>
+</details>
+</dd>
+</dl>
+<h3>Methods</h3>
+<dl>
+<dt id="app.database_impl.items_instances.Instance.to_dict"><code class="name flex">
+<span>def <span class="ident">to_dict</span></span>(<span>self) ‑> Dict</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Serialising the data structure into a MongoDB compliant dictionary for use in PyMongo functions</p>
+<h2 id="returns">Returns</h2>
+<pre><code>The MongoDB compliant data structure
+</code></pre></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def to_dict(self) -&gt; Dict:
+    &#34;&#34;&#34;
+        Serialising the data structure into a MongoDB compliant dictionary for use in PyMongo functions
+
+    Returns
+    -------
+        The MongoDB compliant data structure
+    &#34;&#34;&#34;
+    result = {
+        &#34;attributes&#34;: [a.to_dict() for a in self.attributes],
+        &#34;tags&#34;: [t.tag_id for t in self.tags],
+        &#34;implied_tags&#34;: [t.tag_id for t in self.implied_tags]
+    }
+
+    if self.hidden:
+        result[&#34;hidden&#34;] = True
+
+    if self.id is None:
+        self.id = ObjectId()
+
+    result[&#34;_id&#34;] = self.id
+
+    return result</code></pre>
+</details>
+</dd>
+</dl>
+</dd>
+<dt id="app.database_impl.items_instances.Item"><code class="flex name class">
+<span>class <span class="ident">Item</span></span>
+<span>(</span><span>attributes: List[<a title="app.database_impl.attrib_options.Attribute" href="attrib_options.html#app.database_impl.attrib_options.Attribute">Attribute</a>], tags: List[<a title="app.database_impl.tags.TagReference" href="tags.html#app.database_impl.tags.TagReference">TagReference</a>], instances: List[_ForwardRef('<a title="app.database_impl.items_instances.Instance" href="#app.database_impl.items_instances.Instance">Instance</a>')], hidden: bool = False)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>A class to represent an item in the library</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class Item:
+    &#34;&#34;&#34;
+    A class to represent an item in the library
+    &#34;&#34;&#34;
+
+    id: ObjectId = None
+    &#34;&#34;&#34;
+    The item&#39;s unique id
+    &#34;&#34;&#34;
+
+    hidden: bool = False
+    &#34;&#34;&#34;
+    Determines if the item is hidden from the user library page
+    &#34;&#34;&#34;
+
+    attributes: List[Attribute]
+    &#34;&#34;&#34;
+    A list of the item&#39;s attributes
+    &#34;&#34;&#34;
+
+    tags: List[TagReference] = []
+    &#34;&#34;&#34;
+    A list of the item&#39;s tags
+    &#34;&#34;&#34;
+
+    implied_tags: List[TagReference] = []
+    &#34;&#34;&#34;
+    A list of the item&#39;s implied tags
+    &#34;&#34;&#34;
+
+    instances: List[&#39;Instance&#39;] = []
+    &#34;&#34;&#34;
+    A list of all instances of the item
+    &#34;&#34;&#34;
+
+    @staticmethod
+    def init_indices(mongo: PyMongo):
+        mongo.db.items.create_index([(&#34;hidden&#34;, pymongo.ASCENDING)], unique=False, sparse=True)
+        mongo.db.items.create_index([(&#34;tags.tag_id&#34;, pymongo.ASCENDING)], unique=False, sparse=True)
+        mongo.db.items.create_index([(&#34;implied_tags.tag_id&#34;, pymongo.ASCENDING)], unique=False, sparse=True)
+        mongo.db.items.create_index([(&#34;attributes.option_id&#34;, pymongo.ASCENDING)], unique=False, sparse=True)
+
+    # NOTE: attributes must conform an ItemAttributeOption, however that is not checked here
+    def __init__(self, attributes: List[Attribute], tags: List[TagReference], instances: List[&#39;Instance&#39;], hidden: bool = False):
+        self.id = None
+        self.hidden = hidden
+        self.attributes = attributes
+        self.tags = tags
+        self.implied_tags = []
+        self.instances = instances
+
+    def get_attributes_by_option(self, option: Union[AttributeOption, ObjectId]) -&gt; List[Attribute]:
+        if isinstance(option, AttributeOption):
+            option = option.id
+
+        return [a for a in self.attributes if a.option_id == option]
+
+    def to_dict(self) -&gt; Dict:
+        &#34;&#34;&#34;
+            Serialising the data structure into a MongoDB compliant dictionary for use in PyMongo functions
+
+        Returns
+        -------
+            The MongoDB compliant data structure
+        &#34;&#34;&#34;
+        result = {
+            &#34;attributes&#34;: [a.to_dict() for a in self.attributes],
+            &#34;tags&#34;: [t.tag_id for t in self.tags],
+            &#34;implied_tags&#34;: [i.tag_id for i in self.implied_tags],
+            &#34;instances&#34;: [inst.to_dict() for inst in self.instances]
+        }
+        if self.hidden:
+            result[&#34;hidden&#34;] = True
+
+        if self.id is not None:
+            result[&#34;_id&#34;] = self.id
+
+        return result
+
+    def remove_tag(self, tag: TagReference):
+        &#34;&#34;&#34;
+        Removes a tag from an item
+
+        Parameters
+        ----------
+            tag
+                The tag to be removed
+
+        Returns
+        -------
+            True if the tag has been removed from the item
+        &#34;&#34;&#34;
+        if tag in self.tags:
+            self.tags.remove(tag)
+            return True
+        else:
+            return False
+
+    @staticmethod
+    def from_dict(value_dict: Dict) -&gt; &#39;Item&#39;:
+        &#34;&#34;&#34;
+            Deserialising a MongoDB compliant dictionary into a data structure for use in python functions
+
+        Parameters
+        ----------
+            value_dict
+                The dictionary to be deserialised
+
+        Returns
+        -------
+            The deserialised data structure
+        &#34;&#34;&#34;
+        cls = Item([], [], [], False)
+
+        if &#34;_id&#34; in value_dict:
+            cls.id = value_dict[&#34;_id&#34;]
+
+        cls.hidden = (&#34;hidden&#34; in value_dict and value_dict[&#34;hidden&#34;])
+
+        if &#34;attributes&#34; in value_dict and value_dict[&#34;attributes&#34;] is not None:
+            cls.attributes = [Attribute.from_dict(d) for d in value_dict[&#34;attributes&#34;]]
+
+        if &#34;tags&#34; in value_dict and value_dict[&#34;tags&#34;] is not None:
+            cls.tags = [TagReference(t) for t in value_dict[&#34;tags&#34;]]
+
+        if &#34;implied_tags&#34; in value_dict and value_dict[&#34;implied_tags&#34;] is not None:
+            cls.implied_tags = [TagReference(t) for t in value_dict[&#34;implied_tags&#34;]]
+
+        if &#34;instances&#34; in value_dict and value_dict[&#34;instances&#34;] is not None:
+            cls.instances = [Instance.from_dict(inst) for inst in value_dict[&#34;instances&#34;]]
+
+        return cls
+
+    def write_to_db(self, mongo: PyMongo):
+        &#34;&#34;&#34;
+        Writes the item to the database if it&#39;s `id` doesn&#39;t exist, 
+        otherwise it will overwrite the item with the same `id`
+
+        Parameters
+        ----------
+            mongo
+                The mongo database
+        &#34;&#34;&#34;
+        if self.id is None:
+            self.id = mongo.db.items.insert_one(self.to_dict()).inserted_id
+        else:
+            mongo.db.items.find_one_and_replace({&#34;_id&#34;: self.id}, self.to_dict())
+
+    # Returns True if the update worked, else False, usually meaning it&#39;s no longer there
+    def update_from_db(self, mongo: PyMongo) -&gt; bool:
+        &#34;&#34;&#34;
+        Updates the item in the database
+
+        Parameters
+        ----------
+            mongo
+                The mongo database
+
+        Returns
+        -------
+            False if the item&#39;s id is None
+            False if the item does not exist in the database
+            True if the item was updated
+        &#34;&#34;&#34;
+        if self.id is None:
+            return False
+
+        new_data = mongo.db.items.find_one({&#34;_id&#34;: self.id})
+
+        if new_data is None:
+            return False
+
+        new_item = Item.from_dict(new_data)
+
+        self.hidden = new_item.hidden
+        self.attributes = new_item.attributes
+        self.tags = new_item.tags
+        self.implied_tags = new_item.implied_tags
+        self.instances = new_item.instances
+
+        return True
+
+    def recalculate_implied_tags(self, mongo: PyMongo, instances: bool = False, inherit: bool = True):
+        &#34;&#34;&#34;
+        Recalculates the implied tags
+
+        Parameters
+        ----------
+            mongo
+                The mongo database
+            instances
+                If true, then also recalculate the implied of all the instances
+            inherit
+                If true and a tag is on all instances of an object it will be implied on the item
+
+        Returns
+        -------
+            True if successfull, False otherwise
+        &#34;&#34;&#34;
+        if instances:
+            self.recalculate_instance_implied_tags(mongo, None)
+        else:
+            if not self.update_from_db(mongo):
+                return False
+        self.implied_tags = []
+
+        # get implied from relations
+        relations = mongo.db.relations.find({&#34;item_id&#34;: self.id})
+        relations = [Relation.from_dict(r) for r in relations]
+
+        relation_options = mongo.db.relation_options.find({&#34;_id&#34;: {&#34;$in&#34;: [r.option_id for r in relations]}})
+        relation_options = [RelationOption.from_dict(r) for r in relation_options]
+
+        self.implied_tags = [implied for option in relation_options for implied in option.implies]
+
+        # traverse implication DAG
+        to_search = set(t.tag_id for t in self.tags).union(t.tag_id for t in self.implied_tags)
+        searched = set(to_search)
+
+        while to_search:
+            top_level = mongo.db.tags.find({&#34;_id&#34;: {&#34;$in&#34;: list(to_search)}})
+            to_search = set()
+            if top_level is None:
+                break
+
+            tags = [Tag.from_dict(tag) for tag in top_level]
+
+            for tag in tags:
+                for implied in tag.implies:
+                    if implied.tag_id not in searched:
+                        searched.add(implied.tag_id)
+                        to_search.add(implied.tag_id)
+                        self.implied_tags.append(implied)
+
+        if inherit:
+            possibilities = set()
+
+            for inst in self.instances:
+                possibilities.intersection_update(set(inst.tags).union(inst.implied_tags))
+
+            self.implied_tags.extend(possibilities)
+
+        self.write_to_db(mongo)
+        return True
+
+    # returns true if successful, false otherwise
+    def recalculate_instance_implied_tags(self, mongo: PyMongo, index: Optional[Union[int, List[int]]] = None):
+        &#34;&#34;&#34;
+        Recalculates the implied tags for instances
+
+        Parameters
+        ----------
+            mongo
+                The mongo database
+            index
+
+        Returns
+        -------
+            True if successfull, False otherwise
+        &#34;&#34;&#34;
+        if not self.update_from_db(mongo):
+            return False
+
+        if index is None:
+            to_visit = range(0, len(self.instances))
+        elif isinstance(index, int):
+            to_visit = [index]
+        else:
+            to_visit = index
+
+        for i in to_visit:
+            inst = self.instances[i]
+
+            # get implied from relations
+            relations = mongo.db.relations.find({&#34;instance_id&#34;: inst.id})
+            relations = [Relation.from_dict(r) for r in relations]
+
+            relation_options = mongo.db.relation_options.find({&#34;_id&#34;: {&#34;$in&#34;: [r.option_id for r in relations]}})
+            relation_options = [RelationOption.from_dict(r) for r in relation_options]
+
+            inst.implied_tags = [implied for option in relation_options for implied in option.implies]
+
+            # traverse implication DAG
+            to_search = set(t.tag_id for t in inst.tags).union(t.tag_id for t in inst.implied_tags)
+            searched = set(to_search)
+
+            while to_search:
+                top_level = mongo.db.tags.find({&#34;_id&#34;: {&#34;$in&#34;: list(to_search)}})
+                to_search = set()
+                if top_level is None:
+                    break
+
+                tags = [Tag.from_dict(tag) for tag in top_level]
+
+                for tag in tags:
+                    for implied in tag.implies:
+                        if implied.tag_id not in searched:
+                            searched.add(implied.tag_id)
+                            to_search.add(implied.tag_id)
+                            inst.implied_tags.append(implied)
+
+            self.write_to_db(mongo)
+            return True
+
+    def delete_from_db(self, mongo: PyMongo) -&gt; bool:
+        &#34;&#34;&#34;
+        Removes the item from the database
+
+        Parameters
+        ----------
+            mongo
+                The mongo database
+
+        Returns
+        -------
+            False if the item does not exist, or has not been deleted
+            True if the item has been deleted
+        &#34;&#34;&#34;
+        if self.id is None:
+            return False
+
+        return mongo.db.items.delete_one({&#34;_id&#34;: self.id}).deleted_count == 1
+    
+    def hide(self, mongo: PyMongo) -&gt; bool:
+        &#34;&#34;&#34;
+        A function to toggle between an item being hidden and visible in the user library
+
+        Attributes
+        ----------
+            mongo
+                The mongo database
+        &#34;&#34;&#34;
+        if self.hidden is True:
+            self.hidden = False
+        else:
+            self.hidden = True
+        self.write_to_db(mongo)
+
+    @staticmethod
+    def search_for_by_tag(mongo: PyMongo, tag_ref: Union[Tag, TagReference]) -&gt; List[&#39;Item&#39;]:
+        &#34;&#34;&#34;
+        Finds all items with a specific tag
+
+        Parameters
+        ----------
+            mongo
+                The mongo database
+            tag_ref
+                The tag to be searched by
+
+        Returns
+        -------
+            A list of all items with the specified tag
+        &#34;&#34;&#34;
+        if isinstance(tag_ref, Tag):
+            tag_ref = TagReference(tag_ref)
+
+        result = mongo.db.items.find({&#34;$or&#34;: [{&#34;tags&#34;: {&#34;$elemMatch&#34;: {&#34;$eq&#34;: tag_ref.tag_id}}},
+                                              {&#34;implied_tags&#34;: {&#34;$elemMatch&#34;: {&#34;$eq&#34;: tag_ref.tag_id}}}]})
+        if result is None:
+            return []
+
+        return [Item.from_dict(i) for i in result]
+
+    @staticmethod
+    def search_for_by_attribute(mongo: PyMongo, attrib_option: AttributeOption, value) -&gt; List[&#39;Item&#39;]:
+        &#34;&#34;&#34;
+        Finds all items with a specific attribute
+
+        Parameters
+        ----------
+            mongo
+                The mongo database
+            attrib_option
+                The attribute to be searched by
+
+        Returns
+        -------
+            A list of all items with the specified attibute
+        &#34;&#34;&#34;
+        result = mongo.db.items.find({&#34;attributes&#34;: {&#34;$elemMatch&#34;: { &#34;option_id&#34;: attrib_option.id, &#34;value&#34;: value }}})
+
+        if result is None:
+            return []
+
+        return [Item.from_dict(i) for i in result]</code></pre>
+</details>
+<h3>Class variables</h3>
+<dl>
+<dt id="app.database_impl.items_instances.Item.attributes"><code class="name">var <span class="ident">attributes</span> : List[<a title="app.database_impl.attrib_options.Attribute" href="attrib_options.html#app.database_impl.attrib_options.Attribute">Attribute</a>]</code></dt>
+<dd>
+<div class="desc"><p>A list of the item's attributes</p></div>
+</dd>
+<dt id="app.database_impl.items_instances.Item.hidden"><code class="name">var <span class="ident">hidden</span> : bool</code></dt>
+<dd>
+<div class="desc"><p>Determines if the item is hidden from the user library page</p></div>
+</dd>
+<dt id="app.database_impl.items_instances.Item.id"><code class="name">var <span class="ident">id</span> : bson.objectid.ObjectId</code></dt>
+<dd>
+<div class="desc"><p>The item's unique id</p></div>
+</dd>
+<dt id="app.database_impl.items_instances.Item.implied_tags"><code class="name">var <span class="ident">implied_tags</span> : List[<a title="app.database_impl.tags.TagReference" href="tags.html#app.database_impl.tags.TagReference">TagReference</a>]</code></dt>
+<dd>
+<div class="desc"><p>A list of the item's implied tags</p></div>
+</dd>
+<dt id="app.database_impl.items_instances.Item.instances"><code class="name">var <span class="ident">instances</span> : List[<a title="app.database_impl.items_instances.Instance" href="#app.database_impl.items_instances.Instance">Instance</a>]</code></dt>
+<dd>
+<div class="desc"><p>A list of all instances of the item</p></div>
+</dd>
+<dt id="app.database_impl.items_instances.Item.tags"><code class="name">var <span class="ident">tags</span> : List[<a title="app.database_impl.tags.TagReference" href="tags.html#app.database_impl.tags.TagReference">TagReference</a>]</code></dt>
+<dd>
+<div class="desc"><p>A list of the item's tags</p></div>
+</dd>
+</dl>
+<h3>Static methods</h3>
+<dl>
+<dt id="app.database_impl.items_instances.Item.from_dict"><code class="name flex">
+<span>def <span class="ident">from_dict</span></span>(<span>value_dict: Dict) ‑> <a title="app.database_impl.items_instances.Item" href="#app.database_impl.items_instances.Item">Item</a></span>
+</code></dt>
+<dd>
+<div class="desc"><p>Deserialising a MongoDB compliant dictionary into a data structure for use in python functions</p>
+<h2 id="parameters">Parameters</h2>
+<pre><code>value_dict
+    The dictionary to be deserialised
+</code></pre>
+<h2 id="returns">Returns</h2>
+<pre><code>The deserialised data structure
+</code></pre></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@staticmethod
+def from_dict(value_dict: Dict) -&gt; &#39;Item&#39;:
+    &#34;&#34;&#34;
+        Deserialising a MongoDB compliant dictionary into a data structure for use in python functions
+
+    Parameters
+    ----------
+        value_dict
+            The dictionary to be deserialised
+
+    Returns
+    -------
+        The deserialised data structure
+    &#34;&#34;&#34;
+    cls = Item([], [], [], False)
+
+    if &#34;_id&#34; in value_dict:
+        cls.id = value_dict[&#34;_id&#34;]
+
+    cls.hidden = (&#34;hidden&#34; in value_dict and value_dict[&#34;hidden&#34;])
+
+    if &#34;attributes&#34; in value_dict and value_dict[&#34;attributes&#34;] is not None:
+        cls.attributes = [Attribute.from_dict(d) for d in value_dict[&#34;attributes&#34;]]
+
+    if &#34;tags&#34; in value_dict and value_dict[&#34;tags&#34;] is not None:
+        cls.tags = [TagReference(t) for t in value_dict[&#34;tags&#34;]]
+
+    if &#34;implied_tags&#34; in value_dict and value_dict[&#34;implied_tags&#34;] is not None:
+        cls.implied_tags = [TagReference(t) for t in value_dict[&#34;implied_tags&#34;]]
+
+    if &#34;instances&#34; in value_dict and value_dict[&#34;instances&#34;] is not None:
+        cls.instances = [Instance.from_dict(inst) for inst in value_dict[&#34;instances&#34;]]
+
+    return cls</code></pre>
+</details>
+</dd>
+<dt id="app.database_impl.items_instances.Item.init_indices"><code class="name flex">
+<span>def <span class="ident">init_indices</span></span>(<span>mongo: flask_pymongo.PyMongo)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@staticmethod
+def init_indices(mongo: PyMongo):
+    mongo.db.items.create_index([(&#34;hidden&#34;, pymongo.ASCENDING)], unique=False, sparse=True)
+    mongo.db.items.create_index([(&#34;tags.tag_id&#34;, pymongo.ASCENDING)], unique=False, sparse=True)
+    mongo.db.items.create_index([(&#34;implied_tags.tag_id&#34;, pymongo.ASCENDING)], unique=False, sparse=True)
+    mongo.db.items.create_index([(&#34;attributes.option_id&#34;, pymongo.ASCENDING)], unique=False, sparse=True)</code></pre>
+</details>
+</dd>
+<dt id="app.database_impl.items_instances.Item.search_for_by_attribute"><code class="name flex">
+<span>def <span class="ident">search_for_by_attribute</span></span>(<span>mongo: flask_pymongo.PyMongo, attrib_option: <a title="app.database_impl.attrib_options.AttributeOption" href="attrib_options.html#app.database_impl.attrib_options.AttributeOption">AttributeOption</a>, value) ‑> List[<a title="app.database_impl.items_instances.Item" href="#app.database_impl.items_instances.Item">Item</a>]</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Finds all items with a specific attribute</p>
+<h2 id="parameters">Parameters</h2>
+<pre><code>mongo
+    The mongo database
+attrib_option
+    The attribute to be searched by
+</code></pre>
+<h2 id="returns">Returns</h2>
+<pre><code>A list of all items with the specified attibute
+</code></pre></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@staticmethod
+def search_for_by_attribute(mongo: PyMongo, attrib_option: AttributeOption, value) -&gt; List[&#39;Item&#39;]:
+    &#34;&#34;&#34;
+    Finds all items with a specific attribute
+
+    Parameters
+    ----------
+        mongo
+            The mongo database
+        attrib_option
+            The attribute to be searched by
+
+    Returns
+    -------
+        A list of all items with the specified attibute
+    &#34;&#34;&#34;
+    result = mongo.db.items.find({&#34;attributes&#34;: {&#34;$elemMatch&#34;: { &#34;option_id&#34;: attrib_option.id, &#34;value&#34;: value }}})
+
+    if result is None:
+        return []
+
+    return [Item.from_dict(i) for i in result]</code></pre>
+</details>
+</dd>
+<dt id="app.database_impl.items_instances.Item.search_for_by_tag"><code class="name flex">
+<span>def <span class="ident">search_for_by_tag</span></span>(<span>mongo: flask_pymongo.PyMongo, tag_ref: Union[<a title="app.database_impl.tags.Tag" href="tags.html#app.database_impl.tags.Tag">Tag</a>, <a title="app.database_impl.tags.TagReference" href="tags.html#app.database_impl.tags.TagReference">TagReference</a>]) ‑> List[<a title="app.database_impl.items_instances.Item" href="#app.database_impl.items_instances.Item">Item</a>]</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Finds all items with a specific tag</p>
+<h2 id="parameters">Parameters</h2>
+<pre><code>mongo
+    The mongo database
+tag_ref
+    The tag to be searched by
+</code></pre>
+<h2 id="returns">Returns</h2>
+<pre><code>A list of all items with the specified tag
+</code></pre></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@staticmethod
+def search_for_by_tag(mongo: PyMongo, tag_ref: Union[Tag, TagReference]) -&gt; List[&#39;Item&#39;]:
+    &#34;&#34;&#34;
+    Finds all items with a specific tag
+
+    Parameters
+    ----------
+        mongo
+            The mongo database
+        tag_ref
+            The tag to be searched by
+
+    Returns
+    -------
+        A list of all items with the specified tag
+    &#34;&#34;&#34;
+    if isinstance(tag_ref, Tag):
+        tag_ref = TagReference(tag_ref)
+
+    result = mongo.db.items.find({&#34;$or&#34;: [{&#34;tags&#34;: {&#34;$elemMatch&#34;: {&#34;$eq&#34;: tag_ref.tag_id}}},
+                                          {&#34;implied_tags&#34;: {&#34;$elemMatch&#34;: {&#34;$eq&#34;: tag_ref.tag_id}}}]})
+    if result is None:
+        return []
+
+    return [Item.from_dict(i) for i in result]</code></pre>
+</details>
+</dd>
+</dl>
+<h3>Methods</h3>
+<dl>
+<dt id="app.database_impl.items_instances.Item.delete_from_db"><code class="name flex">
+<span>def <span class="ident">delete_from_db</span></span>(<span>self, mongo: flask_pymongo.PyMongo) ‑> bool</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Removes the item from the database</p>
+<h2 id="parameters">Parameters</h2>
+<pre><code>mongo
+    The mongo database
+</code></pre>
+<h2 id="returns">Returns</h2>
+<pre><code>False if the item does not exist, or has not been deleted
+True if the item has been deleted
+</code></pre></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def delete_from_db(self, mongo: PyMongo) -&gt; bool:
+    &#34;&#34;&#34;
+    Removes the item from the database
+
+    Parameters
+    ----------
+        mongo
+            The mongo database
+
+    Returns
+    -------
+        False if the item does not exist, or has not been deleted
+        True if the item has been deleted
+    &#34;&#34;&#34;
+    if self.id is None:
+        return False
+
+    return mongo.db.items.delete_one({&#34;_id&#34;: self.id}).deleted_count == 1</code></pre>
+</details>
+</dd>
+<dt id="app.database_impl.items_instances.Item.get_attributes_by_option"><code class="name flex">
+<span>def <span class="ident">get_attributes_by_option</span></span>(<span>self, option: Union[<a title="app.database_impl.attrib_options.AttributeOption" href="attrib_options.html#app.database_impl.attrib_options.AttributeOption">AttributeOption</a>, bson.objectid.ObjectId]) ‑> List[<a title="app.database_impl.attrib_options.Attribute" href="attrib_options.html#app.database_impl.attrib_options.Attribute">Attribute</a>]</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def get_attributes_by_option(self, option: Union[AttributeOption, ObjectId]) -&gt; List[Attribute]:
+    if isinstance(option, AttributeOption):
+        option = option.id
+
+    return [a for a in self.attributes if a.option_id == option]</code></pre>
+</details>
+</dd>
+<dt id="app.database_impl.items_instances.Item.hide"><code class="name flex">
+<span>def <span class="ident">hide</span></span>(<span>self, mongo: flask_pymongo.PyMongo) ‑> bool</span>
+</code></dt>
+<dd>
+<div class="desc"><p>A function to toggle between an item being hidden and visible in the user library</p>
+<h2 id="attributes">Attributes</h2>
+<pre><code>mongo
+    The mongo database
+</code></pre></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def hide(self, mongo: PyMongo) -&gt; bool:
+    &#34;&#34;&#34;
+    A function to toggle between an item being hidden and visible in the user library
+
+    Attributes
+    ----------
+        mongo
+            The mongo database
+    &#34;&#34;&#34;
+    if self.hidden is True:
+        self.hidden = False
+    else:
+        self.hidden = True
+    self.write_to_db(mongo)</code></pre>
+</details>
+</dd>
+<dt id="app.database_impl.items_instances.Item.recalculate_implied_tags"><code class="name flex">
+<span>def <span class="ident">recalculate_implied_tags</span></span>(<span>self, mongo: flask_pymongo.PyMongo, instances: bool = False, inherit: bool = True)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Recalculates the implied tags</p>
+<h2 id="parameters">Parameters</h2>
+<pre><code>mongo
+    The mongo database
+instances
+    If true, then also recalculate the implied of all the instances
+inherit
+    If true and a tag is on all instances of an object it will be implied on the item
+</code></pre>
+<h2 id="returns">Returns</h2>
+<pre><code>True if successfull, False otherwise
+</code></pre></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def recalculate_implied_tags(self, mongo: PyMongo, instances: bool = False, inherit: bool = True):
+    &#34;&#34;&#34;
+    Recalculates the implied tags
+
+    Parameters
+    ----------
+        mongo
+            The mongo database
+        instances
+            If true, then also recalculate the implied of all the instances
+        inherit
+            If true and a tag is on all instances of an object it will be implied on the item
+
+    Returns
+    -------
+        True if successfull, False otherwise
+    &#34;&#34;&#34;
+    if instances:
+        self.recalculate_instance_implied_tags(mongo, None)
+    else:
+        if not self.update_from_db(mongo):
+            return False
+    self.implied_tags = []
+
+    # get implied from relations
+    relations = mongo.db.relations.find({&#34;item_id&#34;: self.id})
+    relations = [Relation.from_dict(r) for r in relations]
+
+    relation_options = mongo.db.relation_options.find({&#34;_id&#34;: {&#34;$in&#34;: [r.option_id for r in relations]}})
+    relation_options = [RelationOption.from_dict(r) for r in relation_options]
+
+    self.implied_tags = [implied for option in relation_options for implied in option.implies]
+
+    # traverse implication DAG
+    to_search = set(t.tag_id for t in self.tags).union(t.tag_id for t in self.implied_tags)
+    searched = set(to_search)
+
+    while to_search:
+        top_level = mongo.db.tags.find({&#34;_id&#34;: {&#34;$in&#34;: list(to_search)}})
+        to_search = set()
+        if top_level is None:
+            break
+
+        tags = [Tag.from_dict(tag) for tag in top_level]
+
+        for tag in tags:
+            for implied in tag.implies:
+                if implied.tag_id not in searched:
+                    searched.add(implied.tag_id)
+                    to_search.add(implied.tag_id)
+                    self.implied_tags.append(implied)
+
+    if inherit:
+        possibilities = set()
+
+        for inst in self.instances:
+            possibilities.intersection_update(set(inst.tags).union(inst.implied_tags))
+
+        self.implied_tags.extend(possibilities)
+
+    self.write_to_db(mongo)
+    return True</code></pre>
+</details>
+</dd>
+<dt id="app.database_impl.items_instances.Item.recalculate_instance_implied_tags"><code class="name flex">
+<span>def <span class="ident">recalculate_instance_implied_tags</span></span>(<span>self, mongo: flask_pymongo.PyMongo, index: Union[int, List[int], NoneType] = None)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Recalculates the implied tags for instances</p>
+<h2 id="parameters">Parameters</h2>
+<pre><code>mongo
+    The mongo database
+index
+</code></pre>
+<h2 id="returns">Returns</h2>
+<pre><code>True if successfull, False otherwise
+</code></pre></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def recalculate_instance_implied_tags(self, mongo: PyMongo, index: Optional[Union[int, List[int]]] = None):
+    &#34;&#34;&#34;
+    Recalculates the implied tags for instances
+
+    Parameters
+    ----------
+        mongo
+            The mongo database
+        index
+
+    Returns
+    -------
+        True if successfull, False otherwise
+    &#34;&#34;&#34;
+    if not self.update_from_db(mongo):
+        return False
+
+    if index is None:
+        to_visit = range(0, len(self.instances))
+    elif isinstance(index, int):
+        to_visit = [index]
+    else:
+        to_visit = index
+
+    for i in to_visit:
+        inst = self.instances[i]
+
+        # get implied from relations
+        relations = mongo.db.relations.find({&#34;instance_id&#34;: inst.id})
+        relations = [Relation.from_dict(r) for r in relations]
+
+        relation_options = mongo.db.relation_options.find({&#34;_id&#34;: {&#34;$in&#34;: [r.option_id for r in relations]}})
+        relation_options = [RelationOption.from_dict(r) for r in relation_options]
+
+        inst.implied_tags = [implied for option in relation_options for implied in option.implies]
+
+        # traverse implication DAG
+        to_search = set(t.tag_id for t in inst.tags).union(t.tag_id for t in inst.implied_tags)
+        searched = set(to_search)
+
+        while to_search:
+            top_level = mongo.db.tags.find({&#34;_id&#34;: {&#34;$in&#34;: list(to_search)}})
+            to_search = set()
+            if top_level is None:
+                break
+
+            tags = [Tag.from_dict(tag) for tag in top_level]
+
+            for tag in tags:
+                for implied in tag.implies:
+                    if implied.tag_id not in searched:
+                        searched.add(implied.tag_id)
+                        to_search.add(implied.tag_id)
+                        inst.implied_tags.append(implied)
+
+        self.write_to_db(mongo)
+        return True</code></pre>
+</details>
+</dd>
+<dt id="app.database_impl.items_instances.Item.remove_tag"><code class="name flex">
+<span>def <span class="ident">remove_tag</span></span>(<span>self, tag: <a title="app.database_impl.tags.TagReference" href="tags.html#app.database_impl.tags.TagReference">TagReference</a>)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Removes a tag from an item</p>
+<h2 id="parameters">Parameters</h2>
+<pre><code>tag
+    The tag to be removed
+</code></pre>
+<h2 id="returns">Returns</h2>
+<pre><code>True if the tag has been removed from the item
+</code></pre></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def remove_tag(self, tag: TagReference):
+    &#34;&#34;&#34;
+    Removes a tag from an item
+
+    Parameters
+    ----------
+        tag
+            The tag to be removed
+
+    Returns
+    -------
+        True if the tag has been removed from the item
+    &#34;&#34;&#34;
+    if tag in self.tags:
+        self.tags.remove(tag)
+        return True
+    else:
+        return False</code></pre>
+</details>
+</dd>
+<dt id="app.database_impl.items_instances.Item.to_dict"><code class="name flex">
+<span>def <span class="ident">to_dict</span></span>(<span>self) ‑> Dict</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Serialising the data structure into a MongoDB compliant dictionary for use in PyMongo functions</p>
+<h2 id="returns">Returns</h2>
+<pre><code>The MongoDB compliant data structure
+</code></pre></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def to_dict(self) -&gt; Dict:
+    &#34;&#34;&#34;
+        Serialising the data structure into a MongoDB compliant dictionary for use in PyMongo functions
+
+    Returns
+    -------
+        The MongoDB compliant data structure
+    &#34;&#34;&#34;
+    result = {
+        &#34;attributes&#34;: [a.to_dict() for a in self.attributes],
+        &#34;tags&#34;: [t.tag_id for t in self.tags],
+        &#34;implied_tags&#34;: [i.tag_id for i in self.implied_tags],
+        &#34;instances&#34;: [inst.to_dict() for inst in self.instances]
+    }
+    if self.hidden:
+        result[&#34;hidden&#34;] = True
+
+    if self.id is not None:
+        result[&#34;_id&#34;] = self.id
+
+    return result</code></pre>
+</details>
+</dd>
+<dt id="app.database_impl.items_instances.Item.update_from_db"><code class="name flex">
+<span>def <span class="ident">update_from_db</span></span>(<span>self, mongo: flask_pymongo.PyMongo) ‑> bool</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Updates the item in the database</p>
+<h2 id="parameters">Parameters</h2>
+<pre><code>mongo
+    The mongo database
+</code></pre>
+<h2 id="returns">Returns</h2>
+<pre><code>False if the item's id is None
+False if the item does not exist in the database
+True if the item was updated
+</code></pre></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def update_from_db(self, mongo: PyMongo) -&gt; bool:
+    &#34;&#34;&#34;
+    Updates the item in the database
+
+    Parameters
+    ----------
+        mongo
+            The mongo database
+
+    Returns
+    -------
+        False if the item&#39;s id is None
+        False if the item does not exist in the database
+        True if the item was updated
+    &#34;&#34;&#34;
+    if self.id is None:
+        return False
+
+    new_data = mongo.db.items.find_one({&#34;_id&#34;: self.id})
+
+    if new_data is None:
+        return False
+
+    new_item = Item.from_dict(new_data)
+
+    self.hidden = new_item.hidden
+    self.attributes = new_item.attributes
+    self.tags = new_item.tags
+    self.implied_tags = new_item.implied_tags
+    self.instances = new_item.instances
+
+    return True</code></pre>
+</details>
+</dd>
+<dt id="app.database_impl.items_instances.Item.write_to_db"><code class="name flex">
+<span>def <span class="ident">write_to_db</span></span>(<span>self, mongo: flask_pymongo.PyMongo)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Writes the item to the database if it's <code>id</code> doesn't exist,
+otherwise it will overwrite the item with the same <code>id</code></p>
+<h2 id="parameters">Parameters</h2>
+<pre><code>mongo
+    The mongo database
+</code></pre></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def write_to_db(self, mongo: PyMongo):
+    &#34;&#34;&#34;
+    Writes the item to the database if it&#39;s `id` doesn&#39;t exist, 
+    otherwise it will overwrite the item with the same `id`
+
+    Parameters
+    ----------
+        mongo
+            The mongo database
+    &#34;&#34;&#34;
+    if self.id is None:
+        self.id = mongo.db.items.insert_one(self.to_dict()).inserted_id
+    else:
+        mongo.db.items.find_one_and_replace({&#34;_id&#34;: self.id}, self.to_dict())</code></pre>
+</details>
+</dd>
+</dl>
+</dd>
+</dl>
+</section>
+</article>
+<nav id="sidebar">
+<h1>Index</h1>
+<div class="toc">
+<ul></ul>
+</div>
+<ul id="index">
+<li><h3>Super-module</h3>
+<ul>
+<li><code><a title="app.database_impl" href="index.html">app.database_impl</a></code></li>
+</ul>
+</li>
+<li><h3><a href="#header-classes">Classes</a></h3>
+<ul>
+<li>
+<h4><code><a title="app.database_impl.items_instances.Instance" href="#app.database_impl.items_instances.Instance">Instance</a></code></h4>
+<ul class="two-column">
+<li><code><a title="app.database_impl.items_instances.Instance.attributes" href="#app.database_impl.items_instances.Instance.attributes">attributes</a></code></li>
+<li><code><a title="app.database_impl.items_instances.Instance.from_dict" href="#app.database_impl.items_instances.Instance.from_dict">from_dict</a></code></li>
+<li><code><a title="app.database_impl.items_instances.Instance.hidden" href="#app.database_impl.items_instances.Instance.hidden">hidden</a></code></li>
+<li><code><a title="app.database_impl.items_instances.Instance.id" href="#app.database_impl.items_instances.Instance.id">id</a></code></li>
+<li><code><a title="app.database_impl.items_instances.Instance.implied_tags" href="#app.database_impl.items_instances.Instance.implied_tags">implied_tags</a></code></li>
+<li><code><a title="app.database_impl.items_instances.Instance.init_indices" href="#app.database_impl.items_instances.Instance.init_indices">init_indices</a></code></li>
+<li><code><a title="app.database_impl.items_instances.Instance.tags" href="#app.database_impl.items_instances.Instance.tags">tags</a></code></li>
+<li><code><a title="app.database_impl.items_instances.Instance.to_dict" href="#app.database_impl.items_instances.Instance.to_dict">to_dict</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="app.database_impl.items_instances.Item" href="#app.database_impl.items_instances.Item">Item</a></code></h4>
+<ul class="">
+<li><code><a title="app.database_impl.items_instances.Item.attributes" href="#app.database_impl.items_instances.Item.attributes">attributes</a></code></li>
+<li><code><a title="app.database_impl.items_instances.Item.delete_from_db" href="#app.database_impl.items_instances.Item.delete_from_db">delete_from_db</a></code></li>
+<li><code><a title="app.database_impl.items_instances.Item.from_dict" href="#app.database_impl.items_instances.Item.from_dict">from_dict</a></code></li>
+<li><code><a title="app.database_impl.items_instances.Item.get_attributes_by_option" href="#app.database_impl.items_instances.Item.get_attributes_by_option">get_attributes_by_option</a></code></li>
+<li><code><a title="app.database_impl.items_instances.Item.hidden" href="#app.database_impl.items_instances.Item.hidden">hidden</a></code></li>
+<li><code><a title="app.database_impl.items_instances.Item.hide" href="#app.database_impl.items_instances.Item.hide">hide</a></code></li>
+<li><code><a title="app.database_impl.items_instances.Item.id" href="#app.database_impl.items_instances.Item.id">id</a></code></li>
+<li><code><a title="app.database_impl.items_instances.Item.implied_tags" href="#app.database_impl.items_instances.Item.implied_tags">implied_tags</a></code></li>
+<li><code><a title="app.database_impl.items_instances.Item.init_indices" href="#app.database_impl.items_instances.Item.init_indices">init_indices</a></code></li>
+<li><code><a title="app.database_impl.items_instances.Item.instances" href="#app.database_impl.items_instances.Item.instances">instances</a></code></li>
+<li><code><a title="app.database_impl.items_instances.Item.recalculate_implied_tags" href="#app.database_impl.items_instances.Item.recalculate_implied_tags">recalculate_implied_tags</a></code></li>
+<li><code><a title="app.database_impl.items_instances.Item.recalculate_instance_implied_tags" href="#app.database_impl.items_instances.Item.recalculate_instance_implied_tags">recalculate_instance_implied_tags</a></code></li>
+<li><code><a title="app.database_impl.items_instances.Item.remove_tag" href="#app.database_impl.items_instances.Item.remove_tag">remove_tag</a></code></li>
+<li><code><a title="app.database_impl.items_instances.Item.search_for_by_attribute" href="#app.database_impl.items_instances.Item.search_for_by_attribute">search_for_by_attribute</a></code></li>
+<li><code><a title="app.database_impl.items_instances.Item.search_for_by_tag" href="#app.database_impl.items_instances.Item.search_for_by_tag">search_for_by_tag</a></code></li>
+<li><code><a title="app.database_impl.items_instances.Item.tags" href="#app.database_impl.items_instances.Item.tags">tags</a></code></li>
+<li><code><a title="app.database_impl.items_instances.Item.to_dict" href="#app.database_impl.items_instances.Item.to_dict">to_dict</a></code></li>
+<li><code><a title="app.database_impl.items_instances.Item.update_from_db" href="#app.database_impl.items_instances.Item.update_from_db">update_from_db</a></code></li>
+<li><code><a title="app.database_impl.items_instances.Item.write_to_db" href="#app.database_impl.items_instances.Item.write_to_db">write_to_db</a></code></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</nav>
+</main>
+<footer id="footer">
+<p>Generated by <a href="https://pdoc3.github.io/pdoc"><cite>pdoc</cite> 0.9.1</a>.</p>
+</footer>
+</body>
+</html>

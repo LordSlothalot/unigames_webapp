@@ -20,6 +20,10 @@ from werkzeug.utils import secure_filename
 
 
 class DatabaseManager:
+    """
+    A class to set up the backend
+    """
+
     mongo: PyMongo
     fs: GridFS
 

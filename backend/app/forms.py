@@ -6,6 +6,8 @@ from wtforms.validators import DataRequired, Length, EqualTo, Email
 from wtforms.fields.html5 import EmailField
 # from app.routes import User
 
+import pdoc
+
 #get all tags from the db
 all_roles = db_manager.mongo.db.roles.find()
 #get all tag parameters
@@ -15,6 +17,10 @@ all_attirb = db_manager.mongo.db.attrib_options.find()
 
 #login form
 class LoginForm(FlaskForm):
+    """
+    Form for user login
+    """
+
     email = EmailField('Email', validators = [DataRequired(), Email()])
     password = PasswordField("Password", validators = [DataRequired()])
     remember_me = BooleanField("Remember Me")
@@ -22,6 +28,10 @@ class LoginForm(FlaskForm):
 
 
 class RegistrationForm(FlaskForm):
+    """
+    Form for user registration
+    """
+
     display_name = TextField('Display Name', validators = [DataRequired()])
     first_name = TextField('First Name')
     last_name = TextField('Last Name')
@@ -32,6 +42,9 @@ class RegistrationForm(FlaskForm):
     
     
 class UpdatePasswordForm(FlaskForm):
+    """
+    Form for user password reset
+    """
     password = PasswordField("Password", validators = [DataRequired()])
     password2 = PasswordField("Repeat Password", validators=[DataRequired(), EqualTo("password")])
     submit = SubmitField('Register')
@@ -40,6 +53,9 @@ class UpdatePasswordForm(FlaskForm):
     #     User.objects()
 	
 class UpdateForm(FlaskForm):
+    """
+    Form for users to update their details
+    """
     display_name = TextField('Display Name', validators = [DataRequired()]) 
     first_name = TextField('First Name')
     last_name = TextField('Last Name')
@@ -49,6 +65,9 @@ class UpdateForm(FlaskForm):
     delete = SubmitField('Delete')
     
 class CreateUserForm(FlaskForm):
+    """
+    Form to create a new user account
+    """
     display_name = TextField('Display Name', validators = [DataRequired()])
     first_name = TextField('First Name')
     last_name = TextField('Last Name')
@@ -59,6 +78,9 @@ class CreateUserForm(FlaskForm):
     submit = SubmitField('Register')
     
 class UpdateRoleForm(FlaskForm):
+    """
+    Form to update a user role
+    """
     name = TextField('Name', validators = [DataRequired()]) 
     priority = TextField('Priority', validators = [DataRequired()])
     can_view_hidden = BooleanField('Can View Hidden')
