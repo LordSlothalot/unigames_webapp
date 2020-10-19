@@ -26,7 +26,7 @@ from flask_login import LoginManager, current_user, login_user, logout_user, log
 from werkzeug.security import generate_password_hash
 from functools import wraps
 
-from app.tables import UserTable
+# from app.tables import UserTable
 from app.database_impl.users import User
 from app.database_impl.roles import Role
 
