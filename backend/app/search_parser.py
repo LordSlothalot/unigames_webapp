@@ -574,31 +574,6 @@ class BinaryOperator(Operator):
         else:
             return {"$or": [self.left_value.to_search_query(), self.right_value.to_search_query()]}
 
-
-class Parentheses:
-    start: int = -1
-    end: int = -1
-    inner: List['Parentheses'] = []
-
-    def __init__(self, start: int, end: int, inner: List['Parentheses']):
-        self.start = start
-        self.end = end
-        self.inner = inner
-
-    def __str__(self) -> str:
-        inner_str = ""
-
-        first = True
-        for i in self.inner:
-            if first:
-                first = False
-            else:
-                inner_str += ", "
-            inner_str += str(i)
-
-        return "Parentheses: start = " + str(self.start) + ", end = " + str(self.end) + ", inner = [" + inner_str + "]"
-
-
 class LexerSymbolTypes(Enum):
     """
     An enum used to represent all the different symbols that the lexer 
