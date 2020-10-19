@@ -329,10 +329,26 @@ def operations():
 
 @app.route('/regulations')
 def regulations():
+    """
+    Regulations route endpoint. 
+    This allows users to see the Unigames relations that have been made by the Unigames committee
+
+    Returns
+    -------
+        Renders the page for the Unigames regulations
+    """
     return render_template('user-pages/regulations.html')
 
 @app.route('/contact')
 def contact():
+    """
+    Contact information route endpoint. 
+    This allows users to see the Unigames contact information
+
+    Returns
+    -------
+        Renders the page for the Unigames contact information
+    """
     return render_template('user-pages/contact.html')
 
 # needs to be implemented or deleted
