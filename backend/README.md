@@ -1,3 +1,6 @@
+# Environment setup
+
+## By Pipenv
 run `pip install pipenv`to install pipenv
 
 Ensure you are inside the backend folder before preceding.
@@ -14,3 +17,14 @@ if you get the following error
 run `export FLASK_APP=app/routes.py` and try again
 
 > Note: you have to run `pipenv shell` every time you open a new terminal
+
+## By Virtualenv
+install Virtualenv to your host machine
+
+run `virtualenv venv` to create a virtual environment
+
+run `source venv/bin/active` to activate the virtual environment
+
+install all packages via command `pip install requirements.txt`
+
+run `flask run` to run the server
