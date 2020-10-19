@@ -837,7 +837,7 @@ def create_tag():
         if tag_exists is None:
             new_tag = Tag(form.name.data, [])
             new_tag.write_to_db(db_manager.mongo)
-            return redirect(url_for('all_tags'))
+            return redirect(url_for('all_impl'))
         else:
             return 'the tag already exists'
     return render_template('admin-pages/lib-man/tag-man/create-tag.html', form=form)
@@ -1496,7 +1496,7 @@ def tag_delete(tag_name):
                 Tag.from_dict(tag).write_to_db(db_manager.mongo)
                 implication_dropped += 1        # need to add user notification
     flash('Tag: ' + str(tag_name) + ' dropped, ' + str(implication_dropped) + ' implications are affected.')
-    return redirect(url_for('all_tags'))
+    return redirect(url_for('all_impl'))
 
 # Funciton for deleting an implication rule on Tag's detail page
 @app.route('/admin/lib-man/tag-man/rule-delete/<tag_name>')
