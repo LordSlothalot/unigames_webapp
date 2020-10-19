@@ -19,7 +19,6 @@ Upon deployment, MongoDB can also be connected remotely. You can hire an instanc
 
 ## Features
 
-The Unigames library management system consists of a public library and a management panel.
 **Features include:**
  - Add/Edit/Delete library items, users, and tags.
  - Editable access control for different member groups.
@@ -30,10 +29,10 @@ The Unigames library management system consists of a public library and a manage
 
 ## Website UI
 
- - Public library UI
+ - Public library UI <br>
 <a href="https://ibb.co/GnDkc0z"><img src="https://i.ibb.co/n6yfzbx/Wechat-IMG1.jpg" alt="Wechat-IMG1" border="0"></a>
 
- - Managerial panel UI.
+ - Managerial panel UI <br>
 <a href="https://ibb.co/55RrgG0"><img src="https://i.ibb.co/qRrN37S/Wechat-IMG2.jpg" alt="Wechat-IMG2" border="0"></a>
 > **Bootstrap4** and an open source theme **SB Admin2** are used to enhance the visual design.
 
